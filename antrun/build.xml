@@ -1,0 +1,31 @@
+<project>
+
+    <path id="classpath">
+        <fileset dir="libs" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/unit_1_compile.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="ua.com.nkrasnovoronka.unit1.Main"/>
+                <attribute name="Class-Path" value="libs/commons-lang3-3.11:.libs/jsoup-1.13.1.jar" />
+            </manifest>
+            <zipgroupfileset dir="libs" includes="*.jar"/>
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/unit_1_compile.jar" fork="true"/>
+    </target>
+
+</project>
