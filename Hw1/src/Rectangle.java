@@ -5,16 +5,6 @@ public class Rectangle extends Figure{
     private int a;
     private int b;
 
-    public Rectangle(){
-        this.a = 0;
-        this.b = 0;
-    }
-
-    public Rectangle(int side1, int side2){
-        this.a = side1;
-        this.b = side2;
-    }
-
     @Override
     public double calcPerimeter() {
         return 2 * (this.a + this.b);
@@ -29,9 +19,10 @@ public class Rectangle extends Figure{
         return Math.sqrt(this.a * this.a + this.b * this.b);
     }
 
+
     @Override
     public String toString(){
-        return ("Rectangle, a = " + this.a + " b = " + this.b);
+        return ("Rectangle, a = " + this.a + " b = " + this.b) + "   Perimeter = " + this.calcPerimeter() + "cm   Area = " + this.calcArea() + "cm^2";
     }
 
 
