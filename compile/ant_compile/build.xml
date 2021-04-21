@@ -1,0 +1,8 @@
+<project>
+
+    <path id="classpath">
+        <fileset dir="libs"
+    </path>
+
+
+</project>
