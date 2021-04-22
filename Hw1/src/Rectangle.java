@@ -25,6 +25,18 @@ public class Rectangle extends Figure{
         return ("Rectangle, a = " + this.a + " b = " + this.b) + "   Perimeter = " + this.calcPerimeter() + "cm   Area = " + this.calcArea() + "cm^2";
     }
 
+    @Override
+    public boolean equals(Object obj){
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Rectangle r = (Rectangle) obj;
+        if (this.a != r.a || this.b != r.b || this.getId() != r.getId())
+            return false;
+        return true;
+    }
+
 
     public int getA(){  return this.a; }
     public int getB(){  return this.b; }
