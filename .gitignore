@@ -1,4 +1,6 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-/*/*.class
+/build/classes/com/k4rnaj1k/AnSecondary.class
+/build/classes/com/k4rnaj1k/Crud.class
+/build/classes/com/k4rnaj1k/Secondary.class
