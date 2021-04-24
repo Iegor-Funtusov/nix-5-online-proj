@@ -3,6 +3,7 @@ package main.java.ua.com.nkrasnovoronka.unit2.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Util {
     private static int DEFAULT_ARRAY_SIZE = 5;
@@ -18,10 +19,18 @@ public class Util {
                 arraySize = DEFAULT_ARRAY_SIZE;
             }
             array = new int[arraySize];
+
             System.out.printf("Enter %d numbers to array%n", arraySize);
-            for (int i = 0; i < arraySize; i++) {
-                array[i] = Integer.parseInt(bufferedReader.readLine());
+
+            array = Arrays.stream(bufferedReader.readLine().trim().split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+
+            if(array.length != arraySize){
+                System.err.printf("Expected array size %d but was %d%n", arraySize, array.length);
+                throw new IOException();
             }
+
         } catch (IOException e) {
             System.err.println("Oops! Pleas restart program");
         }
