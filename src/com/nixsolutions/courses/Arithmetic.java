@@ -7,6 +7,17 @@ import java.util.Scanner;
 
 public class Arithmetic {
 
+    public static void swapNeighbors() {
+        int[] array = inputArray();
+        int tmp;
+        for (int i = 0; i < array.length - 1; i = i + 2) {
+            tmp = array[i];
+            array[i] = array[i+1];
+            array[i+1] = tmp;
+        }
+        printArray(array);
+    }
+
     public static void reverseOrder() {
         int[] array = inputArray();
         int tmp;
@@ -112,6 +123,9 @@ public class Arithmetic {
                         break;
                     case "5":
                         reverseOrder();
+                        break;
+                    case "6":
+                        swapNeighbors();
                         break;
                 }
                 printOptions();
