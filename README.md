@@ -11,4 +11,5 @@
 5. ant jar
 6. ant run
 >Maven
-1. 
+1. mvn clean install
+2. mvn exe:java -D exec.mainClass=Main
