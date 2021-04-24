@@ -7,6 +7,20 @@ import java.util.Scanner;
 
 public class Arithmetic {
 
+    public static void countNextGreater() {
+        int[] array = inputArray();
+        int count = 0;
+        if (array.length == 1) {
+            System.out.println("This option is not available");
+        }
+        for (int i = 1; i < array.length; i++) {
+            if (array[i] > array[i-1]) {
+                count++;
+            }
+        }
+        System.out.print(count);
+    }
+
     public static void countPositiveNumbers() {
         int[] array = inputArray();
         int count = 0;
@@ -63,6 +77,9 @@ public class Arithmetic {
                         break;
                     case "2":
                         countPositiveNumbers();
+                        break;
+                    case "3":
+                        countNextGreater();
                         break;
                 }
                 printOptions();
