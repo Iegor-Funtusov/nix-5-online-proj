@@ -13,10 +13,11 @@ public class Db {
     }
 
 
-    public void deleteFigure(String idOfFigureToDel){
+    public void deleteFigure(int idOfFigureToDel){
         for(int i = 0; i < geometricFigures.size(); i++){
             if(geometricFigures.get(i).getId() == idOfFigureToDel){
                 geometricFigures.remove(i);
+                System.out.println("Delete was successful");
                 return;
             }
         }
@@ -24,17 +25,7 @@ public class Db {
     }
 
 
-    public void deleteFigure(Figure figureToDel){
-        String idOfFigureToDel = figureToDel.getId();
-        for(int i = 0; i < geometricFigures.size(); i++){
-            if(geometricFigures.get(i).getId() == idOfFigureToDel){
-                geometricFigures.remove(i);
-            }
-        }
-    }
-
-
-    public Figure getFigureById(String requiredFigureID){
+    public Figure getFigure(int requiredFigureID){
         for(int i = 0; i < geometricFigures.size(); i++){
             if(geometricFigures.get(i).getId() == requiredFigureID){
                 return geometricFigures.get(i);
@@ -49,7 +40,7 @@ public class Db {
     }
 
 
-    public String getInfoAboutFigureByID(String requiredFigureID){
+    public String getInfoAboutFigureByID(int requiredFigureID){
         for(int i = 0; i < geometricFigures.size(); i++){
             if(geometricFigures.get(i).getId() == requiredFigureID){
                 return geometricFigures.get(i).toString();
@@ -57,22 +48,4 @@ public class Db {
         }
         return "There is no figure with such ID";
     }
-
-
-    public ArrayList<String> getAllFiguresInfo() { //где возвращается ArrayList<String> в котором записанна информация от ту стринг по всем фигурам
-        ArrayList<String> allInfo = new ArrayList<String>();
-        for(int i = 0; i < geometricFigures.size(); i++)
-            allInfo.add(geometricFigures.get(i).toString());
-
-        return allInfo;
-    }
 }
-
-
-
-
-
-
-
-
-

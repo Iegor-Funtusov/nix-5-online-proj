@@ -1,24 +1,20 @@
 import java.lang.Math;
 import java.lang.String;
+import java.text.DecimalFormat;
 
 public class Rectangle extends Figure{
     private int a;
     private int b;
 
     @Override
-    public double calcPerimeter() {
-        return 2 * (this.a + this.b);
+    public String calcPerimeter() {
+        return new DecimalFormat("#.##").format(2 * (this.a + this.b));
     }
 
     @Override
-    public double calcArea() {
-        return a * b;
+    public String calcArea() {
+        return new DecimalFormat("#.##").format(a * b);
     }
-
-    public double calcDiagonal(){
-        return Math.sqrt(this.a * this.a + this.b * this.b);
-    }
-
 
     @Override
     public String toString(){
@@ -26,15 +22,8 @@ public class Rectangle extends Figure{
     }
 
     @Override
-    public boolean equals(Object obj){
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Rectangle r = (Rectangle) obj;
-        if (this.a != r.a || this.b != r.b || this.getId() != r.getId())
-            return false;
-        return true;
+    public void printInfo(){
+        System.out.println("Rectangle, id: " + this.getId() + " a = " + this.a + "cm b = " + this.b + "cm");
     }
 
 

@@ -1,16 +1,15 @@
-import java.util.UUID;
-
 public abstract class Figure{
-    private String id;
+    private int id;
 
     Figure(){
-        this.id = UUID.randomUUID().toString();
+        this.id = (int)(Math.random() * 10000000);
     }
 
-    public abstract double calcPerimeter();
-    public abstract double calcArea();
+    public abstract  void printInfo();
+    public abstract String calcPerimeter();
+    public abstract String calcArea();
 
-    public String getId(){
+    public int getId(){
         return this.id;
     }
 }

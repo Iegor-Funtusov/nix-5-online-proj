@@ -10,7 +10,6 @@ public class UserController {
        this.dataBase = new Db();
     }
 
-
     public void userInterface() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String choose = new String();
