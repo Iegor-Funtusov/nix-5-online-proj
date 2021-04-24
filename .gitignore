@@ -1,6 +1,7 @@
 *.iml
 /shelf/
 /.idea/
+/out/
 # Datasource local storage ignored files
 /../../../../:\Nika\nix-online-courses\.idea/dataSources/
 /dataSources.local.xml
