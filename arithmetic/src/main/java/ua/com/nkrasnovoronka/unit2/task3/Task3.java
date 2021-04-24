@@ -8,7 +8,7 @@ package main.java.ua.com.nkrasnovoronka.unit2.task3;
  */
 public class Task3 {
     public static void countNextNumberInArray(int[] array) {
-        System.out.println("Counting next value in array");
+        System.out.println("Counting next bigger value in array");
         int count = 0;
         for (int i = 1; i < array.length; i++) {
             if (array[i] > array[i - 1]){
