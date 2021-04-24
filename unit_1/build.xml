@@ -1,0 +1,36 @@
+<project name="unit_1" default="dist" basedir=".">
+ <description>
+    build file
+ </description>
+
+ <path id="classpath">
+  <fileset dir="lib" includes ="**/*.jar"/>
+ </path>
+
+ <target name="clean"
+        description="clean up">
+    <delete dir="target"/>
+ </target>
+
+ <target name ="compile">
+  <mkdir dir = "target"/>
+  <javac srcdir ="src" destdir="target"
+   classpathref = "classpath" includeantruntime ="false"/>
+ </target>
+
+ <target name = "jar">
+  <jar destfile = "target/unit_1-1.0.jar"
+    basedir = "target">
+   <manifest>
+    <attribute name = "Main-Class" value ="test/ContactTest"/>
+    <attribute name = "Class-Path" value = "lib/junit-4.12.jar:.lib/lombok-1.18.20.jar"/>
+   </manifest>
+   <zipgroupfileset dir = "lib" includes ="*.jar"/>
+  </jar>
+ </target>
+
+ <target name = "run">
+  <java jar = "target/unit_1-1.0.jar" fork ="true"/>
+ </target>
+
+</project>
