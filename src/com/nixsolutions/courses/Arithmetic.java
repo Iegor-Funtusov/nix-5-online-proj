@@ -8,7 +8,14 @@ import java.util.Scanner;
 public class Arithmetic {
 
     public static void countPositiveNumbers() {
-
+        int[] array = inputArray();
+        int count = 0;
+        for (int num : array) {
+            if (num > 0) {
+                count++;
+            }
+        }
+        System.out.print(count);
     }
 
     public static void printEvenNumbers() {
