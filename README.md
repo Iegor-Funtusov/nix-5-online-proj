@@ -1,1 +1,5 @@
-# nix-5-online-proj
+# unit_2_arithmetic
+
+javac src/Array.java
+
+java -cp src Array
