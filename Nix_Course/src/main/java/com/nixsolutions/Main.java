@@ -1,4 +1,4 @@
-package com.nixsolutions.models;
+package com.nixsolutions;
 
 public class Main {
 

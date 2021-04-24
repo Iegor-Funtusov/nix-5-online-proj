@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.10.7
+Created-By: 12.0.2+10 (Oracle Corporation)
+Main-Class: com.nixsolutions.Main
+Class-Path: Nix_Course/src/libs/spring-context-5.3.5.jar;Nix_Course/src/libs/spring-core-5.3.5.jar;Nix_Course/src/libs/spring-jdbc-5.3.5.jar
+
+
