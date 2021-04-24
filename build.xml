@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+	<path id="classpath">
+		<fileset dir="src/libs" includes="**/*.jar" />
+	</path>
+	<target name="clean">
+		<delete dir="src/bin" /> 
+	</target>
+	<target name="compile">
+		<mkdir dir="src/bin" /> 
+		<javac srcdir="DZ_1" destdir="src/bin"
+			classpathref="classpath" includeantruntime="false" />
+	</target>
+	<target name="jar">
+		<mkdir dir="src/bin/jar" />
+		<jar destfile="demo.jar" basedir="src/bin">
+			<manifest>
+                <attribute name="Main-Class" value="ua.com.alevel.Hello"/>
+                <attribute name="Class-Path" value="src/libs/spring-core-5.3.5.jar"/>
+			</manifest>
+			<zipgroupfileset dir="src/libs" includes="*.jar"/>
+		</jar>
+	</target>
+	<target name="run">
+        <java jar="demo.jar" fork="true"/>
+    </target>
+</project>
