@@ -7,7 +7,21 @@ import java.util.Scanner;
 
 public class Arithmetic {
 
+    public static void countPositiveNumbers() {
+
+    }
+
     public static void printEvenNumbers() {
+        int[] array = inputArray();
+        for (int num : array) {
+            if (num % 2 == 0) {
+                System.out.print(num + " ");
+            }
+        }
+
+    }
+
+    public static int[] inputArray() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter size of array and its elements:");
         final int N = Integer.parseInt(scanner.nextLine());
@@ -16,12 +30,7 @@ public class Arithmetic {
         for(int i =0 ;i < s.length;i++){
             array[i]= Integer.parseInt(s[i]);
         }
-        for (int i = 0; i < N; i++) {
-            if(array[i] % 2 == 0) {
-                System.out.print(array[i] + " ");
-            }
-        }
-
+        return array;
     }
 
     public static void printOptions() {
@@ -30,25 +39,29 @@ public class Arithmetic {
                 + "5 - reverse order\n6 - swap neighbors");
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Choose option:");
         printOptions();
         String read;
-        while ((read = input.readLine()) != null) {
-            switch (read) {
-                case "0" : {
-                    System.exit(0);
-                } break;
-                case "1" : {
-                    printEvenNumbers();
-                } break;
-                case "2" : {
-                    //
-                } break;
+        try {
+            while ((read = input.readLine()) != null) {
+                switch (read) {
+                    case "0":
+                        System.exit(0);
+                        break;
+                    case "1":
+                        printEvenNumbers();
+                        break;
+                    case "2":
+                        countPositiveNumbers();
+                        break;
+                }
+                printOptions();
             }
-            printOptions();
+        } catch (IOException e) {
+            System.out.println("Something went wrong");
         }
     }
 }
