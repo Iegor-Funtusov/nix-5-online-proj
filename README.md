@@ -1,1 +1,2 @@
-# nix-5-online-proj
+# unit_2_arithmetic
+To run, simply launch the bat file.
