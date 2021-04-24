@@ -1,0 +1,40 @@
+<project>
+
+    <property name="lib_dir" value="lib"/>
+    <property name="source_dir" value="src"/>
+    <property name="target_dir" value="out/ant"/>
+
+    <path id="project_classpath">
+        <fileset dir="lib" includes="*.jar"/>
+        <fileset dir="${target_dir}" includes="**/*.class"/>
+    </path>
+
+    <manifestclasspath property="lib.list" jarfile="${lib_dir}/*.jar">
+        <classpath refid="project_classpath"/>
+    </manifestclasspath>
+
+    <target name="clean">
+        <delete dir="${target_dir}"/>
+        <mkdir dir="${target_dir}"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <javac srcdir="${source_dir}" destdir="${target_dir}" classpathref="project_classpath" includeantruntime="false"/>
+
+    </target>
+
+    <target name="build" depends="compile">
+        <mkdir dir="${target_dir}"/>
+        <jar destfile="${target_dir}/jar/app.jar" basedir="${target_dir}">
+            <manifest>
+                <attribute name="Main-Class" value="com.nixcourse.TestApp"/>
+            </manifest>
+            <zipgroupfileset dir="${lib_dir}" includes="*.jar"/>
+        </jar>
+    </target>
+
+    <target name="run" depends="build">
+        <java jar="${target_dir}/jar/app.jar" fork="true"/>
+    </target>
+
+</project>

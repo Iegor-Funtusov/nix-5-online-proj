@@ -1,12 +1,12 @@
 #! /bin/bash
 
 source_dir="src"
-target_dir="out"
+target_dir="out/terminal"
 lib_dir="lib"
 package_name="com/nixcourse"
 main_class="TestApp"
 
-dependencies=($( ls lib/* ))
+dependencies=$(ls $lib_dir/*)
 dependencies_list=""
 
 for i in $dependencies; do
@@ -15,8 +15,6 @@ done
 
 if [ ! -d $target_dir ]; then
   mkdir $target_dir
-elif [ -d $target_dir/$package_name ]; then
-  rm -rf out/*
 fi
 
 javac -sourcepath $source_dir -d $target_dir \
@@ -24,6 +22,15 @@ javac -sourcepath $source_dir -d $target_dir \
   "$source_dir/main/java/$package_name/User.java" \
   "$source_dir/test/java/$package_name/$main_class.java"
 
-java -cp "out/$dependencies_list" \
+java -cp "${target_dir}/$dependencies_list" \
   org.junit.runner.JUnitCore \
   "$(echo $package_name | tr -s '/' '.').$main_class"
+
+if command -v ant &> /dev/null; then
+    mkdir out/ant
+    ant run
+fi
+
+if command -v mvn &> /dev/null; then
+    mvn
+fi

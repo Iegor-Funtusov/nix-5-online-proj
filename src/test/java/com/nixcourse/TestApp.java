@@ -4,10 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 import java.io.File;
 import java.io.IOException;
 
+@RunWith(JUnit4.class)
 public class TestApp {
 
     private final ObjectMapper mapper;
@@ -42,5 +45,9 @@ public class TestApp {
     @AfterClass
     public static void userCounter() {
         Assert.assertEquals(5, User.getUserCounter());
+    }
+
+    public static void main(String[] args) {
+        System.out.println("build finish successful");
     }
 }
