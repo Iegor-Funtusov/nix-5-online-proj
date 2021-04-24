@@ -18,6 +18,7 @@ public class Main {
         findEvenNumbers(userInput).forEach(
                 i -> System.out.printf("%s ", i)
         );
+        System.out.println();
 
         arraySize = Integer.parseInt(buffer.readLine());
         userInput = toIntegerArrayList(buffer.readLine(), arraySize);
@@ -34,7 +35,17 @@ public class Main {
         arraySize = Integer.parseInt(buffer.readLine());
         userInput = toIntegerArrayList(buffer.readLine(), arraySize);
         reverseIntegerArrayList(userInput);
-        System.out.println(userInput);
+        for (Integer i : userInput) {
+            System.out.printf("%s ", i.toString());
+        }
+        System.out.println();
+
+        arraySize = Integer.parseInt(buffer.readLine());
+        userInput = toIntegerArrayList(buffer.readLine(), arraySize);
+        swapNeighbors(userInput);
+        for (Integer i : userInput) {
+            System.out.printf("%s ", i.toString());
+        }
 
         buffer.close();
     }
@@ -94,6 +105,23 @@ public class Main {
     public static void reverseIntegerArrayList(ArrayList<Integer> container) {
         for (int i = 0; i < container.size(); ++i) {
             container.add(i, container.remove(container.size() - 1));
+        }
+    }
+
+    public static void swapNeighbors(ArrayList<Integer> container) {
+        Integer currentBufferElement;
+        int containerLength;
+
+        if (container.size() % 2 !=0) {
+            containerLength = container.size() - 1;
+        } else {
+            containerLength = container.size();
+        }
+
+        for (int i = 0; i < containerLength - 1; i += 2) {
+            currentBufferElement = container.get(i);
+            container.set(i, container.get(i+1));
+            container.set(i+1, currentBufferElement);
         }
     }
 
