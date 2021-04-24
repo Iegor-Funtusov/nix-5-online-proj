@@ -8,8 +8,18 @@ t-1.1.1.8-jre15.jar;.\libs\commons-lang3-3.11.jar src\entity\User.java src\entit
 java -classpath .\build;.\libs\commons-text-1.1.1.8-jre15
 .jar;.\libs\commons-lang3-3.11.jar;. entity.OurCustomers
 
-2. Maven 
+2. Maven: 
 
 mvn clean install
 
 mvn exec:java -D exec.mainClass=entity.OurCustomers
+
+3. Ant:
+
+ant clean
+
+ant compile
+
+ant jar
+
+ant run
