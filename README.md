@@ -1,5 +1,10 @@
 # unit_2_arithmetic
 
+To run the project just set build_and_run.sh executable and run it.
+Alternative you can import project into Intellij and run Main
+
+Tasks which project solve describe below:
+
 Сначала задано число N — количество элементов в массиве (1≤N≤100). ДалееN≤N≤100). Далее100). Далее через пробел записаны N чисел — элементы массива. Массив состоит из целых чисел.
 
 1. > Дан массив, состоящий из целых чисел. Напишите программу, которая выводит те
