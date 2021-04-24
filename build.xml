@@ -1,0 +1,31 @@
+<project>
+
+    <path id="classpath">
+        <fileset dir="lib" includes ="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="built"/>
+    </target>
+
+    <target name ="compile">
+        <mkdir dir = "built/classes"/>
+        <javac srcdir ="src" destdir="built/classes" classpathref = "classpath" includeantruntime ="false"/>
+    </target>
+
+    <target name = "jar">
+        <mkdir dir = "built/jars"/>
+        <jar destfile = "built/jars/demo.jar" basedir = "built/classes">
+            <manifest>
+                <attribute name = "Main-Class" value ="Main"/>
+                <attribute name = "Class-Path" value = "lib/commons-collections-3.2.2.jar:.lib/commons-lang3-3.9.jar"/>
+            </manifest>
+            <zipgroupfileset dir = "lib" includes ="*.jar"/>
+        </jar>
+    </target>
+
+    <target name = "run">
+        <java jar = "built/jars/demo.jar" fork ="true"/>
+    </target>
+
+</project>
