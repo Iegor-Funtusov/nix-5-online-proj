@@ -1,2 +1,2 @@
-Main-class: com.k4rnaj1k.Crud
+Main-class: com.k4rnaj1k.Printer
 Class-path: ../../libs/commons-lang3-3.12.0.jar
