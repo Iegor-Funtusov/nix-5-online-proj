@@ -1,4 +1,4 @@
-@REM Этот пакетный файл генерирует jar архив проекта
+@REM This file generate project's jar 
 
 call _settings.bat
 

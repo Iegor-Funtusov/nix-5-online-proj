@@ -1,3 +1,4 @@
+@REM This file run the program
 call _settings.bat
 
 ECHO Launching Java code...

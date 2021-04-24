@@ -1,3 +1,4 @@
+@REM This File Compile and Run The Program
 call _settings.bat
 
 SET FOLDER=
