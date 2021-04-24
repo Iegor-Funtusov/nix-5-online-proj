@@ -7,6 +7,18 @@ import java.util.Scanner;
 
 public class Arithmetic {
 
+    public static void reverseOrder() {
+        int[] array = inputArray();
+        int tmp;
+        for (int i = 0; i < array.length/2; i++) {
+            tmp = array[i];
+            array[i] = array[array.length - i - 1];
+            array[array.length - i - 1] = tmp;
+        }
+        printArray(array);
+
+    }
+
     public static void countWithSmallerNeighbors() {
         int[] array = inputArray();
         int count = 0;
@@ -50,6 +62,12 @@ public class Arithmetic {
 
     }
 
+    public static void printArray(int[] array) {
+        for (int num: array) {
+            System.out.print(num + " ");
+        }
+    }
+
     public static int[] inputArray() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter size of array and its elements:");
@@ -91,6 +109,9 @@ public class Arithmetic {
                         break;
                     case "4":
                         countWithSmallerNeighbors();
+                        break;
+                    case "5":
+                        reverseOrder();
                         break;
                 }
                 printOptions();
