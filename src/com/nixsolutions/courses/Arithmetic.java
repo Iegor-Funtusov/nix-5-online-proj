@@ -7,12 +7,20 @@ import java.util.Scanner;
 
 public class Arithmetic {
 
+    public static void countWithSmallerNeighbors() {
+        int[] array = inputArray();
+        int count = 0;
+        for (int i = 1; i < array.length - 1; i++) {
+            if (array[i-1] < array[i] && array[i] > array[i+1]) {
+                count++;
+            }
+        }
+        System.out.print(count);
+    }
+
     public static void countNextGreater() {
         int[] array = inputArray();
         int count = 0;
-        if (array.length == 1) {
-            System.out.println("This option is not available");
-        }
         for (int i = 1; i < array.length; i++) {
             if (array[i] > array[i-1]) {
                 count++;
@@ -56,7 +64,7 @@ public class Arithmetic {
 
     public static void printOptions() {
         System.out.println("\n0 - exit\n1 - find even numbers\n2 - count positive numbers\n"
-                + "3 - count elements greater than previous\n4 - count elements that have two greater neighbors\n"
+                + "3 - count elements greater than previous\n4 - count elements that have two smaller neighbors\n"
                 + "5 - reverse order\n6 - swap neighbors");
     }
 
@@ -80,6 +88,9 @@ public class Arithmetic {
                         break;
                     case "3":
                         countNextGreater();
+                        break;
+                    case "4":
+                        countWithSmallerNeighbors();
                         break;
                 }
                 printOptions();
