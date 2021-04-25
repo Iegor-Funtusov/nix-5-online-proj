@@ -11,7 +11,12 @@
 3. ant clean
 4. ant compile
 5. ant jar
-6. ant run
+6. ant run  
 
+
+`Maven`
+
+1. Reload maven from Maven folder in Intellij IDEA
+2. Run Hello class from maven module
 
 
