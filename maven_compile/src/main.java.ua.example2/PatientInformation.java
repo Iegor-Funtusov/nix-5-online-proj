@@ -1,4 +1,4 @@
-package main;
+package main.java.ua.example2;
 
 public class PatientInformation {
 

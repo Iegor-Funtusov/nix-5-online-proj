@@ -1,4 +1,4 @@
-package main;
+package ua.example;
 
 public class PatientCommunication {
 
