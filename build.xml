@@ -1,0 +1,31 @@
+<project>
+
+    <path id="classpath">
+        <fileset dir="libs" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/demo.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="com.nixsolutions.courses.Hello"/>
+                <attribute name="Class-Path" value="libs/commons-lang3-3.11.jar:.libs/lombok-1.18.18.jar:.libs/guava-23.0.jar"/>
+            </manifest>
+            <zipgroupfileset dir="libs" includes="*.jar"/>
+        </jar>
+    </target>
+
+    <target name="run">
+        <java jar="build/jar/demo.jar" fork="true"/>
+    </target>
+
+</project>
