@@ -1,0 +1,22 @@
+<project name="nix-5-online-proj">
+    <property name="srcDir" value="Hw1/src/" />
+    <property name="dstDir" value="Hw1/classes/"/>
+
+    <path id="classpath">
+        <fileset dir="${srcDir}" includes="**/*.class"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="${dstDir}"/>
+        <mkdir dir="${dstDir}"/>
+    </target>
+
+    <target name="compile">
+        <javac srcdir="${srcDir}" destdir="${dstDir}" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+    <target name="run">
+        <java classname="Main" classpath="${dstDir}"/>
+    </target>
+
+</project>
