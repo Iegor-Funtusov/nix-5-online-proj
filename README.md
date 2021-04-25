@@ -19,4 +19,11 @@
 1. Reload maven from Maven folder in Intellij IDEA
 2. Run Hello class from maven module
 
+   
+   or (if maven installed)
 
+
+
+
+1. mvn clean install
+2. mvn exec:java -D exec:mainClass=com.nixsolutions.courses.Hello
