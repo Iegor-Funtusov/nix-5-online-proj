@@ -1,7 +1,7 @@
 import java.util.Locale;
 import java.util.Scanner;
 
-public class Solve {
+public class Solver {
     static Scanner s = new Scanner(System.in);
 
     public static void main(String[] args) {
