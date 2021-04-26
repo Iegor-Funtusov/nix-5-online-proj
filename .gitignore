@@ -4,3 +4,4 @@ target
 **/*.iml
 **/*.class
 .mvn
+result.json
