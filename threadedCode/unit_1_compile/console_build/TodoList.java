@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.*;
 
 public class TodoList {
     private List<Task> tasksStorage = new ArrayList<>();
@@ -26,7 +27,7 @@ public class TodoList {
 
     public void showTask() {
         tasksStorage.stream()
-                .forEach(item -> System.out.println(item.getTitle() + ": " +
+                .forEach(item -> System.out.println(StringUtils.upperCase(item.getTitle()) + ": " +
                         item.getDescription() + "\n" +
                         "=================="));
         System.exit(0);

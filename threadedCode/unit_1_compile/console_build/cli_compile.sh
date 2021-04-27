@@ -7,7 +7,10 @@ if [ "$0" == "./cli_compile.sh" ]; then
   read item
   case $item in
   y | Y)
-    javac -classpath . -d ./build/classes Main.java
+    javac -cp .:lib/lombok.jar:lib/commons-lang3-3.12.0.jar -d ./build/classes *.java
+
+    # copy jars to build folder;
+    cp -r ./lib ./build/classes
     ;;
   n | N)
     exit 0
@@ -18,7 +21,7 @@ if [ "$0" == "./cli_compile.sh" ]; then
   read item
   case $item in
   y | Y)
-    java -cp ./build/classes Main
+    java -cp ./build/classes:lib/lombok.jar:lib/commons-lang3-3.12.0.jar Main
     ;;
   n | N)
     exit 0
@@ -29,7 +32,7 @@ if [ "$0" == "./cli_compile.sh" ]; then
   read item
   case $item in
   y | Y)
-    echo -e "main-class: Main\nclass-path: ../build/classes/" >./manifest.mf
+    echo -e "main-class: Main\nclass-path: ../build/classes/ ../build/classes/lib/commons-lang3-3.12.0.jar ../build/classes/lib/lombok.jar" > ./manifest.mf
 
     jar -cmf manifest.mf ./build/todolist.jar ./build/classes/*
     ;;
@@ -43,6 +46,17 @@ if [ "$0" == "./cli_compile.sh" ]; then
   case $item in
   y | Y)
     java -jar ./build/todolist.jar
+    ;;
+  n | N)
+    exit 0
+    ;;
+  esac
+
+ echo -n "clean? (y/n):"
+  read item
+  case $item in
+  y | Y)
+    rm -rf ./build manifest.mf
     ;;
   n | N)
     exit 0
