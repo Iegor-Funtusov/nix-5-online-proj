@@ -55,7 +55,6 @@ public class ChessBoardController {
     @FXML
     void canvasOnMouseClicked(MouseEvent event) {
         try {
-            System.out.println((int) event.getX() / 100 + " " + (int) event.getY() / 100);
             selectedFigure.placeHero((int) event.getX() / 100, (int) event.getY() / 100);
             rootPane.getChildren().remove(figure);
             figure = new Label(selectedFigure.toString());
@@ -68,16 +67,11 @@ public class ChessBoardController {
             this.rootPane.getChildren().add(figure);
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Ошибка");
-            alert.setHeaderText("Внимание");
+            alert.setTitle("Error");
+            alert.setHeaderText("Warning");
             alert.setContentText(e.getMessage());
             alert.show();
-        }/*GraphicsContext g = this.canvas.getGraphicsContext2D();
-        g.setTransform(affine);
-        g.setFill(Color.ORANGE);
-        double x = (int)(event.getX()/100f);
-        double y = (int)(event.getY()/100f);
-        g.fillRect(x, y,1,1);*/
+        }
     }
 
     @FXML
