@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="rootPaneFigs" prefHeight="195.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.k4rnaj1k.FiguresSelectionController">
+   <children>
+      <Label fx:id="king" layoutX="127.0" layoutY="68.0" onMouseClicked="#onKingClicked" prefHeight="50.0" prefWidth="54.0" text="♔">
+         <font>
+            <Font name="Times New Roman" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="queen" layoutX="181.0" layoutY="68.0" onMouseClicked="#onQueenClicked" prefHeight="50.0" prefWidth="54.0" text="♕">
+         <font>
+            <Font name="Times New Roman" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="rook" layoutX="235.0" layoutY="68.0" onMouseClicked="#onRookClicked" prefHeight="50.0" prefWidth="54.0" text="♖">
+         <font>
+            <Font name="Times New Roman" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="bishop" layoutX="294.0" layoutY="68.0" onMouseClicked="#onBishopClicked" prefHeight="50.0" prefWidth="45.0" text="♗">
+         <font>
+            <Font name="Times New Roman" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="knight" layoutX="361.0" layoutY="68.0" onMouseClicked="#onKnightClicked" prefHeight="50.0" prefWidth="45.0" text="♘">
+         <font>
+            <Font name="Times New Roman" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="pawn" layoutX="420.0" layoutY="68.0" onMouseClicked="#onPawnClicked" prefHeight="50.0" prefWidth="45.0" text="♙">
+         <font>
+            <Font name="Times New Roman" size="36.0" />
+         </font>
+      </Label>
+      <Label layoutX="189.0" layoutY="30.0" text="Please select the figure">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <Button fx:id="doneBtn" layoutX="244.0" layoutY="127.0" mnemonicParsing="false" onAction="#onDoneClicked" text="Done" />
+      <Label layoutX="245.0" layoutY="168.0" text="Current selected figure: ">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <Label fx:id="currfig" layoutX="485.0" layoutY="152.0" prefHeight="50.0" prefWidth="77.0" text="Label">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <CheckBox fx:id="blackfiguresCheckBox" layoutX="316.0" layoutY="126.0" mnemonicParsing="false" onAction="#onfiguresStateChange" text="black figures">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </CheckBox>
+   </children>
+</AnchorPane>
