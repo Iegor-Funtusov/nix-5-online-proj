@@ -3,3 +3,5 @@
 *.iml
 target
 /src/main/resources/icon.ico
+*.jar
+lib
