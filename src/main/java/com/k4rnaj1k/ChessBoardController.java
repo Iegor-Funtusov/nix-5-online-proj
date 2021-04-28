@@ -54,10 +54,11 @@ public class ChessBoardController {
 
     @FXML
     void canvasOnMouseClicked(MouseEvent event) {
-        try {
-            selectedFigure.placeHero((int) event.getX() / 100, (int) event.getY() / 100);
+        int board_x = (int) event.getX() / 100;
+        int board_y = (int) event.getY() / 100;
+        if(selectedFigure.canBePLaced(board_x, board_y)){
             rootPane.getChildren().remove(figure);
-            figure = new Label(selectedFigure.toString());
+            figure = new Label(selectedFigure.placeHero(board_x, board_y));
             double x = 70 + (int) (event.getX() / 100) * 100;
             double y = 75 + (int) (event.getY() / 100) * 100;
             this.figure.setLayoutX(x);
@@ -65,29 +66,33 @@ public class ChessBoardController {
             this.figure.setStyle("-fx-background-color:white");
             figure.setFont(new Font("Times New Roman", 40));
             this.rootPane.getChildren().add(figure);
-        } catch (Exception e) {
+        }
+        else{
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Error");
             alert.setHeaderText("Warning");
-            alert.setContentText(e.getMessage());
+            alert.setContentText("Can't place the chosen figure here.");
+            alert.initOwner(canvas.getScene().getWindow());
             alert.show();
         }
     }
 
     @FXML
     void initialize() {
-
         this.affine = new Affine();
         this.affine.appendScale(canvas.getHeight() / 8f, canvas.getWidth() / 8f);
         GraphicsContext g = this.canvas.getGraphicsContext2D();
         g.setTransform(affine);
-        g.setFill(Color.BLACK);
         boolean color = true;
         for (int x = 0; x <= 8; x++) {
             for (int y = 0; y <= 8; y++) {
                 color = !color;
-                if (color)
-                    g.fillRect(y, x, 1, 1);
+                if (color) {
+                    g.setFill(Color.BLACK);
+                }else{
+                    g.setFill(Color.WHITE);
+                }
+                g.fillRect(y, x, 1, 1);
             }
         }
         for (int i = 0; i < 8; i++) {
@@ -116,6 +121,7 @@ public class ChessBoardController {
             stage.setTitle("Figures selection menu");
             stage.getIcons().add(new Image("icon.png"));
             stage.setScene(new Scene(root));
+            stage.setResizable(false);
             stage.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();

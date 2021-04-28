@@ -95,20 +95,20 @@ public class FiguresSelectionController {
 
     @FXML
     void onfiguresStateChange(ActionEvent event) {
-        if (!blackfiguresCheckBox.isSelected()) {
-            king.setText("♔");
-            queen.setText("♕");
-            rook.setText("♖");
-            bishop.setText("♗");
-            knight.setText("♘");
-            pawn.setText("♙");
-        } else {
+        if (blackfiguresCheckBox.isSelected()) {
             king.setText("♚");
             queen.setText("♛");
             rook.setText("♜");
             bishop.setText("♝");
             knight.setText("♞");
             pawn.setText("♟");
+        } else {
+            king.setText("♔");
+            queen.setText("♕");
+            rook.setText("♖");
+            bishop.setText("♗");
+            knight.setText("♘");
+            pawn.setText("♙");
         }
     }
 

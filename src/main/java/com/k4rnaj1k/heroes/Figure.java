@@ -5,28 +5,31 @@ abstract public class Figure {
     int y;
     public String figuresymbol;
 
-    public Figure(String figuresymbol){
+    public Figure(String figuresymbol) {
         setFiguresymbol(figuresymbol);
     }
 
 
-    void setFiguresymbol(String s){
+    void setFiguresymbol(String s) {
         this.figuresymbol = s;
     }
 
     boolean placed = false;
-    void setX(int x){
+
+    @Override
+    public String toString(){
+        return this.figuresymbol;
+    }
+
+    void setX(int x) {
         this.x = x;
     }
 
-    void setY(int y){
+    void setY(int y) {
         this.y = y;
     }
-    public abstract String placeHero(int x, int y) throws Exception;
-    public abstract boolean canBePLaced(int x, int y);
 
-    @Override
-    public String toString() {
-        return figuresymbol;
-    }
+    public abstract String placeHero(int x, int y);
+
+    public abstract boolean canBePLaced(int x, int y);
 }

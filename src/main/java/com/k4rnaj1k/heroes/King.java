@@ -6,27 +6,17 @@ public class King extends Figure {
     }
 
     @Override
-    public String placeHero(int x, int y) throws Exception {
-            if(canBePLaced(x,y))
-                return figuresymbol;
-            else
-                throw new Exception("Can't place the chosen figure here.");
+    public String placeHero(int x, int y) {
+        setX(x);
+        setY(y);
+        return this.figuresymbol;
     }
 
     @Override
     public boolean canBePLaced(int x, int y) {
         if (!placed) {
             this.placed = true;
-            setX(x);
-            setY(y);
             return true;
-        } else if (Math.abs(this.x - x) <= 1 && Math.abs(this.y - y) <= 1) {
-            setX(x);
-            setY(y);
-            return true;
-        } else {
-            System.out.println("false");
-            return false;
-        }
+        } else return (Math.abs(this.x - x) <= 1 && Math.abs(this.y - y) <= 1);
     }
 }
