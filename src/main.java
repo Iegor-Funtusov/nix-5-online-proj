@@ -6,7 +6,7 @@ class firstDZ {
         System.out.println("Введите количество элементтов: ");
         int size = input.nextInt();
         int array[] = new int[size];
-        System.out.println("Вводите числа:");
+        System.out.println("Вводите числа через ENTER:");
         for (int i = 0; i < size; i++) {
             array[i] = input.nextInt();
         }
