@@ -39,7 +39,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>Main</mainClass>
+                            <mainClass>EnterPoint</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
