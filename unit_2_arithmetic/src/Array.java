@@ -1,15 +1,18 @@
-package array;
-
 import java.util.Scanner;
 
 public class Array {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        System.out.print("Введите n: ");
+        System.out.print("Введите размер массива n (1≤N≤100): ");
         int n = in.nextInt();
         int [] array = new int [n];
 
-        System.out.println("Данный массив:");
+        if (n < 1 || n > 100) {
+            System.out.println("Размер массива должен быть в пределах 1≤N≤100!");
+            return;
+        }
+
+        System.out.println("Данный массив случайных чисел:");
         for (int i = 0; i < array.length; i++) {
                 int sign = Math.random() < 0.5 ? -1 : 1;
                 array[i] = (int) (Math.random() * 100) * sign;
