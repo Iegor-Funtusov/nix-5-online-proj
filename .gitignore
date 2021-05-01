@@ -3,3 +3,4 @@
 **/*.class
 .mvn
 **/*target
+/.idea/
