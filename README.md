@@ -1,4 +1,7 @@
 # nix-5-online-proj
+##Run program:
+1. Run Service class from IDE
+2. Run the run.bat file
 ### Available options for array: 
 
     0 - exit  
