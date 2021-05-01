@@ -37,6 +37,6 @@ public abstract class Piece {
         this.symbol = symbol;
     }
 
-    public abstract boolean availableToAlloc(int x, int y);
-    public abstract String move(int x, int y) throws Exception;
+    public abstract boolean availableToAlloc(int x, int y) throws Exception;
+    public abstract void move(int x, int y) throws Exception;
 }
