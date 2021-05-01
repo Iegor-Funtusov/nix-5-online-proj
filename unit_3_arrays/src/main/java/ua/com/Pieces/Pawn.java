@@ -10,8 +10,6 @@ public class Pawn extends Piece {
     @Override
     public boolean availableToAlloc(int x, int y) {
         if (!isPresent) {
-            this.setX(x);
-            this.setY(y);
             this.isPresent = true;
             return true;
         } else {
@@ -32,9 +30,10 @@ public class Pawn extends Piece {
     }
 
     @Override
-    public String move(int x, int y) throws Exception {
+    public void move(int x, int y) throws Exception {
         if (availableToAlloc(x, y)) {
-            return this.symbol;
+            this.setX(x);
+            this.setY(y);
         } else {
             throw new Exception("The piece can't be placed right here");
         }
