@@ -5,6 +5,16 @@ public abstract class Piece {
     int x;
     int y;
     public String symbol;
+    public boolean isWhite;
+    public boolean isPresent = false;
+
+    public void setWhite(boolean white) {
+        isWhite = white;
+    }
+
+    public void setPresent(boolean present) {
+        isPresent = present;
+    }
 
     public Piece(String s) {
         this.symbol = s;
@@ -26,4 +36,7 @@ public abstract class Piece {
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
+
+    public abstract boolean availableToAlloc(int x, int y);
+    public abstract String move(int x, int y) throws Exception;
 }
