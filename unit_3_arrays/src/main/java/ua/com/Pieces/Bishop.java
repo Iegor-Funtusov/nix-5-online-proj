@@ -12,7 +12,7 @@ public class Bishop extends Piece{
             this.isPresent = true;
             return true;
         } else {
-            return Math.abs(this.x - x ) == Math.abs(this.y - y);
+            return Math.abs(this.x - x) == Math.abs(this.y - y);
         }
     }
 }
