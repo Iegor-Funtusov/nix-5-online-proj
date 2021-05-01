@@ -12,6 +12,41 @@
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+        <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
     </properties>
+
+
+
+
+    <build>
+    <finalName>crud</finalName>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${maven.compiler.plugin.version}</version>
+            <configuration>
+                <source>${maven.compiler.source}</source>
+                <target>${maven.compiler.source}</target>
+                <encoding>${project.build.sourceEncoding}</encoding>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.6.0</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>java</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <mainClass>Arithmetic</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+    </build>
 
 </project>
