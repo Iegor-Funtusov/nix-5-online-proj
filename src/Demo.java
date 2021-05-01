@@ -2,30 +2,37 @@ import java.util.Scanner;
 
 public class Demo {
 
-    public static void main(String[] args){
+        public static void main(String[] args) {
 
-        Scanner in = new Scanner(System.in);
-        System.out.println("Array size: ");
-        int size = in.nextInt();
-
-        if(size<0 || size>100){
-            System.out.println("Array size must be in 0 <= size <= 100 renge");
-            return;
+            Scanner scanner = new Scanner(System.in);
+            printMenu();
+            while (true) {
+                int N = Integer.parseInt(scanner.nextLine());
+                switch (N) {
+                    case 0 -> System.exit(0);
+                    case 1 -> TasksImpl.findEven();
+                    case 2 -> TasksImpl.countPositive();
+                    case 3 -> TasksImpl.countGreaterThanPrev();
+                    case 4 -> TasksImpl.countGreaterThanNeighbours();
+                    case 5 -> TasksImpl.printReverseArray();
+                    case 6 -> TasksImpl.printReverseNeighboursArray();
+                }
+                printMenu();
+            }
         }
 
-        System.out.println("Enter array elements");
-
-        int[] arr = new int[size];
-        for (int i=0; i<size; i++){
-            arr[i]=in.nextInt();
-        }
-
-        Task1.main(arr);
-        Task2.main(arr);
-        Task3.main(arr);
-        Task4.main(arr);
-        Task5.main(arr);
-        Task6.main(arr);
-
+    public static void printMenu() {
+        System.out.println("""
+                
+                -------------------------------------
+                1 - print even numbers
+                2 - count positive numbers
+                3 - count elements greater than previous
+                4 - count elements greater than neighbors
+                5 - reverse array
+                6 - reverse elements' position in array
+                0 - exit
+                Choose task:""");
     }
+
 }
