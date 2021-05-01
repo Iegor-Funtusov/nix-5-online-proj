@@ -37,6 +37,14 @@ public abstract class Piece {
         this.symbol = symbol;
     }
 
-    public abstract boolean availableToAlloc(int x, int y) throws Exception;
-    public abstract void move(int x, int y) throws Exception;
+    public abstract boolean availableToAlloc(int x, int y);
+
+    public void move(int x, int y) throws Exception {
+        if (availableToAlloc(x, y)) {
+            this.setX(x);
+            this.setY(y);
+        } else {
+            throw new Exception("The piece can't be placed right here");
+        }
+    };
 }

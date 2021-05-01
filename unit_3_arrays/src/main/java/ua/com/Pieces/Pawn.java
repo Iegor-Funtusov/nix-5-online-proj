@@ -1,7 +1,9 @@
 package ua.com.Pieces;
 
 public class Pawn extends Piece {
+
     public boolean firstStep;
+
     public Pawn(String s) {
         super(s);
         firstStep = true;
@@ -28,15 +30,4 @@ public class Pawn extends Piece {
             }
         }
     }
-
-    @Override
-    public void move(int x, int y) throws Exception {
-        if (availableToAlloc(x, y)) {
-            this.setX(x);
-            this.setY(y);
-        } else {
-            throw new Exception("The piece can't be placed right here");
-        }
-    }
-
 }
