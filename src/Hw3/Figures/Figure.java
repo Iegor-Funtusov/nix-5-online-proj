@@ -9,7 +9,14 @@ public abstract class Figure {
 
     protected abstract boolean checkPossibilityOfMove(byte xCoord, byte yCoord);
 
-    public abstract boolean move(byte xCoord, byte yCoord);
+    public boolean move(byte xCoord, byte yCoord){
+        if(checkPossibilityOfMove(xCoord, yCoord)){
+            this.setX(xCoord);
+            this.setY(yCoord);
+            return true;
+        }
+        return false;
+    }
 
     public byte getX() { return x; }
     public byte getY() { return y; }

@@ -6,12 +6,11 @@ public class Bishop extends Figure{
     }
 
     @Override
-    public boolean move(byte xCoord, byte yCoord) {
-        return false;
-    }
-
-    @Override
     protected boolean checkPossibilityOfMove(byte xCoord, byte yCoord) {
+        //Слон ходит только по диагонали
+        if (Math.abs(xCoord - this.getX()) == Math.abs(yCoord - this.getY())){
+            return true;
+        }
         return false;
     }
 }

@@ -7,12 +7,16 @@ public class Pawn extends Figure{
     }
 
     @Override
-    public boolean move(byte xCoord, byte yCoord) {
-        return false;
-    }
-
-    @Override
     protected boolean checkPossibilityOfMove(byte xCoord, byte yCoord) {
-        return false;
+        //Пешка ходит только на один вперёд
+        if(yCoord != this.getY())
+            return false;
+
+        if (this.getColor()==ColorEnum.WHITE && xCoord != (this.getX()-1))
+            return false;
+        if (this.getColor()==ColorEnum.BLACK && xCoord != (this.getX()+1))
+            return false;
+
+        return true;
     }
 }
