@@ -14,9 +14,11 @@ public class ChessRunService {
             int chosenfigure = Checker.setFigire();
             int x = Checker.setX(colour);
             char y = Checker.setY();
-            if (!(board.checkEmptyCell(x - 1, CreateFigure.defineY(y)))) {
+            while (!(board.checkEmptyCell(x - 1, CreateFigure.defineY(y)))) {
                 System.out.println("This cell is not empty!");
-            } else {
+                x = Checker.setX(colour);
+                y = Checker.setY();
+            }
                 board.setnewFigure(CreateFigure.choosenFigure(chosenfigure, colour, x - 1, CreateFigure.defineY(y)));
                 board.showBoard();
                 boolean move = true;
@@ -37,7 +39,7 @@ public class ChessRunService {
                 }
             }
         }
-    }
+
 
     public static void movement(int colour, Board board) {
         Scanner s = new Scanner(System.in);
@@ -45,7 +47,7 @@ public class ChessRunService {
         char y = Checker.setY();
         Figure f = Board.allfigures.get(Board.allfigures.size() - 1);
         while (true) {
-            if (f.run(x - 1, CreateFigure.defineY(y))) {
+            if (f.run(x - 1, CreateFigure.defineY(y)) && board.checkEmptyCell(x - 1, CreateFigure.defineY(y))) {
                 board.setOneCell(f.getX(), f.getY());
                 Board.allfigures.remove(Board.allfigures.size() - 1);
                 f.setX(x - 1);
