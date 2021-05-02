@@ -1,8 +1,7 @@
 import entities.Board;
 import entities.Piece;
 
-import utils.KoordsUtils;
-import utils.PieceUtils;
+import utils.Utils;
 
 import java.util.Objects;
 import java.util.Scanner;
@@ -53,14 +52,14 @@ public class Chess {
                 continue;
             }
 
-            if(!(board.ifEmpty(x - 1, KoordsUtils.defineY(y)))){
+            if(!(board.ifEmpty(x - 1, Utils.defineY(y)))){
                 System.out.println("Cell isn't empty");
             }
             else{
 
                 boolean turn = true;
                 while(turn){
-                    board.setPiece(Objects.requireNonNull(PieceUtils.switchPiece(thisPiece, colour, x - 1, KoordsUtils.defineY(y))));
+                    board.setPiece(Objects.requireNonNull(Utils.switchPiece(thisPiece, colour, x - 1, Utils.defineY(y))));
                     board.printBoard();
                     System.out.println("Enter the cell koords");
 
@@ -73,11 +72,11 @@ public class Chess {
 
                         Piece p = Board.pieces.get(Board.pieces.size()-1);
                         System.out.println(p);
-                        if(p.move(x - 1, KoordsUtils.defineY(y))) {
+                        if(p.move(x - 1, Utils.defineY(y))) {
                             board.fillEmptyCell(p.getX(), p.getY());
                             Board.pieces.remove(Board.pieces.size() - 1);
                             p.setX(x - 1);
-                            p.setY(KoordsUtils.defineY(y));
+                            p.setY(Utils.defineY(y));
                             board.setPiece(p);
                             board.printBoard();
                             break;
