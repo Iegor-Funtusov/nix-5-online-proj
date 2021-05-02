@@ -27,9 +27,8 @@ public class Board {
     public void setOneCell(int x, int y){
         board[x][y] = '*';
     }
-
     public void setnewFigure(Figure figure){
-        if(setBoard(figure.getX(),figure.getY()) == true){
+        if(setBoard(figure.getX(), figure.getY())){
             board[figure.getX()][figure.getY()] = figure.getName();
             allfigures.add(figure);
         }
@@ -51,7 +50,7 @@ public class Board {
             System.out.println("   #     #     #     #     #     #     #     #     #");
             System.out.print( i+1 + "  ");
             for (int j = 0; j < 8; j++) {
-                if(setBoard(i, j) == false){
+                if(!setBoard(i, j)){
                     for(Figure figure : allfigures) {
                             if(figure.getX() == i && figure.getY() == j){
                             System.out.print("#  " + figure.getColour() +board[i][j] + "  " + Colour.ANSI_RESET);
@@ -66,11 +65,8 @@ public class Board {
                 }
             }
             System.out.print("#");
-            System.out.println(" ");
+            System.out.println("  " + Colour.ANSI_RED + Math.abs(i-8) + Colour.ANSI_RESET);
         }
         System.out.println("   #################################################");
-
     }
-
-
 }

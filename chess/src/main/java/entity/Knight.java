@@ -8,18 +8,12 @@ public class Knight extends Figure {
 
     @Override
     public boolean run(int x, int y) {
-        if ((this.x + 2 == x && x < 8 && x > 0 && this.y + 1 == y) ||
-                (this.x + 2 == x && x < 8 && x > 0 && this.y - 1 == y) ||
-                (this.x - 2 == x && x < 8 && x > 0 && this.y + 1 == y) ||
-                (this.x - 2 == x && x < 8 && x > 0 && this.y - 1 == y) ||
-                (this.y + 2 == y && y < 8 && y > 0 && this.x + 1 == x) ||
-                (this.y + 2 == y && y < 8 && y > 0 && this.x - 1 == x) ||
-                (this.y - 2 == y && y < 8 && y > 0 && this.x + 1 == x) ||
-                (this.y - 2 == y && y < 8 && y > 0 && this.x - 1 == x)){
+        int dx = Math.abs(this.x - x);
+        int dy = Math.abs(this.y - y);
+        if (dx == 1 && dy == 2 || dx == 2 && dy == 1){
             return true;
     }
         else{
-            System.out.println(this.x + 2 + "  ; " + x);
             System.out.println("Wrong way. Try again!");
             return false;
         }

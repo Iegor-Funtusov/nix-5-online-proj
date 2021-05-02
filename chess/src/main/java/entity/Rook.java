@@ -7,8 +7,7 @@ public class Rook extends Figure {
 
     @Override
     public boolean run(int x, int y) {
-        if((this.x == x && y!= 8)|| (this.x == x && y > 0)
-        ||(this.y == y && x!=8) || (this.y == y && x > 0)){
+        if((this.x == x)||(this.y==y)){
             return true;
         }
         else {
