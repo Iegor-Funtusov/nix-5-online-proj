@@ -8,10 +8,6 @@ public abstract class Figure {
     public Figure() {
     }
 
-//    public Figure(String color) {
-//        this.isWhite = color;
-//    }
-
     public boolean isWhite() {
         return isWhite;
     }
