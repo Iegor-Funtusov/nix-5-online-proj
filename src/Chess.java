@@ -22,6 +22,10 @@ public class Chess {
                     2. Black""");
             Scanner s = new Scanner(System.in);
             int colour = s.nextInt();
+            if(colour !=1 && colour!=2){
+                System.out.println("Wrong choice. Try again.");
+                continue;
+            }
 
             System.out.println("""
                     Choose the piece type:
@@ -31,7 +35,11 @@ public class Chess {
                     4 - Bishop
                     5 - Rook
                     6 - Pawn""");
-            int chosenfigure = s.nextInt();
+            int thisPiece = s.nextInt();
+            if(thisPiece < 1 || thisPiece > 6){
+                System.out.println("Wrong choice. Try again.");
+                continue;
+            }
 
             System.out.println("Enter the cell koords");
             System.out.println("x: 1-8");
@@ -40,6 +48,11 @@ public class Chess {
             System.out.println("y: A-H");
             char y = s.next().charAt(0);
 
+            if((x < 1) || (x > 8) || Character.getNumericValue(y) < 10 || Character.getNumericValue(y) > 17){
+                System.out.println("Wrong koords. Try again.");
+                continue;
+            }
+
             if(!(board.ifEmpty(x - 1, KoordsUtils.defineY(y)))){
                 System.out.println("Cell isn't empty");
             }
@@ -47,7 +60,7 @@ public class Chess {
 
                 boolean turn = true;
                 while(turn){
-                    board.setPiece(Objects.requireNonNull(PieceUtils.switchPiece(chosenfigure, colour, x - 1, KoordsUtils.defineY(y))));
+                    board.setPiece(Objects.requireNonNull(PieceUtils.switchPiece(thisPiece, colour, x - 1, KoordsUtils.defineY(y))));
                     board.printBoard();
                     System.out.println("Enter the cell koords");
 
@@ -57,14 +70,15 @@ public class Chess {
                         x = s.nextInt();
                         System.out.println("y: A-H");
                         y = s.next().charAt(0);
-                        Piece f = Board.pieces.get(Board.pieces.size()-1);
-                        System.out.println(f);
-                        if(f.move(x - 1, KoordsUtils.defineY(y))) {
-                            board.fillEmptyCell(f.getX(), f.getY());
+
+                        Piece p = Board.pieces.get(Board.pieces.size()-1);
+                        System.out.println(p);
+                        if(p.move(x - 1, KoordsUtils.defineY(y))) {
+                            board.fillEmptyCell(p.getX(), p.getY());
                             Board.pieces.remove(Board.pieces.size() - 1);
-                            f.setX(x - 1);
-                            f.setY(KoordsUtils.defineY(y));
-                            board.setPiece(f);
+                            p.setX(x - 1);
+                            p.setY(KoordsUtils.defineY(y));
+                            board.setPiece(p);
                             board.printBoard();
                             break;
                         }
