@@ -1,5 +1,7 @@
 package Figures;
 
+import Enums.FiguresEnum;
+
 public class Rook extends Figure{
     public Rook(){
         super.setEnumType(FiguresEnum.ROOK);

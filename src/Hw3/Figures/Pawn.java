@@ -1,5 +1,8 @@
 package Figures;
 
+import Enums.ColorEnum;
+import Enums.FiguresEnum;
+
 public class Pawn extends Figure{
 
     public Pawn(){
@@ -12,7 +15,7 @@ public class Pawn extends Figure{
         if(yCoord != this.getY())
             return false;
 
-        if (this.getColor()==ColorEnum.WHITE && xCoord != (this.getX()-1))
+        if (this.getColor()== ColorEnum.WHITE && xCoord != (this.getX()-1))
             return false;
         if (this.getColor()==ColorEnum.BLACK && xCoord != (this.getX()+1))
             return false;

@@ -1,5 +1,8 @@
 package Figures;
 
+import Enums.ColorEnum;
+import Enums.FiguresEnum;
+
 public abstract class Figure {
     //Position of the figure on the board
     private byte x;

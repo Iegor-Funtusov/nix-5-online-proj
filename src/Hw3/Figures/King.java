@@ -1,5 +1,7 @@
 package Figures;
 
+import Enums.FiguresEnum;
+
 public class King extends Figure{
     public King(){
         super.setEnumType(FiguresEnum.KING);

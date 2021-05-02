@@ -1,5 +1,7 @@
 package Figures;
 
+import Enums.FiguresEnum;
+
 public class Knight extends Figure{
 
     public Knight(){

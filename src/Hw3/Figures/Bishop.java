@@ -1,5 +1,7 @@
 package Figures;
 
+import Enums.FiguresEnum;
+
 public class Bishop extends Figure{
     public Bishop(){
         super.setEnumType(FiguresEnum.BISHOP);
