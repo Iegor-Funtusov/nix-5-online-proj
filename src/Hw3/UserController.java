@@ -1,3 +1,4 @@
+import Enums.*;
 import Figures.*;
 
 import java.util.Scanner;
@@ -16,20 +17,19 @@ public class UserController {
             choose = scanner.nextInt();
             if(choose == 1){
                 figure = selectNewFigure();
-
-                if(figure == null){
-                    System.out.println("Error!");
-                }
-                chessboard.drawField();
-                if(moveFigure(figure)){
-                    System.out.println("Figure was successfully moved");
+                if(figure != null){
                     chessboard.drawField();
-                }
-                else{
-                    System.out.println("Moving was not successful");
+
+                    if(moveFigure(figure)){
+                        System.out.println("Figure was successfully moved");
+                        chessboard.drawField();
+                    }
+                    else{
+                        System.out.println("Moving was not successful");
+                    }
                 }
             }
-            else{
+            else if (choose == 2){
                 if(figure == null){
                     System.out.println("You didn't choose the figure");
                 }
@@ -44,12 +44,15 @@ public class UserController {
                 }
             }
 
-            System.out.println("Do you want to continue? 1-yes, 0-no");
+            else{
+                System.out.println("Incorrect value Entered");
+            }
+
+            System.out.println("Do you want to continue? 1-yes, else-no");
             choose = scanner.nextInt();
 
 
-
-        } while(choose != 0);
+        } while(choose == 1);
 
     }
 
@@ -72,14 +75,20 @@ public class UserController {
                     pawn.setColor(ColorEnum.WHITE);
                     //default position of a figure
                     pawn.setX((byte)6);
-                    pawn.setY((byte)3);
+                    pawn.setY((byte)5);
                 }
-                else{
+                else if (choose == 2){
                     pawn.setColor(ColorEnum.BLACK);
                     pawn.setX((byte)1);
-                    pawn.setY((byte)3);
+                    pawn.setY((byte)5);
                 }
-                chessboard.putFigure(pawn,FiguresEnum.PAWN);
+                else{
+                    System.out.println("Incorrect value entered, color automatically will be white");
+                    pawn.setColor(ColorEnum.WHITE);
+                    pawn.setX((byte)6);
+                    pawn.setY((byte)5);
+                }
+                chessboard.putFigure(pawn, FiguresEnum.PAWN);
                 return pawn;
             }
 
@@ -92,12 +101,18 @@ public class UserController {
                     knight.setColor(ColorEnum.WHITE);
                     //default position of a figure
                     knight.setX((byte)7);
-                    knight.setY((byte)1);
+                    knight.setY((byte)3);
                 }
-                else{
+                else if (choose == 2){
                     knight.setColor(ColorEnum.BLACK);
                     knight.setX((byte)0);
-                    knight.setY((byte)1);
+                    knight.setY((byte)3);
+                }
+                else{
+                    System.out.println("Incorrect value entered, color automatically will be white");
+                    knight.setColor(ColorEnum.WHITE);
+                    knight.setX((byte)7);
+                    knight.setY((byte)3);
                 }
                 chessboard.putFigure(knight,FiguresEnum.KNIGHT);
                 return knight;
@@ -112,12 +127,18 @@ public class UserController {
                     bishop.setColor(ColorEnum.WHITE);
                     //default position of a figure
                     bishop.setX((byte)7);
-                    bishop.setY((byte)2);
+                    bishop.setY((byte)4);
                 }
-                else{
+                else if (choose == 2){
                     bishop.setColor(ColorEnum.BLACK);
                     bishop.setX((byte)0);
-                    bishop.setY((byte)2);
+                    bishop.setY((byte)4);
+                }
+                else{
+                    System.out.println("Incorrect value entered, color automatically will be white");
+                    bishop.setColor(ColorEnum.WHITE);
+                    bishop.setX((byte)7);
+                    bishop.setY((byte)4);
                 }
                 chessboard.putFigure(bishop,FiguresEnum.BISHOP);
                 return bishop;
@@ -132,12 +153,18 @@ public class UserController {
                     rook.setColor(ColorEnum.WHITE);
                     //default position of a figure
                     rook.setX((byte)7);
-                    rook.setY((byte)0);
+                    rook.setY((byte)2);
                 }
-                else{
+                else if (choose == 2){
                     rook.setColor(ColorEnum.BLACK);
                     rook.setX((byte)0);
-                    rook.setY((byte)0);
+                    rook.setY((byte)2);
+                }
+                else{
+                    System.out.println("Incorrect value entered, color automatically will be white");
+                    rook.setColor(ColorEnum.WHITE);
+                    rook.setX((byte)7);
+                    rook.setY((byte)2);
                 }
                 chessboard.putFigure(rook,FiguresEnum.ROOK);
                 return rook;
@@ -152,12 +179,18 @@ public class UserController {
                     queen.setColor(ColorEnum.WHITE);
                     //default position of a figure
                     queen.setX((byte)7);
-                    queen.setY((byte)4);
+                    queen.setY((byte)6);
                 }
-                else{
+                else if (choose == 2){
                     queen.setColor(ColorEnum.BLACK);
                     queen.setX((byte)0);
-                    queen.setY((byte)4);
+                    queen.setY((byte)6);
+                }
+                else{
+                    System.out.println("Incorrect value entered, color automatically will be white");
+                    queen.setColor(ColorEnum.WHITE);
+                    queen.setX((byte)7);
+                    queen.setY((byte)6);
                 }
                 chessboard.putFigure(queen,FiguresEnum.QUEEN);
                 return queen;
@@ -172,12 +205,18 @@ public class UserController {
                     king.setColor(ColorEnum.WHITE);
                     //default position of a figure
                     king.setX((byte)7);
-                    king.setY((byte)3);
+                    king.setY((byte)5);
                 }
-                else{
+                else if (choose == 2){
                     king.setColor(ColorEnum.BLACK);
                     king.setX((byte)0);
-                    king.setY((byte)3);
+                    king.setY((byte)5);
+                }
+                else{
+                    System.out.println("Incorrect value entered, color automatically will be white");
+                    king.setColor(ColorEnum.WHITE);
+                    king.setX((byte)7);
+                    king.setY((byte)5);
                 }
                 chessboard.putFigure(king,FiguresEnum.KING);
                 return king;
@@ -194,15 +233,11 @@ public class UserController {
 
     private boolean moveFigure(Figure figure){
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter coordinates on which you want to move the figure:");
-        byte newX = scanner.nextByte();
-        byte newY = scanner.nextByte();
+        System.out.println("Enter coordinates on which you want to move the figure by the space or enter:");
+        byte newY = parseLetter(scanner.next().charAt(0));
+        byte newX = parseNums(scanner.next().charAt(0));
 
-        if(newX < 0 || newX > chessboard.getFIELD_SIZE()){
-            System.out.println("Incorrect value!");
-            return false;
-        }
-        if(newY < 0 || newY > chessboard.getFIELD_SIZE()){
+        if(newX == -111 || newY == -111){
             System.out.println("Incorrect value!");
             return false;
         }
@@ -219,6 +254,21 @@ public class UserController {
         chessboard.drawField();
     }
 
-    //parse move
+
+    private byte parseNums(char num){
+        int index = num - '0';
+        if(index < 1 || index > 8)
+            return -111;
+
+        return (byte)(8-index);
+    }
+
+    private byte parseLetter(char l){
+        for(int i = 2; i < chessboard.getFIELD_SIZE(); i++){
+            if((int)chessboard.cells[9][i] == l)
+                return (byte)(i);
+        }
+        return -111;
+    }
 
 }

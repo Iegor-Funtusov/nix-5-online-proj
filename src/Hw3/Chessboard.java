@@ -1,7 +1,8 @@
+import Enums.FiguresEnum;
 import Figures.*;
 
 public class Chessboard {
-    private int FIELD_SIZE = 8;
+    private int FIELD_SIZE = 10;
     char[][] cells;
 
     Chessboard() {
@@ -10,8 +11,27 @@ public class Chessboard {
     }
 
     public void clearChessboard(){
-        for(int i = 0 ; i < FIELD_SIZE ; i++){
-            for(int j = 0 ; j < FIELD_SIZE ; j++)
+        int nums = 8;
+        char[] letters = {'a','b','c','d','e','f','g','h'};
+
+        cells[9][0] = '.';
+        cells[8][0] = '.';
+        cells[9][1] = '.';
+        for(int i = 0 ; i < 8 ; i++){
+            cells[i][0]=(char)(nums + '0');
+            cells[i][1] = '|';
+            nums--;
+        }
+        //Буквы справа
+        int index = 0;
+        for(int i = 2; i < 10; i++){
+            cells[8][i] = '-';
+            cells[9][i] = letters[index++];
+        }
+
+        //Шахматное поле
+        for(int i = 0 ; i < FIELD_SIZE-2 ; i++){
+            for(int j = 2 ; j < FIELD_SIZE ; j++)
                 if((i + j) % 2 == 0)
                     cells[i][j] = '0';
                 else
