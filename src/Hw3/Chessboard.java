@@ -60,4 +60,7 @@ public class Chessboard {
         }
     }
 
+    public int getFIELD_SIZE() {
+        return FIELD_SIZE;
+    }
 }

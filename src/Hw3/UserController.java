@@ -1,4 +1,5 @@
 import Figures.*;
+
 import java.util.Scanner;
 
 public class UserController {
@@ -33,13 +34,21 @@ public class UserController {
                     System.out.println("You didn't choose the figure");
                 }
                 else{
-                    moveFigure(figure);
-                    chessboard.drawField();
+                    if(moveFigure(figure)){
+                        System.out.println("Figure was successfully moved");
+                        chessboard.drawField();
+                    }
+                    else{
+                        System.out.println("Moving was not successful");
+                    }
                 }
             }
 
             System.out.println("Do you want to continue? 1-yes, 0-no");
             choose = scanner.nextInt();
+
+
+
         } while(choose != 0);
 
     }
@@ -62,16 +71,15 @@ public class UserController {
                 if(choose == 1){
                     pawn.setColor(ColorEnum.WHITE);
                     //default position of a figure
-                    pawn.setX((byte)1);
+                    pawn.setX((byte)6);
                     pawn.setY((byte)3);
-                    chessboard.putFigure(pawn,FiguresEnum.PAWN);
                 }
                 else{
                     pawn.setColor(ColorEnum.BLACK);
-                    pawn.setX((byte)6);
+                    pawn.setX((byte)1);
                     pawn.setY((byte)3);
-                    chessboard.putFigure(pawn,FiguresEnum.PAWN);
                 }
+                chessboard.putFigure(pawn,FiguresEnum.PAWN);
                 return pawn;
             }
 
@@ -83,16 +91,15 @@ public class UserController {
                 if(choose == 1){
                     knight.setColor(ColorEnum.WHITE);
                     //default position of a figure
-                    knight.setX((byte)0);
+                    knight.setX((byte)7);
                     knight.setY((byte)1);
-                    chessboard.putFigure(knight,FiguresEnum.KNIGHT);
                 }
                 else{
                     knight.setColor(ColorEnum.BLACK);
-                    knight.setX((byte)7);
+                    knight.setX((byte)0);
                     knight.setY((byte)1);
-                    chessboard.putFigure(knight,FiguresEnum.KNIGHT);
                 }
+                chessboard.putFigure(knight,FiguresEnum.KNIGHT);
                 return knight;
             }
 
@@ -104,16 +111,15 @@ public class UserController {
                 if(choose == 1){
                     bishop.setColor(ColorEnum.WHITE);
                     //default position of a figure
-                    bishop.setX((byte)0);
+                    bishop.setX((byte)7);
                     bishop.setY((byte)2);
-                    chessboard.putFigure(bishop,FiguresEnum.BISHOP);
                 }
                 else{
                     bishop.setColor(ColorEnum.BLACK);
-                    bishop.setX((byte)7);
+                    bishop.setX((byte)0);
                     bishop.setY((byte)2);
-                    chessboard.putFigure(bishop,FiguresEnum.BISHOP);
                 }
+                chessboard.putFigure(bishop,FiguresEnum.BISHOP);
                 return bishop;
             }
 
@@ -125,16 +131,15 @@ public class UserController {
                 if(choose == 1){
                     rook.setColor(ColorEnum.WHITE);
                     //default position of a figure
-                    rook.setX((byte)0);
+                    rook.setX((byte)7);
                     rook.setY((byte)0);
-                    chessboard.putFigure(rook,FiguresEnum.ROOK);
                 }
                 else{
                     rook.setColor(ColorEnum.BLACK);
-                    rook.setX((byte)7);
+                    rook.setX((byte)0);
                     rook.setY((byte)0);
-                    chessboard.putFigure(rook,FiguresEnum.ROOK);
                 }
+                chessboard.putFigure(rook,FiguresEnum.ROOK);
                 return rook;
             }
 
@@ -148,14 +153,13 @@ public class UserController {
                     //default position of a figure
                     queen.setX((byte)7);
                     queen.setY((byte)4);
-                    chessboard.putFigure(queen,FiguresEnum.QUEEN);
                 }
                 else{
                     queen.setColor(ColorEnum.BLACK);
                     queen.setX((byte)0);
                     queen.setY((byte)4);
-                    chessboard.putFigure(queen,FiguresEnum.QUEEN);
                 }
+                chessboard.putFigure(queen,FiguresEnum.QUEEN);
                 return queen;
             }
 
@@ -169,14 +173,13 @@ public class UserController {
                     //default position of a figure
                     king.setX((byte)7);
                     king.setY((byte)3);
-                    chessboard.putFigure(king,FiguresEnum.KING);
                 }
                 else{
                     king.setColor(ColorEnum.BLACK);
                     king.setX((byte)0);
                     king.setY((byte)3);
-                    chessboard.putFigure(king,FiguresEnum.KING);
                 }
+                chessboard.putFigure(king,FiguresEnum.KING);
                 return king;
             }
 
@@ -194,6 +197,16 @@ public class UserController {
         System.out.println("Enter coordinates on which you want to move the figure:");
         byte newX = scanner.nextByte();
         byte newY = scanner.nextByte();
+
+        if(newX < 0 || newX > chessboard.getFIELD_SIZE()){
+            System.out.println("Incorrect value!");
+            return false;
+        }
+        if(newY < 0 || newY > chessboard.getFIELD_SIZE()){
+            System.out.println("Incorrect value!");
+            return false;
+        }
+
         if(figure.move(newX,newY)){
             chessboard.putFigure(figure,figure.getEnumType());
             return true;
@@ -205,5 +218,7 @@ public class UserController {
     private void drawChessDesk(){
         chessboard.drawField();
     }
+
+    //parse move
 
 }
