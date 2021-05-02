@@ -1,4 +1,4 @@
-package Figures;
+package Enums;
 
 public enum FiguresEnum {
     PAWN,
