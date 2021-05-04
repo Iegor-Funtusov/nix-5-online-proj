@@ -29,7 +29,7 @@ public class UserController {
                     }
                 }
             }
-            else if (choose == 2){
+            else{
                 if(figure == null){
                     System.out.println("You didn't choose the figure");
                 }
@@ -42,10 +42,6 @@ public class UserController {
                         System.out.println("Moving was not successful");
                     }
                 }
-            }
-
-            else{
-                System.out.println("Incorrect value Entered");
             }
 
             System.out.println("Do you want to continue? 1-yes, else-no");
