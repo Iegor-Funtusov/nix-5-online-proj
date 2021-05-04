@@ -1,28 +1,18 @@
 package ua.com.nkrasnovoronka.unit3.chesspiace.impl;
 
-import ua.com.nkrasnovoronka.unit3.chesspiace.ChessPiece;
-import ua.com.nkrasnovoronka.unit3.chesspiace.Color;
+import ua.com.nkrasnovoronka.unit3.chesspiace.AbstractFigure;
+import ua.com.nkrasnovoronka.unit3.chesspiace.Square;
 
-public class Bishop implements ChessPiece {
-    private Color color;
+public class Bishop extends AbstractFigure {
+
     @Override
-    public void move(int position) {
-
-
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+    public boolean isMoveValid(Square start, Square end) {
+        return (Math.abs(start.getX() - start.getY()) == Math.abs(end.getX() - end.getY())
+                || start.getX() + end.getY() == start.getX() + start.getY());
     }
 
     @Override
     public String toString() {
-        return "Bishop{" +
-                "color=" + color +
-                '}';
+        return "Bishop " + super.toString();
     }
 }
