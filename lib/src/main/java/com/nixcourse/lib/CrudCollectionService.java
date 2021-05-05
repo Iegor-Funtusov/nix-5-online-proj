@@ -2,7 +2,7 @@ package com.nixcourse.lib;
 
 import java.util.Collection;
 
-public interface CrudService<E extends BaseEntity> {
+public interface CrudCollectionService<E extends BaseEntity> {
     void create(E e);
     void update(E e);
     void delete(String id);
