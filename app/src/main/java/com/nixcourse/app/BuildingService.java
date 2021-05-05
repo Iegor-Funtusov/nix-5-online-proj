@@ -1,5 +1,6 @@
 package com.nixcourse.app;
 
+import com.nixcourse.lib.BaseEntity;
 import com.nixcourse.lib.CrudCollectionService;
 import com.nixcourse.lib.CrudFactory;
 
@@ -7,8 +8,7 @@ import java.util.Collection;
 
 public class BuildingService {
 
-    CrudCollectionService<Building> buildingCrud = CrudFactory.getInstance().getCrudCollectionService();
-//    CrudProcess<Building> buildingCrud = new DefaultCrudProcess<>(); // evil
+    CrudCollectionService buildingCrud = CrudFactory.getInstance().getCrudCollectionService();
 
     public void create(Building building) {
         buildingCrud.create(building);
@@ -22,11 +22,11 @@ public class BuildingService {
         buildingCrud.delete(id);
     }
 
-    public Collection<Building> read() {
+    public Collection read() {
         return buildingCrud.read();
     }
 
-    public Building read(String id) {
+    public BaseEntity read(String id) {
         return buildingCrud.read(id);
     }
 }
