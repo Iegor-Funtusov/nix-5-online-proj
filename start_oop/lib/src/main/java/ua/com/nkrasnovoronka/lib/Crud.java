@@ -9,7 +9,7 @@ public interface Crud<E extends Entity> {
 
     void delete(String id);
 
-    Collection<E> read();
+    Collection<E> readAll();
 
     E read(String id);
 }
