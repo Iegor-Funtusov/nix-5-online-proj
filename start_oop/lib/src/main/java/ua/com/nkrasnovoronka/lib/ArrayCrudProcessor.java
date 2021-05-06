@@ -4,22 +4,25 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
-public class CollectionCrudProcessor<E extends Entity> implements Crud<E> {
+public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
+    private final int DATA_CAPACITY = 25;
+    private E[] dataStorage = (E[]) new Object[DATA_CAPACITY];
+    private int size;
 
-    private final Set<E> dataStorage = new HashSet<>();
 
     @Override
     public void create(E e) {
         if (e == null) {
             throw new IllegalArgumentException("Entity is null");
         }
+        resizeIfNeeded();
         e.setId(generateId(UUID.randomUUID().toString()));
-        dataStorage.add(e);
+        dataStorage[size++] = e;
     }
 
     @Override
@@ -36,19 +39,36 @@ public class CollectionCrudProcessor<E extends Entity> implements Crud<E> {
         }
     }
 
+    private E getEntityById(String id) {
+        return Arrays.stream(dataStorage)
+                .filter(o -> o.getId().equals(id))
+                .findAny()
+                .orElseThrow(() -> new IllegalArgumentException("Cannot find entity with id " + id));
+    }
+
     @Override
     public void delete(String id) {
         if (StringUtils.isNotBlank(id)) {
             E current = getEntityById(id);
-            dataStorage.removeIf(e -> e.getId().equals(id));
+            removeEntity(current);
         } else {
             throw new RuntimeException("entity is not exist");
         }
     }
 
+    private void removeEntity(E current) {
+        for (int i = 0; i < size; i++) {
+            if(dataStorage[i].equals(current)){
+                System.arraycopy(dataStorage, i + 1, dataStorage, i, size - i - 1);
+                size--;
+            }
+        }
+    }
+
     @Override
     public Collection<E> readAll() {
-        return dataStorage;
+        return Arrays.stream(dataStorage)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -59,17 +79,19 @@ public class CollectionCrudProcessor<E extends Entity> implements Crud<E> {
         throw new RuntimeException("entity is not exist");
     }
 
-    private E getEntityById(String id) {
-        return dataStorage.stream()
-                .filter(e -> e.getId().equals(id))
-                .findAny()
-                .orElseThrow(() -> new IllegalArgumentException("Cannot find entity with id " + id));
+    private void resizeIfNeeded(){
+        if(dataStorage.length == size){
+            E[] newDataStorage = (E[]) new Object[DATA_CAPACITY * 2];
+            System.arraycopy(dataStorage, 0, newDataStorage, 0, size);
+            dataStorage = newDataStorage;
+        }
     }
 
     private String generateId(String id) {
-        if (dataStorage.stream().anyMatch(e -> e.getId().equals(id))) {
-            return generateId(UUID.randomUUID().toString());
+        if(Arrays.stream(dataStorage).anyMatch(o -> ((E) o).getId().equals(id))){
+            return generateId(generateId(UUID.randomUUID().toString()));
         }
         return id;
     }
+
 }
