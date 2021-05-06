@@ -9,11 +9,15 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+//@Deprecated
 public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
     private final int DATA_CAPACITY = 25;
-    private E[] dataStorage = (E[]) new Object[DATA_CAPACITY];
+    private Object[] dataStorage = new Object[DATA_CAPACITY];
     private int size;
 
+    public ArrayCrudProcessor() {
+        System.out.println(this.getClass().getSimpleName());
+    }
 
     @Override
     public void create(E e) {
@@ -40,8 +44,8 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
     }
 
     private E getEntityById(String id) {
-        return Arrays.stream(dataStorage)
-                .filter(o -> o.getId().equals(id))
+        return (E) Arrays.stream(dataStorage)
+                .filter(o -> ((E)o).getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find entity with id " + id));
     }
@@ -67,7 +71,7 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
 
     @Override
     public Collection<E> readAll() {
-        return Arrays.stream(dataStorage)
+        return Arrays.stream(dataStorage).map(o -> ((E)o))
                 .collect(Collectors.toList());
     }
 
@@ -88,7 +92,7 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
     }
 
     private String generateId(String id) {
-        if(Arrays.stream(dataStorage).anyMatch(o -> ((E) o).getId().equals(id))){
+        if(size > 0 && Arrays.stream(dataStorage).anyMatch(o -> ((E) o).getId().equals(id)) ){
             return generateId(generateId(UUID.randomUUID().toString()));
         }
         return id;
