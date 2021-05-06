@@ -34,7 +34,8 @@ public class CrudProcessorFactory {
         try {
             return crudImpl.iterator().next().getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException("Cannot create instance of class");
+           e.printStackTrace();
         }
+        return null;
     }
 }
