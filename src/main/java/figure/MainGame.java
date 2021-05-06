@@ -1,41 +1,37 @@
-package main;
+package figure;
 
-import figure.*;
 import java.util.Scanner;
 
 public class MainGame {
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in);
         Board board = new Board();
-        board.boardPlacing();
+        board.printEmptyBoard();
         while (true) {
             System.out.println("________________________________________________________________\nВыполните выбор фигуры \n" +
                     "K = Король\nQ - Ферзь\nR - Ладья\nB - Слон\nN - Конь\nP - Пешка");
-            String figure = sc.nextLine();
-            while (!ValidContr.correctFigure(figure)) {
+            String figure = scanner.nextLine();
+            while (!ValidContr.isFigCorrect(figure)) {
                 System.out.println("Введенный символ не сообтветсятвует ни одной фигуре, попробуйте еще раз.");
-                figure = sc.nextLine();
+                figure = scanner.nextLine();
             }
 
             System.out.println("Выберите цвет \nw - Белый\nb - Черный\nФигуры черного цвета будут отображаться с \'*\'");
-            String color = sc.nextLine();
-            while (!ValidContr.correctColor(color)) {
+            String color = scanner.nextLine();
+            while (!ValidContr.isColCorrect(color)) {
                 System.out.println("Введенный символ не соответсятвует ни одному цвету.");
-                color = sc.nextLine();
+                color = scanner.nextLine();
             }
 
             System.out.println("Введите начальную позицию. Например е3");
-            String place = sc.nextLine();
+            String place = scanner.nextLine();
 
-            while (!ValidContr.correctPlace(place)) {
+            while (!ValidContr.isAreaCorrect(place)) {
                 System.out.println("Вы пытаетесь выйти за границы доски");
-                place = sc.nextLine();
+                place = scanner.nextLine();
             }
 
-
-            char letter = place.charAt(0);
-            char number = place.charAt(1);
             char fig = figure.charAt(0);
 
             if (fig == 'P' || fig == 'p') {
@@ -58,12 +54,12 @@ public class MainGame {
                 Knight knight = new Knight();
                 knight.knight(place, color);
             }
-            System.out.println("Выбрать фигуру - N, Закончить игру - E");
-            String exitLine = sc.nextLine();
+            System.out.println("Выбрать фигуру - F\nЗакончить игру - X");
+            String exitLine = scanner.nextLine();
             exitLine = exitLine.toLowerCase();
             char exit = exitLine.charAt(0);
 
-            if (exit == 'e' || exit == 'E')
+            if (exit == 'x' || exit == 'X')
                 return;
         }
     }

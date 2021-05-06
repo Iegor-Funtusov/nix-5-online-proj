@@ -1,10 +1,8 @@
-package main;
-
-import java.util.Scanner;
+package figure;
 
 public class Board {
-    public void boardPlacing (){
-        Scanner sc = new Scanner(System.in);
+    public void printEmptyBoard(){
+
 
         String [][] Board = new String[8][8];
         for (int i = 0; i < 8; i++) {
@@ -26,11 +24,10 @@ public class Board {
         System.out.println("a b c d e f g h");
     }
 
-    public void updatedBoard (String place, String figure){
-        Scanner sc = new Scanner(System.in);
+    public void printUpdBoard(String place, String figure){
 
         char flag = place.charAt(0);
-        int letter = ValidContr.Flag(flag);
+        int letter = ValidContr.letterToInt(flag);
         int number = Character.getNumericValue(place.charAt(1));
 
         String [][] Board = new String[8][8];
