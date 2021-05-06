@@ -1,12 +1,13 @@
-package figure;
+package ChessConsole;
 
 import java.util.Scanner;
 
-public class Bishop {
-    public void bishop(String area, String color) {
+public class Rook {
+
+    public void rook (String area, String color) {
         Scanner scanner = new Scanner(System.in);
-        String Wf = "B ";
-        String Bf = "B*";
+        String Wf = "R ";
+        String Bf = "R*";
         ValidContr.upd_board_with_figure(area, color, Wf, Bf);
         char colorP = color.charAt(0);
         System.out.println("\n_____________________________________\n" +
@@ -15,20 +16,20 @@ public class Bishop {
                 "Если вы хотите поменять фигуру укажите X");
         String step = scanner.nextLine();
         char exit = step.charAt(0);
-        if (exit == 'X' || exit == 'x')
+        if (exit == 'X' || exit =='x')
             return;
 
         while (true) {
-            if (exit == 'X' || exit == 'x')
+            if (exit == 'X' || exit =='x')
                 return;
             while (!ValidContr.isAreaCorrect(step)) {
                 System.out.println("Вы пытаетесь выйти за границы доски. Попробуйте еще раз.");
                 step = scanner.nextLine();
                 exit = step.charAt(0);
-                if (exit == 'X' || exit == 'x')
+                if (exit == 'X' || exit =='x')
                     return;
             }
-            while (!ValidContr.isBishStepCorr(area, step, colorP)) {
+            while (!ValidContr.isRookStepCorr(area, step, colorP)) {
                 if (exit == 'X' || exit == 'x')
                     return;
                 while (!ValidContr.isAreaCorrect(step)) {
@@ -38,8 +39,9 @@ public class Bishop {
                     if (exit == 'X' || exit == 'x')
                         return;
                 }
-                if (!ValidContr.isBishStepCorr(area, step, colorP)) {
-                    System.out.println("Слон так не ходит, он ходит по диагонали. Попробуйте еще раз.");
+                if(!ValidContr.isRookStepCorr(area, step, colorP)) {
+                    System.out.println("Ладья так не ходит\n" +
+                            "она ходит только по прямой. Попробуйте еще раз.");
                 }
                 step = scanner.nextLine();
                 exit = step.charAt(0);

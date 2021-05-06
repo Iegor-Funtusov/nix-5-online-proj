@@ -1,4 +1,4 @@
-package figure;
+package ChessConsole;
 
 public class Board {
     public void printEmptyBoard(){

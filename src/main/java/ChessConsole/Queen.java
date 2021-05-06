@@ -1,12 +1,12 @@
-package figure;
+package ChessConsole;
 
 import java.util.Scanner;
 
-public class Knight  {
-    public void knight (String area, String color) {
+public class Queen {
+    public void queen (String area, String color){
         Scanner scanner = new Scanner(System.in);
-        String Wf = "N ";
-        String Bf = "N*";
+        String Wf = "Q ";
+        String Bf = "Q*";
         ValidContr.upd_board_with_figure(area, color, Wf, Bf);
         char colorP = color.charAt(0);
         System.out.println("\n_____________________________________\n" +
@@ -28,7 +28,7 @@ public class Knight  {
                 if (exit == 'X' || exit =='x')
                     return;
             }
-            while (!ValidContr.isKnStepCorr(area, step, colorP)) {
+            while (!ValidContr.isQueenStepCorr(area, step, colorP)) {
                 if (exit == 'X' || exit == 'x')
                     return;
                 while (!ValidContr.isAreaCorrect(step)) {
@@ -38,8 +38,10 @@ public class Knight  {
                     if (exit == 'X' || exit == 'x')
                         return;
                 }
-                if(!ValidContr.isKnStepCorr(area, step, colorP)) {
-                    System.out.println("Конь так не ходит, он ходит буквой Г. Попробуйте еще раз.");
+                if(!ValidContr.isQueenStepCorr(area, step, colorP)) {
+                    System.out.println("Ферзь так не ходит, \n" +
+                            "он ходит в любом направлении по \n" +
+                            "прямой линии или диагонали. Попробуйте еще раз.");
                 }
                 step = scanner.nextLine();
                 exit = step.charAt(0);

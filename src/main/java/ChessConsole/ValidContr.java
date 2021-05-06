@@ -1,4 +1,4 @@
-package figure;
+package ChessConsole;
 
 public class ValidContr {
     public static boolean isPawnStepCorr(String area, String step, char color) {

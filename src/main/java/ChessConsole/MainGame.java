@@ -1,4 +1,4 @@
-package figure;
+package ChessConsole;
 
 import java.util.Scanner;
 
