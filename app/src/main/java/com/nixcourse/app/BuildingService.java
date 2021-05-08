@@ -1,14 +1,14 @@
 package com.nixcourse.app;
 
 import com.nixcourse.lib.BaseEntity;
-import com.nixcourse.lib.CrudCollectionService;
+import com.nixcourse.lib.ICrudCollectionService;
 import com.nixcourse.lib.CrudFactory;
 
 import java.util.Collection;
 
 public class BuildingService {
 
-    CrudCollectionService buildingCrud = CrudFactory.getInstance().getCrudCollectionService();
+    ICrudCollectionService buildingCrud = CrudFactory.getInstance().getCrudCollectionService();
 
     public void create(Building building) {
         buildingCrud.create(building);

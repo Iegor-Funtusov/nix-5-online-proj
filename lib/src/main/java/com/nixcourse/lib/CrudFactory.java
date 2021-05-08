@@ -10,11 +10,11 @@ public class CrudFactory {
 
     private static CrudFactory instance;
     private static final String ROOT_PACKAGE = "com.nixcourse.lib";
-    private final Set<Class<? extends CrudCollectionService>> crudServiceSet;
+    private final Set<Class<? extends ICrudCollectionService>> crudServiceSet;
 
     private CrudFactory() {
         Reflections reflections = new Reflections(ROOT_PACKAGE);
-        crudServiceSet = reflections.getSubTypesOf(CrudCollectionService.class);
+        crudServiceSet = reflections.getSubTypesOf(ICrudCollectionService.class);
     }
 
     public static CrudFactory getInstance() {
@@ -24,18 +24,22 @@ public class CrudFactory {
         return instance;
     }
 
-    public CrudCollectionService getCrudCollectionService() {
+    public ICrudCollectionService getCrudCollectionService() {
 
-        Set<Class<? extends CrudCollectionService>> classes = crudServiceSet
+        Set<Class<? extends ICrudCollectionService>> classes = crudServiceSet
                 .stream()
-                .filter(crudProcessImpl -> !crudProcessImpl.isAnnotationPresent(Deprecated.class))
+                .filter(crudServiceImpl -> !crudServiceImpl.isAnnotationPresent(Deprecated.class))
                 .collect(Collectors.toSet());
 
         if (classes.size() != 1) {
-            throw new RuntimeException("more then one implementation");
+            if (classes.size() == 0) {
+                throw new RuntimeException("There is no implementation");
+            } else {
+                throw new RuntimeException("There is more then one implementation");
+            }
         }
 
-        for (Class<? extends CrudCollectionService> crudServiceImpl : crudServiceSet) {
+        for (Class<? extends ICrudCollectionService> crudServiceImpl : crudServiceSet) {
             if (!crudServiceImpl.isAnnotationPresent(Deprecated.class)) {
                 try {
                     return crudServiceImpl.getDeclaredConstructor().newInstance();
@@ -44,10 +48,10 @@ public class CrudFactory {
                                 IllegalAccessException |
                                 InvocationTargetException |
                                 NoSuchMethodException e) {
-                    throw new RuntimeException("can not create impl");
+                    throw new RuntimeException("Cannot create implementation");
                 }
             }
         }
-        throw new RuntimeException("can not create impl");
+        throw new RuntimeException("Cannot create implementation");
     }
 }
