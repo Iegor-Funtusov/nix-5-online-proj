@@ -8,22 +8,23 @@ import java.util.*;
 import java.util.stream.Collectors;
 @Deprecated
 public class CrudProcessObject<E extends BaseInput> implements CrudProcess<E> {
-    private int MAX = 5;
-    private E[] objects;
-    private int item;
+    private final int MAX = 5;
+    private Object[] objects = new Object[MAX];
 
     public CrudProcessObject() {
         System.out.println("CrudProcessObject");
-        objects = (E[]) new Object[MAX];
     }
-    @Override
+
     public void create(E e) {
-
-
         e.setId(generateId(UUID.randomUUID().toString()));
-        objects[item++] = e;
+        for (int k = 0; k < objects.length; k++) {
+            if (objects[k] == null) {
+                objects[k] = e;
+                break;
+            }
+        }
     }
-    @Override
+
     public void update(E e) {
         if (StringUtils.isNotBlank(e.getId())) {
             E current = getEById(e.getId());
@@ -39,28 +40,27 @@ public class CrudProcessObject<E extends BaseInput> implements CrudProcess<E> {
             throw new RuntimeException("There is no such record");
         }
     }
-    @Override
+
     public void delete(String id) {
         if (StringUtils.isNotBlank(id)) {
             E current = getEById(id);
             if (current == null) {
                 throw new RuntimeException("There is no such record");
             }
-            for(int i = 0; i < item; i++){
-                if(objects[i] == current){
-                    System.arraycopy(objects, i+1, objects, i, item-i-1);
-                    item--;
+            for(int k = 0; k < objects.length; k++) {
+                if(((E)objects[k]).getId().equals(id)) {
+                    objects[k] = null;
                 }
             }
         } else {
             throw new RuntimeException("There is no such record");
         }
     }
-    @Override
-    public Collection<E> list() {
-        return Arrays.stream(objects).map(e -> ((E)e)).collect(Collectors.toList());
+
+    public Set list() {
+        return Arrays.stream(objects).filter(e -> Objects.nonNull(e)).collect(Collectors.toSet());
     }
-    @Override
+
     public E read(String id) {
         if (StringUtils.isNotBlank(id)) {
             E current = getEById(id);
@@ -80,7 +80,7 @@ public class CrudProcessObject<E extends BaseInput> implements CrudProcess<E> {
     }
 
     private String generateId(String id) {
-        if(item > 0 && Arrays.stream(objects).anyMatch(e -> ((E) e).getId().equals(id)) ){
+        if(Arrays.stream(objects).filter(e -> Objects.nonNull(e)).anyMatch(e -> ((E)e).getId().equals(id))){
             return generateId(generateId(UUID.randomUUID().toString()));
         }
         return id;

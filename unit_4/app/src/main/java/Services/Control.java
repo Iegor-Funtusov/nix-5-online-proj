@@ -26,10 +26,12 @@ public class Control {
 
         StudentService studentService = new StudentService();
         Collection<Student> list = studentService.list();
+        Student student;
+
         while (true) {
             switch (input) {
                 case "create" : {
-                    Student student = new Student();
+                    student = new Student();
                     System.out.print("Input name of student: ");
                     name = name();
                     System.out.print("Input the course of student: ");
