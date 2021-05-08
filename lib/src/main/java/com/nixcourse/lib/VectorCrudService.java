@@ -1,18 +1,19 @@
 package com.nixcourse.lib;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.UUID;
 import java.util.Vector;
 
-public class VectorCrudService<E extends BaseEntity> implements CrudCollectionService<E> {
+@Deprecated
+public class VectorCrudService<E extends BaseEntity> implements ICrudCollectionService<E> {
 
     private Vector<E> data = new Vector<>();
 
-    private String generateId(String id) {
-        if (data.stream().anyMatch(e -> e.getId().equals(id))) {
-            return generateId(UUID.randomUUID().toString());
-        }
-        return id;
+    public VectorCrudService() {
+        System.out.println("VectorCrudService.VectorCrudService");
     }
 
     private E findElementById(String id) {
@@ -30,13 +31,23 @@ public class VectorCrudService<E extends BaseEntity> implements CrudCollectionSe
 
     @Override
     public void create(E e) {
-        e.setId(generateId(UUID.randomUUID().toString()));
+        e.setId(BaseEntity.generateId());
         data.add(e);
     }
 
     @Override
     public void update(E e) {
-        data.set(Integer.getInteger(findElementById(e.getId()).getId()), e);
+        if (StringUtils.isNotBlank(e.getId())) {
+            E current = findElementById((e.getId()));
+
+            try {
+                BeanUtils.copyProperties(current, e);
+            } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
+                illegalAccessException.printStackTrace();
+            }
+        } else {
+            throw new RuntimeException("entity is not exist");
+        }
     }
 
     @Override
