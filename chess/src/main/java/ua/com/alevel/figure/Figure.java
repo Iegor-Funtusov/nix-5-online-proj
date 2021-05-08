@@ -1,7 +1,5 @@
 package ua.com.alevel.figure;
 
-import javafx.geometry.Pos;
-import ua.com.alevel.chessBoard.ChessBoard;
 import ua.com.alevel.chessBoard.Position;
 
 public abstract class Figure {

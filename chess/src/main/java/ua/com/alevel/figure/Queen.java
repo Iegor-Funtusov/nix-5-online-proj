@@ -1,6 +1,5 @@
 package ua.com.alevel.figure;
 
-import ua.com.alevel.chessBoard.ChessBoard;
 import ua.com.alevel.chessBoard.Position;
 
 public class Queen extends Figure{
