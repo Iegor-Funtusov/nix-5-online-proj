@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-//@Active
+@Active
 public class CollectionCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
 
     private final Set<E> set = new HashSet<>();

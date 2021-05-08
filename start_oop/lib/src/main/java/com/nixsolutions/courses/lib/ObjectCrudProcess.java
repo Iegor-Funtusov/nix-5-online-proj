@@ -7,7 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Active
+//@Active
 public class ObjectCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
 
     private final int STORAGE_CAPACITY = 10;

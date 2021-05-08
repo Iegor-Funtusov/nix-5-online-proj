@@ -7,6 +7,11 @@ public class Book extends BaseEntity {
     private int year;
     private String title;
 
+    public Book(String title, int year) {
+        this.year = year;
+        this.title = title;
+    }
+
     public int getYear() {
         return year;
     }
