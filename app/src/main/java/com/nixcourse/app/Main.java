@@ -1,6 +1,6 @@
 package com.nixcourse.app;
 
-import com.nixcourse.lib.VectorCrudService;
+import java.util.Collection;
 
 public class Main {
 
@@ -13,9 +13,16 @@ public class Main {
         buildingService.create(home);
         buildingService.create(work);
 
-        // Check-up proper deletion
-        System.out.println(buildingService.read());
-        buildingService.delete(home.getId());
-        System.out.println(buildingService.read());
+        Collection<Building> buildings = buildingService.read();
+        buildings.forEach(System.out::println);
+
+        for (var building : buildings) {
+            if (building.getFloors() == 6) {
+                buildingService.delete(building.getId());
+            }
+        }
+
+        buildings = buildingService.read();
+        buildings.forEach(System.out::println);
     }
 }
