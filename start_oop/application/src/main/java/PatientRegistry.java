@@ -20,6 +20,7 @@ public class PatientRegistry {
                     Patient newPatient = new Patient().setName(scanner.next()).setAge(scanner.nextInt())
                             .setInsuranceNumber(scanner.nextInt());
                     patientService.create(newPatient);
+                    System.out.println("New patient created\n");
                     break;
                 }
                 case "2": {
@@ -39,19 +40,19 @@ public class PatientRegistry {
                         case "1": {
                             System.out.println("Enter new name:");
                             patientService.update(currentPatient.setName(scanner.next()));
-                            System.out.println("Information updated");
+                            System.out.println("Information updated\n");
                             break;
                         }
                         case "2": {
                             System.out.println("Enter new age:");
                             patientService.update(currentPatient.setAge(scanner.nextInt()));
-                            System.out.println("Information updated");
+                            System.out.println("Information updated\n");
                             break;
                         }
                         case "3": {
                             System.out.println("Enter new insurance number:");
                             patientService.update(currentPatient.setInsuranceNumber(scanner.nextInt()));
-                            System.out.println("Information updated");
+                            System.out.println("Information updated\n");
                             break;
                         }
                         default:
@@ -66,7 +67,7 @@ public class PatientRegistry {
                     } catch (RuntimeException ex) {
                         System.err.println("Something went wrong :(");
                     }
-                    System.out.println("Patient deleted.");
+                    System.out.println("Patient deleted\n");
                     break;
                 }
                 case "4": {
