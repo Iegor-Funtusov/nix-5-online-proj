@@ -7,11 +7,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class CrudProcessorFactory {
+    public static final String PACKAGE_TO_SCAN = "ua.com.nkrasnovoronka";
     private static CrudProcessorFactory instance;
     private static Set<Class<? extends Crud>> classSet;
 
     public CrudProcessorFactory() {
-        Reflections reflections = new Reflections("ua.com.nkrasnovoronka");
+        Reflections reflections = new Reflections(PACKAGE_TO_SCAN);
         classSet = reflections.getSubTypesOf(Crud.class);
     }
 
@@ -34,8 +35,7 @@ public class CrudProcessorFactory {
         try {
             return crudImpl.iterator().next().getDeclaredConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-           e.printStackTrace();
+            throw new RuntimeException("Cannot create instance of object");
         }
-        return null;
     }
 }
