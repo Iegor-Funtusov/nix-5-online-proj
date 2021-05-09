@@ -45,19 +45,22 @@ public class Controller {
                          break;
                      }
                  }
-                 System.out.println("Customer with " + name + " doesn`t exist");
+                 if(set.stream().noneMatch(e -> e.getName().equals(name))){
+                     System.out.println("Customer with " + name  + " doesn`t exist");
+                 }
                  break;
              }
              case 3: {
                  System.out.println("Enter customer name: ");
                  String name = scanner.next();
+                 if(set.stream().noneMatch(e -> e.getName().equals(name))){
+                     System.out.println("Customer with " + name  + " doesn`t exist");
+                     break;
+                 }
                  for(Customer c : set){
                      if(c.getName().equals(name)){
                          customerService.delete(c.getId());
                          break;
-                     }
-                     if(set.stream().noneMatch(e -> e.getName().equals(name))){
-                         System.out.println("Customer with " + name  + " doesn`t exist");
                      }
                  }
                  break;
@@ -71,7 +74,9 @@ public class Controller {
                          break;
                      }
                  }
-                 System.out.println("Customer with " + name + " doesn`t exist");
+                 if(set.stream().noneMatch(e -> e.getName().equals(name))){
+                     System.out.println("Customer with " + name  + " doesn`t exist");
+                 }
                  break;
              }
              case 5: {

@@ -37,6 +37,10 @@ public class CrudProcessFactory {
           throw new RuntimeException("without implementation");
         }
 
+        if (classes.size() > 1) {
+            throw new RuntimeException("more than one implementation");
+        }
+
         for (Class<? extends ICrudProcess> crudProcessImpl : crudProcesses) {
             if (!crudProcessImpl.isAnnotationPresent(Deprecated.class)) {
                 try {
