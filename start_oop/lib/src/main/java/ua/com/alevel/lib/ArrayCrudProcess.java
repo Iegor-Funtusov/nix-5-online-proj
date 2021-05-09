@@ -10,24 +10,16 @@ import java.util.stream.Collectors;
 //@Deprecated
 public class ArrayCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
 
-    private final int CAPACITY = 100;
-    private final Object[] arr = new Object[CAPACITY];
-
-    public ArrayCrudProcess() {
-        System.out.println("ArrayCrudProcess");
-    }
+    private final int SIZE = 100;
+    private final Object[] arr = new Object[SIZE];
+    private int size;
 
     public void create(E e) {
         if (e == null) {
             throw new IllegalArgumentException("entity is null");
         }
         e.setId(generateId(UUID.randomUUID().toString()));
-        for (int i = 0; i < arr.length; i++) {
-            if(arr[i] == null) {
-                arr[i] = e;
-                break;
-            }
-        }
+        arr[size++] = e;
     }
 
     public void update(E e) {
@@ -52,9 +44,11 @@ public class ArrayCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
             if(current == null) {
                 throw new RuntimeException("entity is not exist");
             }
-            for(int i = 0; i < arr.length; i++) {
+            for(int i = 0; i < size; i++) {
                 if(((E)arr[i]).getId().equals(id)) {
                     arr[i] = null;
+                    System.arraycopy(arr, i+1, arr, i, size-i-1);
+                    arr[--size] = null;
                 }
             }
         } else {
@@ -90,7 +84,12 @@ public class ArrayCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
     }
 
     private String generateId(String id) {
-        if(Arrays.stream(arr).filter(Objects::nonNull).anyMatch(e -> ((E)e).getId().equals(id))) {
+        if(Arrays
+                .stream(arr)
+                .filter(Objects::nonNull)
+                .anyMatch(e -> ((E)e)
+                        .getId()
+                        .equals(id))) {
             return generateId(UUID.randomUUID().toString());
         }
         return id;

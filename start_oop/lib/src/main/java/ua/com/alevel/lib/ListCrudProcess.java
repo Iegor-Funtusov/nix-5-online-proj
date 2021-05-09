@@ -14,10 +14,6 @@ public class ListCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
 
     private final List<E> list = new ArrayList<>();
 
-    public ListCrudProcess(){
-        System.out.println("ListCrudProcess");
-    }
-
     public void create(E e) {
         e.setId(generateId(UUID.randomUUID().toString()));
         list.add(e);
