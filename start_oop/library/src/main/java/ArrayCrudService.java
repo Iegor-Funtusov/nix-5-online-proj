@@ -16,7 +16,7 @@ public class ArrayCrudService<E extends BaseEntity> implements CrudService<E> {
     @Override
     public void create(E e) {
         if (counter + 1 > container.length) {
-            grow();
+            changeSize();
         }
         e.setId(UUID.randomUUID().toString());
         container[counter] = e;
@@ -67,7 +67,7 @@ public class ArrayCrudService<E extends BaseEntity> implements CrudService<E> {
         return (E) findById(id);
     }
 
-    private void grow() {
+    private void changeSize() {
         int newCapacity = container.length + 1 + container.length / 2;
         container = Arrays.copyOf(container, newCapacity);
     }
