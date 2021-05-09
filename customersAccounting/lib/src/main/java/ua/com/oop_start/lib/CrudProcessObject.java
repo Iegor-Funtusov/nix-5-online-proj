@@ -7,8 +7,9 @@ import java.util.*;
 
 import static org.apache.commons.beanutils.BeanUtils.copyProperties;
 
+@Deprecated
 public class CrudProcessObject<E extends BaseEntity> implements ICrudProcess <E>{
-    private final int size = 10;
+    private final int size = 100;
     private final Object[] objects = new Object[size];
     private int position;
 

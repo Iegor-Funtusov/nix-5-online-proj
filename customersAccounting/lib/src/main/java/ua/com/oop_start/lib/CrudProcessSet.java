@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.UUID;
 import static org.apache.commons.beanutils.BeanUtils.copyProperties;
 
+
 public class CrudProcessSet<E extends BaseEntity> implements ICrudProcess <E>{
 
     private final Set<E> hashsetCustomers = new HashSet<>();
