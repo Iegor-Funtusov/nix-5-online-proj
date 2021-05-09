@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 @Deprecated
 public class CrudProcessObject<E extends BaseInput> implements CrudProcess<E> {
-    private final int MAX = 5;
+    private final int MAX = 50;
     private Object[] objects = new Object[MAX];
 
     public CrudProcessObject() {
@@ -50,6 +50,7 @@ public class CrudProcessObject<E extends BaseInput> implements CrudProcess<E> {
             for(int k = 0; k < objects.length; k++) {
                 if(((E)objects[k]).getId().equals(id)) {
                     objects[k] = null;
+                    break;
                 }
             }
         } else {
@@ -80,8 +81,8 @@ public class CrudProcessObject<E extends BaseInput> implements CrudProcess<E> {
     }
 
     private String generateId(String id) {
-        if(Arrays.stream(objects).filter(e -> Objects.nonNull(e)).anyMatch(e -> ((E)e).getId().equals(id))){
-            return generateId(generateId(UUID.randomUUID().toString()));
+        if(Arrays.stream(objects).filter(e -> Objects.nonNull(e)).anyMatch(e -> ((E)e).getId().equals(id))) {
+            return generateId(UUID.randomUUID().toString());
         }
         return id;
     }

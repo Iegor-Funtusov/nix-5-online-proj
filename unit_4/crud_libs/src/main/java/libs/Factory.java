@@ -10,12 +10,12 @@ public class Factory {
     private static Factory instance;
     private static final String ROOT = "libs";
 
-    private final Set<Class<? extends CrudProcess>> crudProcessSet;
+    private final Set<Class<? extends CrudProcess>> crudProcess;
 
     private Factory()
     {
         Reflections reflections = new Reflections(ROOT);
-        crudProcessSet = reflections.getSubTypesOf(CrudProcess.class);
+        crudProcess = reflections.getSubTypesOf(CrudProcess.class);
     }
     public static Factory getInstance() {
         if (instance == null) {
@@ -26,7 +26,7 @@ public class Factory {
 
     public CrudProcess getCrudProcess() {
 
-        Set<Class<? extends CrudProcess>> classes = crudProcessSet
+        Set<Class<? extends CrudProcess>> classes = crudProcess
                 .stream()
                 .filter(crudProcessImpl -> !crudProcessImpl.isAnnotationPresent(Deprecated.class))
                 .collect(Collectors.toSet());
@@ -35,7 +35,7 @@ public class Factory {
             throw new RuntimeException("more then one implementation");
         }
 
-        for (Class<? extends CrudProcess> crudProcessImpl : crudProcessSet) {
+        for (Class<? extends CrudProcess> crudProcessImpl : crudProcess) {
             if (!crudProcessImpl.isAnnotationPresent(Deprecated.class)) {
                 try {
                     return crudProcessImpl.getDeclaredConstructor().newInstance();
