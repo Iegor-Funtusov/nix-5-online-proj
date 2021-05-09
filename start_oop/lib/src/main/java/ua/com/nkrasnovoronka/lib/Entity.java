@@ -13,8 +13,6 @@ public abstract class Entity {
 
     @Override
     public String toString() {
-        return "Entity{" +
-                "id='" + id + '\'' +
-                '}';
+        return "id " + id;
     }
 }

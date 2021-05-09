@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+
 @Deprecated
 public class CollectionCrudProcessor<E extends Entity> implements Crud<E> {
 
@@ -43,7 +44,6 @@ public class CollectionCrudProcessor<E extends Entity> implements Crud<E> {
     @Override
     public void delete(String id) {
         if (StringUtils.isNotBlank(id)) {
-            E current = getEntityById(id);
             dataStorage.removeIf(e -> e.getId().equals(id));
         } else {
             throw new RuntimeException("entity is not exist");

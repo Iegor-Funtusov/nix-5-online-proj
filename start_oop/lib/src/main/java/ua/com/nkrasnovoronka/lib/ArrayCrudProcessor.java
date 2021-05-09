@@ -4,12 +4,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
-//@Deprecated
 public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
     private final int DATA_CAPACITY = 25;
     private Object[] dataStorage = new Object[DATA_CAPACITY];
@@ -71,8 +68,11 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
 
     @Override
     public Collection<E> readAll() {
-        return Arrays.stream(dataStorage).map(o -> ((E)o))
-                .collect(Collectors.toList());
+        List<E> eList = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            eList.add((E) dataStorage[i]);
+        }
+        return eList;
     }
 
     @Override
