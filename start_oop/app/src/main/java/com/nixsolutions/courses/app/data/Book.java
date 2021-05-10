@@ -1,4 +1,4 @@
-package com.nixsolutions.courses.app;
+package com.nixsolutions.courses.app.data;
 
 import com.nixsolutions.courses.lib.BaseEntity;
 

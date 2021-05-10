@@ -1,5 +1,6 @@
-package com.nixsolutions.courses.app;
+package com.nixsolutions.courses.app.service;
 
+import com.nixsolutions.courses.app.data.Book;
 import com.nixsolutions.courses.lib.CrudProcess;
 import com.nixsolutions.courses.lib.CrudProcessFactory;
 

@@ -1,5 +1,8 @@
-package com.nixsolutions.courses.lib;
+package com.nixsolutions.courses.lib.impl;
 
+import com.nixsolutions.courses.lib.Active;
+import com.nixsolutions.courses.lib.BaseEntity;
+import com.nixsolutions.courses.lib.CrudProcess;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -7,13 +10,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@Active
-public class ObjectCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
+@Active
+public class ArrayCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
 
     private final int STORAGE_CAPACITY = 10;
     private final Object[] array = new Object[STORAGE_CAPACITY];
 
-    public ObjectCrudProcess() {
+    public ArrayCrudProcess() {
         System.out.println("ObjectCrudProcess");
     }
 
@@ -52,6 +55,7 @@ public class ObjectCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
             for(int i = 0; i < array.length; i++) {
                 if(((E)array[i]).getId().equals(id)) {
                     array[i] = null;
+                    break;
                 }
             }
 //            list.remove(current);
@@ -73,8 +77,8 @@ public class ObjectCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
         }
     }
 
-    public List readAll() {
-        return Arrays.stream(array).filter(i -> Objects.nonNull(i)).collect(Collectors.toList());
+    public Collection<E> readAll() {
+        return Arrays.stream(array).map(i -> (E)i).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private E getById(String id) {

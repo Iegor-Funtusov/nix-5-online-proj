@@ -1,12 +1,15 @@
-package com.nixsolutions.courses.lib;
+package com.nixsolutions.courses.lib.impl;
 
+import com.nixsolutions.courses.lib.Active;
+import com.nixsolutions.courses.lib.BaseEntity;
+import com.nixsolutions.courses.lib.CrudProcess;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-@Active
+//@Active
 public class CollectionCrudProcess<E extends BaseEntity> implements CrudProcess<E> {
 
     private final Set<E> set = new HashSet<>();
