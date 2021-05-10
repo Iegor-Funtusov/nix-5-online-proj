@@ -7,6 +7,8 @@ public class Rook extends Figure {
 
     @Override
     public String placeHero(int x, int y) {
+        setX(x);
+        setY(y);
         return this.figuresymbol;
     }
 
