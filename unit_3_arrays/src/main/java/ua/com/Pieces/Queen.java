@@ -2,8 +2,8 @@ package ua.com.Pieces;
 
 public class Queen extends Piece {
 
-    public Queen(String s) {
-        super(s);
+    public Queen(String s,boolean color) {
+        super(s, color);
     }
 
     @Override

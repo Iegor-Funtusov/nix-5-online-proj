@@ -2,8 +2,8 @@ package ua.com.Pieces;
 
 public class Bishop extends Piece{
 
-    public Bishop(String s) {
-        super(s);
+    public Bishop(String s, boolean color) {
+        super(s, color);
     }
 
     @Override

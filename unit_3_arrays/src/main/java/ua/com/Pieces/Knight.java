@@ -2,8 +2,8 @@ package ua.com.Pieces;
 
 public class Knight extends Piece{
 
-    public Knight(String s) {
-        super(s);
+    public Knight(String s, boolean color) {
+        super(s, color);
     }
 
     @Override

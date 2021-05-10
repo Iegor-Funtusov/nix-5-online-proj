@@ -16,13 +16,26 @@ public abstract class Piece {
         isPresent = present;
     }
 
-    public Piece(String s) {
+    public Piece(String s, boolean color) {
+        this.isWhite = color;
         this.symbol = s;
     }
 
     @Override
     public String toString() {
         return this.symbol;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
 
     public void setX(int x) {
@@ -46,5 +59,5 @@ public abstract class Piece {
         } else {
             throw new Exception("The piece can't be placed right here");
         }
-    };
+    }
 }

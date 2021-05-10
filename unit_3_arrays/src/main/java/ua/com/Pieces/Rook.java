@@ -2,8 +2,8 @@ package ua.com.Pieces;
 
 public class Rook extends Piece{
 
-    public Rook(String s) {
-        super(s);
+    public Rook(String s, boolean color) {
+        super(s, color);
     }
 
     @Override
