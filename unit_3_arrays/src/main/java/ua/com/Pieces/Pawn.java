@@ -4,8 +4,8 @@ public class Pawn extends Piece {
 
     public boolean firstStep;
 
-    public Pawn(String s) {
-        super(s);
+    public Pawn(String s, boolean color) {
+        super(s, color);
         firstStep = true;
     }
 
@@ -16,17 +16,17 @@ public class Pawn extends Piece {
             return true;
         } else {
             if (this.isWhite){
-                if (this.y == 1 && firstStep){
+                if (this.x == 1 && firstStep){
                     this.firstStep = false;
-                    return y - this.y <= 2 && y - this.y > 0 && this.x == x;
+                    return x - this.x <= 2 && x - this.x > 0 && this.y == y;
                 }
-                return y - this.y == 1 && this.x == x;
+                return x - this.x == 1 && this.y == y;
             } else {
-                if (this.y == 6 && this.firstStep){
+                if (this.x == 6 && this.firstStep){
                     this.firstStep = false;
-                    return this.y - y <= 2 && this.y - y > 0 && this.x == x;
+                    return this.x - x <= 2 && this.x - x > 0 && this.y == y;
                 }
-                return this.y - y == 1 && this.x == x;
+                return this.x - x == 1 && this.y == y;
             }
         }
     }
