@@ -57,7 +57,7 @@ public class Service {
     }
 
     public static Piece choosePiece() throws IOException {
-        System.out.println("Press '0' if you'd like to create a new one piece" +
+        System.out.println("\nPress '0' if you'd like to create a new one piece" +
                                  " '1' if you'd like to choose an existed one \n");
         int choice = Integer.parseInt(reader.readLine());
         switch (choice) {
@@ -68,6 +68,10 @@ public class Service {
                 int[] coords = Arrays.stream(reader.readLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
                 if (!board.inBounds(coords[0], coords[1])) {
                     System.out.println("The invalid data range!\n");
+                    return choosePiece();
+                }
+                if (board.isFieldEmpty(coords[0], coords[1])) {
+                    System.out.println("The field is empty. Try another!");
                     return choosePiece();
                 }
                 return board.getPiece(coords[0], coords[1]);
@@ -89,6 +93,10 @@ public class Service {
             int[] coords = Arrays.stream(reader.readLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
             while (!board.inBounds(coords[0], coords[1])) {
                 System.out.println("Out of boundaries values. Try another!\n");
+                coords = Arrays.stream(reader.readLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
+            }
+            while (!board.isFieldEmpty(coords[0], coords[1])) {
+                System.out.println("The field is busy. Try another!\n");
                 coords = Arrays.stream(reader.readLine().split("\\s+")).mapToInt(Integer::parseInt).toArray();
             }
             board.board[piece.getX()][piece.getY()] = null;
