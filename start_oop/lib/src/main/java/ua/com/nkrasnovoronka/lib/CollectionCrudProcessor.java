@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Deprecated
 public class CollectionCrudProcessor<E extends Entity> implements Crud<E> {
 
     private final Set<E> dataStorage = new HashSet<>();
