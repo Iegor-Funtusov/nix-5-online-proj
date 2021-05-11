@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Deprecated
 public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
     private final int DATA_CAPACITY = 25;
     private Object[] dataStorage = new Object[DATA_CAPACITY];
