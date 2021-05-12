@@ -8,8 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Deprecated
 public class CrudProcessList<E extends BaseEntity> implements CrudProcess<E> {
     private final List<E> list = new ArrayList<>();
+
+    public CrudProcessList() {
+        System.out.println("CrudProcessList.CrudProcessList");
+    }
 
     public void create(E e) {
         e.setId(generateId(UUID.randomUUID().toString()));
