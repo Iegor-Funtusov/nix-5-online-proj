@@ -6,7 +6,7 @@ import lib.CrudProcessFactory;
 import java.util.Collection;
 
 public class ContactService {
-    CrudProcess<Contact> crudProcess = CrudProcessFactory.getCrudProcess();
+    CrudProcess<Contact> crudProcess = CrudProcessFactory.getInstance().getCrudProcess();
 
     public void create(Contact contact) {
         crudProcess.create(contact);
