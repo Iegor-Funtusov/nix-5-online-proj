@@ -1,1 +1,2 @@
-# nix-5-online-proj
+# unit_5_strings
+>run AppMain class (Program`s enter point)
