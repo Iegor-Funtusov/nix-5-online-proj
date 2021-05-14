@@ -10,48 +10,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-public class Controller {
+public class FirstLevelController {
 
-    public static BufferedReader reader;
-
-    public static void mainMenu() {
-        reader = new BufferedReader(new InputStreamReader(System.in));
-        String input;
-
-        try {
-            System.out.println("\nChoose the level:\n" +
-                    "1 -> First level (1.Count unique symbols, 2.Knight turn validator, 3.Find triangle area)\n" +
-                    "2 -> Second level (Check: if string is valid)\n" +
-                    "3 -> Third level (\"Game of Life\")\n" +
-                    "0 -> Stop the program");
-            while ((input = reader.readLine())!= null) {
-                switch (input) {
-                    case "1" : {
-                        firstLevelMenu();
-                    } break;
-                    case "2" : {
-                        stringValidator();
-                    } break;
-                    case "3" : {
-                        gameLife();
-                    } break;
-                    case "0": {
-                        System.exit(0);
-                    }
-                    default: {
-                        System.out.println("Wrong input");
-                    }break;
-                }
-                System.out.println("\nChoose the level:\n" +
-                        "1 -> First level (1.Count unique symbols, 2.Knight turn validator, 3.Find triangle area)\n" +
-                        "2 -> Second level (Check: if string is valid)\n" +
-                        "3 -> Third level (\"Game of Life\")\n" +
-                        "0 -> Stop the program");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    private static BufferedReader reader;
 
     public static void firstLevelMenu() {
         reader = new BufferedReader(new InputStreamReader(System.in));
@@ -123,7 +84,7 @@ public class Controller {
         }
     }
 
-    public static void knightTurnIsValid() throws IOException {
+    public static void knightTurnIsValid() {
         Scanner s = new Scanner(System.in);
         System.out.println("Input knight beginning kords:");
         System.out.print("x: ");
@@ -168,23 +129,15 @@ public class Controller {
         }
         else if (input.equals("2")) {
             Point a = new Point((int) Math.round((Math.random() * 100) - 50),
-                                (int) Math.round((Math.random() * 100) - 50));
+                    (int) Math.round((Math.random() * 100) - 50));
             Point b = new Point((int) Math.round((Math.random() * 100) - 50),
-                                (int) Math.round((Math.random() * 100) - 50));
+                    (int) Math.round((Math.random() * 100) - 50));
             Point c = new Point((int) Math.round((Math.random() * 100) - 50),
-                                (int) Math.round((Math.random() * 100) - 50));
+                    (int) Math.round((Math.random() * 100) - 50));
             System.out.println("Point A: " + a.x + " " + a.y);
             System.out.println("Point B: " + b.x + " " + b.y);
             System.out.println("Point C: " + c.x + " " + c.y);
             System.out.println("Area of a triangle: " + TriangleAreaFinder.calculateArea(a,b,c));
         }
-    }
-
-    public static void stringValidator() throws IOException {
-
-    }
-
-    public static void gameLife() throws IOException {
-
     }
 }
