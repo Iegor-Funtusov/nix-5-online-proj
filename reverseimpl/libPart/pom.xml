@@ -9,7 +9,20 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <maven.compiler.source>10</maven.compiler.source>
+        <maven.compiler.target>10</maven.compiler.target>
+        <commons.lang3.version>3.12.0</commons.lang3.version>
+    </properties>
+
     <artifactId>libPart</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>
