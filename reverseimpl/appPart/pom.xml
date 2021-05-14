@@ -11,4 +11,11 @@
 
     <artifactId>appPart</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>ua.com.reverseimpl</groupId>
+            <artifactId>libPart</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 </project>
