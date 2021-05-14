@@ -23,9 +23,9 @@ public class Level1 {
         Point current = Level1Utils.createPoint(reader);
         while(true) {
             System.out.println("Current position is x=" + (int)current.getX() + " y=" + (int)current.getY());
-            System.out.println("Move position");
+            System.out.println("Move to position");
             Point moveTo = Level1Utils.createPoint(reader);
-            System.out.println("Move position is x=" + (int)moveTo.getX() + " y=" + (int)moveTo.getY());
+            System.out.println("Move to x=" + (int)moveTo.getX() + " y=" + (int)moveTo.getY());
             int x = Math.abs((int) current.getX() - (int) moveTo.getX());
             int y = Math.abs((int) current.getY() - (int) moveTo.getY());
 

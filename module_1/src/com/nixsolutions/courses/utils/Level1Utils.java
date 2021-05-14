@@ -9,6 +9,8 @@ public class Level1Utils {
 
     private static final int RANDOM_MIN = 0;
     private static final int RANDOM_MAX = 100;
+    private static final int CHESSBOARD_MIN = 1;
+    private static final int CHESSBOARD_MAX = 8;
     private static final Random random = new Random();
 
     public static Point[] createPointsOfTriangle(BufferedReader reader) throws IOException {
@@ -18,15 +20,15 @@ public class Level1Utils {
             points = generatePointsOfTriangle();
         } else {
             while(true) {
-                System.out.println("Enter point A (x y):");
+                System.out.println("Enter point A (x and y space-separated):");
                 String[] a = reader.readLine().split(" ");
                 Point A = new Point(Integer.parseInt(a[0]), Integer.parseInt(a[1]));
 
-                System.out.println("Enter point B (x y):");
+                System.out.println("Enter point B (x and y space-separated):");
                 String[] b = reader.readLine().split(" ");
                 Point B = new Point(Integer.parseInt(b[0]), Integer.parseInt(b[1]));
 
-                System.out.println("Enter point C (x y):");
+                System.out.println("Enter point C (x and y space-separated):");
                 String[] c = reader.readLine().split(" ");
                 Point C = new Point(Integer.parseInt(c[0]), Integer.parseInt(c[1]));
                 if ((A.getX() == B.getX() && A.getX() == C.getX()) || ((A.getY() == B.getY() && A.getY() == C.getY()))) {
@@ -59,13 +61,13 @@ public class Level1Utils {
         } else {
             System.out.println("Enter x:");
             int x = Integer.parseInt(reader.readLine());
-            if(Math.abs(x) > RANDOM_MAX) {
-                x = x % RANDOM_MAX;
+            if(Math.abs(x) > CHESSBOARD_MAX) {
+                x = x % 8;
             }
             System.out.println("Enter y:");
             int y = Integer.parseInt(reader.readLine());
-            if(Math.abs(y) > RANDOM_MAX) {
-                y = y % RANDOM_MAX;
+            if(Math.abs(y) > CHESSBOARD_MAX) {
+                y = y % 8;
             }
             current = new Point(x,y);
         }
@@ -73,8 +75,8 @@ public class Level1Utils {
     }
 
     public static Point generatePoint() {
-        int x = random.nextInt(RANDOM_MAX - RANDOM_MIN) + RANDOM_MIN;
-        int y = random.nextInt(RANDOM_MAX - RANDOM_MIN) + RANDOM_MIN;
+        int x = random.nextInt(CHESSBOARD_MAX - CHESSBOARD_MIN) + CHESSBOARD_MIN;
+        int y = random.nextInt(CHESSBOARD_MAX- CHESSBOARD_MIN) + CHESSBOARD_MIN;
 
         return new Point(x,y);
     }
