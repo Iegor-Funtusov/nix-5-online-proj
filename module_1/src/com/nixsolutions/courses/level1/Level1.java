@@ -12,6 +12,12 @@ public class Level1 {
 
     static BufferedReader reader;
 
+    public static void triangleArea() throws IOException {
+        Point[] points = Level1Utils.createPointsOfTriangle(reader);
+        double area = Math.abs((points[0].getX() * (points[1].getY() - points[2].getY()) + points[1].getX() * (points[2].getY() - points[0].getY()) + points[2].getX() * (points[0].getY() - points[1].getY())) / 2);
+        System.out.println("Area of triangle:\n" + area);
+    }
+
     public static void knightMove() throws IOException {
         System.out.println("Current position");
         Point current = Level1Utils.createPoint(reader);
@@ -58,10 +64,6 @@ public class Level1 {
         System.out.println("Number of unique elements:\n" + count);
     }
 
-    public static void printOptions() {
-        System.out.println("Choose task:\n0 - exit\n1 - count unique elements of array\n2 - knight's move");
-    }
-
     public static void run() {
         System.out.println("Level1.run");
         reader = new BufferedReader((new InputStreamReader(System.in)));
@@ -76,6 +78,9 @@ public class Level1 {
                         break;
                     case "2":
                         knightMove();
+                        break;
+                    case "3":
+                        triangleArea();
                         break;
                 }
                 Level1Utils.printOptions();
