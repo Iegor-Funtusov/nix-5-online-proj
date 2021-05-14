@@ -81,7 +81,7 @@ public class ReverseUsersString {
         System.out.println("Enter substring ");
         String dest = scanner.nextLine();
         if(StringUtils.isNoneBlank(s) && StringUtils.isNoneBlank(dest)
-                && s.length() > dest.length()){
+                && s.length() > dest.length() && s.contains(dest)){
             System.out.println(reverseString.reverse(s, dest));
         }
         else {
