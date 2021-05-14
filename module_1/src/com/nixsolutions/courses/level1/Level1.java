@@ -2,6 +2,8 @@ package com.nixsolutions.courses.level1;
 
 import com.nixsolutions.courses.utils.Level1Utils;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,6 +11,31 @@ import java.io.InputStreamReader;
 public class Level1 {
 
     static BufferedReader reader;
+
+    public static void knightMove() throws IOException {
+        System.out.println("Current position");
+        Point current = Level1Utils.createPoint(reader);
+        while(true) {
+            System.out.println("Current position is x=" + (int)current.getX() + " y=" + (int)current.getY());
+            System.out.println("Move position");
+            Point moveTo = Level1Utils.createPoint(reader);
+            System.out.println("Move position is x=" + (int)moveTo.getX() + " y=" + (int)moveTo.getY());
+            int x = Math.abs((int) current.getX() - (int) moveTo.getX());
+            int y = Math.abs((int) current.getY() - (int) moveTo.getY());
+
+            if (x * y == 2) {
+                System.out.println("Knight moved");
+                current.setLocation(moveTo);
+            } else {
+                System.out.println("Not valid move");
+            }
+            System.out.println("Continue?\n0 - no\n1 - yes");
+            if (reader.readLine().equals("0")) {
+                break;
+            }
+        }
+
+    }
 
     public static void countUniqueElements() throws IOException {
         int count = 0;
@@ -31,10 +58,14 @@ public class Level1 {
         System.out.println("Number of unique elements:\n" + count);
     }
 
+    public static void printOptions() {
+        System.out.println("Choose task:\n0 - exit\n1 - count unique elements of array\n2 - knight's move");
+    }
+
     public static void run() {
         System.out.println("Level1.run");
         reader = new BufferedReader((new InputStreamReader(System.in)));
-        System.out.println("Choose task:\n0 - exit\n1 - count unique elements of array");
+        Level1Utils.printOptions();
         String input;
         try {
             while (!(input = reader.readLine()).equals("0")) {
@@ -43,8 +74,11 @@ public class Level1 {
                     case "1":
                         countUniqueElements();
                         break;
+                    case "2":
+                        knightMove();
+                        break;
                 }
-                System.out.println("Choose task:\n0 - exit\n1 - count unique elements of array");
+                Level1Utils.printOptions();
             }
         } catch(IOException e) {
             System.out.println("Something went wrong");
