@@ -27,7 +27,7 @@
     </dependencies>
 
     <build>
-        <finalName>arithmetic</finalName>
+        <finalName>chess</finalName>
         <plugins>
 
             <plugin>
@@ -49,7 +49,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ua.example.Main</mainClass>
+                            <mainClass>ua.com.nix.ChessMove</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
