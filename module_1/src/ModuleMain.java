@@ -11,6 +11,8 @@ public class ModuleMain {
     public static void main(String[] args) {
         BufferedReader reader = new BufferedReader((new InputStreamReader(System.in)));
         String input;
+//        char c = 125;
+//        System.out.println("char 125: " + c);
         System.out.println("-----------------------\n     module_1\n-----------------------");
         try {
             while (true) {
