@@ -20,6 +20,7 @@
         <maven.jar.plugin.version>3.2.0</maven.jar.plugin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <lombok.version>1.18.20</lombok.version>
+        <lib.version>1.0</lib.version>
     </properties>
 
     <dependencies>
@@ -29,6 +30,13 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>lib</artifactId>
+            <version>${lib.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
