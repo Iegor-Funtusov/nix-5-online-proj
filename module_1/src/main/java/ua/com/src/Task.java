@@ -23,7 +23,7 @@ public class Task {
     }
 
     public static double task3(int a, int b, int c) {
-        double p = getEdge(a, b) + getEdge(c, b) + getEdge(a, c);
+        double p = (getEdge(a, b) + getEdge(c, b) + getEdge(a, c)) / 2;
         return Math.sqrt(p * (p - getEdge(a, b)) * (p - getEdge(c, b)) * (p - getEdge(a, c)));
     }
 }
