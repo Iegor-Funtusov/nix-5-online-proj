@@ -27,7 +27,15 @@ public class Board {
     }
 
     public void PlacePiece(int x, int y) {
-        board[y][x] = " " + knight.symbol + " ";
+        if (knight.isValidMove(x, y)) {
+            System.out.println("The Knight can be placed there!");
+            board[y][x] = " " + knight.symbol + " ";
+            knight.setX(x);
+            knight.setY(y);
+        }
+        else {
+            System.out.println("The Knight can't be placed there!");
+        }
     }
 
     public void Print() {
