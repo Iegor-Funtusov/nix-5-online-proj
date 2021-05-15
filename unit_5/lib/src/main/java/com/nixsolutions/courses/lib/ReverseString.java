@@ -25,7 +25,6 @@ public class ReverseString {
     }
 
     public static String reverse(String src, String firstString, String lastString) {
-
         return reverse(src, firstString.charAt(firstString.length()-1), lastString.charAt(0));
     }
 }

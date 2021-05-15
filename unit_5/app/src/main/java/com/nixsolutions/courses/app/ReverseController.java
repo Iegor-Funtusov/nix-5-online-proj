@@ -39,6 +39,7 @@ public class ReverseController {
                 System.out.println("Enter your string:");
                 string = reader.readLine();
                 while (string != null) {
+                    System.out.println("Input string: " + string);
                     printOptions();
                     switch (reader.readLine()) {
                         case "0":
@@ -53,6 +54,9 @@ public class ReverseController {
                             break;
                         case "3":
                             System.out.println("Result string:\n" + reverseWithBoundaries(string, reader));
+                            break;
+                        default:
+                            System.out.println("Wrong option");
                     }
                 }
 
