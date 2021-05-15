@@ -1,0 +1,102 @@
+package ua.com.alevel.lib;
+
+import org.apache.commons.lang3.StringUtils;
+import java.util.*;
+
+@Deprecated
+public class ObjectArrayCrudService<E extends BaseEntity>
+        implements CrudService<E>{
+
+    private static final int DEFAULT_SIZE = 10;
+    private Object[] entities;
+    private int size;
+
+    public ObjectArrayCrudService() {
+        this.entities = new Object[DEFAULT_SIZE];
+        this.size = 0;
+    }
+
+    @Override
+    public void create(E e) {
+        e.setId(generateId());
+        this.entities[this.size++] = e;
+    }
+
+
+    @Override
+    public void update(E e) {
+        if(StringUtils.isNotBlank(e.getId())) {
+            int currentIndex = findEById(e.getId());
+            if (currentIndex == -1)
+                throw new RuntimeException("entity is not exist");
+            entities[currentIndex] = e;
+        }else {
+            throw new RuntimeException("entity is not exist");
+        }
+    }
+
+    @Override
+    public void delete(String id) {
+        if(StringUtils.isNotBlank(id)) {
+            int currentIndex = findEById(id);
+            if (currentIndex == -1 || size == 0) {
+                throw new RuntimeException("entity is not exist");
+            }
+            System.arraycopy(entities, currentIndex + 1,
+                    entities, currentIndex, size-currentIndex-1);
+            this.size--;
+        }else {
+            throw new RuntimeException("entity is not exist");
+        }
+    }
+
+    @Override
+    public E read(String id) {
+        if(StringUtils.isNotBlank(id)) {
+            int currentIndex = findEById(id);
+            if (currentIndex == -1 || size == 0) {
+                throw new RuntimeException("entity is not exist");
+            }
+            return (E) entities[currentIndex];
+        }else {
+            throw new RuntimeException("entity is not exist");
+        }
+    }
+
+    @Override
+    public Collection<E> read() {
+        List<E> list = new ArrayList<>();
+        for (int i = 0; i < this.size; i++) {
+            list.add( (E)entities[i] );
+        }
+        return list;
+    }
+
+    private String generateId(){
+        String id;
+        do {
+            id = UUID.randomUUID().toString();
+        } while (!isIdValid(id));
+        return id;
+    }
+
+    private boolean isIdValid(String id){
+        for (Object e : entities) {
+            if(e instanceof BaseEntity)
+                if ( ((E) e).getId().equals(id))
+                    return false;
+        }
+        return true;
+    }
+    private int findEById(String id) {
+        for (int i = 0; i < this.size; i++) {
+            if(entities[i] instanceof BaseEntity) {
+                if (((E) entities[i]).getId().equals(id))
+                    return i;
+            }else
+                return -1;
+        }
+        return -1;
+    }
+
+}
