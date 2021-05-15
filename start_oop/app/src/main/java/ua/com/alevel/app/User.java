@@ -7,7 +7,7 @@ import ua.com.alevel.lib.BaseEntity;
 
 @Getter
 @Setter
-@ToString
+
 public class User extends BaseEntity {
 
     private String name;
@@ -18,4 +18,10 @@ public class User extends BaseEntity {
         this.age = age;
     }
 
+    @Override
+    public String toString() {
+        return "User " + super.toString() +
+                "name= " + name +
+                ", age= " + age;
+    }
 }

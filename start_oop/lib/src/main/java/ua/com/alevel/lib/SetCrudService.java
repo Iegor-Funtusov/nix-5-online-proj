@@ -66,10 +66,7 @@ public class SetCrudService<E extends BaseEntity>
             if (currentE == null) {
                 throw new RuntimeException("entity is not exist");
             }
-            for (E e : entities) {
-                if(e.getId().equals(id))
-                    entities.remove(e);
-            }
+            entities.removeIf(e -> e.getId().equals(id));
         }else {
             throw new RuntimeException("entity is not exist");
         }
