@@ -62,7 +62,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>ua.com.alevel.AppMain</mainClass>
+                            <mainClass>ua.com.alevel.app.AppMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
