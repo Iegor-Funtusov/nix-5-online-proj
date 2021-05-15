@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>module_1</artifactId>
+    <artifactId>module_1_new</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
