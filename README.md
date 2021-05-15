@@ -1,1 +1,7 @@
-# nix-5-online-proj
+# module_1
+
+Запуск через maven:
+
+mvn clean install
+
+mvn exec:java -D exec.mainClass=Application
