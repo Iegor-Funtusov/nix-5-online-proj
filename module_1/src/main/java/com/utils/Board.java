@@ -6,16 +6,6 @@ public class Board {
     public Knight knight;
     public String[][] board = new String[8][8];
 
-    public Board() {
-        knight = new Knight(0, 0);
-        for (int i = 0; i < y_size; i++) {
-            for (int j = 0; j < x_size; j++) {
-                board[i][j] = "    ";
-            }
-        }
-        board[0][0] = knight.symbol;
-    }
-
     public Board(int x, int y) {
         knight = new Knight(x, y);
         for (int i = 0; i < y_size; i++) {
@@ -28,13 +18,12 @@ public class Board {
 
     public void PlacePiece(int x, int y) {
         if (knight.isValidMove(x, y)) {
-            System.out.println("The Knight can be placed there!");
-            board[y][x] = " " + knight.symbol + " ";
-            knight.setX(x);
-            knight.setY(y);
+            System.out.println("The Knight can be placed there!\n");
+            board[y][x] = " ✔ ";
         }
         else {
-            System.out.println("The Knight can't be placed there!");
+            System.out.println("The Knight can't be placed there!\n");
+            board[y][x] = " X ";
         }
     }
 
