@@ -51,6 +51,7 @@ public class Level2 {
     }
 
     public static void run() {
+        System.out.println("-----Validating string with parentheses-----");
         BufferedReader reader = new BufferedReader((new InputStreamReader(System.in)));
         try {
             while (true) {
