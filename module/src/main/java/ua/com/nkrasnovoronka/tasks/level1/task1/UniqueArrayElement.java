@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka.level1.task1;
+package ua.com.nkrasnovoronka.tasks.level1.task1;
 
 /**
  * Дан массив чисел. Вернуть число уникальных символов

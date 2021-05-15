@@ -1,5 +1,6 @@
-package ua.com.nkrasnovoronka.level1.task1;
+package ua.com.nkrasnovoronka.tests.level1.task1;
 
+import ua.com.nkrasnovoronka.tasks.level1.task1.UniqueArrayElement;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.util.Arrays;

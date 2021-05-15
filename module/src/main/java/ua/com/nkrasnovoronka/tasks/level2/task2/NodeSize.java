@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka.level2.task2;
+package ua.com.nkrasnovoronka.tasks.level2.task2;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -30,19 +30,5 @@ public class NodeSize {
         return deep;
     }
 
-    public static void printTreeNodeSize(TreeNode root, int space){
-        if(root == null){
-            return;
-        }
-        space += COUNTER;
 
-        printTreeNodeSize(root.getRight(), space);
-        System.out.println();
-        for (int i = COUNTER; i < space ; i--) {
-            System.out.print(" ");
-        }
-        System.out.println(root.getVal());
-        printTreeNodeSize(root.getLeft(), space);
-
-    }
 }

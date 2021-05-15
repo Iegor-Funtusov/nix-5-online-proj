@@ -1,5 +1,6 @@
-package ua.com.nkrasnovoronka.level1.task3;
+package ua.com.nkrasnovoronka.tests.level1.task3;
 
+import ua.com.nkrasnovoronka.tasks.level1.task3.TriangleArea;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.awt.*;

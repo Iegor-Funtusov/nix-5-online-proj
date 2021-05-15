@@ -1,5 +1,6 @@
-package ua.com.nkrasnovoronka.level2.task1;
+package ua.com.nkrasnovoronka.tests.level2.task1;
 
+import ua.com.nkrasnovoronka.tasks.level2.task1.BracketParser;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.util.Arrays;

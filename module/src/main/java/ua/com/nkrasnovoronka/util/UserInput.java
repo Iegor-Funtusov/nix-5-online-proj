@@ -24,6 +24,17 @@ public class UserInput {
         return userInput;
     }
 
+    public static int userInputNumber(){
+        int num = 0;
+        System.out.println("Pleas enter number");
+        try {
+            num = Integer.parseInt(bufferedReader.readLine());
+        } catch (IOException e) {
+            System.err.println("Sorry wrong input!!!Pleas restart program");
+        }
+        return num;
+    }
+
     public static String userInputString(){
         System.out.println("Pleas enter string ");
         String res = "";

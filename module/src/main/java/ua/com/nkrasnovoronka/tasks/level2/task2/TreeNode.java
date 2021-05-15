@@ -1,6 +1,7 @@
-package ua.com.nkrasnovoronka.level2.task2;
+package ua.com.nkrasnovoronka.tasks.level2.task2;
 
 public class TreeNode{
+    private static final int COUNT =  5;
     private int val;
     private TreeNode left;
     private TreeNode right;
@@ -27,6 +28,24 @@ public class TreeNode{
         return root;
     }
 
+    public static void printTree(TreeNode root, int space){
+        if (root == null){
+            return;
+        }
+
+        space += COUNT;
+
+        printTree(root.right, space);
+        System.out.println();
+
+        for (int i = COUNT; i < space; i++){
+            System.out.print(" ");
+        }
+
+        System.out.print(root.val + "\n");
+
+        printTree(root.left, space);
+    }
     public int getVal() {
         return val;
     }

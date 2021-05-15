@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka.level1.task3;
+package ua.com.nkrasnovoronka.tasks.level1.task3;
 
 import java.awt.*;
 

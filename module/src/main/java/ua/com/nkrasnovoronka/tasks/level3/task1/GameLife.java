@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka.level3.task1;
+package ua.com.nkrasnovoronka.tasks.level3.task1;
 
 public class GameLife {
     private int width;
@@ -11,16 +11,18 @@ public class GameLife {
         this.board = new int[width][height];
     }
 
-
     public void displayBoard() {
+        System.out.println();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
+                System.out.print("|");
                 if (board[x][y] == 0) {
                     System.out.print('.');
                 } else {
                     System.out.print('*');
                 }
             }
+            System.out.print("|");
             System.out.println();
         }
     }
@@ -36,15 +38,12 @@ public class GameLife {
         res += checkIndex(x, y + 1);
         //down
         res += checkIndex(x, y - 1);
-
         //down-left
         res += checkIndex(x - 1, y - 1);
         //down-right
         res += checkIndex(x + 1, y - 1);
-
         //up-left
         res += checkIndex(x - 1, y + 1);
-
         //up-right
         res += checkIndex(x + 1, y + 1);
 
@@ -70,12 +69,10 @@ public class GameLife {
                 int aliveNeighbors = countNeighbors(x, y);
 
                 if (board[x][y] == 1) {
-                    if (aliveNeighbors < 2) {
+                    if (aliveNeighbors < 2 || aliveNeighbors > 3) {
                         newBoard[x][y] = 0;
-                    } else if (aliveNeighbors == 2 || aliveNeighbors == 3) {
-                        newBoard[x][y] = 1;
                     } else {
-                        newBoard[x][y] = 0;
+                        newBoard[x][y] = 1;
                     }
                 } else {
                     if (aliveNeighbors == 3) {

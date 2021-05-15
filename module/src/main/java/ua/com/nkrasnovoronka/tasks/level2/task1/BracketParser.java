@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka.level2.task1;
+package ua.com.nkrasnovoronka.tasks.level2.task1;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

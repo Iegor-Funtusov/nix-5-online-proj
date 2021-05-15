@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka.level1.task2;
+package ua.com.nkrasnovoronka.tasks.level1.task2;
 
 import java.util.Locale;
 

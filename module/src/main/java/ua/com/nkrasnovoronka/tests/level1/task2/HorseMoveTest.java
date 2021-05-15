@@ -1,5 +1,7 @@
-package ua.com.nkrasnovoronka.level1.task2;
+package ua.com.nkrasnovoronka.tests.level1.task2;
 
+import ua.com.nkrasnovoronka.tasks.level1.task2.HorseMove;
+import ua.com.nkrasnovoronka.tasks.level1.task2.Square;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.util.Random;
