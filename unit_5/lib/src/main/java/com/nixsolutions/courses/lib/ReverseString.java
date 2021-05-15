@@ -16,14 +16,16 @@ public class ReverseString {
     }
 
     public static String reverse(String src, int firstIndex, int lastIndex) {
-        return null;
+        String dest = src.substring(firstIndex + 1, lastIndex);
+        return src.replace(dest, reverse(dest));
     }
 
     public static String reverse(String src, char firstChar, char lastChar) {
-        return null;
+        return reverse(src, src.indexOf(firstChar), src.indexOf(lastChar));
     }
 
     public static String reverse(String src, String firstString, String lastString) {
-        return null;
+
+        return reverse(src, firstString.charAt(firstString.length()-1), lastString.charAt(0));
     }
 }

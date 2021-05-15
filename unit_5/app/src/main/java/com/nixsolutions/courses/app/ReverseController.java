@@ -5,21 +5,22 @@ import com.nixsolutions.courses.lib.ReverseString;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class ReverseController {
 
     public static String reverseWithBoundaries(String src, BufferedReader reader) throws IOException {
         System.out.println("Enter start/end in:\n1 - indexes\n2 - chars\n3 - strings");
         String option = reader.readLine();
-        System.out.println("Enter space-separated boundaries in chosen form:");
-        String[] in = reader.readLine().split(" ");
+        System.out.println("Enter space-separated not included boundaries in chosen form(index from 0):");
+        StringTokenizer in = new StringTokenizer(reader.readLine(), " ");
         switch (option) {
             case "1":
-                return ReverseString.reverse(src, Integer.parseInt(in[0]), Integer.parseInt(in[1]));
+                return ReverseString.reverse(src, Integer.parseInt(in.nextToken()), Integer.parseInt(in.nextToken()));
             case "2":
-                return ReverseString.reverse(src, in[0].charAt(0), in[1].charAt(1));
+                return ReverseString.reverse(src, in.nextToken().charAt(0), in.nextToken().charAt(0));
             case "3":
-                return ReverseString.reverse(src, in[0], in[1]);
+                return ReverseString.reverse(src, in.nextToken(), in.nextToken());
             default:
                 System.out.println("Wrong option");
         }
