@@ -4,7 +4,7 @@ public class Knight {
 
     private int x;
     private int y;
-    public final String symbol = "♘";
+    public final String symbol = " ♘ ";
 
     public Knight(int x, int y) {
         this.x = x;
