@@ -12,7 +12,7 @@ public class TriangleVertices {
         makeVertices();
     }
 
-    TriangleVertices(double x, double y){
+    TriangleVertices(double x, double y) {
     }
 
     public TriangleVertices makeVertices() throws IOException {
@@ -21,10 +21,10 @@ public class TriangleVertices {
         System.out.println("Enter X - coordinate of vertice (e.g. 1) and press Enter: ");
         x = Double.parseDouble(reader.readLine());
 
-        System.out.println("Enter Y - coordinate of vertic (e.g. 2) and press Enter: ");
+        System.out.println("Enter Y - coordinate of vertice (e.g. 2) and press Enter: ");
         y = Double.parseDouble(reader.readLine());
 
-        return new TriangleVertices(x,y);
+        return new TriangleVertices(x, y);
     }
 
     public double getX() {

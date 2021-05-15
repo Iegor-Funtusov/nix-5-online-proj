@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 public class UniqueNumber {
 
-    public static int [] makeArrayOfNumbersByUser() throws IOException {
+    public static int[] makeArrayOfNumbersByUser() throws IOException {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter quantity of numbers which you planned to analise (e.g. 5): ");
@@ -24,25 +24,25 @@ public class UniqueNumber {
     }
 
 
-    public static int [] makeArrayOfNumbersRandom() throws IOException {
+    public static int[] makeArrayOfNumbersRandom() throws IOException {
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Please enter quantity of numbers which you planned to analise (e.g. 5): ");
         int size = Integer.parseInt(reader.readLine());
-        int [] array = new int [size];
+        int[] array = new int[size];
 
-        for (int i=0;i<array.length;i++) {
+        for (int i = 0; i < array.length; i++) {
             array[i] = (int) (Math.random() * size);
         }
         System.out.println("Your array:" + Arrays.toString(array));
         return array;
     }
 
-    public static void findUnique(int [] array){
+    public static void findUnique(int[] array) {
         int count = 0;
         int amountOfNumbers = 0;
         int uniqueNumbers;
-        for(int i = 0; i < array.length; ++i) {
+        for (int i = 0; i < array.length; ++i) {
             amountOfNumbers++;
             for (int j = i + 1; j < array.length; ++j) {
                 if (array[j] == array[i]) {
@@ -55,4 +55,3 @@ public class UniqueNumber {
         System.out.println("Quantity of unique numbers: " + uniqueNumbers);
     }
 }
-
