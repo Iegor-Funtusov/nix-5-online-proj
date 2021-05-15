@@ -26,4 +26,11 @@ public class Knight {
     public void setY(int y) {
         this.y = y;
     }
+
+    public boolean isValidMove(int x, int y) {
+        return Math.abs(this.x - x) == 2 && Math.abs(this.y - y) == 1 ||
+                Math.abs(this.x - x) == 1 && Math.abs(this.y - y) == 2;
+
+    }
+
 }
