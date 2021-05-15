@@ -19,7 +19,7 @@ public class ObjectArrayCrudService<E extends BaseEntity>
 
     @Override
     public void create(E e) {
-        if( (entities.length - this.size) / entities.length > 0.75 )
+        if( (entities.length - this.size) / (double)entities.length > MAX_FILLING )
             entities = getGrownArray();
         e.setId(generateId());
         this.entities[this.size++] = e;
