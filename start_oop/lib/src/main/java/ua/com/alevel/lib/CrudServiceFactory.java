@@ -25,9 +25,9 @@ public class CrudServiceFactory {
         return instance;
     }
 
-    public static CrudService getCrudService(){
+    public CrudService getCrudService(){
         Set<Class<? extends CrudService>> classes = new HashSet<>();
-        for (Class<? extends CrudService> crudServiceImpl : getInstance().crudServicesSet) {
+        for (Class<? extends CrudService> crudServiceImpl : crudServicesSet) {
             if(!crudServiceImpl.isAnnotationPresent(Deprecated.class))
                 classes.add(crudServiceImpl);
         }
