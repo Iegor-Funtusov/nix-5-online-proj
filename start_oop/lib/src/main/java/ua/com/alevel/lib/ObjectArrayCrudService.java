@@ -8,6 +8,7 @@ public class ObjectArrayCrudService<E extends BaseEntity>
         implements CrudService<E>{
 
     private static final int DEFAULT_SIZE = 10;
+    private static final double MAX_FILLING = 0.75;
     private Object[] entities;
     private int size;
 
@@ -18,10 +19,18 @@ public class ObjectArrayCrudService<E extends BaseEntity>
 
     @Override
     public void create(E e) {
+        if( (entities.length - this.size) / entities.length > 0.75 )
+            entities = getGrownArray();
         e.setId(generateId());
         this.entities[this.size++] = e;
     }
 
+    private Object[] getGrownArray() {
+        int newSize = entities.length+ (entities.length/2) + 1;
+        Object[] newArray = new Object[newSize];
+        System.arraycopy(entities, 0, newArray, 0, this.size);
+        return newArray;
+    }
 
     @Override
     public void update(E e) {
