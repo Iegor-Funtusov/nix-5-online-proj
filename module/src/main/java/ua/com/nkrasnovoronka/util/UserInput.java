@@ -1,5 +1,7 @@
 package ua.com.nkrasnovoronka.util;
 
+import ua.com.nkrasnovoronka.tests.Test;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,14 @@ public class UserInput {
             System.err.println("Sorry wrong input!!!Pleas restart program");
         }
         return num;
+    }
+
+    public static void taskAction(Test test, boolean random) {
+        if (random) {
+            test.randomTest();
+        } else {
+            test.userTest();
+        }
     }
 
     public static String userInputString(){

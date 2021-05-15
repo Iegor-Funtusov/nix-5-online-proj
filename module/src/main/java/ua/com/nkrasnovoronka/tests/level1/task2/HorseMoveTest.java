@@ -2,12 +2,13 @@ package ua.com.nkrasnovoronka.tests.level1.task2;
 
 import ua.com.nkrasnovoronka.tasks.level1.task2.HorseMove;
 import ua.com.nkrasnovoronka.tasks.level1.task2.Square;
+import ua.com.nkrasnovoronka.tests.Test;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.util.Random;
 
-public class HorseMoveTest {
-    public static void randomHorseMoveTest() {
+public class HorseMoveTest implements Test {
+    public  void randomTest() {
         System.out.println("Starting random horse move test: Added 100 iteration");
         Random random = new Random();
         for (int i = 0; i < 100; i++) {
@@ -20,7 +21,7 @@ public class HorseMoveTest {
         }
     }
 
-    public static void userInputHorseMove() {
+    public void userTest() {
         System.out.println("Starting user input horse move test");
         String[] move = UserInput.readMovePosition().split(" ");
         Square from = new Square(move[0]);

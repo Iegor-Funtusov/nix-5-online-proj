@@ -4,6 +4,8 @@ import ua.com.nkrasnovoronka.tests.level3.task1.GameLifeTest;
 
 public class Main {
     public static void main(String[] args) {
+        Module module = new Module();
+        module.start();
     }
 
 

@@ -1,6 +1,7 @@
 package ua.com.nkrasnovoronka.tests.level2.task1;
 
 import ua.com.nkrasnovoronka.tasks.level2.task1.BracketParser;
+import ua.com.nkrasnovoronka.tests.Test;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.util.Arrays;
@@ -8,8 +9,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BracketParserTest {
-    public static void randomBracketParserTest() {
+public class BracketParserTest implements Test {
+    public void randomTest() {
         System.out.println("Starting random brackets parser test: Added 100 iteration");
         Character[] bracketsArray = {'(', ')', '[', ']', '{', '}', 'a', 'b', 'c', 'd', '1', '2', '3', '4', '5', ' '};
         List<Character> characters;
@@ -24,7 +25,7 @@ public class BracketParserTest {
         }
     }
 
-    public static void userInputParserTest() {
+    public void userTest() {
         System.out.println("Starting user input brackets parser test");
         String s = UserInput.userInputString();
         boolean stringValid = BracketParser.isStringValid(s);

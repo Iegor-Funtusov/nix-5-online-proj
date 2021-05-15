@@ -1,13 +1,14 @@
 package ua.com.nkrasnovoronka.tests.level3.task1;
 
 import ua.com.nkrasnovoronka.tasks.level3.task1.GameLife;
+import ua.com.nkrasnovoronka.tests.Test;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.util.List;
 import java.util.Random;
 
-public class GameLifeTest {
-    public static void randomGameTest(){
+public class GameLifeTest implements Test {
+    public void randomTest() {
         System.out.println("Starting random game test: Adding 10 iteration");
         Random random = new Random();
         int bound = random.nextInt(5) + 5;
@@ -21,11 +22,11 @@ public class GameLifeTest {
         }
     }
 
-    public static void userInputGameLifeTest(){
+    public void userTest() {
         System.out.println("Starting user input game test");
         System.out.println("Enter width and height of board (2 numbers separate by space)");
         List<Integer> integers = UserInput.userInputNumbers();
-        if (integers.size() != 2){
+        if (integers.size() != 2) {
             throw new IllegalArgumentException("You must enter 2 numbers only. Pleas restart program");
         }
         GameLife gameLife = new GameLife(integers.get(0), integers.get(1));
@@ -34,7 +35,7 @@ public class GameLifeTest {
         for (int i = 0; i < countAlivePixels; i++) {
             System.out.println("Enter " + (i + 1) + " pixel coordinates (x and y seperated by space");
             List<Integer> coordinates = UserInput.userInputNumbers();
-            if (coordinates.size() != 2){
+            if (coordinates.size() != 2) {
                 throw new IllegalArgumentException("You must enter 2 numbers only. Pleas restart program");
             }
             gameLife.setAlive(coordinates.get(0), coordinates.get(1));

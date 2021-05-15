@@ -1,15 +1,16 @@
 package ua.com.nkrasnovoronka.tests.level1.task1;
 
 import ua.com.nkrasnovoronka.tasks.level1.task1.UniqueArrayElement;
+import ua.com.nkrasnovoronka.tests.Test;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class UniqueArrayElementTest {
+public class UniqueArrayElementTest implements Test {
 
-    public static void randomNumbersTest(){
+    public void randomTest(){
         System.out.println("Starting random numbers test");
         Random random = new Random();
         int[] array = new int[random.nextInt(20) + 1];
@@ -23,7 +24,7 @@ public class UniqueArrayElementTest {
 
     }
 
-    public static void userInputTest(){
+    public void userTest(){
         System.out.println("Starting user input test");
         List<Integer> integers = UserInput.userInputNumbers();
         System.out.println("User number arrays = " +integers);
@@ -34,4 +35,5 @@ public class UniqueArrayElementTest {
         );
         System.out.println("unique elements in array = " + numberOfUniqueElements );
     }
+
 }

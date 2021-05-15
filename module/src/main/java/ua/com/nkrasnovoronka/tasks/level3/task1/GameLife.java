@@ -17,7 +17,7 @@ public class GameLife {
             for (int x = 0; x < width; x++) {
                 System.out.print("|");
                 if (board[x][y] == 0) {
-                    System.out.print('.');
+                    System.out.print(' ');
                 } else {
                     System.out.print('*');
                 }
