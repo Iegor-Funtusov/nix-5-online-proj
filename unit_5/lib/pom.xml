@@ -20,7 +20,7 @@
     </properties>
 
     <build>
-        <finalName>crud</finalName>
+        <finalName>reversestring</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
