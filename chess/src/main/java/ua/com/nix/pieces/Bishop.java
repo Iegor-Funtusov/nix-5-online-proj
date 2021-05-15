@@ -22,8 +22,6 @@ public class Bishop extends AbstractPiece {
 
     public boolean isPositionValid(ChessBoard board, Position  position){
         if(board.isSpaceEmpty(position.getRow(), position.getColumn()))
-            if(this.isWhite() ==
-                    BoardUtil.isSpaceWhite(position.getRow(), position.getColumn()))
                 return true;
         return false;
     }
