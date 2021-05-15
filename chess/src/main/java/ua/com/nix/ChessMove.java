@@ -20,8 +20,7 @@ public class ChessMove {
         this.board = new ChessBoard();
     }
 
-    public static void main(String[] args) {
-        System.out.println("Hello, Grandmaster!");
+    public static void main(String[] args) {        
         ChessMove chessMove = new ChessMove();
         chessMove.callInterface();
     }
@@ -31,6 +30,8 @@ public class ChessMove {
         AbstractPiece piece;
         boolean movingFlag;
         boolean appFlag = true;
+        printHelloMessage();
+        board.printBoard();
         while (appFlag){
             piece = getPiece();
             placePiece(piece);
@@ -56,6 +57,16 @@ public class ChessMove {
                 }
             }
         }
+    }
+
+    private void printHelloMessage() {
+        String gameHeader = "Chess move game!";
+        for (int i = 0; i < gameHeader.length() ; i++)
+            System.out.print("*");
+        System.out.println("\n" + gameHeader);
+        for (int i = 0; i < gameHeader.length() ; i++)
+            System.out.print("*");
+        System.out.println("\nHello, Grandmaster!");
     }
 
     private void placePiece(AbstractPiece piece){
