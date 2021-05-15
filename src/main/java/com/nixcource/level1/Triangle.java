@@ -29,15 +29,6 @@ public class Triangle {
         return abs(resultArea * 1/2);
     }
 
-    public static record Dot(int x, int y) {
-
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-    }
+    public static record Dot(int x, int y) {}
 
 }
