@@ -19,8 +19,7 @@ public class RunModule {
                       2)Endless chessboard
                       3)Triangle area
                     2.String validation
-                    3.Game of Life
-                    """);
+                    3.Game of Life""");
             int tasklevel = s.nextInt();
             int tasknum;
             switch (tasklevel) {
@@ -41,11 +40,12 @@ public class RunModule {
                     tasknum = 5;
             }
             levelselect(tasknum);
-            System.out.println("Repeat?(y/n)");
+            System.out.println("Check another task?(y/n)");
         } while (s.next().toLowerCase().startsWith("y"));
     }
 
     public static void levelselect(int tasknum) {
+        System.out.print("\033[H\033[2J");
         System.out.println("So you have chosen ");
         switch (tasknum) {
             case 1: {
