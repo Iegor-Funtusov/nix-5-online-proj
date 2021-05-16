@@ -1,10 +1,12 @@
 package com.nixcource;
 
-import com.nixcource.level1.UniqueSymbols;
 import com.nixcource.level1.Triangle;
+import com.nixcource.level1.UniqueSymbols;
 import com.nixcource.level2.StringVerifier;
+import com.nixcource.level3.GameRunner;
 
 public class Main {
+
     public static void main(String[] args) {
         // LEVEL 1
         // first task
@@ -28,5 +30,9 @@ public class Main {
         System.out.println(sv.isValid());
         sv.setData("[[{)]]");
         System.out.println(sv.isValid());
+
+        // LEVEL 3
+        GameRunner game = new GameRunner(10, 10);
+        game.play();
     }
 }
