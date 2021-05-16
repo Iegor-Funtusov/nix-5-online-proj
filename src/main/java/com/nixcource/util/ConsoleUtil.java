@@ -2,6 +2,7 @@ package com.nixcource.util;
 
 import com.nixcource.level1.Triangle;
 import com.nixcource.level1.UniqueSymbols;
+import com.nixcource.level2.ChessBoard;
 import com.nixcource.level2.StringVerifier;
 import com.nixcource.level3.GameRunner;
 
@@ -29,6 +30,25 @@ public class ConsoleUtil {
             }
         }
         System.out.println(UniqueSymbols.countUniqueSymbolsInArray(data));
+    }
+
+    public static void horseMove() {
+        ChessBoard board = new ChessBoard(8, 8);
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            board.displayBoard();
+            System.out.print("""
+                    To exit from game write q and press Enter...
+                    FIRST WRITE ROW, THEN COLUMN
+                    Write coordinate which on you want to horse to move (for example 00):""");
+            String userInput = scanner.next();
+            System.out.println(userInput);
+            if (userInput.equals("q")) {
+                break;
+            }
+            board.move(Character.getNumericValue(userInput.charAt(0)),
+                    Character.getNumericValue(userInput.charAt(1)));
+        }
     }
 
     public static void triangleArea(boolean isRandom) {
@@ -88,10 +108,11 @@ public class ConsoleUtil {
         System.out.println("""
                 Write number of one task below:
                 1) Find unique element in array
-                2) Calculate triangle area
-                3) Validate string (user input or not random pattern)
-                4) Play game of life (random only)
-                
+                2) Horse move
+                3) Calculate triangle area
+                4) Validate string (user input or not random pattern)
+                5) Play game of life (random only)
+                                
                 To exit write q and press Enter""");
     }
 }

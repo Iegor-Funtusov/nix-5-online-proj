@@ -15,9 +15,10 @@ public class Main {
             userSelect = scanner.next();
             switch (userSelect) {
                 case "1" -> ConsoleUtil.uniqueSymbols(ConsoleUtil.isRandomSelected());
-                case "2" -> ConsoleUtil.triangleArea(ConsoleUtil.isRandomSelected());
-                case "3" -> ConsoleUtil.stringParser();
-                case "4" -> ConsoleUtil.runGame();
+                case "2" -> ConsoleUtil.horseMove();
+                case "3" -> ConsoleUtil.triangleArea(ConsoleUtil.isRandomSelected());
+                case "4" -> ConsoleUtil.stringParser();
+                case "5" -> ConsoleUtil.runGame();
             }
             if (userSelect.equals("q")) {
                 break;
