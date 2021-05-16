@@ -15,8 +15,9 @@ public class GameRunner {
         do {
             game.clock();
             game.displayBoard();
-            System.out.println("To exit type q and press Enter...\nTo continue press Enter...");
-            System.out.println("=============================");
+            System.out.println("""
+                To continue playing Game of Life press Enter...
+                To exit from game write q and press Enter...""");
         } while(!scanner.nextLine().equals("q"));
     }
 }
