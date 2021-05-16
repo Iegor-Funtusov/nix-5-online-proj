@@ -19,6 +19,7 @@ public class ConsoleUtil {
             for (int i = 0; i < size; ++i) {
                 data.add(random.nextInt(10));
             }
+            System.out.println(data);
         } else {
             System.out.println("Write a line with numbers separated by comma (for example: 1,2,3,4,5,6)");
             Scanner scanner = new Scanner(System.in);
@@ -27,7 +28,6 @@ public class ConsoleUtil {
                 data.add(Integer.parseInt(i));
             }
         }
-        System.out.println(data);
         System.out.println(UniqueSymbols.countUniqueSymbolsInArray(data));
     }
 
@@ -89,8 +89,8 @@ public class ConsoleUtil {
                 Write number of one task below:
                 1) Find unique element in array
                 2) Calculate triangle area
-                3) Validate string
-                4) Play game of life
+                3) Validate string (user input or not random pattern)
+                4) Play game of life (random only)
                 
                 To exit write q and press Enter""");
     }
