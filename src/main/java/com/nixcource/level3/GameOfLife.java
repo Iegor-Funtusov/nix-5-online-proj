@@ -1,16 +1,10 @@
 package com.nixcource.level3;
 
-import java.util.ArrayList;
-
 public class GameOfLife {
     private final Board board;
 
-    public GameOfLife(Board board) {
-        this.board = board;
-    }
-
-    public Board getBoard() {
-        return board;
+    public GameOfLife(int columns, int rows) {
+        this.board = new Board(columns, rows);
     }
 
     public void displayBoard() {

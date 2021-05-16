@@ -1,6 +1,5 @@
 package com.nixcource.level3;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {

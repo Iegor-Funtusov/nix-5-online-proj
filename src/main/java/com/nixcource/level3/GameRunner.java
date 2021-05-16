@@ -3,13 +3,11 @@ package com.nixcource.level3;
 import java.util.Scanner;
 
 public class GameRunner {
-    Board board;
     GameOfLife game;
     Scanner scanner;
 
     public GameRunner(int columns, int rows) {
-        board = new Board(columns, rows);
-        game = new GameOfLife(board);
+        game = new GameOfLife(columns, rows);
         scanner = new Scanner(System.in);
     }
 
