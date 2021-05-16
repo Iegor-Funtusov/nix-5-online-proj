@@ -45,6 +45,7 @@ public class ChessBoard {
     public void move(int x, int y) {
         if (isValidMove(x, y)) {
             horse.setCoordinates(x, y);
+            System.out.printf("NEW COORDINATES: {%s, %s}\n", x, y);
         } else {
             System.out.println("INVALID MOVE! TRY AGAIN...");
         }
@@ -67,7 +68,6 @@ public class ChessBoard {
         }
 
         public void setCoordinates(int x, int y) {
-            System.out.printf("NEW COORDINATES: %sx%s\n", x, y);
             this.x = x;
             this.y = y;
         }
