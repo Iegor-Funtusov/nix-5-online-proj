@@ -3,6 +3,7 @@ package com.k4rnaj1k;
 import com.k4rnaj1k.level1.Task1;
 import com.k4rnaj1k.level1.Task3;
 import com.k4rnaj1k.level1.task2.Task2;
+import com.k4rnaj1k.level2.StringCheck;
 
 import java.util.Scanner;
 
@@ -13,16 +14,19 @@ public class RunModule {
         do {
             System.out.println("Please choose task level(1-3)");
             int tasklevel = s.nextInt();
+            int tasknum;
             switch (tasklevel) {
                 case 1: {
                     System.out.println("Please select task(1-3)");
-                    int tasknum = s.nextInt();
+                    tasknum = s.nextInt();
                     level1select(tasknum);
                 }
                 break;
                 case 2: {
-                    // com.k4rnaj1k.level1.
-                }
+                    tasknum = 4;
+                    level1select(tasknum);
+                    StringCheck.run();
+                }break;
             }
             System.out.println("Repeat?(y/n)");
         } while (s.next().toLowerCase().startsWith("y"));
@@ -44,6 +48,10 @@ public class RunModule {
             case 3: {
                 System.out.println(Task3.name);
                 Task3.run();
+            }
+            case 4:{
+                System.out.println(StringCheck.name);
+                StringCheck.run();
             }
             break;
         }
