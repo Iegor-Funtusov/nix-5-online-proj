@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/module_1/app/app.iml" filepath="$PROJECT_DIR$/module_1/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module_1/level_1/level_1.iml" filepath="$PROJECT_DIR$/module_1/level_1/level_1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module_1/level_2/level_2.iml" filepath="$PROJECT_DIR$/module_1/level_2/level_2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module_1/level_3/level_3.iml" filepath="$PROJECT_DIR$/module_1/level_3/level_3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/module_1/module_1.iml" filepath="$PROJECT_DIR$/module_1/module_1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/nix-5-online-proj10.iml" filepath="$PROJECT_DIR$/.idea/nix-5-online-proj10.iml" />
+    </modules>
+  </component>
+</project>

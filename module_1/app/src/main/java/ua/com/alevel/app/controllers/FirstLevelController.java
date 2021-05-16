@@ -84,19 +84,43 @@ public class FirstLevelController {
         }
     }
 
-    public static void knightTurnIsValid() {
+    public static void knightTurnIsValid() throws IOException {
         Scanner s = new Scanner(System.in);
-        System.out.println("Input knight beginning kords:");
-        System.out.print("x: ");
-        int x = s.nextInt();
-        System.out.print("y: ");
-        int y = s.nextInt();
-        System.out.println("Input knight destination kords:");
-        System.out.print("x: ");
-        int xDest = s.nextInt();
-        System.out.print("y: ");
-        int yDest = s.nextInt();
-        System.out.println("Is turn valid: " + KnightTurnProcess.move(x,y,xDest,yDest));
+        System.out.println("Choose the way of input:\n" +
+                "1 -> Do it by yourself\n" +
+                "2 -> Random input");
+        String input = reader.readLine();
+
+        if (input.equals("1")) {
+            System.out.println("Input knight beginning kords:");
+            System.out.print("x: ");
+            int x = s.nextInt();
+            System.out.print("y: ");
+            int y = s.nextInt();
+            System.out.println("Input knight destination kords:");
+            System.out.print("x: ");
+            int xDest = s.nextInt();
+            System.out.print("y: ");
+            int yDest = s.nextInt();
+            System.out.println("Is turn valid: " + KnightTurnProcess.move(x,y,xDest,yDest));
+        }
+        else if (input.equals("2")) {
+            System.out.println("Knight beginning kords:");
+            System.out.print("x: ");
+            int x = (int) Math.round((Math.random() * 100));
+            System.out.println(x);
+            System.out.print("y: ");
+            int y = (int) Math.round((Math.random() * 100));
+            System.out.println(y);
+            System.out.println("Knight destination kords:");
+            System.out.print("x: ");
+            int xDest = x + (int) Math.round((Math.random() + 1));
+            System.out.println(xDest);
+            System.out.print("y: ");
+            int yDest = y + (int) Math.round((Math.random() + 1));
+            System.out.println(yDest);
+            System.out.println("Is turn valid: " + KnightTurnProcess.move(x,y,xDest,yDest));
+        }
     }
 
     public static void findTriangleArea() throws IOException {
