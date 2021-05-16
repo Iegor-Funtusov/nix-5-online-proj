@@ -1,0 +1,36 @@
+<project>
+<!--https://ant.apache.org/manual/Tasks/java.html-->
+
+    <path id="classpath">
+        <fileset dir="libs" includes="**/*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+    <target name="jar">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/todolist.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="ua.com.threadedcode.Main"/>
+                <attribute name="Class-Path" value="libs/commons-lang3-3.12.0 libs/lombok"/>
+            </manifest>
+            <zipgroupfileset dir="libs" includes="*.jar"/>
+        </jar>
+    </target>
+
+    <target name="run-jar">
+        <java jar="build/jar/todolist.jar" fork="true"/>
+    </target>
+
+    <target name="run">
+        <java classname="ua.com.threadedcode.Main" classpath="build/classes:libs/commons-lang3-3.12.0.jar" fork="true"/>
+    </target>
+
+</project>
