@@ -86,7 +86,17 @@ public class ConsoleUtil {
         Scanner scanner = new Scanner(System.in);
         StringVerifier sv;
         if (isRandom) {
-            sv = new StringVerifier("{this : [string, isn't, random]}");
+            Random random = new Random();
+            char[] pattern = "{}()[]abcdefghijklmnopqrstuvwxyz".toCharArray();
+            ArrayList<Character> randomSequence = new ArrayList<>();
+            int randomStringLength = random.nextInt(20);
+            for (int i = 0; i < randomStringLength; ++i) {
+                randomSequence.add(pattern[random.nextInt(pattern.length)]);
+            }
+            sv = new StringVerifier(randomSequence
+                    .toString()
+                    .replace(",", "")
+                    .replace(" ", ""));
             System.out.println(sv.getData());
         } else {
             System.out.println("Write line. For example: {this : [is, line]}");
