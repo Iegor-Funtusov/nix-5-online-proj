@@ -1,4 +1,4 @@
-package com.tasks.level.one;
+package com.utils.level.one.task.one;
 
 import java.util.ArrayList;
 

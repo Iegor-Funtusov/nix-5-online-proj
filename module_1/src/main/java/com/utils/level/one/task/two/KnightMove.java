@@ -1,6 +1,4 @@
-package com.tasks.level.one;
-
-import com.utils.Board;
+package com.utils.level.one.task.two;
 
 public class KnightMove {
 

@@ -1,4 +1,4 @@
-package com.utils;
+package com.utils.level.one.task.two;
 
 public class Knight {
 
