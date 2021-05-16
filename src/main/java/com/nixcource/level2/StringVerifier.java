@@ -6,7 +6,7 @@ import java.util.Vector;
 
 public class StringVerifier {
     private final Vector<Character> delimiters;
-    private String data;
+    private final String data;
 
     public StringVerifier(String data) {
         this.data = data;
@@ -18,10 +18,6 @@ public class StringVerifier {
 
     public String getData() {
         return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
     }
 
     private boolean isSymmetric(ArrayList<Character> data) {
@@ -39,6 +35,10 @@ public class StringVerifier {
     }
 
     public boolean isValid() {
+        if (data.isEmpty()) {
+            return true;
+        }
+
         ArrayList<Character> tempSymbols = new ArrayList<>();
 
         for (int i = 0; i < this.data.length(); ++i) {
@@ -47,9 +47,7 @@ public class StringVerifier {
             }
         }
 
-        if (tempSymbols.isEmpty()) {
-            return true;
-        } else if (tempSymbols.size() % 2 == 0) {
+        if (tempSymbols.size() % 2 == 0) {
             return isSymmetric(tempSymbols);
         }
 

@@ -82,9 +82,17 @@ public class ConsoleUtil {
         System.out.println(triangle.calculateArea());
     }
 
-    public static void stringParser() {
-        StringVerifier sv = new StringVerifier("{test, [what, the, hell]}");
-        System.out.println(sv.getData());
+    public static void stringParser(boolean isRandom) {
+        Scanner scanner = new Scanner(System.in);
+        StringVerifier sv;
+        if (isRandom) {
+            sv = new StringVerifier("{this : [string, isn't, random]}");
+            System.out.println(sv.getData());
+        } else {
+            System.out.println("Write line. For example: {this : [is, line]}");
+            String userInput = scanner.nextLine();
+            sv = new StringVerifier(userInput);
+        }
         System.out.println(sv.isValid());
     }
 
@@ -96,7 +104,7 @@ public class ConsoleUtil {
     public static boolean isRandomSelected() {
         Scanner scanner = new Scanner(System.in);
         String description = """
-                Specify how you want to run task (for example: 1)
+                Specify how you want to run the task (for example: 1)
                 1) Random
                 2) User input""";
         System.out.println(description);
@@ -106,13 +114,15 @@ public class ConsoleUtil {
 
     public static void printTaskDescription() {
         System.out.println("""
-                Write number of one task below:
+                Choose number of one task below:
                 1) Find unique element in array
                 2) Horse move
                 3) Calculate triangle area
-                4) Validate string (user input or not random pattern)
+                4) Validate string (user input or NOT random pattern)
                 5) Play game of life (random only)
-                                
-                To exit write q and press Enter""");
+                
+                To exit write q and press Enter
+                Write number of task. For input example: 1""");
+        System.out.print("Your choice is: ");
     }
 }
