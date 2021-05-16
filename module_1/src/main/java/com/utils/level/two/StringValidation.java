@@ -11,6 +11,9 @@ public class StringValidation {
                 sequence.push(string.charAt(i));
             }
             if (string.charAt(i)==')' || string.charAt(i)=='}' || string.charAt(i)==']') {
+                if (sequence.isEmpty()) {
+                    return false;
+                }
                 if (getReversedChar(string.charAt(i)) != sequence.peek()) {
                     return false;
                 }
@@ -39,5 +42,4 @@ public class StringValidation {
                 return ' ';
         }
     }
-
 }
