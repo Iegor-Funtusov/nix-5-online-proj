@@ -10,12 +10,17 @@ public class Knight {
         this.y = y;
     }
 
-    private boolean isMoveValid(int x, int y){
+    public boolean isMoveValid(int x, int y){
         if( (Math.abs(this.x - x) == 2) && (Math.abs(this.y - y) == 1))
             return true;
         if( (Math.abs(this.y - y) == 2) && (Math.abs(this.x - x) == 1))
             return true;
         return false;
+    }
+
+    public void move(int x, int y){
+        this.setX(x);
+        this.setY(y);
     }
 
     public int getX() {
