@@ -1,33 +1,32 @@
 package lev2.stringValid;
 
-import java.util.Map;
-import java.util.Stack;
-
+import java.util.ArrayDeque;
+import java.util.Deque;
 public class StringValid {
 
-    public static boolean isStringValid(String str, Map<Character, Character> brk)
-    {
-        Stack<Character> stk = new Stack<>();
-
-        for (char c : str.toCharArray())
-        {
-            if (brk.containsValue(c))
-            {
-                stk.push(c);
-                System.out.println("String is Valid");
+    public static boolean isStringValid(String str)
+    {  if (str == null) {
+        throw new IllegalArgumentException("String is valid.");
+    }
+        Deque<Character> collection = new ArrayDeque<>();
+        for (char bracket : str.toCharArray()) {
+            if (bracket == '(' || bracket == '[' || bracket == '{') {
+                collection.push(bracket);
             }
-            else
-            {
-
-                if (brk.containsKey(c))
-                {
-                    if (stk.isEmpty() || !brk.get(c).equals(stk.pop()))
-                    {System.out.println("String is not Valid!");
-                        return false;
-                    }
+            if (bracket == ')' || bracket == ']' || bracket == '}') {
+                int number = bracket == ')' ? 1 : 2;
+                if (collection.isEmpty() || collection.pop() + number != bracket) {
+                    System.out.println("Invalid string!");
+                    return false;
                 }
             }
         }
-        return stk.isEmpty();
+        if (collection.isEmpty()) {
+            System.out.println("String is valid.");
+        } else {
+            System.out.println("Invalid string!");
+        }
+        return collection.isEmpty();
     }
+
 }
