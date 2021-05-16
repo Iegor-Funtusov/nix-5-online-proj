@@ -45,7 +45,6 @@ public class RunModule {
     }
 
     public static void levelselect(int tasknum) {
-        System.out.print("\033[H\033[2J");
         System.out.println("So you have chosen ");
         switch (tasknum) {
             case 1: {
@@ -61,11 +60,11 @@ public class RunModule {
             case 3: {
                 System.out.println(Task3.name);
                 Task3.run();
-            }
+            }break;
             case 4: {
                 System.out.println(StringCheck.name);
                 StringCheck.run();
-            }
+            }break;
             case 5: {
                 System.out.println(GameOfLife.name);
                 GameOfLife.run();

@@ -12,6 +12,7 @@ public class Task2 {
         int x;
         int y;
         Random r = new Random();
+        System.out.println("please enter the knight's coordinates");
         do {
             System.out.println("Manual input?(y/n)");
             if (s.next().toLowerCase().startsWith("y")) {

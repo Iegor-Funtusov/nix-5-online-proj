@@ -1,16 +1,15 @@
 package com.k4rnaj1k.level2;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Scanner;
 
-import static com.k4rnaj1k.RunModule.s;
+//import static com.k4rnaj1k.RunModule.s;
 
 public class StringCheck {
-
     public static void run() {
-        System.out.println("Please enter string.");
+        Scanner s = new Scanner(System.in);
         String regex = "\\s.*?|\\{([^\\[\\](){])+|\\[([]]|[^\\[(){}])+|\\((([^]\\[({}])+)";
         try {
+            System.out.print("Please enter string.\n");
             String input = s.nextLine();
             System.out.println("input = " + input);
             if(input.replaceAll(regex, "").length()>0)
