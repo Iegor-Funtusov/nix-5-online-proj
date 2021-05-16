@@ -1,17 +1,15 @@
 package ua.com.module1;
 
-import ua.com.module1.service.CheckerString;
-import ua.com.module1.service.KnightStep;
-import ua.com.module1.service.TriangleArea;
-import ua.com.module1.service.UniqueNumbers;
+import ua.com.module1.service.*;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Controller {
 
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void cycle(){
+    public static void cycle() throws IOException {
         boolean checker = true;
         while(checker) {
             System.out.println("Would you like to continue? y/n");
@@ -32,7 +30,7 @@ public class Controller {
         }
     }
 
-    public static void chosenMethod() {
+    public static void chosenMethod() throws IOException {
         Scanner scanner = new Scanner(System.in);
         boolean checker = true;
         while (checker) {
@@ -126,6 +124,10 @@ public class Controller {
                         }
                     }
                     checker = false;
+                    break;
+                }
+                case "5": {
+                    PlayLifeGame.getBoard();
                     break;
                 }
                 default: {
