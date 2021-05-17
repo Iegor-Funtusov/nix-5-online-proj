@@ -18,7 +18,7 @@ public class UniqueElements {
             array = new int[size];
             System.out.print("Enter the array values: ");
             String[] values = reader.readLine().split("\\s+");
-            for (int i = 0; i < size; i++) {
+            for (int i = 0; i < values.length; i++) {
                 array[i] = Integer.parseInt(values[i]);
             }
         } else {
