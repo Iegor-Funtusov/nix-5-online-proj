@@ -212,6 +212,72 @@ public class AppMain {
     }
 
     private static void runThirdTask() {
+        Triangle triangle;
+        while (true){
+            printThirdTaskMenu();
+            triangle = createTriangle();
+            if (triangle == null)
+                break;
+            System.out.println(triangle);
+            System.out.println("Triangle area: " + TriangleUtils.calculateArea(triangle));
+        }
+    }
+
+    private static void printThirdTaskMenu() {
+        System.out.print("Third task menu!" +
+                "\nChoose type of triangle creating :" +
+                "\n 1 - manual" +
+                "\n 2 - random" +
+                "\n 0 - exit menu" +
+                "\n -->");
+    }
+
+    @SneakyThrows
+    private static Triangle createTriangle() {
+        Triangle triangle = null;
+        switch (reader.readLine()){
+            case "1":{
+                triangle = getManualTriangle();
+                break;
+            }
+            case "2":{
+                triangle = getRandomTriangle();
+                break;
+            }
+            case "0":{
+                break;
+            }
+            default:{
+                System.out.println("Invalid choice! Try again.");
+                break;
+            }
+        }
+        return triangle;
+    }
+
+    private static Triangle getRandomTriangle() {
+        Point a = getRandomPoint();
+        Point b = getRandomPoint();
+        Point c = getRandomPoint();
+        return new Triangle(a, b, c);
+    }
+
+    private static Point getRandomPoint(){
+        int min = 0;
+        int max = 100;
+        int x = (int) (Math.random() * (max - min)) + min;
+        int y = (int) (Math.random() * (max - min)) + min;
+        return new Point(x, y);
+    }
+
+    private static Triangle getManualTriangle() {
+        System.out.println("Enter coordinates for point A.");
+        Point a = new Point(getX(), getY());
+        System.out.println("Enter coordinates for point B.");
+        Point b = new Point(getX(), getY());
+        System.out.println("Enter coordinates for point C.");
+        Point c = new Point(getX(), getY());
+        return new Triangle(a, b, c);
     }
 
     private static void runFirstTask() {
@@ -258,7 +324,4 @@ public class AppMain {
         }
         return array;
     }
-
-
-
 }
