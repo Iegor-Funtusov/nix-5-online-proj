@@ -82,7 +82,8 @@ public class AppMain {
     }
 
     private static void printFirstTaskMenu() {
-        System.out.print("First task menu!" +
+        System.out.print("String validator!" +
+                "\nFirst task menu!" +
                 "\nChoose type of string creating :" +
                 "\n 1 - manual" +
                 "\n 2 - random" +
