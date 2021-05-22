@@ -15,7 +15,7 @@ public class BracketParser {
             }
             if (c == ')' || c == ']' || c == '}') {
                 int number = c == ')' ? 1 : 2; // using ascii code
-                if (deque.isEmpty() || deque.pop() + number != c){
+                if (deque.isEmpty() || deque.pop() + number != c) {
                     return false;
                 }
             }

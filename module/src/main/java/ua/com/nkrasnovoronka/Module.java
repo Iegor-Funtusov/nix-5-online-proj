@@ -6,12 +6,12 @@ import ua.com.nkrasnovoronka.tests.level3.Level3Test;
 import ua.com.nkrasnovoronka.util.UserInput;
 
 public class Module {
-    public void start(){
+    public void start() {
         boolean running = true;
-        while (running){
+        while (running) {
             System.out.println("\nPleas choose level 1, 2, 3: 0 to exit");
             int level = UserInput.userInputNumber();
-            switch (level){
+            switch (level) {
                 case 1 -> Level1Test.start();
                 case 2 -> Level2Test.start();
                 case 3 -> Level3Test.start();
@@ -21,11 +21,6 @@ public class Module {
                     running = false;
                 }
             }
-
         }
-
     }
-
-
-
 }

@@ -1,8 +1,5 @@
 package ua.com.nkrasnovoronka.tasks.level1.task1;
 
-/**
- * Дан массив чисел. Вернуть число уникальных символов
- */
 public class UniqueArrayElement {
     public static int getNumberOfUniqueElements(int[] array) {
         int count = 0;
