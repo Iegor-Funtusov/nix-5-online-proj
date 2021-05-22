@@ -11,6 +11,8 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <logback.version>1.2.3</logback.version>
+        <junit.jupiter.version>5.1.0</junit.jupiter.version>
         <maven.surefire.plugin.version>2.22.1</maven.surefire.plugin.version>
         <maven.shade.plugin.version>3.2.0</maven.shade.plugin.version>
     </properties>
@@ -25,19 +27,19 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
-            <version>1.2.3</version>
+            <version>${logback.version}</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>${logback.version}</version>
             <scope>runtime</scope>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.1.0</version>
+            <version>${junit.jupiter.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -45,6 +47,12 @@
 
     <build>
         <finalName>crud</finalName>
+        <resources>
+            <resource>
+                <filtering>true</filtering>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
