@@ -13,19 +13,9 @@ import java.util.UUID;
 
 public class StudentService {
 
-    GroupService groupService = new GroupService();
-//    Group group = new Group();
-    Student[] list;
+    private final GroupService groupService = new GroupService();
+    private Student[] list;
 
-//    public StudentService(Group group) {
-//        this.group = group;
-//        list = group.getList();
-//    }
-//
-//    public void init(Group group) {
-//        list = group.getList();
-//        this.group = group;
-//    }
 
     public void create(Student student, Group group) {
         list = group.getList();
@@ -47,56 +37,39 @@ public class StudentService {
     }
 
     public Student read(String id, Group group) {
-        if (StringUtils.isNotBlank(id)) {
-            list = group.getList();
-            Student current = getById(id);
-            if (current == null) {
+        try {
+            if (StringUtils.isNotBlank(id)) {
+                list = group.getList();
+                return getById(id);
+            } else {
                 throw new RuntimeException("Entity does not exist");
             }
-            return current;
-        } else {
+        } catch (NullPointerException e) {
             throw new RuntimeException("Entity does not exist");
         }
     }
 
     public void update(Student student, Group group) {
-        if (StringUtils.isNotBlank(student.getId())) {
-            list = group.getList();
-            Student current = getById(student.getId());
-            if (current == null) {
-                throw new RuntimeException("Entity does not exist");
-            }
-            try {
-                BeanUtils.copyProperties(current, student);
-//                group
-//                groupService.update(group);
-            } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
-                illegalAccessException.printStackTrace();
-            }
-        } else {
-            throw new RuntimeException("Entity does not exist");
+        list = group.getList();
+        Student current = read(student.getId(), group);
+        try {
+            BeanUtils.copyProperties(current, student);
+        } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
+            illegalAccessException.printStackTrace();
         }
     }
 
     public void delete(String id, Group group) {
-        if (StringUtils.isNotBlank(id)) {
-            list = group.getList();
-            Student current = getById(id);
-            if (current == null) {
-                throw new RuntimeException("Entity does not exist");
+        list = group.getList();
+        Student current = read(id, group);
+        for (int i = 0; i < list.length; i++) {
+            if (list[i].getId().equals(current.getId())) {
+                list[i] = null;
+                break;
             }
-            for (int i = 0; i < list.length; i++) {
-                if (list[i].getId().equals(id)) {
-                    list[i] = null;
-                    break;
-                }
-            }
-            group.setList(list);
-            groupService.update(group);
-        } else {
-            throw new RuntimeException("Entity does not exist");
         }
-
+        group.setList(list);
+        groupService.update(group);
     }
 
     public Student[] readAll(Group group) {
@@ -112,7 +85,7 @@ public class StudentService {
     }
 
     private String generateId(String id) {
-        if(Arrays.stream(list).filter(Objects::nonNull).anyMatch(i -> i.getId().equals(id))) {
+        if (Arrays.stream(list).filter(Objects::nonNull).anyMatch(i -> i.getId().equals(id))) {
             return generateId(UUID.randomUUID().toString());
         }
         return id;

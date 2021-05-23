@@ -3,9 +3,9 @@ package com.nixsolutions.courses.data;
 public class Student {
 
     private String id;
-    private String groupName;
     private String name;
     private int age;
+    private String groupName;
 
     public String getId() {
         return id;
@@ -43,9 +43,9 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "id='" + id + '\'' +
-                ", groupName='" + groupName + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
+                ", groupName='" + groupName + '\'' +
                 '}';
     }
 }
