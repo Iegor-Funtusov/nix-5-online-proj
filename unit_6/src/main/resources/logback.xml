@@ -4,8 +4,7 @@
     <property name="ARCHIVED_LOG" value="archived"/>
 
     <appender name="info" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--        <file>${HOME_LOG}/info.log</file>-->
-        <file>${log.info}</file>
+        <file>${HOME_LOG}/info.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/info/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
@@ -20,8 +19,7 @@
     </appender>
 
     <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--        <file>${HOME_LOG}/warn.log</file>-->
-        <file>${log.warn}</file>
+        <file>${HOME_LOG}/warn.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/warn/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
