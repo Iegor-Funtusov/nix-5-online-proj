@@ -1,11 +1,12 @@
 package com.nixsolutions.courses.data;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Group {
 
-    private final int SIZE;
     private String name;
+    private final int SIZE;
     private Student[] list;
 
     public Group(int SIZE) {
@@ -36,9 +37,9 @@ public class Group {
     @Override
     public String toString() {
         return "Group{" +
-                "SIZE=" + SIZE +
-                ", name='" + name + '\'' +
-                ", list=" + Arrays.toString(list) +
+                "name='" + name + '\'' +
+                ", SIZE=" + SIZE +
+                ", list=" + Arrays.toString(Arrays.stream(list).filter(Objects::nonNull).toArray(Student[]::new)) +
                 '}';
     }
 }

@@ -3,6 +3,7 @@ package com.nixsolutions.courses.controllers;
 import com.nixsolutions.courses.data.Group;
 import com.nixsolutions.courses.services.GroupService;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -14,18 +15,24 @@ public class GroupController {
     final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
     private void create() throws IOException {
-        System.out.println("Enter maximum size of the group:");
-        Group group = new Group(Integer.parseInt(reader.readLine()));
-        System.out.println("Enter  the group name (it must be unique):");
-        group.setName(reader.readLine());
-        groupService.create(group);
+        try {
+            System.out.println("Enter maximum size of the group:");
+            Group group = new Group(Integer.parseInt(reader.readLine()));
+            System.out.println("Enter  the group name (it must be unique):");
+            group.setName(reader.readLine());
+            groupService.create(group);
+        } catch (NumberFormatException e) {
+            System.out.println("Wrong format. Number is expected");
+        } catch (InstanceAlreadyExistsException e) {
+            System.out.println("Group with the same name already exists");
+        }
     }
 
     private void read() throws IOException {
         System.out.println("Enter name of group you want to read:");
         System.out.println(groupService.read(reader.readLine()));
     }
-/////////////////////////////////// check
+
     private void update() throws IOException {
         System.out.println("Enter group name you want to change:");
         Group group = groupService.read(reader.readLine());
@@ -51,7 +58,7 @@ public class GroupController {
     private void readAll() {
         Group[] groups = groupService.readAll();
         for (Group group : groups) {
-            System.out.println("Name: " + group.getName() + " Size: " + group.getSIZE());
+            System.out.println(group);
         }
     }
 
