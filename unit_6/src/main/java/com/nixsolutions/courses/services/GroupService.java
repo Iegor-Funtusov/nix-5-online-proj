@@ -54,7 +54,7 @@ public class GroupService {
     public void delete(String name) {
             Group current = read(name);
             for (int i = 0; i < db.length; i++) {
-                if (db[i].getName().equals(name)) {
+                if (db[i].getName().equals(current.getName())) {
                     db[i] = null;
                     break;
                 }

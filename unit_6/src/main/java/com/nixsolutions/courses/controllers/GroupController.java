@@ -21,6 +21,7 @@ public class GroupController {
             System.out.println("Enter  the group name (it must be unique):");
             group.setName(reader.readLine());
             groupService.create(group);
+            System.out.println("Group created");
         } catch (NumberFormatException e) {
             System.out.println("Wrong format. Number is expected");
         } catch (InstanceAlreadyExistsException e) {
@@ -47,12 +48,13 @@ public class GroupController {
                 break;
         }
         groupService.update(group);
+        System.out.println("Group updated");
     }
 
     private void delete() throws IOException {
         System.out.println("Enter group name you want to delete:");
         groupService.delete(reader.readLine());
-        System.out.println("Group is deleted");
+        System.out.println("Group deleted");
     }
 
     private void readAll() {
