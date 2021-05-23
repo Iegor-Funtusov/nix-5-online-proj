@@ -3,8 +3,8 @@ package ua.com.nkrasnovoronka.app.data;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.com.nkrasnovoronka.app.dao.Author;
-import ua.com.nkrasnovoronka.app.dao.Book;
+import ua.com.nkrasnovoronka.app.model.Author;
+import ua.com.nkrasnovoronka.app.model.Book;
 import ua.com.nkrasnovoronka.lib.Crud;
 import ua.com.nkrasnovoronka.lib.CrudProcessorFactory;
 
@@ -50,7 +50,7 @@ public class LibraryDB {
 
 
     public Collection<Book> getAllBooksByAuthorsName(String name) {
-        if(name != null){
+        if (name != null) {
             loggerInfo.info("Getting all books by author name {}", name);
             Set<Book> collect = readAllBooks().stream()
                     .filter(book -> book.getAuthorId().equals(getAuthorByName(name).getId()))
@@ -63,7 +63,7 @@ public class LibraryDB {
 
 
     public Author removeAuthor(String name) {
-        if(name != null){
+        if (name != null) {
             Collection<Book> allBooksByAuthorsName = getAllBooksByAuthorsName(name);
             loggerInfo.info("Getting all books by author name {}", name);
             Author author = getAuthorByName(name);
@@ -82,7 +82,7 @@ public class LibraryDB {
 
 
     public Author getAuthorByName(String authorName) {
-        if(authorName != null){
+        if (authorName != null) {
             Author author = readAllAuthors().stream()
                     .filter(author1 -> author1.getName().equals(authorName))
                     .findFirst()
@@ -99,7 +99,7 @@ public class LibraryDB {
     }
 
     public Book getBookByName(String bookName) {
-        if(bookName != null){
+        if (bookName != null) {
             Book book = readAllBooks().stream()
                     .filter(book1 -> book1.getName().equals(bookName))
                     .findFirst()
@@ -115,7 +115,7 @@ public class LibraryDB {
     }
 
     public Book removeBook(String name) {
-        if(name != null){
+        if (name != null) {
             Book book = getBookByName(name);
             books.delete(book.getId());
             return book;

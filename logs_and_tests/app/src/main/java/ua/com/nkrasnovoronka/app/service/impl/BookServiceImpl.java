@@ -2,7 +2,7 @@ package ua.com.nkrasnovoronka.app.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.com.nkrasnovoronka.app.dao.Book;
+import ua.com.nkrasnovoronka.app.model.Book;
 import ua.com.nkrasnovoronka.app.data.LibraryDB;
 import ua.com.nkrasnovoronka.app.service.BookService;
 
@@ -17,8 +17,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book create(Book book) {
-        if(book != null){
-            if(book.getName().isEmpty()){
+        if (book != null) {
+            if (book.getName().isEmpty()) {
                 loggerWarn.warn("book name is empty");
             }
             libraryDB.getBooks().create(book);
@@ -31,7 +31,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book removeBookByName(String name) {
-        if(name != null){
+        if (name != null) {
             Book book = libraryDB.removeBook(name);
             loggerInfo.info("Removing book with id {}", book.getId());
             return book;
@@ -44,7 +44,7 @@ public class BookServiceImpl implements BookService {
     public Collection<Book> getAllBooks() {
         loggerInfo.info("Getting all books");
         Collection<Book> books = libraryDB.getBooks().readAll();
-        if(books != null){
+        if (books != null) {
             return books;
         }
         loggerError.error("Cannot get all books");
@@ -53,8 +53,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void updateBook(Book book) {
-        if(book != null){
-            loggerInfo.info("Updating book with id {}" , book.getId());
+        if (book != null) {
+            loggerInfo.info("Updating book with id {}", book.getId());
             libraryDB.getBooks().update(book);
         }
         loggerError.error("Book entity is null");
@@ -63,7 +63,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookByName(String name) {
-        if(name != null){
+        if (name != null) {
             Book bookByName = libraryDB.getBookByName(name);
             loggerInfo.info("Get book by name id {}", bookByName.getId());
             return bookByName;

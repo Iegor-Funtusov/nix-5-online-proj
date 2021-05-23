@@ -1,6 +1,6 @@
 package ua.com.nkrasnovoronka.app.service;
 
-import ua.com.nkrasnovoronka.app.dao.Book;
+import ua.com.nkrasnovoronka.app.model.Book;
 
 import java.util.Collection;
 

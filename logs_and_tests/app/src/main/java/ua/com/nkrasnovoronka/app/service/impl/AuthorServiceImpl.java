@@ -2,8 +2,8 @@ package ua.com.nkrasnovoronka.app.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.com.nkrasnovoronka.app.dao.Author;
-import ua.com.nkrasnovoronka.app.dao.Book;
+import ua.com.nkrasnovoronka.app.model.Author;
+import ua.com.nkrasnovoronka.app.model.Book;
 import ua.com.nkrasnovoronka.app.data.LibraryDB;
 import ua.com.nkrasnovoronka.app.service.AuthorService;
 
@@ -20,8 +20,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author create(Author author) {
-        if(author != null){
-            if(author.getName().isEmpty()){
+        if (author != null) {
+            if (author.getName().isEmpty()) {
                 loggerWarn.warn("Author name is empty!!");
             }
             libraryDB.getAuthors().create(author);
@@ -34,7 +34,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author removeAuthorByName(String name) {
-        if(name == null){
+        if (name == null) {
             loggerError.error("Author name is null");
             throw new NullPointerException("Author name cannot be null");
         }
@@ -52,10 +52,10 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void updateAuthor(Author author) {
-        if(author != null){
+        if (author != null) {
             libraryDB.getAuthors().update(author);
             loggerInfo.info("Author with id {} updated", author.getId());
-        }else {
+        } else {
             loggerError.error("Author is null!!!");
             throw new NullPointerException("Entity author cannot be null");
         }
@@ -65,8 +65,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author getAuthorByName(String name) {
-        if(name != null){
-            if(name.isEmpty()){
+        if (name != null) {
+            if (name.isEmpty()) {
                 loggerWarn.warn("Name field is empty");
             }
             Author authorByName = libraryDB.getAuthorByName(name);
@@ -79,16 +79,16 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Collection<Book> getAllAuthorBooks(String authorName) {
-        if(authorName != null){
-            if(authorName.isEmpty()){
+        if (authorName != null) {
+            if (authorName.isEmpty()) {
                 loggerWarn.warn("Author name is empty");
             }
             loggerInfo.info("Getting all books with author name {}", authorName);
             return libraryDB.getAllBooksByAuthorsName(authorName);
 
-        }else {
+        } else {
             loggerError.error("Author name is null");
-            throw  new NullPointerException("Author name cannot be null");
+            throw new NullPointerException("Author name cannot be null");
         }
     }
 

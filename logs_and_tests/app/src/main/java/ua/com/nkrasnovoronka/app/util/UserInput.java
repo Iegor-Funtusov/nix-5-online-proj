@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -25,7 +24,7 @@ public class UserInput {
         return userInput;
     }
 
-    public static int userInputNumber(){
+    public static int userInputNumber() {
         int num = 0;
         System.out.println("Pleas enter number");
         try {
@@ -36,7 +35,7 @@ public class UserInput {
         return num;
     }
 
-    public static String userInputString(){
+    public static String userInputString() {
         System.out.println("Pleas enter string ");
         String res = "";
         try {

@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka.app.dao;
+package ua.com.nkrasnovoronka.app.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,11 +7,13 @@ import ua.com.nkrasnovoronka.lib.Entity;
 
 @Getter
 @Setter
-@ToString(callSuper = true)
-public class Author extends Entity {
+@ToString
+public class Book extends Entity {
     private String name;
+    private String authorId;
 
-    public Author(String name) {
+
+    public Book(String name) {
         this.name = name;
     }
 }

@@ -44,38 +44,38 @@ public class Main {
                     libraryController.createBook();
                     break;
                 }
-                case 2:{
+                case 2: {
                     libraryController.getBookByName();
                     break;
                 }
-                case 3:{
+                case 3: {
                     libraryController.printAllBooks();
                     break;
                 }
-                case 4:{
+                case 4: {
                     libraryController.printAllBooksByAuthor();
                     break;
                 }
-                case 5:{
+                case 5: {
                     libraryController.updateBook();
                     break;
                 }
-                case 6:{
+                case 6: {
                     libraryController.removeBook();
                     break;
                 }
-                case 7:{
+                case 7: {
                     crudAction();
                     break;
                 }
-                default:{
+                default: {
                     System.out.println("Sorry wrong action. Pleas repeat");
                 }
             }
         }
     }
 
-    public static void authorCrud(){
+    public static void authorCrud() {
         int bookAction = 1;
         while (bookAction != 0) {
             System.out.println("Pleas choose action with authors");
@@ -88,31 +88,31 @@ public class Main {
                     libraryController.addAuthorToLibrary();
                     break;
                 }
-                case 2:{
+                case 2: {
                     libraryController.getAuthorByName();
                     break;
                 }
-                case 3:{
+                case 3: {
                     libraryController.printAllAuthors();
                     break;
                 }
-                case 4:{
+                case 4: {
                     libraryController.printAllBooksByAuthor();
                     break;
                 }
-                case 5:{
+                case 5: {
                     libraryController.updateAuthor();
                     break;
                 }
-                case 6:{
+                case 6: {
                     libraryController.removeAuthor();
                     break;
                 }
-                case 7:{
+                case 7: {
                     crudAction();
                     break;
                 }
-                default:{
+                default: {
                     System.out.println("Sorry wrong action. Pleas repeat");
                 }
             }

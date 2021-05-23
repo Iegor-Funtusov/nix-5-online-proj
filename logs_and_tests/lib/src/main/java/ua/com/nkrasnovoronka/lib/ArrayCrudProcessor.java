@@ -6,11 +6,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
+public class ArrayCrudProcessor<E extends Entity> implements Crud<E> {
     private final int DATA_CAPACITY = 25;
     private Object[] dataStorage = new Object[DATA_CAPACITY];
     private int size;
-
 
 
     @Override
@@ -19,7 +18,7 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
             throw new IllegalArgumentException("Entity is null");
         }
         resizeIfNeeded();
-        if(e.getId() == null){
+        if (e.getId() == null) {
             e.setId(UUID.randomUUID().toString());
         }
         dataStorage[size++] = e;
@@ -41,7 +40,7 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
 
     private E getEntityById(String id) {
         return (E) Arrays.stream(dataStorage)
-                .filter(o -> ((E)o).getId().equals(id))
+                .filter(o -> ((E) o).getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new IllegalArgumentException("Cannot find entity with id " + id));
     }
@@ -58,7 +57,7 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
 
     private void removeEntity(E current) {
         for (int i = 0; i < size; i++) {
-            if(dataStorage[i].equals(current)){
+            if (dataStorage[i].equals(current)) {
                 System.arraycopy(dataStorage, i + 1, dataStorage, i, size - i - 1);
                 size--;
             }
@@ -82,8 +81,8 @@ public class ArrayCrudProcessor<E extends  Entity> implements Crud<E> {
         throw new RuntimeException("entity is not exist");
     }
 
-    private void resizeIfNeeded(){
-        if(dataStorage.length == size){
+    private void resizeIfNeeded() {
+        if (dataStorage.length == size) {
             E[] newDataStorage = (E[]) new Object[DATA_CAPACITY * 2];
             System.arraycopy(dataStorage, 0, newDataStorage, 0, size);
             dataStorage = newDataStorage;
