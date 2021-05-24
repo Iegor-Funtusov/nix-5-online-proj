@@ -31,40 +31,40 @@ public class ManufacturerDao {
     }
 
     public void update(Manufacturer manufacturer) {
-//        if (StringUtils.isNotBlank(manufacturer.getId())) {
-//            Manufacturer current = getById(manufacturer.getId());
-//            if (current == null) {
-//                loggerError.error("Manufacturer wasn't found (id = null)");
-//                throw new RuntimeException("There is no such manufacturer");
-//            }
-//            try {
-//                BeanUtils.copyProperties(current, manufacturer);
-//            } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
-//                illegalAccessException.printStackTrace();
-//            }
-//        } else {
-//            loggerError.error("Manufacturer wasn't found(id doesn't exist)");
-//            throw new RuntimeException("There is no such manufacturer");
-//        }
+        if (StringUtils.isNotBlank(manufacturer.getId())) {
+            Manufacturer current = getById(manufacturer.getId());
+            if (current == null) {
+                loggerError.error("Manufacturer wasn't found (id = null)");
+                throw new RuntimeException("There is no such manufacturer");
+            }
+            try {
+                BeanUtils.copyProperties(current, manufacturer);
+            } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
+                illegalAccessException.printStackTrace();
+            }
+        } else {
+            loggerError.error("Manufacturer wasn't found(id doesn't exist)");
+            throw new RuntimeException("There is no such manufacturer");
+        }
     }
 
     public static void delete(String id) {
-//        if (StringUtils.isNotBlank(id)) {
-//            Manufacturer current = getById(id);
-//            if (current == null) {
-//                loggerError.error("Manufacturer wasn't found (id = null)");
-//                throw new RuntimeException("There is no such manufacturer");
-//            }
-//            for(int k = 0; k < objects.length; k++) {
-//                if(((Manufacturer)objects[k]).getId().equals(id)) {
-//                    objects[k] = null;
-//                    break;
-//                }
-//            }
-//        } else {
-//            loggerError.error("Manufacturer wasn't found(id doesn't exist)");
-//            throw new RuntimeException("There is no such manufacturer");
-//        }
+        if (StringUtils.isNotBlank(id)) {
+            Manufacturer current = getById(id);
+            if (current == null) {
+                loggerError.error("Manufacturer wasn't found (id = null)");
+                throw new RuntimeException("There is no such manufacturer");
+            }
+            for(int k = 0; k < objects.length; k++) {
+                if(((Manufacturer)objects[k]).getId().equals(id)) {
+                    objects[k] = null;
+                    break;
+                }
+            }
+        } else {
+            loggerError.error("Manufacturer wasn't found(id doesn't exist)");
+            throw new RuntimeException("There is no such manufacturer");
+        }
     }
 
     public List list() {
@@ -72,14 +72,14 @@ public class ManufacturerDao {
     }
 
     public Manufacturer read(String id) {
-//        if (StringUtils.isNotBlank(id)) {
-//            Manufacturer current = getById(id);
-//            if (current == null) {
-//                loggerError.error("Manufacturer wasn't found (id = null)");
-//                throw new RuntimeException("There is no such manufacturer");
-//            }
-//            return current;
-//        }
+        if (StringUtils.isNotBlank(id)) {
+            Manufacturer current = getById(id);
+            if (current == null) {
+                loggerError.error("Manufacturer wasn't found (id = null)");
+                throw new RuntimeException("There is no such manufacturer");
+            }
+            return current;
+        }
         loggerError.error("Manufacturer wasn't found(id doesn't exist)");
         throw new RuntimeException("There is no such manufacturer");
     }

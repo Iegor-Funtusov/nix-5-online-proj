@@ -134,7 +134,6 @@ public class ProductControl {
             if (product.getName().equals(name)) {
                 productService.delete(product.getId());
                 counter++;
-//                break;
             }
         }
         if (counter == 0)
@@ -160,13 +159,6 @@ public class ProductControl {
     private static void readingAll(){
         Collection<Product> list = productService.find();
         list.forEach(System.out::println);
-    }
-
-    private static String input(){
-        Scanner sc = new Scanner(System.in);
-        String input = sc.nextLine();
-        input = input.toLowerCase();
-        return input;
     }
 
     private static String name(){

@@ -75,49 +75,16 @@ public class Control {
         Collection<Manufacturer> list = manufacturerService.find();
         System.out.println("Input name of manufacturer where you want to change data");
         name = name();
-//        System.out.println("Input what you want to change (name of product or price)\n" +
-//                "1 >> name of product\n" +
-//                "2 >> price");
-//        updateInput = sc.nextLine();
-//        updateInput = updateInput.toLowerCase();
-//        flag = true;
-//        while (flag) {
-//            switch (updateInput) {
-//                case "1": {
-                    for (Manufacturer manufacturer : list) {
-                        if (manufacturer.getName().equals(name)) {
-                            System.out.println("Input new name of manufacturer");
-                            newName = name();
-                            manufacturer.setName(newName);
-                            manufacturerService.update(manufacturer);
-                            counter++;
-                            break;
-                        }
-                    }
-//                    flag = false;
-//                }
-//                break;
-//                case "2": {
-//                    for (Product product : list) {
-//                        if (product.getName().equals(name)) {
-//                            System.out.println("Input new price");
-//                            newPrice = price();
-//                            product.setPrice(newPrice);
-//                            productService.update(product);
-//                            counter++;
-//                        }
-//                    }
-//                    flag = false;
-//                }
-//                break;
-//                default: {
-//                    System.out.println("Incorrect input. Input again");
-//                    updateInput = sc.nextLine();
-//                    updateInput = updateInput.toLowerCase();
-//                    counter = 0;
-//                }
-//            }
-//        }
+        for (Manufacturer manufacturer : list) {
+            if (manufacturer.getName().equals(name)) {
+                System.out.println("Input new name of manufacturer");
+                newName = name();
+                manufacturer.setName(newName);
+                manufacturerService.update(manufacturer);
+                counter++;
+                break;
+            }
+        }
         if (counter == 0)
             System.out.println("Such manufacturer doesn't exist");
     }
@@ -166,7 +133,6 @@ public class Control {
         name = name();
         for (Manufacturer manufacturer : list) {
             if (manufacturer.getName().equals(name)) {
-//                System.out.println(manufacturerService.read(manufacturer.getId()));
                 for(Product product : list1){
                     if(product.getManufId().equals(manufacturer.getId())){
                         System.out.println(productService.read(product.getId()));
@@ -185,13 +151,6 @@ public class Control {
         Collection<Manufacturer> list = manufacturerService.find();
         list.forEach(System.out::println);
     }
-
-//    private static String input(){
-//        Scanner sc = new Scanner(System.in);
-//        String input = sc.nextLine();
-//        input = input.toLowerCase();
-//        return input;
-//    }
 
     private static String name(){
         Scanner sc = new Scanner(System.in);

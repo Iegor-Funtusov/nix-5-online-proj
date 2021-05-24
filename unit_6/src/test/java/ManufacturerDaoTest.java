@@ -10,9 +10,11 @@ import products.ProductService;
 
 import java.util.Collection;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 public class ManufacturerDaoTest {
-    private static ManufacturerService service = new ManufacturerService();
-    private static ProductService serviceProduct = new ProductService();
+    private final static ManufacturerService service = new ManufacturerService();
+    private final static ProductService serviceProduct = new ProductService();
     private static boolean flag;
 
     @BeforeAll
@@ -37,12 +39,6 @@ public class ManufacturerDaoTest {
         Assertions.assertTrue(list.size() != 0 && flag == true);
     }
 
-    @Test
-    @Order(5)
-    public void findAll() {
-        Collection<Manufacturer> manufacturers = service.find();
-        Assertions.assertTrue(manufacturers.size() != 0);
-    }
 
     @Test
     @Order(2)
@@ -50,12 +46,12 @@ public class ManufacturerDaoTest {
         Collection<Manufacturer> list = service.find();
         for (Manufacturer manufacturer : list) {
             if (manufacturer.getName().equals("Name48")) {
-                manufacturer.setName("NameN");
+                manufacturer.setName("UPDATED");
                 service.update(manufacturer);
                 break;
             }
         }
-        flag = read("NameN");
+        flag = read("UPDATED");
         Assertions.assertTrue(list.size() != 0 && flag == true);
     }
 
@@ -64,39 +60,91 @@ public class ManufacturerDaoTest {
     public void delete(){
         Collection<Manufacturer> list = service.find();
         for (Manufacturer manufacturer : list) {
-            if (manufacturer.getName().equals("Name101")) {
+            if (manufacturer.getName().equals("Name")) {
                 service.delete(manufacturer.getId());
                 break;
             }
         }
-        flag = read("Name101");
+        flag = read("Name");
         Assertions.assertTrue( flag == false);
     }
 
     @Test
-    @Order(6)
+    @Order(4)
+    public void findAll() {
+        Collection<Manufacturer> manufacturers = service.find();
+        Assertions.assertTrue(manufacturers.size() != 0);
+    }
+
+
+    @Test
+    @Order(5)
     public void readProducts(){
         Collection<Manufacturer> list = service.find();
-
-        Collection<Product> list1 = serviceProduct.find();
-        System.out.println(list1);
+        Collection<Product> list1;
         for (Manufacturer manufacturer : list) {
-            if (manufacturer.getName().equals("Name10")) {
+            if (manufacturer.getName().equals("UPDATED")) {
+                Product product1 = new Product();
+                product1.setManufName("UPDATED");
+                product1.setManufId(manufacturer.getId());
+                product1.setPrice(10);
+                product1.setName("Milk");
+                serviceProduct.create(product1);
+                list1 = serviceProduct.find();
                 for(Product product : list1){
                     if(product.getManufId().equals(manufacturer.getId())){
-                        System.out.println(serviceProduct.read(product.getId()));
+                        serviceProduct.read(product.getId());
                     }
                 }
+                Assertions.assertTrue( list1.size() != 0);
                 break;
             }
         }
+    }
+
+    @Test
+    @Order(6)
+    public void ManufacturerCreateNull(){
+        assertThrows(NullPointerException.class, () -> service.create(null));
+    }
+
+    @Test
+    @Order(7)
+    public void ManufacturerDeleteNull(){
+        assertThrows(RuntimeException.class, () -> service.delete(null));
+    }
+
+    @Test
+    @Order(8)
+    public void ManufacturerDeleteEmpty(){
+        assertThrows(RuntimeException.class, () -> service.delete(""));
+        assertThrows(RuntimeException.class, () -> service.delete(" "));
+    }
+
+    @Test
+    @Order(9)
+    public void ManufacturerUpdateNull(){
+        assertThrows(NullPointerException.class, () -> service.update(null));
+    }
+
+
+    @Test
+    @Order(10)
+    public void ManufacturerReadNull(){
+        assertThrows(RuntimeException.class, () -> service.read(null));
+    }
+
+    @Test
+    @Order(11)
+    public void ManufacturerReadEmpty(){
+        assertThrows(RuntimeException.class, () -> service.read(""));
+        assertThrows(RuntimeException.class, () -> service.read(" "));
     }
 
     private static boolean read(String name){
         Collection<Manufacturer> list = service.find();
         for (Manufacturer manufacturer : list) {
             if (manufacturer.getName().equals(name)) {
-                System.out.println(manufacturer.getName());
                 return true;
             }
         }
