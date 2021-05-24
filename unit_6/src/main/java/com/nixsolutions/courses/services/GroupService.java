@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class GroupService {
 
-    private final static int STORAGE_CAPACITY = 10;
+    public final static int STORAGE_CAPACITY = 10;
     private final static Group[] db = new Group[STORAGE_CAPACITY];
     private static final Logger loggerInfo = LoggerFactory.getLogger("info");
     private static final Logger loggerWarn = LoggerFactory.getLogger("warn");
@@ -54,9 +54,9 @@ public class GroupService {
         }
     }
 
-    public void update(Group group) {
+    public void update(Group group, String name) {
         loggerInfo.info("Started updating group: " + group.getName());
-        Group current = read(group.getName());
+        Group current = read(name);
         try {
             BeanUtils.copyProperties(current, group);
         } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {

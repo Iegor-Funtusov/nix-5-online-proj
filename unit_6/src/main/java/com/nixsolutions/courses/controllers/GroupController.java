@@ -37,6 +37,7 @@ public class GroupController {
     private void update() throws IOException {
         System.out.println("Enter group name you want to change:");
         Group group = groupService.read(reader.readLine());
+        String name = group.getName();
         System.out.println("What to change?\n1 - name\n2 - list of students");
         switch (reader.readLine()) {
             case "1":
@@ -47,7 +48,7 @@ public class GroupController {
                 studentController.readConsole(group, reader);
                 break;
         }
-        groupService.update(group);
+        groupService.update(group, name);
         System.out.println("Group updated");
     }
 
