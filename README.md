@@ -1,1 +1,1 @@
-# nix-5-online-proj
+-> java -jar target\crud.jar
