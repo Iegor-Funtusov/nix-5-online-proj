@@ -22,8 +22,6 @@ public class AuthorServiceTest {
             Author author = new Author(String.valueOf(i));
             authorService.create(author);
         }
-
-        assertTrue(authorService.getAllAuthors().size() != 0);
     }
 
     @Test

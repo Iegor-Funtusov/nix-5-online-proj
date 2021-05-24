@@ -56,9 +56,10 @@ public class BookServiceImpl implements BookService {
         if (book != null) {
             loggerInfo.info("Updating book with id {}", book.getId());
             libraryDB.getBooks().update(book);
+        }else {
+            loggerError.error("Book entity is null");
+            throw new NullPointerException("Book entity cannot be null");
         }
-        loggerError.error("Book entity is null");
-        throw new NullPointerException("Book entity cannot be null");
     }
 
     @Override
