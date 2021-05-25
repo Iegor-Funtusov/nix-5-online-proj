@@ -41,7 +41,7 @@ public class BookServiceTest {
 
     @Test
     @Order(3)
-    public void removeBookByName(){
+    public void removeBookByName() {
         Book removed = bookService.removeBookByName("9");
         assertFalse(bookService.getAllBooks().contains(removed));
     }
@@ -57,6 +57,7 @@ public class BookServiceTest {
     public void getAllBooks() {
         assertFalse(bookService.getAllBooks().isEmpty());
     }
+
     @Test
     @Order(6)
     public void updateBookTest() {

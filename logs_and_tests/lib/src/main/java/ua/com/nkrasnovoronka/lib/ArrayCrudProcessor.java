@@ -21,7 +21,11 @@ public class ArrayCrudProcessor<E extends Entity> implements Crud<E> {
         if (e.getId() == null) {
             e.setId(UUID.randomUUID().toString());
         }
-        dataStorage[size++] = e;
+        if (!contains(e)) {
+            dataStorage[size++] = e;
+        } else {
+            throw new NullPointerException(String.format("Entity %s already exist in database", e));
+        }
     }
 
     @Override
@@ -87,6 +91,13 @@ public class ArrayCrudProcessor<E extends Entity> implements Crud<E> {
             System.arraycopy(dataStorage, 0, newDataStorage, 0, size);
             dataStorage = newDataStorage;
         }
+    }
+
+    public boolean contains(E element) {
+        if (dataStorage.length > 0) {
+            return Arrays.asList(dataStorage).contains(element);
+        }
+        return false;
     }
 
 }

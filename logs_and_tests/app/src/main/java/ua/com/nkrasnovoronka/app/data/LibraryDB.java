@@ -9,8 +9,8 @@ import ua.com.nkrasnovoronka.lib.Crud;
 import ua.com.nkrasnovoronka.lib.CrudProcessorFactory;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 public class LibraryDB {
@@ -52,9 +52,12 @@ public class LibraryDB {
     public Collection<Book> getAllBooksByAuthorsName(String name) {
         if (name != null) {
             loggerInfo.info("Getting all books by author name {}", name);
-            Set<Book> collect = readAllBooks().stream()
-                    .filter(book -> book.getAuthorId().equals(getAuthorByName(name).getId()))
-                    .collect(Collectors.toSet());
+            Set<Book> collect = new HashSet<>();
+            for (Book book : readAllBooks()) {
+                if (book.getAuthorId() != null && book.getAuthorId().equals(getAuthorByName(name).getId())) {
+                    collect.add(book);
+                }
+            }
             return collect;
         }
         loggerError.error("Author name is null");

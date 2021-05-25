@@ -1,12 +1,10 @@
 package ua.com.nkrasnovoronka.app.model;
 
-import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 import ua.com.nkrasnovoronka.lib.Entity;
 
-@Getter
-@Setter
+//@Getter
+//@Setter
 @ToString
 public class Book extends Entity {
     private String name;
@@ -15,5 +13,21 @@ public class Book extends Entity {
 
     public Book(String name) {
         this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(String authorId) {
+        this.authorId = authorId;
     }
 }

@@ -26,8 +26,8 @@ public class AuthorServiceTest {
 
     @Test
     @Order(1)
-    public void createAuthor(){
-        Author author = new Author("created");
+    public void createAuthor() {
+        Author author = new Author("tt");
         authorService.create(author);
         Author authorByName = authorService.getAuthorByName(author.getName());
         assertEquals(author, authorByName);
@@ -35,31 +35,25 @@ public class AuthorServiceTest {
 
     @Test
     @Order(2)
-    public void shouldThrowAnExceptionIfAuthorIsNull(){
+    public void shouldThrowAnExceptionIfAuthorIsNull() {
         assertThrows(NullPointerException.class, () -> authorService.create(null));
-    }
-    @Test
-    @Order(3)
-    public void removeAuthorByName(){
-        Author author = authorService.removeAuthorByName("1");
-        assertFalse(authorService.getAllAuthors().contains(author));
     }
 
     @Test
-    @Order(4)
-    public void shouldThrowExceptionIfRemovedAuthorIsNull(){
+    @Order(3)
+    public void shouldThrowExceptionIfRemovedAuthorIsNull() {
         assertThrows(NullPointerException.class, () -> authorService.removeAuthorByName(null));
     }
 
     @Test
-    @Order(5)
-    public void getAllAuthors(){
+    @Order(4)
+    public void getAllAuthors() {
         assertFalse(authorService.getAllAuthors().isEmpty());
     }
 
     @Test
-    @Order(6)
-    public void updateAuthorTest(){
+    @Order(5)
+    public void updateAuthorTest() {
         Author authorByName = authorService.getAuthorByName("2");
         authorByName.setName("updated");
         authorService.updateAuthor(authorByName);
@@ -67,37 +61,45 @@ public class AuthorServiceTest {
     }
 
     @Test
-    @Order(7)
-    public void shouldThrowExceptionIfUpdatedAuthorIsNull(){
+    @Order(6)
+    public void shouldThrowExceptionIfUpdatedAuthorIsNull() {
         assertThrows(NullPointerException.class, () -> authorService.updateAuthor(null));
     }
 
     @Test
-    @Order(8)
-    public void getAuthorByName(){
+    @Order(7)
+    public void getAuthorByName() {
         Author author = new Author("get");
         authorService.create(author);
         assertSame(author, authorService.getAuthorByName("get"));
     }
 
     @Test
-    @Order(9)
-    public void shouldThrowExceptionIfGetAuthorIsNull(){
+    @Order(8)
+    public void shouldThrowExceptionIfGetAuthorIsNull() {
         assertThrows(NullPointerException.class, () -> authorService.getAuthorByName(null));
     }
 
     @Test
+    @Order(9)
+    public void shouldThrowExceptionIfGetAllAuthorsBookAuthorNameIsNull() {
+        assertThrows(NullPointerException.class, () -> authorService.getAllAuthorBooks(null));
+    }
+
+    @Test
     @Order(10)
-    public void getAllAuthorsBooks(){
-        createAuthorWithBooks();
-        Collection<Book> with_books = authorService.getAllAuthorBooks("with books");
-        assertEquals(2, with_books.size());
+    public void removeAuthorByName() {
+        Author author = authorService.removeAuthorByName("1");
+        System.out.println(author);
+        assertFalse(authorService.getAllAuthors().contains(author));
     }
 
     @Test
     @Order(11)
-    public void shouldThrowExceptionIfGetAllAuthorsBookAuthorNameIsNull(){
-     assertThrows(NullPointerException.class, () -> authorService.getAllAuthorBooks(null));
+    public void getAllAuthorsBooks() {
+        createAuthorWithBooks();
+        Collection<Book> with_books = authorService.getAllAuthorBooks("with books");
+        assertEquals(2, with_books.size());
     }
 
     private void createAuthorWithBooks() {

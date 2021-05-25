@@ -2,8 +2,8 @@ package ua.com.nkrasnovoronka.app.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.com.nkrasnovoronka.app.model.Book;
 import ua.com.nkrasnovoronka.app.data.LibraryDB;
+import ua.com.nkrasnovoronka.app.model.Book;
 import ua.com.nkrasnovoronka.app.service.BookService;
 
 import java.util.Collection;
@@ -56,7 +56,7 @@ public class BookServiceImpl implements BookService {
         if (book != null) {
             loggerInfo.info("Updating book with id {}", book.getId());
             libraryDB.getBooks().update(book);
-        }else {
+        } else {
             loggerError.error("Book entity is null");
             throw new NullPointerException("Book entity cannot be null");
         }
