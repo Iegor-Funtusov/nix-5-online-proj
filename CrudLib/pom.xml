@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>logs_and_test</artifactId>
+        <groupId>com.nixsolutions</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>CrudLib</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <reflections.version>0.9.12</reflections.version>
+        <commons.beanutils.version>1.9.4</commons.beanutils.version>
+        <commons.logging.version>1.2</commons.logging.version>
+        <commons.lang3.version>3.12.0</commons.lang3.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.nixsolutions</groupId>
+            <artifactId>ArrList</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <!-- REFLECTIONS -->
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <version>${reflections.version}</version>
+        </dependency>
+        <!-- COMMONS BEANUTILS -->
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>${commons.beanutils.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons.lang3.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>
