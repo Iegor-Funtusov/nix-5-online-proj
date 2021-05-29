@@ -68,7 +68,7 @@ public class CompanyLeadDao {
             loggerInfo.info("Return all Leads by Company Name", name);
             Company company = getCompanyByName(name);
             companyDao.delete(company.getId());
-            loggerInfo.info("Delete Company with id", company.getId());
+            loggerInfo.info("Delete Company with id" + company.getId());
             loggerWarn.warn("All Leads will be deleted");
             for (Lead lead : allLeadsByCompanyName) {
                 leadDao.delete(lead.getId());
