@@ -4,6 +4,8 @@ import ua.com.nkrasnovoronka.exception.TimeFormatException;
 import ua.com.nkrasnovoronka.model.Time;
 import ua.com.nkrasnovoronka.util.Constants;
 
+import java.util.StringJoiner;
+
 public class TimeFormatter {
 
     public static final String TIME_DELIMITER = ":";
@@ -26,6 +28,14 @@ public class TimeFormatter {
         }
         throw new TimeFormatException("Invalid time format. Time format must be hh:mm:ss or hh:mm or mm:ss");
 
+    }
+
+    public String formatTimeToString(Time time){
+        StringJoiner sj = new StringJoiner(TIME_DELIMITER);
+        sj.add(String.format("%02d", time.getHours()));
+        sj.add(String.format("%02d", time.getMinutes()));
+        sj.add(String.format("%02d", time.getSeconds()));
+        return sj.toString();
     }
 
     private void ifPassedThreeNumbers(String[] split) throws TimeFormatException {
