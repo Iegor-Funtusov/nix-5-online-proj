@@ -4,8 +4,10 @@ import com.nixsolutions.crudlib.BaseEntity;
 
 public class Company extends BaseEntity {
     String companyName;
-    String domain;
-    String industry;
+
+    public Company(String companyName) {
+        this.companyName = companyName;
+    }
 
     public String getCompanyName() {
         return companyName;
@@ -15,29 +17,11 @@ public class Company extends BaseEntity {
         this.companyName = companyName;
     }
 
-    public String getDomain() {
-        return domain;
-    }
-
-    public void setDomain(String domain) {
-        this.domain = domain;
-    }
-
-    public String getIndustry() {
-        return industry;
-    }
-
-    public void setIndustry(String industry) {
-        this.industry = industry;
-    }
-
     @Override
     public String toString() {
         return "Company{" +
                 "id ='" + super.getId() + '\''+
                 "companyName='" + companyName + '\'' +
-                ", domain='" + domain + '\'' +
-                ", industry='" + industry + '\'' +
                 '}';
     }
 }

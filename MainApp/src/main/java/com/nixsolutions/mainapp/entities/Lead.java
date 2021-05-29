@@ -3,41 +3,34 @@ package com.nixsolutions.mainapp.entities;
 import com.nixsolutions.crudlib.BaseEntity;
 
 public class Lead extends BaseEntity {
-    String firstName;
-    String lastName;
-    String email;
+    String Name;
+    String CompanyId;
 
-    public String getFirstName() {
-        return firstName;
+    public Lead(String Name) {
+        this.Name = Name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public String getName() {
+        return Name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public void setName(String name) {
+        this.Name = name;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public String getCompanyId() {
+        return CompanyId;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setCompanyId(String companyId) {
+        CompanyId = companyId;
     }
 
     @Override
     public String toString() {
         return "Lead{" +
                 "id ='" + super.getId() + '\''+
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
+                "Name='" + Name + '\'' +
                 '}';
     }
 }

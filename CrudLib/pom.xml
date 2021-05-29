@@ -20,11 +20,6 @@
         <commons.lang3.version>3.12.0</commons.lang3.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>com.nixsolutions</groupId>
-            <artifactId>ArrList</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
         <!-- REFLECTIONS -->
         <dependency>
             <groupId>org.reflections</groupId>
@@ -43,5 +38,4 @@
             <version>${commons.lang3.version}</version>
         </dependency>
     </dependencies>
-
 </project>

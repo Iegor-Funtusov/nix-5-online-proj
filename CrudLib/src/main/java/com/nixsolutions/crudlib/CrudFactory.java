@@ -4,11 +4,12 @@ import org.reflections.Reflections;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class CrudFactory {
 
     private static CrudFactory instance;
-    private static final String ROOT_PACKAGE = "com.nixsolutions.lib";
+    private static final String ROOT_PACKAGE = "com.nixsolutions.crudlib";
     private Set<Class<? extends CrudService>> crudServiceList;
 
     private CrudFactory() {
@@ -23,16 +24,19 @@ public class CrudFactory {
         return instance;
     }
 
-    public CrudService getCurrent() {
-        for (Class<? extends CrudService> aClass : crudServiceList) {
-            if (!aClass.isAnnotationPresent(Deprecated.class)) {
-                try {
-                    return aClass.getDeclaredConstructor().newInstance();
-                } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-            }
+    public CrudService getCrudService() {
+        Set<Class<? extends CrudService>> crudService = crudServiceList.stream()
+                .filter(aClass -> !aClass.isAnnotationPresent(Deprecated.class))
+                .collect(Collectors.toSet());
+
+        if (crudService.size() != 1) {
+            throw new RuntimeException(crudService + "Singleton Factory has > 1 instance");
         }
-        throw new RuntimeException("Error! ");
+
+        try {
+            return crudService.iterator().next().getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException("Can't create new Factory instance");
+        }
     }
 }

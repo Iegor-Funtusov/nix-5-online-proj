@@ -57,7 +57,7 @@ public class ObjectArrayService<E extends BaseEntity> implements CrudService<E> 
 
     }
 
-    public Collection<E> read() {
+    public Collection<E> readAll() {
         return Arrays.stream(arr)
                 .map(e -> ((E)e))
                 .filter(Objects::nonNull)
