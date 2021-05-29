@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka;
+package ua.com.nkrasnovoronka.model;
 
 public class Date {
     private int day;

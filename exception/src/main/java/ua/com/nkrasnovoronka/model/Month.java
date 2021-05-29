@@ -1,4 +1,4 @@
-package ua.com.nkrasnovoronka;
+package ua.com.nkrasnovoronka.model;
 
 public enum Month {
     JANUARY("JAN", 31), FEBRUARY("FEB", 28), MARCH("MAR", 31),

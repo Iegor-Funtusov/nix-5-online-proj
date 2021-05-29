@@ -8,6 +8,10 @@ public final class Constants {
     private Constants() {
     }
 
+    public static final String HOUR_REGEXP = "^(0\\d|1\\d|2[0-3]{1,2})$";
+    public static final String MINUTE_REGEXP = "^(0\\d|1\\d|[1-5]\\d{1,2})$";
+    public static final String SECONDS_REGEXP = "^(0\\d|1\\d|[1-5]\\d{1,2})$";
+
     public static final String PATTERN_1 = "dd/mm/yy";
     public static final String PATTERN_2 = "m/d/yyyy";
     public static final String PATTERN_3 = "mmm-d-yy";
@@ -17,6 +21,7 @@ public final class Constants {
     private static final String FORMANT_2 = "^(?<month>[1-9]|1[0-2]|)\\/(?<day>[1-9]|[12]\\d|3[01]|)\\/(?<year>\\d{4}|)$";
     private static final String FORMANT_3 = "^(?<month>jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|)\\-(?<day>[1-9]|[12]\\d|3[01]|)\\-(?<year>\\d{2}|)$";
     private static final String FORMANT_4 = "^(?<day>0[1-9]|[12]\\d|3[01]|)\\-(?<month>january|february|march|april|may|june|july|august|september|october|november|december|)\\-(?<year>\\d{4}|)$";
+
 
     public static final Map<Integer, String> dateParserMap = initMap();
     public static final List<String> datePatterns = initList();

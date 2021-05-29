@@ -1,7 +1,7 @@
 package ua.com.nkrasnovoronka.formatter;
 
-import ua.com.nkrasnovoronka.Date;
-import ua.com.nkrasnovoronka.Month;
+import ua.com.nkrasnovoronka.model.Date;
+import ua.com.nkrasnovoronka.model.Month;
 import ua.com.nkrasnovoronka.exception.DataFormatException;
 import ua.com.nkrasnovoronka.util.Constants;
 
