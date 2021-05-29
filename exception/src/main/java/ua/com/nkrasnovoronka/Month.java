@@ -20,4 +20,23 @@ public enum Month {
     public int getNumberOfDays() {
         return numberOfDays;
     }
+
+    public static Month getMountByParameter(int number){
+        for(Month month: Month.values()){
+            if(number == month.ordinal() + 1){
+                return month;
+            }
+        }
+        return null;
+    }
+
+    public static Month getMountByParameter(String name){
+        for(Month month: Month.values()){
+            if(name.equalsIgnoreCase(month.getShortName()) || name.equalsIgnoreCase(month.name())){
+                return month;
+            }
+        }
+        return JANUARY;
+    }
+
 }

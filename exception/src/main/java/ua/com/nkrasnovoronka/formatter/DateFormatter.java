@@ -1,34 +1,63 @@
 package ua.com.nkrasnovoronka.formatter;
 
-import java.util.HashMap;
-import java.util.Map;
+import ua.com.nkrasnovoronka.Date;
+import ua.com.nkrasnovoronka.Month;
+import ua.com.nkrasnovoronka.exception.DataFormatException;
+import ua.com.nkrasnovoronka.util.Constants;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class DateFormatter {
-    private final Map<String, String> dateFormats;
+    private static final int DEFAULT_YEAR = 2021;
+    private static final int DEFAULT_DAY = 1;
 
-    public DateFormatter() {
-        dateFormats = initDateFormats();
-    }
-
-    private Map<String, String> initDateFormats() {
-        final Map<String, String> dateFormats;
-        dateFormats = new HashMap<>();
-        dateFormats.put("dd/mm/yy", "\\d{2}");
-        dateFormats.put("m/d/yyyy", "");
-        dateFormats.put("mmm-d-yy", "");
-        dateFormats.put("dd-mmm-yyyy", "");
-        return dateFormats;
-    }
-
-    public void formatStringToDate(String parser, String input){
-        String regexp = dateFormats.get(parser);
+    public Date formatStringToDate(int parser, String input) throws DataFormatException{
+        String regexp = Constants.dateParserMap.get(parser);
         Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(input);
-        while (matcher.find()){
-            System.out.println(matcher.group());
+        Matcher matcher = pattern.matcher(input.toLowerCase());
+        if(!input.matches(regexp)){
+            throw new DataFormatException(String.format("Date input doesn't match %s format",Constants.datePatterns.get(parser - 1)));
         }
+        Date date = null;
+        while (matcher.find()){
+            int day = getDayOrSetDefault(matcher);
+            Month month = getMonthOrSetDefault(matcher);
+            int year = getYearOrSetDefault(matcher);
+            date = new Date(day, month, year);
+        }
+        return date;
     }
+
+    private int getYearOrSetDefault(Matcher matcher) {
+        int year;
+        try {
+            year = Integer.parseInt(matcher.group("year"));
+        }catch (NumberFormatException e){
+            year = DEFAULT_YEAR;
+        }
+        return year;
+    }
+
+    private int getDayOrSetDefault(Matcher matcher) {
+        int day;
+        try{
+            day = Integer.parseInt(matcher.group("day"));
+        }catch (NumberFormatException e){
+            day = DEFAULT_DAY;
+        }
+        return day;
+    }
+
+    private Month getMonthOrSetDefault(Matcher matcher) {
+        Month month;
+        try {
+            month = Month.getMountByParameter(Integer.parseInt(matcher.group("month")));
+        }catch (NumberFormatException e){
+            month = Month.getMountByParameter(matcher.group("month"));
+        }
+        return month;
+    }
+
 
 }
