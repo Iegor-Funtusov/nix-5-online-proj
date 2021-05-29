@@ -1,1 +1,1 @@
-# nix-5-online-proj
+# unit_6_logs_and_tests
