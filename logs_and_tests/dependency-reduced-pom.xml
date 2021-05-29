@@ -38,6 +38,24 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>local</id>
+      <properties>
+        <log.warn>logs/local_warn.log</log.warn>
+        <log.info>logs/local_info.log</log.info>
+        <log.error>logs/local_error.log</log.error>
+      </properties>
+    </profile>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <log.warn>logs/prod_warn.log</log.warn>
+        <log.info>logs/prod_info.log</log.info>
+        <log.error>logs/prod_error.log</log.error>
+      </properties>
+    </profile>
+  </profiles>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
