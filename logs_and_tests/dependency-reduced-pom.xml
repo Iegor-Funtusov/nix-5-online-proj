@@ -29,7 +29,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.k4rnaj1k.Main</mainClass>
+                  <mainClass>com.k4rnaj1k.ApplicationLauncher</mainClass>
                 </transformer>
               </transformers>
             </configuration>
