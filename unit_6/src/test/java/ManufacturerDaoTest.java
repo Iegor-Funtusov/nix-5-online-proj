@@ -1,9 +1,6 @@
 import manufacturers.Manufacturer;
 import manufacturers.ManufacturerService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import products.Product;
 import products.ProductService;
 
@@ -12,6 +9,7 @@ import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ManufacturerDaoTest {
     private final static ManufacturerService service = new ManufacturerService();
     private final static ProductService serviceProduct = new ProductService();
