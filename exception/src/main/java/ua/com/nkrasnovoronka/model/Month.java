@@ -5,7 +5,7 @@ public enum Month {
     APRIL("APR", 30), MAY("MAY", 31), JUNE("JUN", 30),
     JULY("JUL", 31), AUGUST("AUG", 31), SEPTEMBER("SEP", 30),
     OCTOBER("OCT", 31), NOVEMBER("NOV", 30), DECEMBER("DEC", 31);
-    private String shortName;
+    private final String shortName;
     private int numberOfDays;
 
     Month(String shortName, int numberOfDays) {
@@ -37,6 +37,12 @@ public enum Month {
             }
         }
         return JANUARY;
+    }
+
+    public static void addDayIfLeapYear(boolean isLeapYear){
+        if(isLeapYear){
+            FEBRUARY.numberOfDays += 1;
+        }
     }
 
 }

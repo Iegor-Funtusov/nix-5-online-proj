@@ -33,4 +33,12 @@ public final class Constants {
     private static Map<Integer, String> initMap() {
         return Map.of(1, FORMANT_1, 2, FORMANT_2, 3, FORMANT_3, 4, FORMANT_4);
     }
+
+    public static boolean isLeapYear(int year){
+        if (year % 4 != 0) {
+            return false;
+        } else if (year % 400 == 0) {
+            return true;
+        } else return year % 100 != 0;
+    }
 }
