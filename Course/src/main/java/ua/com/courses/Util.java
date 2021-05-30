@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class Util {
     public final static String EMPTY = "ONE OF THE FIELD IS EMPTY";
 
-    public static void runApp (){
+    public void runApp(){
         CourseController courseController = new CourseController();
         Scanner scanner = new Scanner(System.in);
         boolean checker = true;
@@ -36,29 +36,40 @@ public class Util {
 
             switch(chosenOperation){
                 case 1: {
+                try {
                     System.out.println("Enter course name: ");
                     String courseName = scanner.nextLine();
                     if(!courseName.equals(""))
                     courseController.createCourse(courseName);
                     else System.out.println(EMPTY);
                     break;
+                } catch (RuntimeException e){
+                        System.out.println(e.getMessage());}
+                    break;
                 }
                 case 2: {
-                    System.out.println("Enter surname: ");
-                    String surname = scanner.nextLine();
-                    System.out.println("Enter name: ");
-                    String name = scanner.nextLine();
-                    if(!surname.equals("") && !name.equals(""))
-                    courseController.createStudent(surname, name);
-                    else System.out.println(EMPTY);
+                    try {
+                        System.out.println("Enter surname: ");
+                        String surname = scanner.nextLine();
+                        System.out.println("Enter name: ");
+                        String name = scanner.nextLine();
+                        if(!surname.equals("") && (!name.equals("")))
+                        courseController.createStudent(surname, name);
+                        else System.out.println(EMPTY);
+                        break;
+                    } catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 3: {
                     System.out.println("Enter course name to get info: ");
                     String name = scanner.nextLine();
-                    if(!name.equals(""))
-                    System.out.println(courseController.getCourse(name));
-                    else System.out.println(EMPTY);
+                    try{
+                        System.out.println(courseController.getCourse(name)); }
+                    catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 4: {
@@ -67,9 +78,12 @@ public class Util {
                     String surname = scanner.nextLine();
                     System.out.println("Enter name: ");
                     String name = scanner.nextLine();
-                    if(!surname.equals("") && !name.equals(""))
-                    System.out.println(courseController.getStudent(surname, name));
-                    else System.out.println(EMPTY);
+                    try {
+                        System.out.println(courseController.getStudent(surname, name));
+                    }
+                   catch (RuntimeException e){
+                       System.out.println(e.getMessage());
+                   }
                     break;
                 }
                 case 5: {
@@ -88,10 +102,13 @@ public class Util {
                     String name = scanner.nextLine();
                     System.out.println("Enter course name: ");
                     String courseName = scanner.nextLine();
-                    if(!surname.equals("") && !name.equals("") && ! courseName.equals("")) {
+                    try {
                         courseController.updateCourseAddStudent(courseController.getCourse(courseName), courseController.getStudent(surname, name));
                         courseController.updateStudentAddCourses(courseController.getStudent(surname, name).getId(), courseController.getCourse(courseName));
-                    } else System.out.println(EMPTY);
+                    }
+                    catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 8: {
@@ -102,9 +119,12 @@ public class Util {
                     String name = scanner.nextLine();
                     System.out.println("Enter course name: ");
                     String courseName = scanner.nextLine();
-                    if(!surname.equals("") && !name.equals("") && ! courseName.equals(""))
-                    courseController.UpdateCourseRemoveStudent(courseController.getCourse(courseName), courseController.getStudent(surname,name));
-                    else System.out.println(EMPTY);
+                    try {
+                        courseController.UpdateCourseRemoveStudent(courseController.getCourse(courseName), courseController.getStudent(surname,name));
+                    }
+                    catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 9: {
@@ -113,17 +133,23 @@ public class Util {
                     String surname = scanner.nextLine();
                     System.out.println("Enter name: ");
                     String name = scanner.nextLine();
-                    if(!surname.equals("") && !name.equals(""))
-                    courseController.deleteStudent(courseController.getStudent(surname, name).getId());
-                    else System.out.println(EMPTY);
+                    try {
+                        courseController.deleteStudent(courseController.getStudent(surname, name).getId());
+                    }
+                    catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 10 : {
                     System.out.println("Enter course name to DELETE it: ");
                     String name = scanner.nextLine();
-                    if(!name.equals(""))
-                    courseController.deleteCourse(name);
-                    else System.out.println(EMPTY);
+                    try{
+                        courseController.deleteCourse(name);
+                    }
+                    catch (RuntimeException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 11: {
@@ -133,4 +159,5 @@ public class Util {
             }
         }
     }
+
 }

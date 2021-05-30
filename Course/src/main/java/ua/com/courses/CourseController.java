@@ -151,8 +151,8 @@ public class CourseController {
             loggerInfo.info("End create student " + surname + " " + name);
         }
         else{
-            loggerWarn.warn("Student"  + surname + " " + name + " exists");
-            System.out.println("Student"  + surname + " " + name + " exists");
+            loggerWarn.warn("Student "  + surname + " " + name + " exists");
+            System.out.println("Student "  + surname + " " + name + " exists");
         }
     }
 

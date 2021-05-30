@@ -2,6 +2,7 @@ package ua.com.courses;
 
 public class Main {
     public static void main(String[] args) {
-        Util.runApp();
+           Util util = new Util();
+           util.runApp();
     }
 }

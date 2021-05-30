@@ -74,7 +74,7 @@ public class DAOCourse {
         }
         else{
             loggerError.error("Can not read course - it does not exist or empty field");
-            throw new RuntimeException("Can not read course - it does not exist or empty field");
+           throw new RuntimeException("Can not read course - it does not exist or empty field");
         }
     }
 
