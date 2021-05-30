@@ -11,30 +11,34 @@ public class GroupServiceTest {
 
     private final static GroupService groupService = new GroupService();
     private final static int NUM_OF_INSTANCES = GroupService.STORAGE_CAPACITY;
-    private final static int GROUP_SIZE = 2;
-
-    @BeforeAll
-    public static void init() throws InstanceAlreadyExistsException {
-        for(int i = 0; i < NUM_OF_INSTANCES; i++) {
-            Group group = new Group(GROUP_SIZE);
-            group.setName("test" + i);
-            groupService.create(group);
-        }
-        Assertions.assertTrue(groupService.readAll().length != 0);
-    }
+    private final static int GROUP_SIZE = 5;
 
     @Test
     @Order(1)
-    public void create() throws InstanceAlreadyExistsException {
-        Group group = new Group (GROUP_SIZE);
-        group.setName("test");
-        groupService.create(group);
+    public void create()  {
+        try {
+            Group group = new Group(GROUP_SIZE);
+            group.setName("test");
+            groupService.create(group);
+        } catch (InstanceAlreadyExistsException e) {
+            e.printStackTrace();
+        }
         Group createdGroup = groupService.read("test");
         Assertions.assertNotNull(createdGroup);
     }
 
     @Test
     @Order(2)
+    public void createDuplicate() {
+        Group group = new Group(GROUP_SIZE);
+        group.setName("test");
+        Assertions.assertThrows(InstanceAlreadyExistsException.class, () ->{
+            groupService.create(group);
+        });
+    }
+
+    @Test
+    @Order(3)
     public void readAll() {
         Group[] groups = groupService.readAll();
 
@@ -42,10 +46,23 @@ public class GroupServiceTest {
     }
 
     @Test
-    @Order(3)
+    @Order(4)
     public void update() {
         Group group = groupService.read("test");
-//        group
+        groupService.update(group, "UPDATE");
+
+        Assertions.assertThrows(RuntimeException.class, () ->{
+            groupService.read("test");
+        });
     }
 
+    @Test
+    @Order(5)
+    public void delete() {
+        groupService.delete("UPDATE");
+
+        Assertions.assertThrows(RuntimeException.class, () ->{
+            groupService.read("UPDATE");
+        });
+    }
 }
