@@ -1,6 +1,8 @@
 package ua.com.courses.daolevel;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.courses.entity.Student;
 
 import java.lang.reflect.InvocationTargetException;
@@ -11,6 +13,8 @@ import java.util.UUID;
 import static org.apache.commons.beanutils.BeanUtils.copyProperties;
 
 public class DAOStudent {
+
+    private static final Logger loggerError = LoggerFactory.getLogger("error");
 
     private static int size = 100;
     private Student[] students = new Student[size];
@@ -31,6 +35,7 @@ public class DAOStudent {
             }
         }
         else{
+            loggerError.error("Can not update student" + student.getId() + " it doesn`t exist");
             throw new RuntimeException("Can not update student - it does not exist");
         }
     }
@@ -52,7 +57,7 @@ public class DAOStudent {
             }
             students = students2;
         }
-        else {
+        else { loggerError.error("Can not delete student" + id + " it doesn`t exist");
             throw new RuntimeException("Can not delete entity - it does not exist");
         }
     }
@@ -62,11 +67,13 @@ public class DAOStudent {
         if(StringUtils.isNoneBlank(id) && c){
             Student current = getEbyId(id);
             if(current == null){
+                loggerError.error("Can not read student" + id + " it doesn`t exist");
                 throw new RuntimeException("Can not read student - it does not exist");
             }
             return current;
         }
         else{
+            loggerError.error("Can not read student" + id + " it doesn`t exist");
             throw new RuntimeException("Can not read student - it does not exist");
         }
     }
@@ -76,11 +83,13 @@ public class DAOStudent {
         if(StringUtils.isNoneBlank(surname) && c){
             Student current = getEbyName(surname, name);
             if(current == null){
+                loggerError.error("Can not read student" + surname + " it doesn`t exist");
                 throw new RuntimeException("Can not read student - it does not exist");
             }
             return current;
         }
         else{
+            loggerError.error("Can not read student" + surname + " it doesn`t exist");
             throw new RuntimeException("Can not read student - it does not exist");
         }
     }

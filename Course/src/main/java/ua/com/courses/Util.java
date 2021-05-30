@@ -3,12 +3,14 @@ package ua.com.courses;
 import java.util.Scanner;
 
 public class Util {
+    public final static String EMPTY = "ONE OF THE FIELD IS EMPTY";
 
-    public static void runApp(){
+    public static void runApp (){
         CourseController courseController = new CourseController();
         Scanner scanner = new Scanner(System.in);
         boolean checker = true;
         while(checker){
+            System.out.println(" ");
             System.out.println("Choose operation:");
             System.out.println("1 -> create a course");
             System.out.println("2 -> create a student");
@@ -36,7 +38,9 @@ public class Util {
                 case 1: {
                     System.out.println("Enter course name: ");
                     String courseName = scanner.nextLine();
+                    if(!courseName.equals(""))
                     courseController.createCourse(courseName);
+                    else System.out.println(EMPTY);
                     break;
                 }
                 case 2: {
@@ -44,13 +48,17 @@ public class Util {
                     String surname = scanner.nextLine();
                     System.out.println("Enter name: ");
                     String name = scanner.nextLine();
+                    if(!surname.equals("") && !name.equals(""))
                     courseController.createStudent(surname, name);
+                    else System.out.println(EMPTY);
                     break;
                 }
                 case 3: {
                     System.out.println("Enter course name to get info: ");
                     String name = scanner.nextLine();
-                    courseController.getCourse(name);
+                    if(!name.equals(""))
+                    System.out.println(courseController.getCourse(name));
+                    else System.out.println(EMPTY);
                     break;
                 }
                 case 4: {
@@ -59,7 +67,9 @@ public class Util {
                     String surname = scanner.nextLine();
                     System.out.println("Enter name: ");
                     String name = scanner.nextLine();
-                    courseController.getStudent(surname, name);
+                    if(!surname.equals("") && !name.equals(""))
+                    System.out.println(courseController.getStudent(surname, name));
+                    else System.out.println(EMPTY);
                     break;
                 }
                 case 5: {
@@ -78,10 +88,10 @@ public class Util {
                     String name = scanner.nextLine();
                     System.out.println("Enter course name: ");
                     String courseName = scanner.nextLine();
-                    courseController.updateCourseAddStudent(courseController.getCourse(courseName),
-                            courseController.getStudent(surname,name));
-                    courseController.updateStudentAddCourses(courseController.getStudent(surname,name).getId(),
-                            courseController.getCourse(courseName));
+                    if(!surname.equals("") && !name.equals("") && ! courseName.equals("")) {
+                        courseController.updateCourseAddStudent(courseController.getCourse(courseName), courseController.getStudent(surname, name));
+                        courseController.updateStudentAddCourses(courseController.getStudent(surname, name).getId(), courseController.getCourse(courseName));
+                    } else System.out.println(EMPTY);
                     break;
                 }
                 case 8: {
@@ -92,8 +102,9 @@ public class Util {
                     String name = scanner.nextLine();
                     System.out.println("Enter course name: ");
                     String courseName = scanner.nextLine();
-                    courseController.UpdateCourseRemoveStudent(courseController.getCourse(courseName),
-                            courseController.getStudent(surname,name));
+                    if(!surname.equals("") && !name.equals("") && ! courseName.equals(""))
+                    courseController.UpdateCourseRemoveStudent(courseController.getCourse(courseName), courseController.getStudent(surname,name));
+                    else System.out.println(EMPTY);
                     break;
                 }
                 case 9: {
@@ -102,13 +113,17 @@ public class Util {
                     String surname = scanner.nextLine();
                     System.out.println("Enter name: ");
                     String name = scanner.nextLine();
+                    if(!surname.equals("") && !name.equals(""))
                     courseController.deleteStudent(courseController.getStudent(surname, name).getId());
+                    else System.out.println(EMPTY);
                     break;
                 }
                 case 10 : {
                     System.out.println("Enter course name to DELETE it: ");
                     String name = scanner.nextLine();
+                    if(!name.equals(""))
                     courseController.deleteCourse(name);
+                    else System.out.println(EMPTY);
                     break;
                 }
                 case 11: {
@@ -118,5 +133,4 @@ public class Util {
             }
         }
     }
-
 }

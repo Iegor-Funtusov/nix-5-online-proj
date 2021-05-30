@@ -50,7 +50,7 @@ public class CourseController {
         }
     }
 
-    public void updateCourseAddStudent(Course course, Student student){
+    public void updateCourseAddStudent(Course course, Student student) {
         loggerInfo.info("Start update course " + course.getName() + " add student "  +student.getId());
         if(CurseCheck(student,course) && course != null && student!= null){
         Course course1 = coursesService.read(course.getName());
@@ -85,7 +85,7 @@ public class CourseController {
         }
     }
 
-    public void UpdateCourseRemoveStudent(Course course, Student student){
+    public void UpdateCourseRemoveStudent(Course course, Student student) {
         loggerInfo.info("Start update course" + course.getName() + " remove student " + student.getId());
         if(!CurseCheck(student,course) && course != null && student!=null && course.getStudents()!= null){
             Course course1 = coursesService.read(course.getName());
