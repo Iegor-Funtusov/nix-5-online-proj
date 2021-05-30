@@ -13,13 +13,13 @@ import java.util.Objects;
 
 public class GroupService {
 
-    public final static int STORAGE_CAPACITY = 10;
+    public final static int STORAGE_CAPACITY = 30;
     private final static Group[] db = new Group[STORAGE_CAPACITY];
     private static final Logger loggerInfo = LoggerFactory.getLogger("info");
     private static final Logger loggerWarn = LoggerFactory.getLogger("warn");
     private static final Logger loggerError = LoggerFactory.getLogger("error");
 
-    public void create(Group group) throws InstanceAlreadyExistsException {
+    public boolean create(Group group) throws InstanceAlreadyExistsException {
         loggerInfo.info("Started creating group: " + group.getName());
         boolean created = false;
         for (int i = 0; i < db.length; i++) {
@@ -33,11 +33,11 @@ public class GroupService {
             }
         }
         if (!created) {
-            System.out.println("Storage is full");
             loggerError.error("Storage is full");
         } else {
             loggerInfo.info("Ended creating group");
         }
+        return created;
     }
 
     public Group read(String name) {
@@ -56,10 +56,20 @@ public class GroupService {
 
     public void update(Group group, String name) {
         loggerInfo.info("Started updating group: " + group.getName());
-        Group current = read(name);
+        Group current = read(group.getName());
+        if (!name.equals(group.getName())) {
+            try {
+                getByName(name);
+                loggerError.error("Group with this name already exists");
+                throw new RuntimeException("Group with this name already exists");
+            } catch (NullPointerException e) {
+                group.setName(name);
+            }
+        }
         try {
             BeanUtils.copyProperties(current, group);
         } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
+            loggerError.error("Student updating error ");
             illegalAccessException.printStackTrace();
         }
         loggerInfo.info("Ended updating group");
@@ -81,7 +91,7 @@ public class GroupService {
         return Arrays.stream(db).filter(Objects::nonNull).toArray(Group[]::new);
     }
 
-    private Group getByName(String name) {
+    private Group getByName(String name) throws NullPointerException {
         return Arrays.stream(db)
                 .filter(g -> g.getName().equals(name))
                 .findAny()

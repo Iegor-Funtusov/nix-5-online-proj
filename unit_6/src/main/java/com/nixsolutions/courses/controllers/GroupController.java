@@ -20,8 +20,11 @@ public class GroupController {
             Group group = new Group(Integer.parseInt(reader.readLine()));
             System.out.println("Enter  the group name (it must be unique):");
             group.setName(reader.readLine());
-            groupService.create(group);
-            System.out.println("Group created");
+            if (groupService.create(group)) {
+                System.out.println("Group created");
+            } else {
+                System.out.println("Storage is full");
+            }
         } catch (NumberFormatException e) {
             System.out.println("Wrong format. Number is expected");
         } catch (InstanceAlreadyExistsException e) {
@@ -42,7 +45,7 @@ public class GroupController {
         switch (reader.readLine()) {
             case "1":
                 System.out.println("Enter new name:");
-                group.setName(reader.readLine());
+                name = reader.readLine();
                 break;
             case "2":
                 studentController.readConsole(group, reader);
@@ -50,6 +53,7 @@ public class GroupController {
         }
         groupService.update(group, name);
         System.out.println("Group updated");
+
     }
 
     private void delete() throws IOException {
@@ -69,30 +73,34 @@ public class GroupController {
         System.out.println("Choose option:\n0 - exit\n1 - create group\n2 - read group\n3 - update group\n4 - delete group\n5 - read all groups");
     }
 
-    public void readConsole() throws IOException {
+    public void readConsole() {
         printOptions();
         String input;
-        while ((input = reader.readLine()) != null) {
-            switch (input) {
-                case "0":
-                    System.exit(0);
-                case "1":
-                    create();
-                    break;
-                case "2":
-                    read();
-                    break;
-                case "3":
-                    update();
-                    break;
-                case "4" :
-                    delete();
-                    break;
-                case "5":
-                    readAll();
-                    break;
+        try {
+            while ((input = reader.readLine()) != null) {
+                switch (input) {
+                    case "0":
+                        System.exit(0);
+                    case "1":
+                        create();
+                        break;
+                    case "2":
+                        read();
+                        break;
+                    case "3":
+                        update();
+                        break;
+                    case "4":
+                        delete();
+                        break;
+                    case "5":
+                        readAll();
+                        break;
+                }
+                printOptions();
             }
-            printOptions();
+        } catch (IOException e) {
+            System.out.println("Some I/O mistake");
         }
     }
 

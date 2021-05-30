@@ -14,15 +14,21 @@ public class StudentController {
     private Group group;
 
     private void create() throws IOException {
-        Student student = new Student();
-        System.out.println("Enter name of the student:");
-        student.setName(reader.readLine());
-        System.out.println("Enter age:");
-        student.setAge(Integer.parseInt(reader.readLine()));
-        student.setGroupName(group.getName());
-        studentService.create(student, group);
-        System.out.println("Student created:");
-        System.out.println(student);
+        try {
+            Student student = new Student();
+            System.out.println("Enter name of the student:");
+            student.setName(reader.readLine());
+            System.out.println("Enter age:");
+            student.setAge(Integer.parseInt(reader.readLine()));
+            if (studentService.create(student, group)) {
+                System.out.println("Student created:");
+                System.out.println(student);
+            } else {
+                System.out.println("Storage is full");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Wrong format. Number is expected");
+        }
     }
 
     private void read() throws IOException {
@@ -43,15 +49,25 @@ public class StudentController {
                 System.out.println("Enter new age:");
                 student.setAge(Integer.parseInt(reader.readLine()));
                 break;
+            case "3" :
+                System.out.println("Enter new name of student`s group:");
+                student.setGroupName(reader.readLine());
+                break;
         }
-        studentService.update(student, group);
-        System.out.println("Student updated");
+        if (studentService.update(student, group)) {
+            System.out.println("Student updated");
+        } else {
+            System.out.println("Student was not updated");
+        }
     }
 
     private void delete() throws IOException {
         System.out.println("Enter id of student you want to delete:");
-        studentService.delete(reader.readLine(), group);
-        System.out.println("Student deleted");
+        if (studentService.delete(reader.readLine(), group)) {
+            System.out.println("Student deleted");
+        } else {
+            System.out.println("Student was not deleted");
+        }
     }
 
     private void readAll() {
@@ -65,29 +81,33 @@ public class StudentController {
         System.out.println("Choose option:\n0 - exit\n1 - create student\n2 - read student\n3 - update student\n4 - delete student\n5 - read all students");
     }
 
-    public void readConsole(Group group, BufferedReader reader) throws IOException {
+    public void readConsole(Group group, BufferedReader reader) {
         this.reader = reader;
         this.group = group;
         printOptions();
         String input;
-        while (!(input = reader.readLine()).equals("0")) {
-            switch (input) {
-                case "1":
-                    create();
-                    break;
-                case "2":
-                    read();
-                    break;
-                case "3":
-                    update();
-                    break;
-                case "4" :
-                    delete();
-                    break;
-                case "5":
-                    readAll();
+        try {
+            while (!(input = reader.readLine()).equals("0")) {
+                switch (input) {
+                    case "1":
+                        create();
+                        break;
+                    case "2":
+                        read();
+                        break;
+                    case "3":
+                        update();
+                        break;
+                    case "4":
+                        delete();
+                        break;
+                    case "5":
+                        readAll();
+                }
+                printOptions();
             }
-            printOptions();
+        } catch (IOException e) {
+            System.out.println("Some I/O mistake");
         }
     }
 

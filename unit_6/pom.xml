@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <commons.lang3.version>3.12.0</commons.lang3.version>
@@ -42,6 +43,7 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${logback.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -68,15 +70,6 @@
             </resource>
         </resources>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-compiler-plugin</artifactId>-->
-<!--                <version>${maven.compiler.plugin.version}</version>-->
-<!--                <configuration>-->
-<!--                    <source>${maven.compiler.source}</source>-->
-<!--                    -->
-<!--                </configuration>-->
-<!--            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>

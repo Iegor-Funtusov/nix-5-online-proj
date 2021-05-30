@@ -34,8 +34,7 @@
     </appender>
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--        <file>${HOME_LOG}/error.log</file>-->
-        <file>${log.error}</file>
+        <file>${HOME_LOG}/error.log</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/error/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>

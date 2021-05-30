@@ -22,9 +22,10 @@ public class StudentService {
     private static final Logger loggerError = LoggerFactory.getLogger("error");
 
 
-    public void create(Student student, Group group) {
+    public boolean create(Student student, Group group) {
         loggerInfo.info("Started creating student: " + student.getId());
         list = group.getList();
+        student.setGroupName(group.getName());
         student.setId(generateId(UUID.randomUUID().toString()));
         boolean created = false;
         for (int i = 0; i < list.length; i++) {
@@ -35,14 +36,14 @@ public class StudentService {
             }
         }
         if (!created) {
-            System.out.println("Storage is full");
             loggerError.error("Storage is full");
         } else {
             loggerInfo.info("Updating list of the group: " + group.getName());
             group.setList(list);
-            groupService.update(group);
+            groupService.update(group, group.getName());
             loggerInfo.info("Ended creating student");
         }
+        return created;
     }
 
     public Student read(String id, Group group) {
@@ -60,33 +61,56 @@ public class StudentService {
         }
     }
 
-    public void update(Student student, Group group) {
+    public boolean update(Student student, Group group) {
         loggerInfo.info("Started updating student: " + student.getId());
         list = group.getList();
         Student current = read(student.getId(), group);
+        boolean updated = false;
         try {
             BeanUtils.copyProperties(current, student);
+            for (int i = 0; i < list.length; i++) {
+                if(list[i].getId().equals(student.getId())) {
+                    list[i] = student;
+                    updated = true;
+                    break;
+                }
+            }
         } catch (IllegalAccessException | InvocationTargetException illegalAccessException) {
-            loggerError.error("Coping ");
+            loggerError.error("Student updating error ");
             illegalAccessException.printStackTrace();
         }
-        loggerInfo.info("Ended updating student");
+        if (updated) {
+            loggerInfo.info("Updating list of the group: " + group.getName());
+            group.setList(list);
+            groupService.update(group, group.getName());
+            loggerInfo.info("Ended updating student");
+        } else {
+            loggerError.error("Student updating error");
+        }
+        return updated;
     }
 
-    public void delete(String id, Group group) {
+    public boolean delete(String id, Group group) {
         loggerWarn.warn("Started removing student by id: " + id);
         list = group.getList();
         Student current = read(id, group);
+        boolean deleted = false;
         for (int i = 0; i < list.length; i++) {
             if (list[i].getId().equals(current.getId())) {
                 list[i] = null;
+                deleted = true;
                 break;
             }
         }
-        loggerInfo.info("Updating group: " + group.getName());
-        group.setList(list);
-        groupService.update(group);
-        loggerWarn.warn("Ended removing student");
+        if (deleted) {
+            loggerInfo.info("Updating group: " + group.getName());
+            group.setList(list);
+            groupService.update(group, group.getName());
+            loggerWarn.warn("Ended removing student");
+        } else {
+            loggerError.error("Student deleting error");
+        }
+        return deleted;
     }
 
     public Student[] readAll(Group group) {
