@@ -101,21 +101,20 @@ public class LibraryControllerTest {
     @Order(4)
     public void createBook() {
         Collection<Author> authors = authorService.findAuthors();
-        for (Author author : authors) {
-            if (author.getLastName().equals("Хлудова")) {
-               /* domain.Book book = new domain.Book();
-                book.setTitle("Волны над нами");
-                book.setYear(1960);
-                bookService.createBook(author, book);
-                */
-                Book book = new Book();
-               // book.setLastName("Хлудова");
-                book.setTitle("За голубым порогом");
-                book.setYear(1963);
-                bookService.createBook(author, book);
-                Collection<Book> books = bookService.findBooks(authors, "Хлудова");
-                Assertions.assertEquals(books.size(), 2);
-            }
+        Author author = authorService.checkAuthor(authors, "Хлудова");
+        if (author != null) {
+            /* domain.Book book = new domain.Book();
+               book.setTitle("Волны над нами");
+               book.setYear(1960);
+               bookService.createBook(author, book);
+               */
+            Book book = new Book();
+            // book.setLastName("Хлудова");
+            book.setTitle("За голубым порогом");
+            book.setYear(1963);
+            bookService.createBook(author, book);
+            Collection<Book> books = bookService.findBooks(authors, "Хлудова");
+            Assertions.assertEquals(books.size(), 2);
         }
     }
 
@@ -162,14 +161,13 @@ public class LibraryControllerTest {
         Author author = authorService.checkAuthor(authors, "Волков");
         if (author != null) {
             if ((int) Arrays.stream(author.getBooks()).filter(Objects::nonNull).count() != 0) {
-                    for (Book book : author.getBooks()) {
-                        if (book != null) {
-                            bookService.deleteBook(author, book.getBookId());
-                        }
+                for (Book book : author.getBooks()) {
+                    if (book != null) {
+                        bookService.deleteBook(author, book.getBookId());
                     }
+                }
             }
         } else authorService.errorMessage();
-
         Collection<Book> books = bookService.findBooks(authors, "Волков");
         Assertions.assertNull(books);
     }
@@ -181,7 +179,6 @@ public class LibraryControllerTest {
         author.setFirstName("Ольга");
         author.setLastName("");
         authorService.createAuthor(author);
-
         Collection<Author> authors = authorService.findAuthors();
         Assertions.assertEquals(authors.size(), 8);
     }
@@ -193,7 +190,6 @@ public class LibraryControllerTest {
         author.setFirstName("Ольга");
         author.setLastName("Хлудова");
         authorService.createAuthor(author);
-
         Collection<Author> authors = authorService.findAuthors();
         Assertions.assertEquals(authors.size(), 8);
     }
@@ -201,39 +197,37 @@ public class LibraryControllerTest {
     @Test
     @Order(11)
     public void createBookExist() {
-        Collection<Author> list = authorService.findAuthors();
-        for (Author author : list) {
-            if (author.getLastName().equals("Хлудова")) {
-                Book book = new Book();
-              //  book.setLastName("Хлудова");
-                book.setTitle("Волны над нами");
-                book.setYear(1960);
-                bookService.createBook(author, book);
-                Collection<Book> books = bookService.findBooks(list, author.getLastName());
-                Assertions.assertEquals(books.size(), 1);
-            }
-        }
-    }
-
-    @Test
-    @Order(11)
-    public void createBookAuthorNotExist() {
-        Collection<Author> list = authorService.findAuthors();
-        for (Author author : list) {
-            if (author.getLastName().equals("Конан Дойль")) {
-                Book book = new Book();
-             //   book.setLastName("Конан Дойль");
-                book.setTitle("Собака Баскервилей");
-                book.setYear(1979);
-                bookService.createBook(author, book);
-                Collection<Book> books = bookService.findBooks(list, author.getLastName());
-                Assertions.assertEquals(books.size(), 1);
-            }
+        Collection<Author> authors = authorService.findAuthors();
+        Author author = authorService.checkAuthor(authors, "Хлудова");
+        if (author != null) {
+            Book book = new Book();
+            //  book.setLastName("Хлудова");
+            book.setTitle("Волны над нами");
+            book.setYear(1960);
+            bookService.createBook(author, book);
+            Collection<Book> books = bookService.findBooks(authors, author.getLastName());
+            Assertions.assertEquals(books.size(), 1);
         }
     }
 
     @Test
     @Order(12)
+    public void createBookAuthorNotExist() {
+        Collection<Author> authors = authorService.findAuthors();
+        Author author = authorService.checkAuthor(authors, "Конан Дойль");
+        if (author != null) {
+            Book book = new Book();
+            // book.setLastName("Конан Дойль");
+            book.setTitle("Собака Баскервилей");
+            book.setYear(1979);
+            bookService.createBook(author, book);
+            Collection<Book> books = bookService.findBooks(authors);
+            Assertions.assertEquals(books.size(), 3);
+        }
+    }
+
+    @Test
+    @Order(13)
     public void deleteBookNotExist() {
         Collection<Author> authors = authorService.findAuthors();
         Author author = authorService.checkAuthor(authors, "Хлудова");
@@ -242,9 +236,32 @@ public class LibraryControllerTest {
             if (book != null) {
                 bookService.deleteBook(author, book.getBookId());
             } else bookService.errorMessage();
-            Collection<Book> books = bookService.findBooks(authors,"Хлудова");
+            Collection<Book> books = bookService.findBooks(authors, author.getLastName());
             Assertions.assertEquals(books.size(), 1);
         }
+    }
+
+    @Test
+    @Order(14)
+    public void createBookTitleNotExist() {
+        Collection<Author> authors = authorService.findAuthors();
+        Author author = authorService.checkAuthor(authors, "Хлудова");
+        if (author != null) {
+            Book book = new Book();
+            book.setTitle("");
+            book.setYear(1979);
+            bookService.createBook(author, book);
+            Collection<Book> books = bookService.findBooks(authors, author.getLastName());
+            Assertions.assertEquals(books.size(), 1);
+        }
+    }
+
+    @Test
+    @Order(15)
+    public void findAllBooks() {
+        Collection<Author> authors = authorService.findAuthors();
+        Collection<Book> books = bookService.findBooks(authors);
+        Assertions.assertEquals(books.size(), 3);
     }
 
     @AfterAll

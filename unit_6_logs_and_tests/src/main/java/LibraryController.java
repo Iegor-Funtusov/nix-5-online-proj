@@ -200,11 +200,7 @@ public class LibraryController {
 
     private void readAllBooks() {
         Collection<Author> list = authorService.findAuthors();
-        //  Iterator iterator = list.iterator();
-        //  while (iterator.hasNext()) {
-        Collection<Book> books = bookService.findBooks(list);
-        // }
-        books.forEach(System.out::println);
+        bookService.findBooks(list);
     }
 
     private void readBooksByAuthor(BufferedReader reader) throws IOException {
@@ -316,11 +312,11 @@ public class LibraryController {
         String name = reader.readLine();
         Author bookAuthor = authorService.checkAuthor(list, name);
         if (bookAuthor != null) {
-            System.out.println(Arrays.toString(bookAuthor.getBooks()));
+          //  System.out.println(Arrays.toString(bookAuthor.getBooks()));
             if ((int) Arrays.stream(bookAuthor.getBooks()).filter(Objects::nonNull).count() != 0) {
                 for (Book book : bookAuthor.getBooks()) {
                     if (book != null) {
-                        System.out.println(book);
+                 //       System.out.println(book);
                         bookService.deleteBook(bookAuthor, book.getBookId());
                         // break;
                     }

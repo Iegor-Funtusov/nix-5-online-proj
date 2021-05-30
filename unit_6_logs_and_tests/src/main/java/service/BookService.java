@@ -6,6 +6,7 @@ import domain.Book;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -51,54 +52,47 @@ public class BookService {
     }
 
     public Collection<Book> findBooks(Collection<Author> list) {
-        Collection<Book> books = null;
+        Collection<Book> books = new ArrayList<Book>();
+        Collection authorBooks = new ArrayList();
         for (Author author : list) {
             if (author != null) {
                 if ((int) Arrays.stream(author.getBooks()).filter(Objects::nonNull).count() != 0) {
                     System.out.println("Список книг автора " + author.getFirstName() + " "
                         + author.getLastName() + ":");
-                    books = bookDAO.findBooks(author);
-                //    System.out.println(books);
-                    loggerInfo.info("Вывод списка книг: ");
-                    loggerInfo.info(String.valueOf(books));
+                    loggerInfo.info("Список книг автора " + author.getFirstName() + " "
+                     + author.getLastName() + ":");
+                    authorBooks = bookDAO.findBooks(author);
+                    System.out.println(authorBooks);
+                    loggerInfo.info(String.valueOf(authorBooks));
                 }
-                return books;
+                books.addAll(authorBooks);
             }
         }
-        return null;
+        return books;
     }
 
     public Collection<Book> findBooks(Collection<Author> list, String lastName) {
         Author author = authorService.checkAuthor(list, lastName);
         if (author != null) {
-            if ((int) Arrays.stream(author.getBooks()).filter(Objects::nonNull).count() != 0) {
-                System.out.println("Список книг автора " + author.getFirstName() + " "
-                    + author.getLastName() + ":");
-                Collection<Book> books = bookDAO.findBooks(author);
-                loggerInfo.info("Вывод списка книг: ");
-                loggerInfo.info(String.valueOf(books));
-                System.out.println(books);
-                return books;
-            } else {
+                if ((int) Arrays.stream(author.getBooks()).filter(Objects::nonNull).count() != 0) {
+                    System.out.println("Список книг автора " + author.getFirstName() + " "
+                        + author.getLastName() + ":");
+                    Collection<Book> books = bookDAO.findBooks(author);
+                    loggerInfo.info("Список книг автора " + author.getFirstName() + " "
+                        + author.getLastName() + ":");
+                    loggerInfo.info(String.valueOf(books));
+                    System.out.println(books);
+                    return books;
+                } else {
                     System.out.println("У автора нет книг! " + author.getFirstName() + " " +
                         author.getLastName());
                     return null;
-            }
+                }
         } else {
                 System.out.println("Автор не существует! " + " " + lastName);
                 return null;
         }
     }
-
-   /* public domain.Book findBooks(domain.Author author, domain.Book book) {
-        if (book != null) {
-            System.out.println(bookDAO.findBooks(author, book.getBookId()));
-            loggerInfo.info("Вывод книг по bookId: " + book.getBookId());
-            return bookDAO.findBooks(author, book.getBookId());
-        }
-        else errorMessage();
-        return null;
-    }*/
 
     public Book bookCheck(Author bookAuthor, String title) {
         Book bookBook = null;

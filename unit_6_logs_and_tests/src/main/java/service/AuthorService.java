@@ -54,7 +54,7 @@ public class AuthorService {
     }
 
     public Collection<Author> findAuthors() {
-        loggerInfo.info("Вывод списка авторов: ");
+        loggerInfo.info("Список авторов: ");
         loggerInfo.info(authorDAO.findAuthors().toString());
         return authorDAO.findAuthors();
     }
