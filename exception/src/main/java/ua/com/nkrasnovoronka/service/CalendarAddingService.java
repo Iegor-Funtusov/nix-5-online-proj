@@ -7,7 +7,7 @@ import ua.com.nkrasnovoronka.model.Month;
 import ua.com.nkrasnovoronka.model.Time;
 import ua.com.nkrasnovoronka.util.Constants;
 
-public class CalendarService {
+public class CalendarAddingService {
     public static final int MAX_YEAR = 9999;
     public static final int MONTH_IN_YEAR = 12;
     public static final int HOURS_IN_DAY = 24;
