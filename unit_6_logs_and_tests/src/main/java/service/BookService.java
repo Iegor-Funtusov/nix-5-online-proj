@@ -53,7 +53,7 @@ public class BookService {
 
     public Collection<Book> findBooks(Collection<Author> list) {
         Collection<Book> books = new ArrayList<Book>();
-        Collection authorBooks = new ArrayList();
+        Collection<Book> authorBooks = new ArrayList<Book>();
         for (Author author : list) {
             if (author != null) {
                 if ((int) Arrays.stream(author.getBooks()).filter(Objects::nonNull).count() != 0) {
