@@ -42,6 +42,10 @@ public class Comparing {
                      dates[k] = dates[d];
                      dates[d] = swap;
                 }
+                System.out.println("Sorted dates:" + d);
+                for (int i = 0; i < dates.length; i++) {
+                    InputOutput.Output(dates[i]);
+                }
             }
         }
 
@@ -53,6 +57,7 @@ public class Comparing {
         while (true){
             switch (string) {
                 case "1": {
+                    System.out.println("Sorted dates:");
                     for (int i = dates.length-1; i >= 0; i--) {
                         InputOutput.Output(dates[i]);
                     }

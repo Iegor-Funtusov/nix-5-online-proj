@@ -8,7 +8,7 @@ import Dates.Subtracting;
 import java.util.Scanner;
 
 public class Controller {
-    public static void ConsoleControl(){ //  comparing, go on adding, sub...
+    public static void ConsoleControl(){
         Scanner scanner = new Scanner(System.in);
         while (true) {
             System.out.println("Choose an action for working with dates:\n" +

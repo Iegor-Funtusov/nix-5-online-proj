@@ -6,22 +6,22 @@ import static Controllers.DateTypes.*;
 
 public class InputOutput {
     public static void Output(int[] date){
-        if(date.length == 7 && date[6] == 1){
+        if(date[6] == 1){
             withoutTime(date);
             System.out.println();
             return;
         }
-        if(date.length == 7 && date[6] == 2){
+        if(date[6] == 2){
             withoutZeros(date);
             System.out.println();
             return;
         }
-        if(date.length == 7 && date[6] == 3){
+        if(date[6] == 3){
             firstMonth(date);
             System.out.println();
             return;
         }
-        if(date.length == 7 && date[6] == 4){
+        if(date[6] == 4){
             withTime(date);
             System.out.println();
             return;
@@ -128,38 +128,53 @@ public class InputOutput {
                     System.out.println("Input date: ");
                     input = scanner.nextLine();
                     if (withSlashes(input) == true) {
-                        int[] arr = array(input, '/');
-                        arr[6] = 0;
-                        return arr;
+                        if(correctness(input) == false) {
+                            int[] arr = array(input, '/');
+                            arr[6] = 0;
+                            return arr;
+                        }
+                        continue;
                     }
+                    System.out.println("Incorrect input. Input again (e.g 12/10/2021)");
                 }break;
                 case "1": {
                     System.out.println("Input date: ");
                     input = scanner.nextLine();
                     if (withSlashes(input) == true) {
-                        int[] arr = array(input, '/');
-                        arr[6] = 1;
-                        return arr;
+                        if(correctness(input) == false) {
+                            int[] arr = array(input, '/');
+                            arr[6] = 1;
+                            return arr;
+                        }
+                        continue;
                     }
+                    System.out.println("Incorrect input. Input again (e.g 11/09/2020)");
                 }
                 break;
                 case "2": {
                     System.out.println("Input date: ");
                     input = scanner.nextLine();
                     if (withSlashes(input) == true) {
-                        int[] arr = array(input, '/');
-                        arr[6] = 2;
-                        return arr;
+                        if(correctness(input) == false) {
+                            int[] arr = array(input, '/');
+                            arr[6] = 2;
+                            return arr;
+                        }
+                        continue;
                     }
+                    System.out.println("Incorrect input. Input again (e.g 1/3/2019)");
                 }
                 break;
                 case "3": {
                     System.out.println("Input date: ");
                     input = scanner.nextLine();
                     if (withDashes(input) == true) {
-                        int[] arr = array(input, '-');
-                        arr[6] = 3;
-                        return arr;
+                        if(correctness(input) == false) {
+                            int[] arr = array(input, '-');
+                            arr[6] = 3;
+                            return arr;
+                        }
+                        continue;
                     }
                     System.out.println("Incorrect input. Input again (e.g May-12-2021)");
                 }
@@ -168,9 +183,12 @@ public class InputOutput {
                     System.out.println("Input date: ");
                     input = scanner.nextLine();
                     if (withDashes(input) == true) {
-                        int[] arr = array(input, '-');
-                        arr[6] = 4;
-                        return arr;
+                        if(correctness(input) == false) {
+                            int[] arr = array(input, '-');
+                            arr[6] = 4;
+                            return arr;
+                        }
+                        continue;
                     }
                     System.out.println("Incorrect input. Input again (e.g 09-April-2021 00:00)");
                 }break;
@@ -180,6 +198,24 @@ public class InputOutput {
                 }
             }
         }
+    }
+
+    private static boolean correctness(String string){
+        switch (string){
+            case "f":{
+                System.out.println("Incorrect input. You have already chosen the format. Input again");
+                return true;
+            }
+            case "stop":{
+                System.out.println("Incorrect input. Input again");
+                return true;
+            }
+            case "r":{
+                System.out.println("Now you can't return. End your operations with date");
+                return true;
+            }
+        }
+        return false;
     }
 
     private static String month(int month){

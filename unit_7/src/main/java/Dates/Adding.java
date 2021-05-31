@@ -108,11 +108,14 @@ public class Adding {
         int months = validMonthDays();
         System.out.println("Inputted date:");
         InputOutput.Output(date);
-        date[1] += months;
-        date[2] += date[1]/12;
-        date[1] = date[1] % 12;
-        if(date[1] == 0)
-            date[1] = 12;
+        date[2] += months/12;
+        if(months % 12 + date[1] <= 12)
+            date[1] = months % 12 + date[1];
+        else{
+            date[2]++;
+            months -= 12 - date[1];
+            date[1] = months;
+        }
         System.out.println("Result:");
         InputOutput.Output(date);
     }

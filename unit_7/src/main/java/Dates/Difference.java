@@ -20,6 +20,7 @@ public class Difference {
             int[] date = DateTypes.dateControl(format);
             if(date[0] == -2)
                 return;
+            format = date[6];
             System.out.println("Second date (R - return, F - format):");
             int[] date2 = DateTypes.dateControl(format);
             if(date2[0] == -2)
@@ -57,11 +58,14 @@ public class Difference {
                     System.out.println("Hours: "+Math.abs(hours(date,date2)));
                 }break;
                 case "5":{
-                    System.out.println("Minutes: "+Math.abs(minutes(date,date2)));
+                    if(minutes(date, date2) == 0)
+                        System.out.println("Too big difference. Please, input less dates");
+                    else
+                        System.out.println("Minutes: "+Math.abs(minutes(date,date2)));
                 }break;
                 case "6":{
                     if(seconds(date, date2) == 0)
-                        System.out.println("Too big difference");
+                        System.out.println("Too big difference. Please, input less dates");
                     else
                         System.out.println("Seconds: "+Math.abs(seconds(date,date2)));
                 }break;
@@ -75,31 +79,39 @@ public class Difference {
         else if(size == 2){
             if(date1[size]>date2[size])
                 return false;
+            else if(date1[size] == date2[size])
+                return checkOrder(date1,date2,size-1);
             else
-                return checkOrder(date1, date2, size-1);
+                return true;
         }
         else if(size < 2 && size != -1){
-            if(date1[size] > date2[size] && date1[size+1]==date2[size+1]){
+            if(date1[size] > date2[size]){
                 return false;
             }
-            else{
+            else if(date1[size] == date2[size])
                 return checkOrder(date1, date2, size - 1);
+            else{
+                return true;
             }
         }
         else if(size == -1){
             return checkOrder(date1, date2, 3);
         }
         else if(size == 3){
-            if(date1[0]==date2[0] && date1[size] > date2[size])
+            if(date1[size] > date2[size])
                 return false;
-            else
+            else if(date1[size] == date2[size])
                 return checkOrder(date1, date2, size+1);
+            else
+                return true;
         }
         else if (size > 3){
-            if(date1[size] > date2[size] && date1[size-1]==date2[size-1])
+            if(date1[size] > date2[size])
                 return false;
-            else
+            else if(date1[size-1]==date2[size-1])
                 return checkOrder(date1, date2, size+1);
+            else
+                return true;
         }
         return true;
     }

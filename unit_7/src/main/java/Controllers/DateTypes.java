@@ -10,27 +10,31 @@ public class DateTypes {
             input = scanner.nextLine();
             input = input.toLowerCase();
             boolean flagSlash = false, flagDash = false;
-            if(format == 0 || format == 1 || format == 2)
-                if(withSlashes(input))
+            if(format == 0 || format == 1 || format == 2) {
+                if (withSlashes(input))
                     flagSlash = true;
-            if(withDashes(input))
-                flagDash = true;
+            }
+            if(format == 3 || format == 4) {
+                if (withDashes(input))
+                    flagDash = true;
+            }
             if(flagSlash == true || flagDash == true){
-                if(input.charAt(0) == 'f'){
-                    return InputOutput.format();
-                }
-                if(input.charAt(0) == 's') {
-                    int[] arr = new int[1];
-                    arr[0] = -1;
-                    return arr;
-                }
-                if(input.charAt(0) == 'r'){
-                    int[] arr = new int[1];
-                    arr[0] = -2;
-                    return arr;
+                switch (input){
+                    case "f":{
+                        return InputOutput.format();
+                    }
+                    case "stop":{
+                        int[] arr = new int[1];
+                        arr[0] = -1;
+                        return arr;
+                    }
+                    case "r":{
+                        int[] arr = new int[1];
+                        arr[0] = -2;
+                        return arr;
+                    }
                 }
                 int[] arr;
-                boolean flag;
                 if(flagSlash == true) {
                     arr = array(input, '/');
                     arr[6] = format;
@@ -54,7 +58,7 @@ public class DateTypes {
             case "stop": return true;
             case "r": return true;
         }
-        int counter1, counter =  counter1 = 0;
+        int counter1, counter = counter1 = 0;
         for(int i = 0; i < input.length(); i++){
             if(input.charAt(i) == '/')
                 counter++;
@@ -90,7 +94,7 @@ public class DateTypes {
             case "stop": return true;
             case "r": return true;
         }
-        int counter1, counter =  counter1 = 0;
+        int counter1, counter = counter1 = 0;
         for (int i = 0; i < input.length(); i++) {
             if(input.charAt(i) == '-')
                 counter++;
