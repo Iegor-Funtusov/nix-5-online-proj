@@ -8,6 +8,7 @@ import ua.com.nkrasnovoronka.model.Month;
 import ua.com.nkrasnovoronka.model.Time;
 import ua.com.nkrasnovoronka.service.CalendarAddingService;
 import ua.com.nkrasnovoronka.service.CalendarDifferenceService;
+import ua.com.nkrasnovoronka.service.CalendarSubtractService;
 
 public class Main {
     public static void main(String[] args) {
@@ -36,17 +37,17 @@ public class Main {
 //        }
 
         try {
-            Date date = new Date(21, Month.NOVEMBER, 1245);
+            Date date = new Date(21, Month.NOVEMBER, 1900);
             Time time = new Time(00,00,00);
             Calendar calendar = new Calendar(date, time);
-            CalendarAddingService calendarService = new CalendarAddingService();
-            Calendar calendar1 = calendarService.addSecondsToDate(calendar, 24 * 60 * 60 * 365);
+            CalendarSubtractService calendarService = new CalendarSubtractService();
+            Calendar calendar1 = calendarService.subtractMonthToDate(calendar, 12);
             System.out.println(calendar1.getDate());
             System.out.println(calendar1.getTime());
-            CalendarDifferenceService calendarDifferenceService = new CalendarDifferenceService();
-            int i = calendarDifferenceService.differenceInSeconds(new Calendar(new Date(28, Month.FEBRUARY, 1990), new Time(0,0,0)),
-                    new Calendar(new Date(28, Month.FEBRUARY, 1991), new Time(00,00,00)));
-            System.out.println(i);
+//            CalendarDifferenceService calendarDifferenceService = new CalendarDifferenceService();
+//            int i = calendarDifferenceService.differenceInSeconds(new Calendar(new Date(28, Month.FEBRUARY, 1990), new Time(0,0,0)),
+//                    new Calendar(new Date(28, Month.FEBRUARY, 1991), new Time(00,00,00)));
+//            System.out.println(i);
 
         } catch (CalendarException e) {
             e.printStackTrace();
