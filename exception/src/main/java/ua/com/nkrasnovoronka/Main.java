@@ -10,6 +10,8 @@ import ua.com.nkrasnovoronka.service.CalendarAddingService;
 import ua.com.nkrasnovoronka.service.CalendarDifferenceService;
 import ua.com.nkrasnovoronka.service.CalendarSubtractService;
 
+import java.util.Comparator;
+
 public class Main {
     public static void main(String[] args) {
 //        System.out.println("Pleas chose date format\n1 - dd/mm/yy\n2 - m/d/yyyy\n3 - mmm-d-yy\n4 - dd-mmmm-yyyy");
@@ -37,20 +39,22 @@ public class Main {
 //        }
 
         try {
-            Date date = new Date(21, Month.NOVEMBER, 1900);
-            Time time = new Time(00,00,00);
-            Calendar calendar = new Calendar(date, time);
-            CalendarSubtractService calendarService = new CalendarSubtractService();
-            Calendar calendar1 = calendarService.subtractMonthToDate(calendar, 12);
-            System.out.println(calendar1.getDate());
-            System.out.println(calendar1.getTime());
+            Date date1 = new Date(21, Month.NOVEMBER, 1900);
+            Time time1 = new Time(2,02,00);
+            Date date2 = new Date(21, Month.NOVEMBER, 1900);
+            Time time2 = new Time(2,02,00);
+            Calendar calendar1 = new Calendar(date1, time1);
+            Calendar calendar2 = new Calendar(date2, time2);
+            System.out.println(calendar1.compareTo(calendar2));
+//            CalendarSubtractService calendarService = new CalendarSubtractService();
+//            Calendar calendar1 = calendarService.subtractSecondsToDate(calendar, 3);
+//            System.out.println(calendar1.getDate());
+//            System.out.println(calendar1.getTime());
 //            CalendarDifferenceService calendarDifferenceService = new CalendarDifferenceService();
 //            int i = calendarDifferenceService.differenceInSeconds(new Calendar(new Date(28, Month.FEBRUARY, 1990), new Time(0,0,0)),
 //                    new Calendar(new Date(28, Month.FEBRUARY, 1991), new Time(00,00,00)));
 //            System.out.println(i);
 
-        } catch (CalendarException e) {
-            e.printStackTrace();
         } catch (DataFormatException e) {
             e.printStackTrace();
         }

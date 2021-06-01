@@ -1,6 +1,8 @@
 package ua.com.nkrasnovoronka.model;
 
-public class Calendar {
+import java.util.Objects;
+
+public class Calendar implements Comparable<Calendar> {
     private Date date;
     private Time time;
 
@@ -31,5 +33,27 @@ public class Calendar {
                 "date=" + date +
                 ", time=" + time +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Calendar)) return false;
+        Calendar calendar = (Calendar) o;
+        return Objects.equals(date, calendar.date) && Objects.equals(time, calendar.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(date, time);
+    }
+
+    @Override
+    public int compareTo(Calendar o) {
+        int compare = date.compareTo(o.date);
+        if (compare == 0) {
+            compare = time.compareTo(o.time);
+        }
+        return compare;
     }
 }

@@ -8,92 +8,110 @@ import ua.com.nkrasnovoronka.model.Time;
 import ua.com.nkrasnovoronka.util.Constants;
 
 public class CalendarSubtractService {
-    public static final int MIN_YEAR = 0000;
+    public static final int MIN_YEAR = 0;
     public static final int MONTH_IN_YEAR = 12;
     public static final int HOURS_IN_DAY = 24;
     public static final int MINUTES_IN_HOUR = 60;
     public static final int SECONDS_IN_MINUTE = 60;
 
-    public Calendar addSecondsToDate(Calendar calendar, int seconds) throws CalendarException {
+    public Calendar subtractSecondsToDate(Calendar calendar, int seconds) throws CalendarException {
         Time time = calendar.getTime();
         Date date = calendar.getDate();
-        int newSeconds = time.getMinutes() + seconds;
-
-        if (newSeconds > SECONDS_IN_MINUTE - 1) {
-            time.setSeconds(newSeconds % SECONDS_IN_MINUTE);
+        int currentTime = time.getMinutes();
+        int newSeconds = time.getSeconds() - seconds;
+        if (newSeconds <= 0) {
+            time.setSeconds((newSeconds + SECONDS_IN_MINUTE) % SECONDS_IN_MINUTE);
             calendar.setTime(time);
-            return addMinutesToDate(calendar, newSeconds / SECONDS_IN_MINUTE);
+            return subtractMinutesToDate(calendar, (seconds + currentTime + SECONDS_IN_MINUTE) / SECONDS_IN_MINUTE);
         }
         time.setSeconds(newSeconds);
         calendar.setDate(date);
         return calendar;
 
     }
-    public Calendar addMinutesToDate(Calendar calendar, int minutes) throws CalendarException {
+
+    public Calendar subtractMinutesToDate(Calendar calendar, int minutes) throws CalendarException {
         Time time = calendar.getTime();
         Date date = calendar.getDate();
-        int newMinutes = time.getMinutes() + minutes;
+        int currentTime = time.getMinutes();
+        int newMinutes = time.getMinutes() - minutes;
 
-        if (newMinutes > MINUTES_IN_HOUR - 1) {
-            time.setMinutes(newMinutes % MINUTES_IN_HOUR);
+        if (newMinutes <= 0) {
+            time.setMinutes((newMinutes + MINUTES_IN_HOUR) % MINUTES_IN_HOUR);
             calendar.setTime(time);
-            return addHoursToDate(calendar, newMinutes / MINUTES_IN_HOUR);
+            return subtractHoursToDate(calendar, (minutes + currentTime + MINUTES_IN_HOUR) / MINUTES_IN_HOUR);
         }
         time.setMinutes(newMinutes);
         calendar.setDate(date);
         return calendar;
 
     }
-    public Calendar addHoursToDate(Calendar calendar, int hours) throws CalendarException {
+
+    public Calendar subtractHoursToDate(Calendar calendar, int hours) throws CalendarException {
         Time time = calendar.getTime();
         Date date = calendar.getDate();
-        int newHours = time.getHours() + hours;
+        int currentTime = time.getHours();
+        int newHours = time.getHours() - hours;
 
-        if (newHours > HOURS_IN_DAY - 1) {
-            time.setHours(newHours % HOURS_IN_DAY);
+        if (newHours <= 0) {
+            time.setHours((newHours + HOURS_IN_DAY) % (HOURS_IN_DAY - 1));
             calendar.setTime(time);
-            return subtractDaysToDate(calendar, newHours / HOURS_IN_DAY);
+            return subtractDaysToDate(calendar, (hours + currentTime + HOURS_IN_DAY) / (HOURS_IN_DAY - 1));
         }
         time.setHours(newHours);
         calendar.setDate(date);
         return calendar;
     }
+
     public Calendar subtractDaysToDate(Calendar calendar, int days) throws CalendarException {
         Date date = calendar.getDate();
-        int newDay = date.getDay() + days;
+        int newDay = (date.getDay() - days);
 
-        if (newDay > date.getMonth().getNumberOfDays()) {
-            date.setDay(getNewDay(Math.abs(newDay), date.getMonth()));
+        if (newDay <= 0) {
+            date.setDay(getNewDay(newDay, date.getMonth()));
             calendar.setDate(date);
-            return subtractMonthToDate(calendar, Math.abs(newDay) / date.getMonth().getNumberOfDays());
+            return subtractMonthToDate(calendar, (date.getDay() + days) / 30);
         }
         date.setDay(newDay);
         calendar.setDate(date);
         return calendar;
     }
+
     private int getNewDay(int day, Month startMonth) {
         int[] days = new int[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         int ans = day;
         int index = startMonth.ordinal();
-        while (ans < startMonth.getNumberOfDays()) {
-            ans -= days[index];
+        while (true) {
             index = (index - 1) % 12;
+            ans += days[index];
+            if (ans <= 31 && ans > 0) {
+                break;
+            }
+            if (index - 1 < 0) {
+                index = days.length;
+            }
         }
-        return ans;
+        return Math.abs(ans);
     }
+
     public Calendar subtractMonthToDate(Calendar calendar, int month) throws CalendarException {
         Date date = calendar.getDate();
-        int newMonth = Math.abs(date.getMonth().ordinal() + 1 - month);
-        if (newMonth > MONTH_IN_YEAR) {
-            date.setMonth(Month.getMountByParameter(Math.abs(newMonth) % MONTH_IN_YEAR));
+        int newMonth = (date.getMonth().ordinal() - month);
+        if (newMonth <= 0) {
+            if (newMonth == -1) {
+                date.setMonth(Month.getMountByParameter(12));
+            } else {
+                date.setMonth(Month.getMountByParameter((newMonth + 12 + 1) % 12));
+            }
             calendar.setDate(date);
-            return subtractYearsToDate(calendar, Math.abs(newMonth) / MONTH_IN_YEAR);
+            return subtractYearsToDate(calendar, (month + date.getMonth().ordinal() + 1) / MONTH_IN_YEAR);
         }
-        date.setMonth(Month.getMountByParameter(date.getMonth().ordinal() - newMonth + 1));
+        date.setMonth(Month.getMountByParameter(date.getMonth().ordinal() - month + 1));
         calendar.setDate(date);
         return calendar;
 
     }
+
     public Calendar subtractYearsToDate(Calendar calendar, int years) throws CalendarException {
         Date date = calendar.getDate();
         int newYear = (date.getYear() - years);

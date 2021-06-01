@@ -17,7 +17,7 @@ public class CalendarAddingService {
     public Calendar addSecondsToDate(Calendar calendar, int seconds) throws CalendarException {
         Time time = calendar.getTime();
         Date date = calendar.getDate();
-        int newSeconds = time.getMinutes() + seconds;
+        int newSeconds = time.getSeconds() + seconds;
 
         if (newSeconds > SECONDS_IN_MINUTE - 1) {
             time.setSeconds(newSeconds % SECONDS_IN_MINUTE);

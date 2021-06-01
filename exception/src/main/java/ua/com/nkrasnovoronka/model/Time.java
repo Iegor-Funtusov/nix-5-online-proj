@@ -1,6 +1,8 @@
 package ua.com.nkrasnovoronka.model;
 
-public class Time {
+import java.util.Objects;
+
+public class Time implements Comparable<Time> {
     private int hours;
     private int minutes;
     private int seconds;
@@ -42,5 +44,30 @@ public class Time {
                 ", minutes=" + minutes +
                 ", seconds=" + seconds +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Time)) return false;
+        Time time = (Time) o;
+        return hours == time.hours && minutes == time.minutes && seconds == time.seconds;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hours, minutes, seconds);
+    }
+
+    @Override
+    public int compareTo(Time o) {
+        int compare = Integer.compare(hours, o.hours);
+        if(compare == 0){
+            compare = Integer.compare(minutes, o.minutes);
+        }
+        if(compare == 0){
+            compare = Integer.compare(seconds, o.seconds);
+        }
+        return compare;
     }
 }
