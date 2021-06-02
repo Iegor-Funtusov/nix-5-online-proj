@@ -1,9 +1,12 @@
 package com.nixsolutions.courses;
 
+import com.nixsolutions.courses.controller.ConsoleController;
+
 public class Calendar {
 
     public static void main(String[] args) {
-        System.out.println("Calendar.main");
+        ConsoleController controller = new ConsoleController();
+        controller.readConsole();
     }
 
 }
