@@ -188,7 +188,11 @@ public class Difference {
     }
 
     public static int defineDays(int month, int year){
-        if(month == 2 && year % 4 == 0)
+        if(month == 2 && year % 100 == 0 && year % 400 != 0)
+            return 28;
+        else if(month == 2 && year % 400 == 0)
+            return 29;
+        else if(month == 2 && year % 4 == 0)
             return 29;
         else if(month == 2)
             return 28;
