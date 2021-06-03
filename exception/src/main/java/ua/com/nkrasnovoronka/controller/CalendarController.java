@@ -292,7 +292,8 @@ public class CalendarController {
         return addingYears(calendar);
     }
 
-    public List<Calendar> calendarsSorting(int type) {
+    public List<Calendar> calendarsSorting() {
+        int type = UserInput.userInputNumber("Enter 1 to ASC 2 to DESC");
         System.out.println("Attention!!! Date format is " + Constants.datePatterns.get(parserFormat - 1));
         int number = UserInput.userInputNumber("Enter amount of calender inputs");
         List<Calendar> calendars = new ArrayList<>();
@@ -302,7 +303,12 @@ public class CalendarController {
         if (type == 1) {
             return new CalendarSortingService(calendars).sortASC();
         }
-        return new CalendarSortingService(calendars).sortDESC();
+        if(type == 2){
+            return new CalendarSortingService(calendars).sortDESC();
+        }else {
+            System.err.println("Wrong sorting type!!! Pleas try again");
+            return calendarsSorting();
+        }
 
     }
 

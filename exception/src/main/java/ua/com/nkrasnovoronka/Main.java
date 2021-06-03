@@ -20,7 +20,7 @@ public class Main {
             case 2 -> calendarController.addingService(calendarController.enterDate()).printCalendar(calendarController.getParserFormat());
             case 3 -> calendarController.subtractService(calendarController.enterDate()).printCalendar(calendarController.getParserFormat());
             case 4 -> calendarController.differenceService(calendarController.enterDate(), calendarController.enterDate());
-            case 5 -> calendarController.calendarsSorting(UserInput.userInputNumber("Enter 1 to ASC 2 to DESC"))
+            case 5 -> calendarController.calendarsSorting()
                     .forEach(calendar -> calendar.printCalendar(calendarController.getParserFormat()));
             case 6 -> System.exit(0);
         }
