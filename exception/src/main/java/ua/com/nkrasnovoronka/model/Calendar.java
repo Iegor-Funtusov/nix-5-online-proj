@@ -1,5 +1,8 @@
 package ua.com.nkrasnovoronka.model;
 
+import ua.com.nkrasnovoronka.formatter.DateFormatter;
+import ua.com.nkrasnovoronka.formatter.TimeFormatter;
+
 import java.util.Objects;
 
 public class Calendar implements Comparable<Calendar> {
@@ -33,6 +36,12 @@ public class Calendar implements Comparable<Calendar> {
                 "date=" + date +
                 ", time=" + time +
                 '}';
+    }
+
+    public void printCalendar(int dateFormat){
+        String date = new DateFormatter().formatDateToString(dateFormat, this.date);
+        String time = new TimeFormatter().formatTimeToString(this.time);
+        System.out.println(date + " " + time);
     }
 
     @Override

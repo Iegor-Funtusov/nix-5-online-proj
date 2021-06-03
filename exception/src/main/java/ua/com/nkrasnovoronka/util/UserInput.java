@@ -24,9 +24,9 @@ public class UserInput {
         return userInput;
     }
 
-    public static int userInputNumber() {
+    public static int userInputNumber(String message) {
         int num = 0;
-        System.out.println("Pleas enter number");
+        System.out.println(message);
         try {
             num = Integer.parseInt(bufferedReader.readLine());
         } catch (IOException e) {
@@ -36,7 +36,7 @@ public class UserInput {
     }
 
     public static String userInputString() {
-        System.out.println("Pleas enter string ");
+        System.out.println("Pleas enter string date and time seperated by space ");
         String res = "";
         try {
             res = bufferedReader.readLine();

@@ -11,26 +11,29 @@ public class TimeFormatter {
     public static final String TIME_DELIMITER = ":";
     private static final int DEFAULT_HOURS = 0;
     private static final int DEFAULT_MINUTES = 0;
-    private static final int DEFAULT_SECONDS= 0;
+    private static final int DEFAULT_SECONDS = 0;
 
     private int hour = DEFAULT_HOURS;
     private int minute = DEFAULT_MINUTES;
     private int seconds = DEFAULT_SECONDS;
 
-    public Time formatStringToTime(String input) throws TimeFormatException{
-        if(input.contains(TIME_DELIMITER)){
+    public Time formatStringToTime(String input) throws TimeFormatException {
+        if (input.contains(TIME_DELIMITER)) {
             String[] split = input.trim().split(TIME_DELIMITER);
-            if(split.length > 1 && split.length <= 3){
+            if (split.length > 1 && split.length <= 3) {
                 ifPassedTwoNumbers(split);
                 ifPassedThreeNumbers(split);
                 return new Time(hour, minute, seconds);
             }
         }
+        if (input.isBlank()) {
+            return new Time(0, 0, 0);
+        }
         throw new TimeFormatException("Invalid time format. Time format must be hh:mm:ss or hh:mm or mm:ss");
 
     }
 
-    public String formatTimeToString(Time time){
+    public String formatTimeToString(Time time) {
         StringJoiner sj = new StringJoiner(TIME_DELIMITER);
         sj.add(String.format("%02d", time.getHours()));
         sj.add(String.format("%02d", time.getMinutes()));
@@ -39,28 +42,26 @@ public class TimeFormatter {
     }
 
     private void ifPassedThreeNumbers(String[] split) throws TimeFormatException {
-        if(split.length == 3){
-           if(split[0].matches(Constants.HOUR_REGEXP) && split[1].matches(Constants.MINUTE_REGEXP) && split[0].matches(Constants.SECONDS_REGEXP)){
-               hour = Integer.parseInt(split[0]);
-               minute = Integer.parseInt(split[1]);
-               seconds = Integer.parseInt(split[2]);
-           }else {
-               throw new TimeFormatException("Invalid time values. Pleas check your input");
-           }
-       }
+        if (split.length == 3) {
+            if (split[0].matches(Constants.HOUR_REGEXP) && split[1].matches(Constants.MINUTE_REGEXP) && split[0].matches(Constants.SECONDS_REGEXP)) {
+                hour = Integer.parseInt(split[0]);
+                minute = Integer.parseInt(split[1]);
+                seconds = Integer.parseInt(split[2]);
+            } else {
+                throw new TimeFormatException("Invalid time values. Pleas check your input");
+            }
+        }
     }
 
     private void ifPassedTwoNumbers(String[] split) throws TimeFormatException {
-        if(split.length == 2){
-            if(split[0].matches(Constants.HOUR_REGEXP) && split[1].matches(Constants.MINUTE_REGEXP)){
+        if (split.length == 2) {
+            if (split[0].matches(Constants.HOUR_REGEXP) && split[1].matches(Constants.MINUTE_REGEXP)) {
                 hour = Integer.parseInt(split[0]);
                 minute = Integer.parseInt(split[1]);
-            }
-            else if(split[0].matches(Constants.MINUTE_REGEXP) && split[1].matches(Constants.SECONDS_REGEXP)){
+            } else if (split[0].matches(Constants.MINUTE_REGEXP) && split[1].matches(Constants.SECONDS_REGEXP)) {
                 minute = Integer.parseInt(split[0]);
                 seconds = Integer.parseInt(split[1]);
-            }
-            else {
+            } else {
                 throw new TimeFormatException("Invalid time values. Pleas check your input");
 
             }
