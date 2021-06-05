@@ -1,17 +1,10 @@
 package com.nixsolutions.date.controller;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.nixsolutions.date.util.UserInput;
 
 public class ConsoleController {
-    private static final BufferedReader bufferedReader;
-    private static final String REGEX_NUM = "^[0-9]$";
-    private final DateController dateController = new DateController();
 
-    static {
-        bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-    }
+    private final DateController dateController = new DateController();
 
     public void printMainMenu() {
 
@@ -23,7 +16,7 @@ public class ConsoleController {
                 "4. Create some dates and sort them.\n" +
                 "0. Exit.\n");
 
-        switch (SelectionInput()) {
+        switch (UserInput.SelectionInput()) {
             case "1": {
                 dateController.printDatesDifference();
                 break;
@@ -50,20 +43,5 @@ public class ConsoleController {
             }
         }
         printMainMenu();
-    }
-
-    private String SelectionInput() {
-
-        String numInput;
-
-        do {
-            System.out.println("Your choice: ");
-            try {
-                numInput = bufferedReader.readLine();
-            } catch (IOException e) {
-                throw new RuntimeException("Can't read user numInput", e);
-            }
-        } while (!numInput.matches(REGEX_NUM));
-        return numInput;
     }
 }

@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 
 public class UserInput {
 
+    private static final String REGEX_NUM = "^[0-9]$";
     private static final String REGEX_NUMBER = "^[0-9]+$";
     private static final String REGEX_TIME = "^(\\d\\d:\\d\\d)$";
     private static final String REGEX_CONST = "^[0-9]$";
@@ -83,6 +84,21 @@ public class UserInput {
             }
         } while (!constant.matches(REGEX_CONST));
         return constant;
+    }
+
+    public static String SelectionInput() {
+
+        String numInput;
+
+        do {
+            System.out.println("Your choice: ");
+            try {
+                numInput = reader.readLine();
+            } catch (IOException e) {
+                throw new RuntimeException("Can't read user numInput", e);
+            }
+        } while (!numInput.matches(REGEX_NUM));
+        return numInput;
     }
 
 }
