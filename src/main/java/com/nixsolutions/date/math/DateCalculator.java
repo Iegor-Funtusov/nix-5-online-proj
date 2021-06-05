@@ -1,6 +1,6 @@
-package com.nixsolutions.data.math;
+package com.nixsolutions.date.math;
 
-import com.nixsolutions.data.model.Date;
+import com.nixsolutions.date.model.Date;
 
 public class DateCalculator extends Date implements DateMath {
 
@@ -11,7 +11,7 @@ public class DateCalculator extends Date implements DateMath {
     }
 
     @Override
-    public void plusMonths(int month) {
+    public void plusMonth(int month) {
 
         int y = month / 12;
         int m = month - y * 12;

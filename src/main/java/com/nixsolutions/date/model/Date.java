@@ -1,4 +1,4 @@
-package com.nixsolutions.data.model;
+package com.nixsolutions.date.model;
 
 public class Date {
 

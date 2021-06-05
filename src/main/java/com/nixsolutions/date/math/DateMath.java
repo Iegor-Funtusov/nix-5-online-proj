@@ -1,10 +1,10 @@
-package com.nixsolutions.data.math;
+package com.nixsolutions.date.math;
 
 public interface DateMath {
 
      void plusYear(int year);
 
-     void plusMonths(int month);
+     void plusMonth(int month);
 
      void plusDay(int day);
 
