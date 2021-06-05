@@ -61,29 +61,29 @@ public class CalendarController {
     public Calendar addingService(Calendar calendar) {
         int typeAdding = UserInput.userInputNumber("Pleas chose number to add\n1 - seconds\n2 - minutes\n3 - hours\n4 - days\n5 - month\n6 - years\n0 - change date format");
         switch (typeAdding) {
-            case 1 -> {
+            case 1: {
                 return addingSeconds(calendar);
             }
-            case 2 -> {
+            case 2: {
                 return addingMinutes(calendar);
             }
-            case 3 -> {
+            case 3: {
                 return addingHours(calendar);
             }
-            case 4 -> {
+            case 4: {
                 return addingDays(calendar);
             }
-            case 5 -> {
+            case 5: {
                 return addingMonth(calendar);
             }
-            case 6 -> {
+            case 6: {
                 return addingYears(calendar);
             }
-            case 0 -> {
+            case 0: {
                 chooseParserFormat();
                 return addingService(calendar);
             }
-            default -> {
+            default: {
                 System.err.println("Wrong input!!! Pleas try again");
                 return addingService(calendar);
             }
@@ -93,29 +93,29 @@ public class CalendarController {
     public Calendar subtractService(Calendar calendar) {
         int typeSubtract = UserInput.userInputNumber("Pleas chose number to subtract\n1 - seconds\n2 - minutes\n3 - hours\n4 - days\n5 - month\n6 - years\n0 - change date format");
         switch (typeSubtract) {
-            case 1 -> {
+            case 1: {
                 return subtractingSeconds(calendar);
             }
-            case 2 -> {
+            case 2: {
                 return subtractingMinutes(calendar);
             }
-            case 3 -> {
+            case 3: {
                 return subtractingHours(calendar);
             }
-            case 4 -> {
+            case 4: {
                 return subtractingDays(calendar);
             }
-            case 5 -> {
+            case 5: {
                 return subtractingMonth(calendar);
             }
-            case 6 -> {
+            case 6: {
                 return subtractingYears(calendar);
             }
-            case 0 -> {
+            case 0: {
                 chooseParserFormat();
                 return subtractService(calendar);
             }
-            default -> {
+            default: {
                 System.err.println("Wrong input!!! Pleas try again");
                 return subtractService(calendar);
             }
@@ -125,17 +125,36 @@ public class CalendarController {
     public void differenceService(Calendar calendar1, Calendar calendar2) {
         int typeSubtract = UserInput.userInputNumber("Pleas chose difference in\n1 - seconds\n2 - minutes\n3 - hours\n4 - days\n5 - month\n6 - years\n0 - change date format");
         switch (typeSubtract) {
-            case 1 -> differenceSeconds(calendar1, calendar2);
-            case 2 -> differenceMinutes(calendar1, calendar2);
-            case 3 -> differenceHours(calendar1, calendar2);
-            case 4 -> differenceDays(calendar1, calendar2);
-            case 5 -> differenceMonth(calendar1, calendar2);
-            case 6 -> differenceYears(calendar1, calendar2);
-            case 0 -> {
+            case 1: {
+                differenceSeconds(calendar1, calendar2);
+                break;
+            }
+            case 2: {
+                differenceMinutes(calendar1, calendar2);
+                break;
+            }
+            case 3: {
+                differenceHours(calendar1, calendar2);
+                break;
+            }
+            case 4: {
+                differenceDays(calendar1, calendar2);
+                break;
+            }
+            case 5: {
+                differenceMonth(calendar1, calendar2);
+                break;
+            }
+            case 6: {
+                differenceYears(calendar1, calendar2);
+                break;
+            }
+            case 0: {
                 chooseParserFormat();
                 differenceService(calendar1, calendar2);
+                break;
             }
-            default -> {
+            default: {
                 System.err.println("Wrong input!!! Pleas try again");
                 differenceService(calendar1, calendar2);
             }
@@ -303,9 +322,9 @@ public class CalendarController {
         if (type == 1) {
             return new CalendarSortingService(calendars).sortASC();
         }
-        if(type == 2){
+        if (type == 2) {
             return new CalendarSortingService(calendars).sortDESC();
-        }else {
+        } else {
             System.err.println("Wrong sorting type!!! Pleas try again");
             return calendarsSorting();
         }
