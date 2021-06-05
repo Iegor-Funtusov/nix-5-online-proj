@@ -1,3 +1,5 @@
+package com.nixsolutions.date;
+
 import com.nixsolutions.date.controller.ConsoleController;
 
 public class MainApp {
