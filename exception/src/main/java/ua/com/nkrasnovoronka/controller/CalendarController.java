@@ -293,9 +293,9 @@ public class CalendarController {
     }
 
     public List<Calendar> calendarsSorting() {
-        int type = UserInput.userInputNumber("Enter 1 to ASC 2 to DESC");
+        int type = UserInput.userInputNumber("Enter sorting method 1 to ASC 2 to DESC");
         System.out.println("Attention!!! Date format is " + Constants.datePatterns.get(parserFormat - 1));
-        int number = UserInput.userInputNumber("Enter amount of calender inputs");
+        int number = UserInput.userInputNumber("Enter number of dates to be sorted");
         List<Calendar> calendars = new ArrayList<>();
         for (int i = 0; i < number; i++) {
             calendars.add(enterDate());

@@ -54,7 +54,7 @@ public class CalendarSubtractService {
         int newHours = time.getHours() - hours;
 
         if (newHours <= 0) {
-            time.setHours((newHours + HOURS_IN_DAY) % (HOURS_IN_DAY - 1));
+            time.setHours((newHours + HOURS_IN_DAY) % (HOURS_IN_DAY));
             calendar.setTime(time);
             return subtractDaysToDate(calendar, (hours + currentTime + HOURS_IN_DAY) / (HOURS_IN_DAY - 1));
         }
