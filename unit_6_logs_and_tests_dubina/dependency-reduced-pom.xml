@@ -14,13 +14,6 @@
     <finalName>visitMaker</finalName>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.8</source>
-          <target>1.8</target>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${maven.surefire.plugin.version}</version>
       </plugin>
@@ -36,7 +29,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>com.nixsolutions.courses.AppMain</mainClass>
+                  <mainClass>AppMain</mainClass>
                 </transformer>
               </transformers>
             </configuration>
@@ -88,6 +81,7 @@
     <maven.shade.plugin.version>3.2.0</maven.shade.plugin.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <logback.version>1.2.3</logback.version>
+    <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     <maven.compiler.source>1.8</maven.compiler.source>
   </properties>
 </project>
