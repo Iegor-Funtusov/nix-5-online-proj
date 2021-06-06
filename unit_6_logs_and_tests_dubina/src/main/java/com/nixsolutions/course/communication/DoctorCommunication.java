@@ -1,6 +1,7 @@
 package com.nixsolutions.course.communication;
 
 import com.nixsolutions.course.entity.Doctor;
+import com.nixsolutions.course.entity.Patient;
 import com.nixsolutions.course.service.DoctorService;
 import com.nixsolutions.course.service.implementation.DoctorServiceImpl;
 
@@ -28,8 +29,18 @@ public class DoctorCommunication {
         System.out.println("Please enter ID of Doctor to update: ");
         String doctorId = reader.readLine();
         Doctor doctor = doctorService.findById(doctorId);
+        setDoctorInformation(doctor);
         doctorService.update(doctor);
         System.out.println("Doctor is updated: " + doctor.getName() + " " + doctor.getId());
+    }
+
+    private void setDoctorInformation(Doctor doctor) throws IOException {
+        System.out.println("Please enter new Doctor name: ");
+        String docName = reader.readLine();
+        if (!docName.isEmpty()) {
+            doctor.setName(docName);
+        } else
+            System.out.println("Please enter valid information.");
     }
 
     public void deleteDoctorById() throws IOException {

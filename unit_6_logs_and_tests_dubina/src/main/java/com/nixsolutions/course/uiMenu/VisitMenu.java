@@ -1,5 +1,7 @@
 package com.nixsolutions.course.uiMenu;
 
+import com.nixsolutions.course.communication.DoctorCommunication;
+import com.nixsolutions.course.communication.PatientCommunication;
 import com.nixsolutions.course.communication.VisitCommunication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,9 @@ public class VisitMenu {
     private final BufferedReader reader;
     private final VisitCommunication visitCommunication;
     private static final Logger LOGGER_ERROR = LoggerFactory.getLogger("error");
+
+    DoctorCommunication doctorCommunication;
+    PatientCommunication patientCommunication;
 
     public VisitMenu(BufferedReader reader) {
         this.reader = reader;
