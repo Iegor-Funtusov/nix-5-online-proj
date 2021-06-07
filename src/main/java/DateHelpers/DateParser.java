@@ -1,6 +1,6 @@
 package DateHelpers;
 
-
+//Парсер из строки в полноценную дату
 public class DateParser {
     private final int DIMENSION = 6;
     private final int[] result;
@@ -16,21 +16,17 @@ public class DateParser {
 //     5 - minute
 //     6 - second
 
-    //Добавить обработку исключительных ситуаций. Например чтобы выдвавало експешн если водится дата и вместо времени одно число
-    //Например 2/2/2002 13 или 2002 14
-
-    //ОТРИЦАТЕЛЬНЫЙ ГОД НЕ РАБОТАЕТ, Т.К. СПЛИТ РАЗБИВАЕТ ПО МИНУСУ
-
-
-
     public int[] parseDate(String date) {
+        if(isNegativeDate(date)){
+            throw new RuntimeException("Incorrect date entered");
+        }
+
         //Отделяю дату
-        String[] onlyDate = date.split("[\\s-/]+");
+        String[] onlyDate = date.split("[\\s/]+");
         //Проверяю, если прилетело помимо даты ещё и время, для корректного парса даты отделяю ненужное пока время
         if(onlyDate[onlyDate.length-1].split(":").length > 1){
             onlyDate[onlyDate.length-1] = "";
         }
-
 
         //Отделяю время
         String[] onlyTime = date.split(":");
@@ -120,110 +116,115 @@ public class DateParser {
     }
 
 
-
-
-
-
     private boolean validationDate(String[] pieces){
-        int day, month, year;
-        boolean leapYear = false;
-
-        switch (pieces.length){
-            case 3 ->{
-                //Проверка года
-                if(!pieces[2].equals("")){
-                    year = Integer.parseInt(pieces[2]);
-                    if(year < 0){
-                        return false;
-                    }
-
-                    //Проверка на високосный год
-                    if (year % 4 == 0) {
-                        leapYear = true;
-                    }
-                }
-
-
-                //Проверка месяца
-                if(!pieces[1].equals("")){
-                    month = Integer.parseInt(pieces[1]);
-                    if(month < 0 || month > 12)
-                        return false;
-                }
-                else {
-                    month = DateConstants.DEFAULT_MONTH;
-                }
-
-
-                //Проверка дня
-                if (!pieces[0].equals("")) {
-                    day = Integer.parseInt(pieces[0]);
-                    if(day < 0){
-                        return false;
-                    }
-
-                    int daysInMonth = DateConstants.getMonthDay().get(month);
-                    //Если февраль вискосного года
-                    if(month == 2 && leapYear){
-                        if(day > (daysInMonth+1)){
-                            return false;
-                        }
-                    }
-                    //Если просто любой другой месяц
-                    else{
-                        if(day > daysInMonth){
-                            return false;
-                        }
-                    }
-                }
-            }
-            case 2 -> {
-                //Если задан только год, и время
-                if(!pieces[0].equals("")){
-                    year = Integer.parseInt(pieces[0]);
-                    if(year < 0){
-                        return false;
-                    }
-                }
-
-                //Если год не задан, проверю только месяц и день
-                else {
-                    //Проверка месяца
-                    if(!pieces[1].equals("")){
-                        month = Integer.parseInt(pieces[1]);
-                        if(month < 0 || month > 12)
-                            return false;
-                    }
-                    else {
-                        month = DateConstants.DEFAULT_MONTH;
-                    }
-
-                    //Проверка дня
-                    if (!pieces[0].equals("")) {
-                        day = Integer.parseInt(pieces[0]);
-                        if(day < 0){
-                            return false;
-                        }
-
-                        int daysInMonth = DateConstants.getMonthDay().get(month);
-                        if(day > daysInMonth){
-                                return false;
-                            }
-                        }
-                    }
-                }
-
-            case 1 -> {
-                if(pieces[0].equals("")){
-                    return false;
-                }
+        //Проверка дня, месяца и года
+        if(pieces.length == 3 || pieces.length == 4){
+            return validateFullEnteredDate(pieces);
+        }
+        //Если прилетело 2 из 3 параметров даты
+        else if(pieces.length == 2){
+            return validateTwoParamEnteredDate(pieces);
+        }
+        //Если прилетел только один параметр
+        else{
+            if(pieces[0].equals("")){
+                return false;
             }
         }
-
         return true;
     }
 
 
+    //Проверка всех параметров
+    private boolean validateFullEnteredDate(String []pieces){
+        int day, month, year;
+        boolean leapYear = false;
+
+        //Проверка года
+        if(!pieces[2].equals("")){
+            year = Integer.parseInt(pieces[2]);
+            if(year < 0){
+                return false;
+            }
+
+            //Проверка на високосный год
+            if (year % 4 == 0) {
+                leapYear = true;
+            }
+        }
+
+        //Проверка месяца
+        if(!pieces[1].equals("")){
+            month = Integer.parseInt(pieces[1]);
+            if(month < 0 || month > 12)
+                return false;
+        }
+        else {
+            month = DateConstants.DEFAULT_MONTH;
+        }
+
+        //Проверка дня
+        if (!pieces[0].equals("")) {
+            day = Integer.parseInt(pieces[0]);
+            if(day < 0){
+                return false;
+            }
+
+            int daysInMonth = DateConstants.getMonthDay().get(month);
+            //Если февраль вискосного года
+            if(month == 2 && leapYear){
+                if(day > (daysInMonth+1)){
+                    return false;
+                }
+            }
+            //Если просто любой другой месяц
+            else{
+                if(day > daysInMonth){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+
+    private boolean validateTwoParamEnteredDate(String []pieces){
+        int day, month, year;
+        //Если задан только год, и время
+        if(!pieces[0].equals("")){
+            year = Integer.parseInt(pieces[0]);
+            if(year < 0){
+                return false;
+            }
+        }
+
+        //Если год не задан, проверю только месяц и день
+        else {
+            //Проверка месяца
+            if(!pieces[1].equals("")){
+                month = Integer.parseInt(pieces[1]);
+                if(month < 0 || month > 12)
+                    return false;
+            }
+            else {
+                month = DateConstants.DEFAULT_MONTH;
+            }
+
+            //Проверка дня
+            if (!pieces[0].equals("")) {
+                day = Integer.parseInt(pieces[0]);
+                if(day < 0){
+                    return false;
+                }
+
+                int daysInMonth = DateConstants.getMonthDay().get(month);
+                if(day > daysInMonth){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
 
     private boolean validationTime(String[] pieces){
@@ -264,6 +265,7 @@ public class DateParser {
         return true;
     }
 
+
     private boolean validateMinutes(String minutesStr){
         if(!minutesStr.equals("")){
             int minutes = Integer.parseInt(minutesStr);
@@ -282,4 +284,23 @@ public class DateParser {
     }
 
 
+    private boolean isNegativeDate(String date){
+        String[] onlyDate = date.split("[\\s/ ]+");
+        if(!onlyDate[0].equals("")){
+            if(Integer.parseInt(onlyDate[0]) <= 0){
+                return true;
+            }
+        }
+        if(!onlyDate[1].equals("")){
+            if(Integer.parseInt(onlyDate[1]) <= 0){
+                return true;
+            }
+        }
+        if(!onlyDate[2].equals("")){
+            if(Integer.parseInt(onlyDate[2]) < 0){
+                return true;
+            }
+        }
+        return false;
+    }
 }
