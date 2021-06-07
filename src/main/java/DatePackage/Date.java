@@ -1,6 +1,8 @@
 package DatePackage;
+import DateHelpers.DateConstants;
 
-public class Date {
+
+public class Date implements Comparable{
     private int year;
     private byte month;
     private byte day;
@@ -11,14 +13,15 @@ public class Date {
         day = (byte)result[0];
         month = (byte)result[1];
         year = result[2];
-        time = result[3] * 3600 + result[4] * 60 + result[5];
+        time = result[3] * DateConstants.SECONDS_IN_HOUR + result[4] * DateConstants.SECONDS_IN_MINUTE + result[5];
     }
+
 
     @Override
     public String toString() {
-        byte hours = (byte) (time / 3600);
-        byte minutes = (byte) ((time / 60) % 60);
-        byte seconds = (byte) (time % 60);
+        byte hours = (byte) (time / DateConstants.SECONDS_IN_HOUR);
+        byte minutes = (byte) ((time / DateConstants.SECONDS_IN_MINUTE) % DateConstants.SECONDS_IN_MINUTE);
+        byte seconds = (byte) (time % DateConstants.SECONDS_IN_MINUTE);
 
         return year + "/" +
                 month + "/" +
@@ -28,6 +31,14 @@ public class Date {
                 seconds;
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Date date = (Date) o;
+        return year == date.year && month == date.month && day == date.day && time == date.time;
+    }
 
     public int getYear() {
         return year;
@@ -59,5 +70,43 @@ public class Date {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+
+    //Для корректной сортировки
+    @Override
+    public int compareTo(Object objectToCompare){
+        Date dateToCompare = (Date) objectToCompare;
+        if(this.year < dateToCompare.getYear()){
+            return -1;
+        }
+        if(this.year > dateToCompare.getYear()){
+            return 1;
+        }
+        return compareMonth(dateToCompare);
+    }
+
+    private int compareMonth(Date dateToCompare){
+        if(this.month < dateToCompare.getMonth()){
+            return -1;
+        }
+        if(this.month > dateToCompare.getMonth()){
+            return 1;
+        }
+        return compareDay(dateToCompare);
+    }
+
+    private int compareDay(Date dateToCompare){
+        if(this.day < dateToCompare.getDay()){
+            return -1;
+        }
+        if(this.day > dateToCompare.getDay()){
+            return 1;
+        }
+        return compareTime(dateToCompare);
+    }
+
+    private int compareTime(Date dateToCompare){
+        return Integer.compare(this.time, dateToCompare.getTime());
     }
 }

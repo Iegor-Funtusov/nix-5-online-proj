@@ -9,11 +9,14 @@ public class DateConstants {
     public static final int DEFAULT_DAY = 1;
     public static final int DEFAULT_TIME = 0;
 
+    public static int SECONDS_IN_MINUTE = 60;
+    public static int SECONDS_IN_HOUR = 3600;
     public static int SECONDS_PER_DAY = 86400;
+
     public static int QUANTITY_OF_MONTHS = 12;
 
 
-
+    //Для того чтобы получить номер месяца и кол-во дней в нём
     public static Map<Integer, Integer> getMonthDay(){
         Map<Integer, Integer> monthDay = new HashMap<>();
         //Соответсвие месяца и кол-ва дней в нём
