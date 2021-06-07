@@ -3,7 +3,7 @@ package DateHelpers;
 //Парсер из строки в полноценную дату
 public class DateParser {
     private final int DIMENSION = 6;
-    private final int[] result;
+    private int[] result;
 
     public DateParser() {
         result = new int[DIMENSION];
@@ -17,9 +17,7 @@ public class DateParser {
 //     6 - second
 
     public int[] parseDate(String date) {
-        if(isNegativeDate(date)){
-            throw new RuntimeException("Incorrect date entered");
-        }
+        result = new int[DIMENSION];
 
         //Отделяю дату
         String[] onlyDate = date.split("[\\s/]+");
@@ -129,6 +127,12 @@ public class DateParser {
         else{
             if(pieces[0].equals("")){
                 return false;
+            }
+            else {
+                int year = Integer.parseInt(pieces[0]);
+                if(year < 0){
+                    return false;
+                }
             }
         }
         return true;
@@ -281,26 +285,5 @@ public class DateParser {
             return hours >= 0 && hours <= 24;
         }
         return true;
-    }
-
-
-    private boolean isNegativeDate(String date){
-        String[] onlyDate = date.split("[\\s/ ]+");
-        if(!onlyDate[0].equals("")){
-            if(Integer.parseInt(onlyDate[0]) <= 0){
-                return true;
-            }
-        }
-        if(!onlyDate[1].equals("")){
-            if(Integer.parseInt(onlyDate[1]) <= 0){
-                return true;
-            }
-        }
-        if(!onlyDate[2].equals("")){
-            if(Integer.parseInt(onlyDate[2]) < 0){
-                return true;
-            }
-        }
-        return false;
     }
 }

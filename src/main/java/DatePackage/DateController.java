@@ -64,15 +64,14 @@ public class DateController {
     }
 
 
-    //СДЕЛАТЬ ПРАЙВАТ
-    public void createDate() {
+    private void createDate() {
         try {
             System.out.println("Enter date with one of the various format:");
             String dateToCreate = bf.readLine();
             Date addedDate = dateService.createDate(dateToCreate);
             System.out.println("Successfully created. " + formOutputDate(addedDate));
         } catch (RuntimeException e){
-            System.out.println(e.getMessage());
+            System.out.println("Incorrect value entered");
         } catch (IOException e) {
             System.out.println("Incorrect value entered");
         }
@@ -92,8 +91,9 @@ public class DateController {
                 case 6 -> addYears(dateToModify);
                 default -> System.out.println("Incorrect value entered");
             }
-        }
-        catch (IOException e){
+        } catch (IOException e){
+            System.out.println(e.getMessage());
+        } catch (RuntimeException e){
             System.out.println(e.getMessage());
         }
     }
@@ -315,7 +315,6 @@ public class DateController {
                 return;
             }
         }
-
         printAllDates();
     }
 
@@ -329,7 +328,6 @@ public class DateController {
             createDate();
             return dateService.getDate(dateService.getDate().size() - 1);
         }
-
         if(choose < 0 || choose > dateService.getDate().size()){
             throw new RuntimeException("Incorrect index entered");
         }
@@ -345,7 +343,6 @@ public class DateController {
             System.out.println("There are no dates");
             return;
         }
-
         for(int i = 0; i < dates.size(); i ++){
             System.out.println("Date #" + (i+1) + " " + formOutputDate(dates.get(i)));
         }
@@ -417,7 +414,7 @@ public class DateController {
         System.out.println("/mm/yyyy");
         System.out.println("/mm/");
         System.out.println("yyyy");
-        System.out.println("Also you can enter date with a '-' instead of '/', or add a time by the space with such template hh:mm:ss");
+        System.out.println("Also you can add a time by the space with such template hh:mm:ss or mm:ss");
         System.out.println("If you don't want to enter time, just press enter after writing your date \n");
     }
 }
