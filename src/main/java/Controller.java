@@ -112,13 +112,11 @@ public class Controller {
         student.setName(bf.readLine());
         if(service.addStudent(student)){
             System.out.println("Successfully created. " + student.toString());
+            System.out.println("Do you want to enroll student to course? 1-yes, else-no");
+            if(Integer.parseInt(bf.readLine()) == 1){
+                enrollStudentToCourse(student);
+            }
         }
-        System.out.println("Do you want to enroll student to course? 1-yes, else-no");
-        if(Integer.parseInt(bf.readLine()) == 1){
-            enrollStudentToCourse(student);
-            return;
-        }
-        System.out.println("Can not add new student");
     }
 
 
@@ -144,6 +142,7 @@ public class Controller {
 
 
     private void enrollStudentToCourse() throws IOException {
+        boolean enrollToNewCourseFlag = false;
         try{
             System.out.println("Choose the student which you want to enroll to the course:");
             Student studentToEnroll = chooseStudent();
@@ -156,6 +155,7 @@ public class Controller {
                 if(Integer.parseInt(bf.readLine()) != 1){
                     return;
                 }
+                enrollToNewCourseFlag = true;
             }
             System.out.println("Choose the course:");
             Course chosenCourse = chooseCourse();
@@ -163,11 +163,13 @@ public class Controller {
                 System.out.println("Such course is not exists");
                 return;
             }
-            if(studentToEnroll.getCourse().equals(chosenCourse)){
-                System.out.println("This student is already at this course");
-                return;
+            //Проверка на то, что студент хочет запиисаться на тот курс, на котором он сейчас
+            if(enrollToNewCourseFlag){
+                if(studentToEnroll.getCourse().equals(chosenCourse)){
+                    System.out.println("This student is already at this course");
+                    return;
+                }
             }
-
             if(service.addStudentToCourse(studentToEnroll, chosenCourse)){
                 studentToEnroll.setCourse(chosenCourse);
                 System.out.println("Student was successfully added to this course");
