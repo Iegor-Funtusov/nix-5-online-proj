@@ -12,7 +12,23 @@ public class DateOutputFormatter {
             case "1":
                 outputDate = firstFormat(date); // dd/mm/yy hh:mm:ss
                 break;
+            case "2":
+                outputDate = secondFormat(date); // m/d/yyyy hh:mm:ss
+                break;
+//            case "3":
+//                outputDate = thirdFormat(date); // mmm-d-yy hh:mm:ss
+//                break;
+//            case "4":
+//                outputDate = fourthFormat(date); // dd-mmm-yyyy hh:mm:ss
+//                break;
         }
+        return outputDate;
+    }
+
+    private static String secondFormat(Date date) {
+        String outputDate = String.format("%d/%d/%04d ", date.getDay(), date.getMonth(), date.getYear());
+        outputDate += formatTime(date);
+
         return outputDate;
     }
 
