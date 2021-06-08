@@ -14,8 +14,176 @@ public class CalendarService {
 
     }
 
-    public void addToDate() {
+    public Date addToDate(Date date, int value, String scope) {
+        switch (scope) {
+            case "seconds":
+                return addSeconds(date, value);
+            case "minutes":
+                return addMinutes(date, value);
+            case "hours":
+                return addHours(date, value);
+            case "days":
+                return addDays(date, value);
+            case "months":
+                return addMonths(date, value);
+            case "years":
+                return addYears(date, value);
+        }
+        return date;
+    }
 
+    private Date addSeconds(Date date, int value) {
+        int year = date.getYear();
+        int month = date.getMonth();
+        int day = date.getDay();
+        int hours = date.getTime().getHours();
+        int minutes = date.getTime().getMinutes();
+        int seconds = date.getTime().getSeconds();
+        for (int i = seconds; i <= 60; i++) {
+            if (value >= 0) {
+                if (i == 60) {
+                    i = 0;
+                    if (++minutes == 60) {
+                        minutes = 0;
+                        if (++hours == 24) {
+                            hours = 0;
+                            if (++day > daysInMonth(month, year)) {
+                                day = 1;
+                                if (++month > 12) {
+                                    month = 1;
+                                    year++;
+                                }
+                            }
+                        }
+                    }
+                }
+                value--;
+            } else {
+                seconds = i -1;
+                break;
+            }
+        }
+        date.getTime().setSeconds(seconds);
+        date.getTime().setMinutes(minutes);
+        date.getTime().setHours(hours);
+        date.setDay(day);
+        date.setMonth(month);
+        date.setYear(year);
+
+        return date;
+    }
+
+    private Date addMinutes(Date date, int value) {
+        int year = date.getYear();
+        int month = date.getMonth();
+        int day = date.getDay();
+        int hours = date.getTime().getHours();
+        int minutes = date.getTime().getMinutes();
+        for (int i = minutes; i <= 60; i++) {
+            if (value >= 0) {
+                if (i == 60) {
+                    i = 0;
+                    if (++hours == 24) {
+                        hours = 0;
+                        if (++day > daysInMonth(month, year)) {
+                            day = 1;
+                            if (++month > 12) {
+                                month = 1;
+                                year++;
+                            }
+                        }
+                    }
+                }
+                value--;
+            } else {
+                minutes = i - 1;
+                break;
+            }
+        }
+        date.getTime().setMinutes(minutes);
+        date.getTime().setHours(hours);
+        date.setDay(day);
+        date.setMonth(month);
+        date.setYear(year);
+        return date;
+    }
+
+    private Date addHours(Date date, int value) {
+        int year = date.getYear();
+        int month = date.getMonth();
+        int day = date.getDay();
+        int hours = date.getTime().getHours();
+        for (int i = hours; i <= 24; i++) {
+            if (value >= 0) {
+                if (i == 24) {
+                    i = 0;
+                    if (++day > daysInMonth(month, year)) {
+                        day = 1;
+                        if (++month > 12) {
+                            month = 1;
+                            year++;
+                        }
+                    }
+                }
+                value--;
+            } else {
+                hours = i - 1;
+                break;
+            }
+        }
+        date.getTime().setHours(hours);
+        date.setDay(day);
+        date.setMonth(month);
+        date.setYear(year);
+        return date;
+    }
+
+    private Date addDays(Date date, int value) {
+        int year = date.getYear();
+        int month = date.getMonth();
+        int day = date.getDay();
+        for (int i = day; i <= daysInMonth(month, year); i++) {
+            if (value > 0) {
+                if (i == daysInMonth(month, year)) {
+                    i = 0;
+                    if (++month > 12) {
+                        month = 1;
+                        year++;
+                    }
+                }
+                value--;
+            } else {
+                day = i;
+                break;
+            }
+        }
+        date.setDay(day);
+        date.setMonth(month);
+        date.setYear(year);
+        return date;
+    }
+
+    private Date addMonths(Date date, int value) {
+        int year = date.getYear();
+        int month = date.getMonth();
+        System.out.println("month=" + month);
+        while (value > 0) {
+            month++;
+            System.out.println("month:" + month);
+            if (month > 12) {
+                month = 1;
+                year++;
+            }
+            value--;
+        }
+        date.setMonth(month);
+        date.setYear(year);
+        return date;
+    }
+
+    private static Date addYears(Date date, int value) {
+        date.setYear(date.getYear() + value);
+        return date;
     }
 
     public double findDifference(Date from, Date to, String scope) throws DateTimeException {

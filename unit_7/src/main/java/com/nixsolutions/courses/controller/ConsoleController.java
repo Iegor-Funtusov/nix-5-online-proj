@@ -3,6 +3,7 @@ package com.nixsolutions.courses.controller;
 import com.nixsolutions.courses.data.Date;
 import com.nixsolutions.courses.service.CalendarService;
 import com.nixsolutions.courses.util.DateInputFormatter;
+import com.nixsolutions.courses.util.DateOutputFormatter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,8 +39,28 @@ public class ConsoleController {
     }
 
     private void addToDate() {
-        printFormats();
+        while (true) {
+            try {
+                printFormats();
+                String format = reader.readLine();
+                System.out.println("Enter date:");
+                Date date = DateInputFormatter.formatDate(reader.readLine(), format);
+                String scope = printScopes();
+                System.out.println("Enter value:");
+                int value = Integer.parseInt(reader.readLine());
+                date = calendarService.addToDate(date, value, scope);
 
+                printFormats();
+                format = reader.readLine();
+                String output = DateOutputFormatter.formatDate(date, format);
+                System.out.println(output);
+                break;
+            } catch (IOException e) {
+                System.out.println("Sorry, something went wrong. Try again");
+            } catch (DataFormatException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private void subtractFromDate() {
