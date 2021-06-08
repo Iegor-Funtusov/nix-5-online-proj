@@ -15,13 +15,18 @@ public class DateOutputFormatter {
             case "2":
                 outputDate = secondFormat(date); // m/d/yyyy hh:mm:ss
                 break;
-//            case "3":
-//                outputDate = thirdFormat(date); // mmm-d-yy hh:mm:ss
-//                break;
-//            case "4":
-//                outputDate = fourthFormat(date); // dd-mmm-yyyy hh:mm:ss
-//                break;
+            case "3":
+                outputDate = thirdFormat(date); // mmm-d-yy hh:mm:ss
+                break;
+
         }
+        return outputDate;
+    }
+
+    private static String thirdFormat(Date date) {
+        String outputDate = String.format("%s-%d-%d ", monthToString(date.getMonth()), date.getDay(), date.getYear());
+        outputDate += formatTime(date);
+
         return outputDate;
     }
 
@@ -42,5 +47,35 @@ public class DateOutputFormatter {
 
         return outputDate;
 
+    }
+
+    private static String monthToString(int month) {
+        switch (month) {
+            case 1:
+                return "Январь";
+            case 2:
+                return "Февраль";
+            case 3:
+                return "Март";
+            case 4:
+                return "Апрель";
+            case 5:
+                return "Май";
+            case 6:
+                return "Июнь";
+            case 7:
+                return "Июль";
+            case 8:
+                return "Август";
+            case 9:
+                return "Сентябрь";
+            case 10:
+                return "Октябрь";
+            case 11:
+                return "Ноябрь";
+            case 12:
+                return "Декабрь";
+        }
+        return "Январь";
     }
 }
