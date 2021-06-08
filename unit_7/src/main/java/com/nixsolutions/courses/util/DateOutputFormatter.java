@@ -18,8 +18,17 @@ public class DateOutputFormatter {
             case "3":
                 outputDate = thirdFormat(date); // mmm-d-yy hh:mm:ss
                 break;
-
+            case "4":
+                outputDate = fourthFormat(date); // dd-mmm-yyyy hh:mm:ss
+                break;
         }
+        return outputDate;
+    }
+
+    private static String fourthFormat(Date date) {
+        String outputDate = String.format("%02d-%s-%04d ", date.getDay(), monthToString(date.getMonth()), date.getYear());
+        outputDate += formatTime(date);
+
         return outputDate;
     }
 
