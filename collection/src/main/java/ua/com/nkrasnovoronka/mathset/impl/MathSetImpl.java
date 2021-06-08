@@ -3,6 +3,7 @@ package ua.com.nkrasnovoronka.mathset.impl;
 import ua.com.nkrasnovoronka.mathset.MathSet;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -46,7 +47,7 @@ public class MathSetImpl implements MathSet {
     }
 
     public MathSetImpl(MathSet... numbers) {
-        for(MathSet mathSet:numbers){
+        for (MathSet mathSet : numbers) {
             add(mathSet.toArray());
         }
     }
@@ -79,7 +80,7 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public void join(MathSet... ms) {
-        for(MathSet mathSet: ms){
+        for (MathSet mathSet : ms) {
             join(mathSet);
         }
     }
@@ -164,12 +165,16 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public Number[] toArray(int firstIndex, int lastIndex) {
-        return new Number[0];
+        isValidIndex(firstIndex, lastIndex);
+        Number[] subNumber = new Number[lastIndex - firstIndex + 1];
+        System.arraycopy(numbers, firstIndex, subNumber, 0, subNumber.length);
+        return subNumber;
     }
 
     @Override
     public MathSet squash(int firstIndex, int lastIndex) {
-        return null;
+        isValidIndex(firstIndex, lastIndex);
+        return new MathSetImpl(toArray(firstIndex, lastIndex));
     }
 
     @Override
@@ -180,12 +185,50 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public void clear(Number[] numbers) {
+        for (Number n : numbers) {
+            for (int i = 0; i < size; i++) {
+                if (n.equals(this.numbers[i])) {
+                    this.numbers[i] = null;
+                }
+            }
+        }
+        clearFromNulls();
+    }
+
+    private void clearFromNulls() {
+        Number[] n = new Number[DEFAULT_CAPACITY];
+        int curSize = 0;
+        int index = 0;
+        for (int i = 0; i < this.size; i++) {
+            if (numbers[i] != null) {
+                n[index++] = numbers[i];
+                curSize++;
+            }
+        }
+        numbers = n;
+        this.size = curSize;
+
 
     }
 
     @Override
-    public Iterator iterator() {
-        return null;
+    public Iterator<Number> iterator() {
+        return new Iterator<>() {
+            int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return index < size;
+            }
+
+            @Override
+            public Number next() {
+                if (hasNext()) {
+                    return numbers[index++];
+                }
+                throw new NoSuchElementException();
+            }
+        };
     }
 
     private void resizeIfNeeded() {
@@ -203,5 +246,11 @@ public class MathSetImpl implements MathSet {
             sj.add(numbers[i].toString());
         }
         return sj.toString();
+    }
+
+    private void isValidIndex(int firstIndex, int lastIndex) {
+        if ((firstIndex >= lastIndex || firstIndex > size) || (lastIndex > size)) {
+            throw new IllegalArgumentException("Pleas check index input");
+        }
     }
 }

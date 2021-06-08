@@ -1,6 +1,6 @@
 package ua.com.nkrasnovoronka.mathset;
 
-public interface MathSet extends Iterable {
+public interface MathSet extends Iterable<Number> {
 
     void add(Number n);
 
