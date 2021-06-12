@@ -87,7 +87,7 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public void sortDesc() {
-
+        quickSort(numbers, 0, size - 1, true);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public void sortAsc() {
-
+        quickSort(numbers, 0, size - 1, false);
     }
 
     @Override
@@ -253,4 +253,56 @@ public class MathSetImpl implements MathSet {
             throw new IllegalArgumentException("Pleas check index input");
         }
     }
+
+    private void quickSort(Number[] num, int from, int to, boolean desk) {
+
+        if (from < to) {
+            int pi = partition(num, from, to, desk);
+            if (desk) {
+                quickSort(num, from, pi, true);
+                quickSort(num, pi + 1, to, true);
+            } else {
+                quickSort(num, from, pi - 1, false);
+                quickSort(num, pi + 1, to, false);
+            }
+        }
+    }
+
+    private int partition(Number[] num, int from, int to, boolean desk) {
+
+        double pivot;
+        int i;
+        if (desk) {
+            i = from;
+            pivot = num[from].doubleValue();
+            for (int j = from + 1; j <= to; j++) {
+                if (num[j].doubleValue() > pivot) {
+                    i++;
+                    swap(num, i, j);
+                }
+            }
+            swap(num, i, from);
+            return i;
+        } else {
+            i = (from - 1);
+            pivot = num[to].doubleValue();
+            for (int j = from; j < to; j++) {
+                if (num[j].doubleValue() <= pivot) {
+                    i++;
+                    swap(num, i, j);
+                }
+            }
+            swap(num, i + 1, to);
+            return i + 1;
+        }
+
+
+    }
+
+    private void swap(Number[] num, int i, int j) {
+        Number temp = num[i];
+        num[i] = num[j];
+        num[j] = temp;
+    }
+
 }
