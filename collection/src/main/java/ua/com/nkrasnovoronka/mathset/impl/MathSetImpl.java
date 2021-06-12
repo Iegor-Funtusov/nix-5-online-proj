@@ -2,6 +2,7 @@ package ua.com.nkrasnovoronka.mathset.impl;
 
 import ua.com.nkrasnovoronka.mathset.MathSet;
 
+import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -92,12 +93,18 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public void sortDesc(int firstIndex, int lastIndex) {
-
+        isValidIndex(firstIndex, lastIndex);
+        Number[] sort = toArray(firstIndex, lastIndex);
+        quickSort(sort, 0, sort.length - 1, true);
+        System.arraycopy(sort, 0, numbers, firstIndex, sort.length);
     }
 
     @Override
     public void sortDesc(Number value) {
-
+        int index = getIndex(value);
+        if(index != -1){
+            sortDesc(index, size - 1);
+        }
     }
 
     @Override
@@ -107,12 +114,18 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public void sortAsc(int firstIndex, int lastIndex) {
-
+        isValidIndex(firstIndex, lastIndex);
+        Number[] sort = toArray(firstIndex, lastIndex);
+        quickSort(sort, 0, sort.length - 1, false);
+        System.arraycopy(sort, 0, numbers, firstIndex, sort.length);
     }
 
     @Override
     public void sortAsc(Number value) {
-
+        int index = getIndex(value);
+        if(index != -1){
+            sortAsc(index, size - 1);
+        }
     }
 
     @Override
@@ -138,22 +151,37 @@ public class MathSetImpl implements MathSet {
 
     @Override
     public Number getMax() {
-        return null;
+        Number[] n = numbers;
+        quickSort(n, 0, size - 1, true);
+        return n[0];
     }
 
     @Override
     public Number getMin() {
-        return null;
+        Number[] n = numbers;
+        quickSort(n, 0, size - 1, false);
+        return n[0];
     }
 
     @Override
     public Number getAverage() {
-        return null;
+        double sum = 0;
+        for (int i = 0; i < size; i++) {
+            sum += numbers[i].doubleValue();
+        }
+
+        return sum / size;
     }
 
     @Override
     public Number getMedian() {
-        return null;
+        sortAsc();
+        if(size %2 != 0){
+            return numbers[size / 2];
+        }
+        double first = numbers[size / 2 - 1].doubleValue();
+        double second = numbers[size / 2].doubleValue();
+        return( first + second) / 2;
     }
 
     @Override
@@ -269,7 +297,6 @@ public class MathSetImpl implements MathSet {
     }
 
     private int partition(Number[] num, int from, int to, boolean desk) {
-
         double pivot;
         int i;
         if (desk) {
@@ -295,8 +322,15 @@ public class MathSetImpl implements MathSet {
             swap(num, i + 1, to);
             return i + 1;
         }
+    }
 
-
+    private int getIndex(Number val) {
+        for (int i = 0; i < size; i++) {
+            if(numbers[i].equals(val)){
+                return i;
+            }
+        }
+        return -1;
     }
 
     private void swap(Number[] num, int i, int j) {

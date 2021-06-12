@@ -5,18 +5,14 @@ import ua.com.nkrasnovoronka.mathset.impl.MathSetImpl;
 
 public class Main {
     public static void main(String[] args) {
-        MathSet mathSet = new MathSetImpl(new Number[]{3, 1}, new Number[]{3, 4, 5});
+        MathSet mathSet = new MathSetImpl(new Number[]{1, 3, 2, 0}, new Number[]{3, 4, 5});
         System.out.println(mathSet);
-//        mathSet.clear(new Number[]{1, 2, 5, 7});
-//        System.out.println(mathSet);
-        for (Number n: mathSet){
-            System.out.println(n);
-        }
-        System.out.println();
-        mathSet.sortDesc();
-        for (Number n: mathSet){
-            System.out.println(n);
-        }
+        System.out.println(mathSet.getAverage());
+        mathSet.sortAsc();
+        System.out.println(mathSet);
+        System.out.println(mathSet.getMedian());
+        System.out.println(mathSet.getMin());
+        System.out.println(mathSet.getMax());
 
     }
 }
