@@ -2,51 +2,51 @@ package MathSet;
 
 import java.util.Iterator;
 
-public class MathSet implements InterfaceMS {
+public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
     private int counter = -1;
     private final int SIZE = 10;
-    private Number[] set;
+    private E[] set;
     public MathSet(){
-        set = new Number[SIZE];
+        set = (E[]) new Comparable[SIZE];
     }
 
     public MathSet(int capacity){
         if(capacity < 0){
             throw new NegativeArraySizeException("Capacity can't be negative: " + capacity);
         }
-        set = new Number[capacity];
+        set = (E[]) new Comparable[capacity];
     }
 
     public MathSet(Number[] numbers){
         if(numbers == null){
             throw new NullPointerException("Array can't be null");
         }
-        set = numbers;
+        set = (E[]) numbers;
     }
 
-    public MathSet(Number[] ... numbers){
+    public MathSet(E[] ... numbers){
         if(numbers == null){
             throw new NullPointerException("Array can't be null");
         }
-        set = new Number[numbers.length];
-        for(Number[] i : numbers){
+        set = (E[]) new Number[numbers.length];
+        for(E[] i : numbers){
             add(i);
         }
     }
 
-    public MathSet(MathSet numbers){
-        set = numbers.toArray();
-    }
+//    public MathSet(MathSet numbers){
+//        set = (E[]) numbers.toArray();
+//    }
 
-    public MathSet(MathSet ... numbers){
-        for(MathSet mathSet:numbers){
-            add(mathSet.toArray());
-        }
-    }
+//    public MathSet(MathSet ... numbers){
+//        for(MathSet mathSet:numbers){
+//            add(mathSet.toArray());
+//        }
+//    }
 
 
 
-    public void add(Number n){
+    public void add(E n){
         resize();
         for(int i = 0; i <= counter; i++){
             if(n == set[i]){
@@ -57,9 +57,9 @@ public class MathSet implements InterfaceMS {
         set[counter] = n;
     }
 
-    public void add(Number ... n){
+    public void add(E ... n){
         boolean flag = false;
-        for(Number k: n){
+        for(E k: n){
             for(int i = 0; i <= counter; i++){
                 if(set[i] == k)
                 {
@@ -73,27 +73,27 @@ public class MathSet implements InterfaceMS {
         }
     }
 
-    public void join(MathSet mathset){
-        Number[] number = mathset.toArray();
-        System.out.println(number.length);
-        for (int i = 0; i < number.length; i++) {
-            resize();
-            add(number[i]);
-        }
-
-    }
-
-    public void join(MathSet ... mathset){
-        for(MathSet mathSet: mathset){
-            join(mathSet);
-        }
-    }
+//    public void join(MathSet mathset){
+//        Object[] number = mathset.toArray();
+//        System.out.println(number.length);
+//        for (int i = 0; i < number.length; i++) {
+//            resize();
+//            add((E) number[i]);
+//        }
+//
+//    }
+//
+//    public void join(MathSet ... mathset){
+//        for(MathSet mathSet: mathset){
+//            join(mathSet);
+//        }
+//    }
 
     public void sortDesc(){
         for (int i = 0; i <= counter; i++) {
             for (int j = i+1; j <= counter; j++) {
-                if(set[i].doubleValue() < set[j].doubleValue()){
-                    Number swap = set[i];
+                if(set[i].compareTo(set[j]) == -1){
+                    E swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -106,8 +106,8 @@ public class MathSet implements InterfaceMS {
 
         for (int i = firstIndex; i < lastIndex; i++) {
             for (int j = i+1; j < lastIndex; j++) {
-                if(set[i].doubleValue() < set[j].doubleValue()){
-                    Number swap = set[i];
+                if(set[i].compareTo(set[j]) == -1){
+                    E swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -115,13 +115,13 @@ public class MathSet implements InterfaceMS {
         }
     }
 
-    public void sortDesc(Number value){
+    public void sortDesc(E value){
         int index = checkNumber(value);
         if(index != -1) {
             for (int i = index; i <= counter; i++) {
                 for (int j = i + 1; j <= counter; j++) {
-                    if (set[i].doubleValue() < set[j].doubleValue()) {
-                        Number swap = set[i];
+                    if(set[i].compareTo(set[j]) == -1) {
+                        E swap = set[i];
                         set[i] = set[j];
                         set[j] = swap;
                     }
@@ -133,8 +133,8 @@ public class MathSet implements InterfaceMS {
     public void sortAsc(){
         for (int i = 0; i <= counter; i++) {
             for (int j = i+1; j <= counter; j++) {
-                if(set[i].doubleValue() > set[j].doubleValue()){
-                    Number swap = set[i];
+                if(set[i].compareTo(set[j]) == 1){
+                    E swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -147,8 +147,8 @@ public class MathSet implements InterfaceMS {
 
         for (int i = firstIndex; i < lastIndex; i++) {
             for (int j = i+1; j < lastIndex; j++) {
-                if(set[i].doubleValue() > set[j].doubleValue()){
-                    Number swap = set[i];
+                if(set[i].compareTo(set[j]) == 1){
+                    E swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -156,13 +156,13 @@ public class MathSet implements InterfaceMS {
         }
     }
 
-    public void sortAsc(Number value){
+    public void sortAsc(E value){
         int index = checkNumber(value);
         if(index != -1) {
             for (int i = index; i <= counter; i++) {
                 for (int j = i + 1; j <= counter; j++) {
-                    if (set[i].doubleValue() > set[j].doubleValue()) {
-                        Number swap = set[i];
+                    if(set[i].compareTo(set[j]) == 1) {
+                        E swap = set[i];
                         set[i] = set[j];
                         set[j] = swap;
                     }
@@ -171,32 +171,32 @@ public class MathSet implements InterfaceMS {
         }
     }
 
-    public Number get(int index){
+    public E get(int index){
         if(index < 0 || index > counter)
             throw new ArrayIndexOutOfBoundsException("Index out of bounds");
         return set[index];
     }
 
-    public Number getMax(){
-        if(set.length == 0){
+    public E getMax(){
+        if(counter+1 == 0){
             throw new RuntimeException("Maximum number doesn't exist in empty set");
         }
         int max = 0;
         for(int i = 0; i <= counter; i++){
-            if(set[max].doubleValue() < set[i].doubleValue()){
+            if(set[max].compareTo(set[i])  == -1){
                 max = i;
             }
         }
         return set[max];
     }
 
-    public Number getMin(){
-        if(set.length == 0){
+    public E getMin(){
+        if(counter+1 == 0){
             throw new RuntimeException("Maximum number doesn't exist in empty set");
         }
         int min = 0;
         for(int i = 1; i <= counter; i++){
-            if(set[min].doubleValue() > set[i].doubleValue()){
+            if(set[min].compareTo(set[i]) == 1){
                 min = i;
             }
         }
@@ -204,9 +204,11 @@ public class MathSet implements InterfaceMS {
     }
 
     public Number getAverage(){
+        Number[] numbers = new Number[set.length];
+        System.arraycopy(set, 0, numbers, 0, set.length);
         double sum = 0, average;
         for (int i = 0; i <= counter; i++) {
-            sum += set[i].doubleValue();
+            sum += numbers[i].doubleValue();
         }
         average = sum/(counter+1);
         return average;
@@ -234,23 +236,23 @@ public class MathSet implements InterfaceMS {
         return median;
     }
 
-    public Number[] toArray(){
-        Number[] arr = new Number[counter+1];
-        System.arraycopy(set,0, arr, 0, counter+1);
-        return arr;
-    }
+//    public E[] toArray(){
+//        E[] arr = (E[]) new Comparable[counter+1];
+//        System.arraycopy(set,0, arr, 0, counter+1);
+//        return arr;
+//    }
 
-    public Number[] toArray(int firstIndex, int lastIndex){
-        exceptionsIndexes(firstIndex, lastIndex);
-
-        Number[] numbers = new Number[lastIndex-firstIndex];
-        int k = 0;
-        for (int i = firstIndex; i < lastIndex; i++) {
-            numbers[k] = set[i];
-            k++;
-        }
-        return numbers;
-    }
+//    public E[] toArray(int firstIndex, int lastIndex){
+//        exceptionsIndexes(firstIndex, lastIndex);
+//
+//        Object[] numbers = new Object[lastIndex-firstIndex];
+//        int k = 0;
+//        for (int i = firstIndex; i < lastIndex; i++) {
+//            numbers[k] = set[i];
+//            k++;
+//        }
+//        return (E[]) numbers;
+//    }
 
     public MathSet squash(int firstIndex, int lastIndex){
         exceptionsIndexes(firstIndex, lastIndex);
@@ -263,7 +265,7 @@ public class MathSet implements InterfaceMS {
     }
 
     public void clear(){
-        set = new Number[SIZE];
+        set = (E[]) new Comparable[SIZE];
         counter = -1;
     }
 
@@ -298,26 +300,26 @@ public class MathSet implements InterfaceMS {
 
     private void resize(){
         if(set[set.length-1] != null){
-            Number[] arr = new Number[set.length*2];
+            Object[] arr = new Object[set.length*2];
             System.arraycopy(set,0, arr, 0, counter+1);
-            set = arr;
+            set = (E[]) arr;
         }
     }
 
-    private int checkNumber(Number value){
+    @Override
+    public Iterator<Number> iterator() {
+        return null;
+    }
+
+    private int checkNumber(E value){
         int index = -1;
         for (int i = 0; i <= counter; i++) {
-            if(value.doubleValue() == set[i].doubleValue())
+            if(value.equals(set[i]))
             {
                 index = i;
                 return index;
             }
         }
         return index;
-    }
-
-    @Override
-    public Iterator<Number> iterator() {
-        return null;
     }
 }
