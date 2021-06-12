@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 
-public class CrudProcess<E extends BaseEntity>
+public class CrudServiceImpl<E extends BaseEntity>
         implements CrudService<E>{
 
     private static final int DEFAULT_SIZE = 10;

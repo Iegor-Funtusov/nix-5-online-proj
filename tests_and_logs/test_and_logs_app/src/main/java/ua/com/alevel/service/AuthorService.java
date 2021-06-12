@@ -1,7 +1,6 @@
-package ua.com.alevel.services;
+package ua.com.alevel.service;
 
-import ua.com.alevel.data_classes.Author;
-import ua.com.alevel.data_classes.Book;
+import ua.com.alevel.entity.Author;
 import ua.com.alevel.lib.CrudService;
 import ua.com.alevel.lib.CrudServiceFactory;
 
@@ -31,12 +30,5 @@ public class AuthorService {
         return bookCrudService.read();
     }
 
-    public void addBook(Author author, Book book){
-        author.getBooks().add(book);
-    }
-
-    public void removeBook(Author author, Book book){
-        author.getBooks().remove(book);
-    }
 
 }

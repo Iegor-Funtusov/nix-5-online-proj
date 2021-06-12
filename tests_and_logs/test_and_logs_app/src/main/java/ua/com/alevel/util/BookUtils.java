@@ -1,14 +1,12 @@
-package ua.com.alevel.utils;
+package ua.com.alevel.util;
 
-import lombok.SneakyThrows;
-import ua.com.alevel.data_classes.Author;
-import ua.com.alevel.data_classes.Book;
-import ua.com.alevel.services.AuthorService;
-import ua.com.alevel.services.BookService;
+import ua.com.alevel.entity.Author;
+import ua.com.alevel.entity.Book;
+import ua.com.alevel.service.AuthorService;
+import ua.com.alevel.service.BookService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -28,14 +26,9 @@ public class BookUtils {
 
     private static Book getBook(BufferedReader reader) {
         String title;
-       // List<Author> authors;
-        int nAuthors = 0;
         try {
             System.out.print("Please enter book title: ");
-            title = reader.readLine();
-//            System.out.print("Please enter number of book authors you want to add: ");
-//            nAuthors = Integer.parseInt(reader.readLine());
-//            authors = AuthorUtils.getNAuthors(nAuthors, reader);
+            title = reader.readLine();//
             return new Book(title);
         }catch (NumberFormatException e) {
         System.out.println(e.getMessage());
@@ -45,7 +38,6 @@ public class BookUtils {
         return null;
     }
 
-    @SneakyThrows
     public static Book readBook(BookService bookService, BufferedReader reader) {
         Book readBook;
         while (true) {
@@ -53,7 +45,7 @@ public class BookUtils {
                 System.out.println("Please enter book id:");
                 System.out.print("--> ");
                 readBook = bookService.read(reader.readLine());
-            } catch (RuntimeException e) {
+            } catch (RuntimeException | IOException e) {
                 System.out.println(e.getMessage());
                 continue;
             }
@@ -86,38 +78,40 @@ public class BookUtils {
         }
     }
 
-
-//    public static List<Book> getNBooks(int n, BufferedReader reader) {
-//        List<Book> books = new ArrayList<>(n);
-//        for (int i = 0; i < n; i++) {
-//            books.add(createBook(reader));
-//        }
-//        return books;
-//    }
-
-    @SneakyThrows
     public static void addAuthors(Book readBook, BookService bookService, AuthorService authorService, BufferedReader reader) {
         System.out.println("Choose exist author or add new author before!");
+        String flag;
         do{
-            Author author = AuthorUtils.readAuthor(authorService, reader);
+            Author author = AuthorUtil.readAuthor(authorService, reader);
             if(verifyAdding(author, readBook, reader)) {
                 readBook.getAuthors().add(author);
                 author.getBooks().add(readBook);
                 bookService.update(readBook);
+                authorService.update(author);
             }
             System.out.print("Enter \"1\" to continue adding ->");
-        }while(reader.readLine().equals("1"));
+            try {
+                flag =reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
+        }while(flag.equals("1"));
     }
 
-    @SneakyThrows
     private static boolean verifyAdding(Author author, Book book, BufferedReader reader ) {
         System.out.println("Do you want to add this author - " + author +
                 "\nto this book - " + book +
                 "\n1 - yes" +
                 "\n2 - no" +
                 "\n-> ");
-        if (reader.readLine().equals("1"))
-            return true;
+        try {
+            if (reader.readLine().equals("1"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
         return false;
     }
 
@@ -137,10 +131,8 @@ public class BookUtils {
 
     public static void remove(Book bookForRemoving, Author author) {
         removeAuthor(bookForRemoving, author);
-        AuthorUtils.removeBook(author, bookForRemoving);
+        AuthorUtil.removeBook(author, bookForRemoving);
     }
-
-
 
     public static void removeAuthor(Book bookForRemoving, Author author) {
         List<Author> authors = bookForRemoving.getAuthors();

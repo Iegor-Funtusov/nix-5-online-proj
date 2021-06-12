@@ -1,19 +1,17 @@
-package ua.com.alevel.utils;
+package ua.com.alevel.util;
 
-import lombok.SneakyThrows;
-import ua.com.alevel.data_classes.Author;
-import ua.com.alevel.data_classes.Book;
-import ua.com.alevel.services.AuthorService;
-import ua.com.alevel.services.BookService;
+import ua.com.alevel.entity.Author;
+import ua.com.alevel.entity.Book;
+import ua.com.alevel.service.AuthorService;
+import ua.com.alevel.service.BookService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-public class AuthorUtils {
+public class AuthorUtil {
 
     public static Author createAuthor(BufferedReader reader) {
         Author Author;
@@ -28,17 +26,12 @@ public class AuthorUtils {
 
     public static Author getAuthor(BufferedReader reader) {
         String name;
-        int age;
-//        List<Book> books;
-        int nBooks = 0;
+        int age;//
         try {
             System.out.print("Please enter Author name: ");
             name = reader.readLine();
             System.out.print("Please enter Author age: ");
-            age = Integer.parseInt(reader.readLine());
-//            System.out.print("Please enter number of Author books you want to add: ");
-//            nBooks = Integer.parseInt(reader.readLine());
-//            books = BookUtils.getNBooks(nBooks, reader);
+            age = Integer.parseInt(reader.readLine());//
             return new Author(name, age);
         }catch (NumberFormatException e) {
             System.out.println(e.getMessage());
@@ -48,7 +41,6 @@ public class AuthorUtils {
         return null;
     }
 
-    @SneakyThrows
     public static Author readAuthor(AuthorService authorService, BufferedReader reader) {
         Author readAuthor;
         while (true) {
@@ -56,7 +48,7 @@ public class AuthorUtils {
                 System.out.println("Please enter the author id :");
                 System.out.print("--> ");
                 readAuthor = authorService.read(reader.readLine());
-            } catch (RuntimeException e) {
+            } catch (RuntimeException | IOException e) {
                 System.out.println(e.getMessage());
                 continue;
             }
@@ -71,7 +63,7 @@ public class AuthorUtils {
 
     public static void updateAuthor(Author readAuthor, AuthorService authorService, BufferedReader reader) {
         System.out.println("Enter new parameters for the author.");
-        Author authorForUpdate = AuthorUtils.createAuthor(reader);
+        Author authorForUpdate = AuthorUtil.createAuthor(reader);
         authorForUpdate.setId(readAuthor.getId());
         authorService.update(authorForUpdate);
     }
@@ -88,9 +80,9 @@ public class AuthorUtils {
         }
     }
 
-    @SneakyThrows
     public static void addBooks(Author author, BookService bookService, AuthorService authorService, BufferedReader reader) {
         System.out.println("Choose exist books or add new books before!");
+        String flag = "";
         do{
             Book book = BookUtils.readBook(bookService, reader);
             if(verifyAdding(author, book, reader)) {
@@ -99,18 +91,28 @@ public class AuthorUtils {
                 authorService.update(author);
             }
             System.out.print("Enter \"1\" to continue adding ->");
-        }while(reader.readLine().equals("1"));
+            try {
+                flag = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
+        }while(flag.equals("1"));
     }
 
-    @SneakyThrows
     private static boolean verifyAdding(Author author, Book book, BufferedReader reader ) {
         System.out.println("Do you want to add this book - " + book +
                 "\nto this author - " + author + "?" +
                 "\n1 - yes" +
                 "\n2 - no" +
                 "\n-> ");
-        if (reader.readLine().equals("1"))
-            return true;
+        try {
+            if (reader.readLine().equals("1"))
+                return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
         return false;
     }
 
@@ -143,11 +145,4 @@ public class AuthorUtils {
         }
     }
 
-//    public static List<Author> getNAuthors(int n, BufferedReader reader) {
-//        List<Author> authors = new ArrayList<>(n);
-//        for (int i = 0; i < n; i++) {
-//            authors.add(createAuthor(reader));
-//        }
-//        return authors;
-//    }
 }

@@ -1,20 +1,14 @@
-package ua.com.alevel.data_classes;
+package ua.com.alevel.entity;
 
 import ua.com.alevel.lib.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Book extends BaseEntity {
 
     private String title;
     private List<Author> authors;
-
-    public Book(String title, List<Author> authors) {
-        this.title = title;
-        this.authors = authors;
-    }
 
     public Book(String title) {
         this.title = title;
@@ -37,23 +31,18 @@ public class Book extends BaseEntity {
         this.authors = authors;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return this.getId().equals(book.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(title, authors, this.getId());
+    private String getAuthorsString(){
+        String authorsString = "";
+        for (Author author : authors){
+            authorsString+= "\n" + "ID= " + author.getId() + ", name= " + author.getName() + ", age= " + author.getAge();
+        }
+        return authorsString;
     }
 
     @Override
     public String toString() {
         return "Book: " + "ID = " + this.getId() +
-                "title = " + title +
-                ", authors = " + authors;
+                ", title = " + title +
+                ", authors = " + getAuthorsString();
     }
 }
