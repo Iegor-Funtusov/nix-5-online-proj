@@ -3,28 +3,28 @@ package com.nixsolutions.courses.service;
 import com.nixsolutions.courses.data.Date;
 import com.nixsolutions.courses.util.CalendarUtils;
 
-public class AddService {
+public class SubtractService {
 
-    protected Date addSeconds(Date date, int value) {
+    protected Date subtractSeconds(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
         int hours = date.getTime().getHours();
         int minutes = date.getTime().getMinutes();
         int seconds = date.getTime().getSeconds();
-        for (int i = seconds; i <= 60; i++) {
-            if (value >= 0) {
-                if (i == 60) {
-                    i = 0;
-                    if (++minutes == 60) {
-                        minutes = 0;
-                        if (++hours == 24) {
-                            hours = 0;
-                            if (++day > CalendarUtils.daysInMonth(month, year)) {
-                                day = 1;
-                                if (++month > 12) {
-                                    month = 1;
-                                    year++;
+        for (int i = seconds; i >= 0; i--) {
+            if (value > 0) {
+                if (i == 0) {
+                    i = 60;
+                    if (--minutes < 0) {
+                        minutes = 60 + minutes;
+                        if (--hours < 0) {
+                            hours = 24 + hours;
+                            if (--day == 0) {
+                                day = CalendarUtils.daysInMonth(--month, year);
+                                if (month == 0) {
+                                    month = 12;
+                                    year--;
                                 }
                             }
                         }
@@ -32,7 +32,7 @@ public class AddService {
                 }
                 value--;
             } else {
-                seconds = i -1;
+                seconds = i;
                 break;
             }
         }
@@ -46,30 +46,30 @@ public class AddService {
         return date;
     }
 
-    protected Date addMinutes(Date date, int value) {
+    protected Date subtractMinutes(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
         int hours = date.getTime().getHours();
         int minutes = date.getTime().getMinutes();
-        for (int i = minutes; i <= 60; i++) {
-            if (value >= 0) {
-                if (i == 60) {
-                    i = 0;
-                    if (++hours == 24) {
-                        hours = 0;
-                        if (++day > CalendarUtils.daysInMonth(month, year)) {
-                            day = 1;
-                            if (++month > 12) {
-                                month = 1;
-                                year++;
+        for (int i = minutes; i >= 0; i--) {
+            if (value > 0) {
+                if (i == 0) {
+                    i = 60;
+                    if (--hours < 1) {
+                        hours = 24 + hours;
+                        if (--day == 0) {
+                            day = CalendarUtils.daysInMonth(--month, year);
+                            if (month == 0) {
+                                month = 12;
+                                year--;
                             }
                         }
                     }
                 }
                 value--;
             } else {
-                minutes = i - 1;
+                minutes = i;
                 break;
             }
         }
@@ -81,26 +81,26 @@ public class AddService {
         return date;
     }
 
-    protected Date addHours(Date date, int value) {
+    protected Date subtractHours(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
         int hours = date.getTime().getHours();
-        for (int i = hours; i <= 24; i++) {
-            if (value >= 0) {
-                if (i == 24) {
-                    i = 0;
-                    if (++day > CalendarUtils.daysInMonth(month, year)) {
-                        day = 1;
-                        if (++month > 12) {
-                            month = 1;
-                            year++;
+        for (int i = hours; i >= 0; i--) {
+            if (value > 0) {
+                if (i == 0) {
+                    i = 24;
+                    if (--day == 0) {
+                        day = CalendarUtils.daysInMonth(--month, year);
+                        if (month == 0) {
+                            month = 12;
+                            year--;
                         }
                     }
                 }
                 value--;
             } else {
-                hours = i - 1;
+                hours = i;
                 break;
             }
         }
@@ -111,18 +111,18 @@ public class AddService {
         return date;
     }
 
-    protected Date addDays(Date date, int value) {
+    protected Date subtractDays(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
-        for (int i = day; i <= CalendarUtils.daysInMonth(month, year); i++) {
+        for (int i = day; i >= 0; i--) {
             if (value > 0) {
-                if (i == CalendarUtils.daysInMonth(month, year)) {
-                    i = 0;
-                    if (++month > 12) {
-                        month = 1;
-                        year++;
+                if (i == 0) {
+                    if (--month == 0) {
+                        month = 12;
+                        year--;
                     }
+                    i = CalendarUtils.daysInMonth(month, year);
                 }
                 value--;
             } else {
@@ -136,16 +136,14 @@ public class AddService {
         return date;
     }
 
-    protected Date addMonths(Date date, int value) {
+    protected Date subtractMonths(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
-        System.out.println("month=" + month);
         while (value > 0) {
-            month++;
-            System.out.println("month:" + month);
-            if (month > 12) {
-                month = 1;
-                year++;
+            month--;
+            if (month < 1) {
+                month = 12;
+                year--;
             }
             value--;
         }
@@ -154,8 +152,8 @@ public class AddService {
         return date;
     }
 
-    protected Date addYears(Date date, int value) {
-        date.setYear(date.getYear() + value);
+    protected Date subtractYears(Date date, int value) {
+        date.setYear(date.getYear() - value);
         return date;
     }
 }

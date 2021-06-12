@@ -7,6 +7,7 @@ import java.time.DateTimeException;
 
 public class CalendarService {
 
+    private final SubtractService subtractService = new SubtractService();
     private final AddService addService = new AddService();
     private final DifferenceService differenceService = new DifferenceService();
 
@@ -14,8 +15,22 @@ public class CalendarService {
 
     }
 
-    public void subtractFromDate() {
-
+    public Date subtractFromDate(Date date, int value, String scope) {
+        switch (scope) {
+            case "seconds":
+                return subtractService.subtractSeconds(date, value);
+            case "minutes":
+                return subtractService.subtractMinutes(date, value);
+            case "hours":
+                return subtractService.subtractHours(date, value);
+            case "days":
+                return subtractService.subtractDays(date, value);
+            case "months":
+                return subtractService.subtractMonths(date, value);
+            case "years":
+                return subtractService.subtractYears(date, value);
+        }
+        return date;
     }
 
     public Date addToDate(Date date, int value, String scope) {

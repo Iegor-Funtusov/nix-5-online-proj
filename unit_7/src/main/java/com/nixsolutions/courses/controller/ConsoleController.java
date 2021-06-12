@@ -64,8 +64,28 @@ public class ConsoleController {
     }
 
     private void subtractFromDate() {
-        printFormats();
+        while (true) {
+            try {
+                printFormats();
+                String format = reader.readLine();
+                System.out.println("Enter date:");
+                Date date = DateInputFormatter.formatDate(reader.readLine(), format);
+                String scope = printScopes();
+                System.out.println("Enter value:");
+                int value = Integer.parseInt(reader.readLine());
+                date = calendarService.subtractFromDate(date, value, scope);
 
+                printFormats();
+                format = reader.readLine();
+                String output = DateOutputFormatter.formatDate(date, format);
+                System.out.println(output);
+                break;
+            } catch (IOException e) {
+                System.out.println("Sorry, something went wrong. Try again");
+            } catch (DataFormatException e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     private void compareDates() {
