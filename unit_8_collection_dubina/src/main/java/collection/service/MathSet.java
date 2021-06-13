@@ -173,7 +173,7 @@ public class MathSet<Digit extends Number & Comparable<Digit>> {
     }
 
     public MathSet<Digit> squash(int firstIndex, int lastIndex) {
-        if (firstIndex > lastIndex || notExistIndex(firstIndex, lastIndex)) {
+        if (firstIndex > lastIndex || notExistIndex(firstIndex) || notExistIndex(lastIndex)) {
             return null;
         }
         MathSet<Digit> result = new MathSet<>();
@@ -222,6 +222,14 @@ public class MathSet<Digit extends Number & Comparable<Digit>> {
 
     public int size() {
         return count;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public int getCapacity() {
+        return mathSet.length;
     }
 
     private boolean isExist(Digit digit) {
