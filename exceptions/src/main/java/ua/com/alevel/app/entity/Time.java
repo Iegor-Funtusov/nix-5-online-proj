@@ -1,47 +1,74 @@
 package ua.com.alevel.app.entity;
 
-public class Time {
+import java.util.Objects;
 
-    private int hour;
-    private int minute;
-    private int second;
+public class Time implements Comparable<Time> {
 
-    public Time(int hour, int minute, int second) {
-        this.hour = hour;
-        this.minute = minute;
-        this.second = second;
+    private int hours;
+    private int minutes;
+    private int seconds;
+
+    public Time(int hours, int minutes, int seconds) {
+        this.hours = hours;
+        this.minutes = minutes;
+        this.seconds = seconds;
     }
 
-    public int getHour() {
-        return hour;
+    public int getHours() {
+        return hours;
     }
 
-    public void setHour(int hour) {
-        this.hour = hour;
+    public void setHours(int hours) {
+        this.hours = hours;
     }
 
-    public int getMinute() {
-        return minute;
+    public int getMinutes() {
+        return minutes;
     }
 
-    public void setMinute(int minute) {
-        this.minute = minute;
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
     }
 
-    public int getSecond() {
-        return second;
+    public int getSeconds() {
+        return seconds;
     }
 
-    public void setSecond(int second) {
-        this.second = second;
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
     }
 
     @Override
     public String toString() {
         return "Time{" +
-                "hour=" + hour +
-                ", minute=" + minute +
-                ", second=" + second +
+                "hours=" + hours +
+                ", minutes=" + minutes +
+                ", seconds=" + seconds +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Time)) return false;
+        Time time = (Time) o;
+        return hours == time.hours && minutes == time.minutes && seconds == time.seconds;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hours, minutes, seconds);
+    }
+
+    @Override
+    public int compareTo(Time o) {
+        int compare = Integer.compare(hours, o.hours);
+        if(compare == 0){
+            compare = Integer.compare(minutes, o.minutes);
+        }
+        if(compare == 0){
+            compare = Integer.compare(seconds, o.seconds);
+        }
+        return compare;
     }
 }
