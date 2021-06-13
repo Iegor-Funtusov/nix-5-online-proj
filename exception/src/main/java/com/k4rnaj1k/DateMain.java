@@ -31,9 +31,11 @@ public class DateMain {
                     Any other number to exit.""");
             switch (s.nextLine()) {
                 case "1":
-                    findDiff(); break;
+                    findDiff();
+                    break;
                 case "2":
-                    add();break;/*
+                    add();
+                    break;/*
                 case "3":
                     sub();break;
                 case "4":
@@ -44,29 +46,56 @@ public class DateMain {
 
     }
 
-    private static void add(){
+    private static void add() {
         System.out.println("Which time unit would u like to add to the current date? " + currDate);
-        System.out.println("""
-                1 - seconds
-                2 - minutes
-                3 - hours
-                4 - days
-                5 - months
-                6 - years""");
-        switch (s.nextLine()){
-            case "1": TimeOperations.addSeconds(TimeOperations.parseSeconds(s.nextLine()), currDate);break;
-            case "2": TimeOperations.addMinutes(TimeOperations.parseMinutes(s.nextLine()), currDate);break;
-            case "3": TimeOperations.addHours(TimeOperations.parseHours(s.nextLine()), currDate);break;
-            case "4": DateOperations.addDays(DateOperations.parseDays(s.nextLine(), currDate.getMonths()), currDate);break;
-            case "5": DateOperations.addMonths(DateOperations.parseMonths(s.nextLine()), currDate);break;
-            case "6": DateOperations.addYears(DateOperations.parseYears(s.nextLine()), currDate);break;
+        boolean rightinput = false;
+        String chosen = "";
+        int amount = 0;
+        while (!rightinput) {
+            try {
+                System.out.println("""
+                        1 - seconds
+                        2 - minutes
+                        3 - hours
+                        4 - days
+                        5 - months
+                        6 - years
+                        Anything else to cancel.""");
+                chosen = s.nextLine();
+                System.out.println("Input the amount that you'd like to add.");
+                amount = Integer.parseInt(s.nextLine());
+                rightinput = true;
+            } catch (NumberFormatException n) {
+                System.out.println("Sorry, there was a mistake. Please try again.");
+            }
         }
-        System.out.printf(currDate.toString());
+        switch (chosen) {
+            case "1":
+                TimeOperations.addSeconds(amount, currDate);
+                break;
+            case "2":
+                TimeOperations.addMinutes(amount, currDate);
+                break;
+            case "3":
+                TimeOperations.addHours(amount, currDate);
+                break;
+            case "4":
+                DateOperations.addDays(amount, currDate);
+                break;
+            case "5":
+                DateOperations.addMonths(amount, currDate);
+                break;
+            case "6":
+                DateOperations.addYears(amount, currDate);
+                break;
+            default:
+                System.out.println("");
+        }
+        System.out.println(currDate.toString());
     }
 
     private static void parseDate(String input, MyDate date) {
         String[] inputSplit = input.split(" ");
-
         boolean rightInput = false;
         while (!rightInput) {
             try {
@@ -92,6 +121,7 @@ public class DateMain {
             } catch (NumberFormatException e) {
                 System.out.println("Sorry, the date you've inputted is wrong. Please try again.");
                 input = s.nextLine();
+                inputSplit = input.split(" ");
             }
         }
         if (inputSplit.length == 2) {
@@ -120,15 +150,13 @@ public class DateMain {
         }
     }
 
-    private static void findDiff(){
+    private static void findDiff() {
         MyDate diffDate = new MyDate();
         System.out.println("Please input date to find difference with.");
         parseDate(s.nextLine(), diffDate);
-        Integer months = 0;
-        Integer years = 0;
         MyDate resDate = new MyDate();
-        int diff = Math.abs(DateOperations.findDiff(currDate, diffDate, resDate));
-        System.out.println("The difference between the two dates is = " + resDate.getSeconds() + " seconds " + resDate.getMinutes() + " minutes " + resDate.getHours() + " hours " + resDate.getDays() + " days " + resDate.getMonths() + " months " + resDate.getYears() + " years" );
+        DateOperations.findDiff(currDate, diffDate, resDate);
+        System.out.println("The difference between the two dates is = " + resDate.getSeconds() + " seconds " + resDate.getMinutes() + " minutes " + resDate.getHours() + " hours " + resDate.getDays() + " days " + resDate.getMonths() + " months " + resDate.getYears() + " years");
     }
 
 }

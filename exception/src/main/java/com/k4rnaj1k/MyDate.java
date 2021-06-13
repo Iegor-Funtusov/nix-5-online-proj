@@ -1,7 +1,16 @@
 package com.k4rnaj1k;
 
 public class MyDate {
-    private Integer years, months, days, hours = 0, minutes = 0, seconds = 0;
+    private Integer years, months, days, hours, minutes, seconds;
+
+    public MyDate(){
+        this.years=0;
+        this.months=0;
+        this.days=0;
+        this.hours=0;
+        this.minutes=0;
+        this.seconds=0;
+    }
 
     public Integer getYears() {
         return years;

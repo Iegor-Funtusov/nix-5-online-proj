@@ -81,9 +81,8 @@ public class DateOperations {
         return Integer.parseInt(years);
     }
 
-    public static int findDiff(MyDate currDate, MyDate dateDiff, MyDate resDate) {
-        int diff = 0;
-        resDate.setSeconds((currDate.getSeconds() - dateDiff.getSeconds()) + ((currDate.getMinutes() - dateDiff.getMinutes()) * 60) + ((currDate.getHours() - dateDiff.getHours()) * 60 * 60));
+    public static void findDiff(MyDate currDate, MyDate dateDiff, MyDate resDate) {
+//        resDate.setSeconds((currDate.getSeconds() - dateDiff.getSeconds()) + ((currDate.getMinutes() - dateDiff.getMinutes()) * 60) + ((currDate.getHours() - dateDiff.getHours()) * 60 * 60));
 //        diff += currDate.getSeconds() - dateDiff.getSeconds();
        /* diff += (currDate.getMinutes() - dateDiff.getMinutes()) * 60;
         diff += (currDate.getHours() - dateDiff.getHours()) * 60 * 60;*/
@@ -94,7 +93,7 @@ public class DateOperations {
         resDate.setMinutes(resDate.getHours() * 60 + Math.abs(currDate.getMinutes() - dateDiff.getMinutes()));
         resDate.setSeconds(resDate.getMinutes() * 60 + Math.abs(currDate.getSeconds() - dateDiff.getSeconds()));
         resDate.setYears(resDate.getMonths() / 12);
-        return diff;
+//        return diff;
     }
 
     private static int findDiffMonths(int years, int diffyears) {
@@ -105,57 +104,90 @@ public class DateOperations {
         return res;
     }
 
-    private static int findDiffDays(MyDate currDate, MyDate dateDiff) {
+    private static boolean isLeap(int year) {
         // Если год не делится на 4, значит он обычный.
         // Иначе надо проверить не делится ли год на 100.
         // Если не делится, значит это не столетие и можно сделать вывод, что год високосный.
         // Если делится на 100, значит это столетие и его следует проверить его делимость на 400.
         // Если год делится на 400, то он високосный.
         // Иначе год обычный.
+        boolean res = false;
+        if (year % 4 == 0) {
+            if (year % 100 == 0) {
+                if (year % 400 == 0) {
+                    res = true;
+                }
+            } else {
+                res = true;
+            }
+        }
+        return res;
+    }
+
+    private static int findDiffDays(MyDate currDate, MyDate dateDiff) {
         int days = 0;
-        for (int i = currDate.getYears(); i <= dateDiff.getYears(); i++) {
-            if (i == dateDiff.getYears() - 1)
-                if (i % 4 == 0) {
-                    if (i % 100 == 0) {
-                        if (i % 400 == 0) {
-                            days += 366;
-                        }
+        for (int i = currDate.getYears() + 1; i <= dateDiff.getYears(); i++) {
+            if (dateDiff.getYears() == i) {
+                for (int j = 1; j <= dateDiff.getMonths(); j++) {
+                    if(j == dateDiff.getMonths()){
+                        days+=dateDiff.getDays();
                     }
+                    if (j == 2) {
+                        if (isLeap(i)) {
+                            days += 29;
+                        } else {
+                            days += 28;
+                        }
+                    } else if (j % 2 == 1 || j == 8) {
+                        days += 31;
+                    } else {
+                        days += 30;
+                    }
+                }
+            } else {
+                if (isLeap(i)) {
                     days += 366;
                 } else {
                     days += 365;
                 }
+            }
         }
         return days;
     }
 
     public static void addDays(int days, MyDate currDate) {
-        if (currDate.getMonths() == 2 && currDate.getDays() + days > 28) {
+        int prevdays = currDate.getDays();
+        if (currDate.getMonths() == 2 && isLeap(currDate.getYears()) && currDate.getDays() + days > 29) {
             addMonths(1, currDate);
             currDate.setDays(0);
-            addDays(days - 28, currDate);
+            addDays((prevdays + days) - 29, currDate);
+        } else if (currDate.getMonths() == 2 && currDate.getDays() + days > 28) {
+            addMonths(1, currDate);
+            currDate.setDays(0);
+            addDays((prevdays + days) - 28, currDate);
         } else if (currDate.getMonths() % 2 == 1 && currDate.getDays() + days > 31) {
             addMonths(1, currDate);
             currDate.setDays(0);
-            addDays(days - 31, currDate);
-        } else if (currDate.getMonths() % 2 == 0 && currDate.getDays() > 30) {
+            addDays((prevdays + days) - 31, currDate);
+        } else if (currDate.getMonths() % 2 == 0 && currDate.getDays() + days > 30) {
             addMonths(1, currDate);
             currDate.setDays(0);
-            addDays(days - 30, currDate);
+            addDays((prevdays + days) - 30, currDate);
+        } else {
+            currDate.setDays(currDate.getDays() + days);
         }
-        currDate.setDays(currDate.getDays() + days);
     }
 
-    public static void addMonths(int months, MyDate currDate){
-        if(currDate.getMonths() + months > 12){
-            addYears(1, currDate);
-            currDate.setMonths(1);
-            addMonths(months-12, currDate);
+    public static void addMonths(int months, MyDate currDate) {
+        if (currDate.getMonths() + months > 12) {
+            addYears((currDate.getMonths() + months) / 12, currDate);
+            currDate.setMonths(months % 12);
+        } else {
+            currDate.setMonths(currDate.getMonths() + months);
         }
-        currDate.setMonths(currDate.getMonths()+ months);
     }
 
-    public static void addYears(int years, MyDate currDate){
+    public static void addYears(int years, MyDate currDate) {
         currDate.setYears(currDate.getYears() + years);
     }
 
