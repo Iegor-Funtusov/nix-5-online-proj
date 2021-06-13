@@ -241,5 +241,6 @@ public class MathSetController {
 
     private static void clear() {
         mathSet.clear();
+        System.out.println("MathSet cleared.");
     }
 }
