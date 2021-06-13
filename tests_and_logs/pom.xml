@@ -10,7 +10,7 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>test_and_logs_app</module>
-        <module>crud_lib</module>
+        <module>dao_lib</module>
     </modules>
 
     <properties>

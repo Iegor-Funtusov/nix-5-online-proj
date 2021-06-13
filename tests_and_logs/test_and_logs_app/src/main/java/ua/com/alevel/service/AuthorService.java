@@ -4,31 +4,27 @@ import ua.com.alevel.entity.Author;
 import ua.com.alevel.lib.CrudService;
 import ua.com.alevel.lib.CrudServiceFactory;
 
-import java.util.Collection;
-
 public class AuthorService {
 
-    private final CrudService<Author> bookCrudService = CrudServiceFactory.getInstance().getCrudService();
+    private final CrudService<Author> authorCrudService = CrudServiceFactory.getInstance().getCrudService();
 
     public void create(Author author){
-        bookCrudService.create(author);
+        authorCrudService.create(author);
     }
 
     public void update(Author author){
-        bookCrudService.update(author);
+        authorCrudService.update(author);
     }
 
     public void delete(Author author){
-        bookCrudService.delete(author.getId());
+        authorCrudService.delete(author.getId());
     }
 
     public Author read(String id){
-       return bookCrudService.read(id);
+       return authorCrudService.read(id);
     }
 
-    public Collection<Author> read(){
-        return bookCrudService.read();
+    public Object[] read(){
+        return authorCrudService.read();
     }
-
-
 }

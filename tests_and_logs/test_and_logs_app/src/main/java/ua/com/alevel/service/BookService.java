@@ -3,7 +3,6 @@ package ua.com.alevel.service;
 import ua.com.alevel.entity.Book;
 import ua.com.alevel.lib.CrudService;
 import ua.com.alevel.lib.CrudServiceFactory;
-import java.util.Collection;
 
 public class BookService {
 
@@ -25,7 +24,7 @@ public class BookService {
         return bookCrudService.read(id);
     }
 
-    public Collection<Book> read(){
+    public Object[] read(){
         return bookCrudService.read();
     }
 }

@@ -1,8 +1,5 @@
 package ua.com.alevel.lib;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 
@@ -24,9 +21,7 @@ public class CrudServiceImpl<E extends BaseEntity>
     }
 
     private boolean isArrayFull(){
-        if ( (entities.length - this.size) / (double)entities.length > MAX_FILLING )
-            return true;
-        return false;
+        return (entities.length - this.size) / (double) entities.length > MAX_FILLING;
     }
 
     private Object[] arrayGrow() {
@@ -64,7 +59,7 @@ public class CrudServiceImpl<E extends BaseEntity>
     }
 
     @Override
-    public E read(String id) {
+    public E read(String id) throws RuntimeException {
         if(StringUtils.isNotBlank(id)) {
             int currentIndex = findEntityById(id);
             if (currentIndex == -1 || size == 0) {
@@ -77,12 +72,16 @@ public class CrudServiceImpl<E extends BaseEntity>
     }
 
     @Override
-    public Collection<E> read() {
-        List<E> list = new ArrayList<>();
-        for (int i = 0; i < this.size; i++) {
-            list.add( (E)entities[i] );
-        }
-        return list;
+    public Object[] read() {
+        return this.trimToSize();
+    }
+
+    private Object[] trimToSize() {
+        if(size == 0)
+            throw new RuntimeException("empty array");
+        Object[] newArr = new Object[size];
+        System.arraycopy(entities, 0, newArr, 0, size);
+        return newArr;
     }
 
     private String generateId(){
