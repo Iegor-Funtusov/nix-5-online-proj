@@ -242,20 +242,20 @@ public class MathSet<Digit extends Number & Comparable<Digit>> {
     }
 
     private void sort(int firstIndex, int lastIndex, boolean asc) {
-        Object temp;
+        Object mathSet1;
         for (int i = firstIndex; i < lastIndex; i++) {
             for (int j = firstIndex; j < lastIndex; j++) {
                 if (asc) {
                     if (((Digit) mathSet[j]).compareTo(((Digit) mathSet[j + 1])) > 0) {
-                        temp = mathSet[j];
+                        mathSet1 = mathSet[j];
                         mathSet[j] = mathSet[j + 1];
-                        mathSet[j + 1] = temp;
+                        mathSet[j + 1] = mathSet1;
                     }
                 } else {
                     if (((Digit) mathSet[j]).compareTo(((Digit) mathSet[j + 1])) < 0) {
-                        temp = mathSet[j];
+                        mathSet1 = mathSet[j];
                         mathSet[j] = mathSet[j + 1];
-                        mathSet[j + 1] = temp;
+                        mathSet[j + 1] = mathSet1;
                     }
                 }
             }
