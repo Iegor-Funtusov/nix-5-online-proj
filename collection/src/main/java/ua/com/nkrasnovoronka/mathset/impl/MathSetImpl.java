@@ -2,7 +2,6 @@ package ua.com.nkrasnovoronka.mathset.impl;
 
 import ua.com.nkrasnovoronka.mathset.MathSet;
 
-import java.math.BigInteger;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -26,17 +25,11 @@ public class MathSetImpl implements MathSet {
     }
 
     public MathSetImpl(Number[] numbers) {
-        if (numbers == null) {
-            throw new IllegalArgumentException("Numbers array cannot be null");
-        }
         this.numbers = numbers;
         size = numbers.length;
     }
 
     public MathSetImpl(Number[]... numbers) {
-        if (numbers == null) {
-            throw new IllegalArgumentException("Numbers array cannot be null");
-        }
         this.numbers = new Number[numbers.length];
         for (Number[] n : numbers) {
             add(n);
@@ -48,6 +41,7 @@ public class MathSetImpl implements MathSet {
     }
 
     public MathSetImpl(MathSet... numbers) {
+        this.numbers = new Number[DEFAULT_CAPACITY];
         for (MathSet mathSet : numbers) {
             add(mathSet.toArray());
         }
@@ -102,7 +96,7 @@ public class MathSetImpl implements MathSet {
     @Override
     public void sortDesc(Number value) {
         int index = getIndex(value);
-        if(index != -1){
+        if (index != -1) {
             sortDesc(index, size - 1);
         }
     }
@@ -123,7 +117,7 @@ public class MathSetImpl implements MathSet {
     @Override
     public void sortAsc(Number value) {
         int index = getIndex(value);
-        if(index != -1){
+        if (index != -1) {
             sortAsc(index, size - 1);
         }
     }
@@ -176,12 +170,12 @@ public class MathSetImpl implements MathSet {
     @Override
     public Number getMedian() {
         sortAsc();
-        if(size %2 != 0){
+        if (size % 2 != 0) {
             return numbers[size / 2];
         }
         double first = numbers[size / 2 - 1].doubleValue();
         double second = numbers[size / 2].doubleValue();
-        return( first + second) / 2;
+        return (first + second) / 2;
     }
 
     @Override
@@ -277,7 +271,7 @@ public class MathSetImpl implements MathSet {
     }
 
     private void isValidIndex(int firstIndex, int lastIndex) {
-        if ((firstIndex >= lastIndex || firstIndex > size) || (lastIndex > size)) {
+        if ((firstIndex >= lastIndex || firstIndex > size) || (lastIndex > size - 1)) {
             throw new IllegalArgumentException("Pleas check index input");
         }
     }
@@ -326,7 +320,7 @@ public class MathSetImpl implements MathSet {
 
     private int getIndex(Number val) {
         for (int i = 0; i < size; i++) {
-            if(numbers[i].equals(val)){
+            if (numbers[i].equals(val)) {
                 return i;
             }
         }
