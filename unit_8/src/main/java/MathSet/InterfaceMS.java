@@ -1,10 +1,10 @@
 package MathSet;
 
-public interface InterfaceMS<E> extends Iterable<Number> {
+public interface InterfaceMS<E> {
     void add(E n);
     void add(E ... n);
-//    void join(MathSet mathset);
-//    void join(MathSet ... mathset);
+    void join(MathSet mathset);
+    void join(MathSet ... mathset);
     void sortDesc();
     void sortDesc(int firstIndex, int lastIndex);
     void sortDesc(E value);
@@ -14,10 +14,10 @@ public interface InterfaceMS<E> extends Iterable<Number> {
     E get(int index);
     E getMax();
     E getMin();
-    Number getAverage();
-    Number getMedian();
-//    E[] toArray();
-//    E[] toArray(int firstIndex, int lastIndex);
+    double getAverage();
+    double getMedian();
+    Object[] toArray();
+    Object[] toArray(int firstIndex, int lastIndex);
     MathSet squash(int firstIndex, int lastIndex);
     void clear();
     void clear(Number[] numbers);

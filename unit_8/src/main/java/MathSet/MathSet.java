@@ -1,52 +1,62 @@
 package MathSet;
 
-import java.util.Iterator;
-
-public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
+public class MathSet<E extends Number & Comparable<E>> implements InterfaceMS<E>{
     private int counter = -1;
     private final int SIZE = 10;
-    private E[] set;
+    private Object[] set;
     public MathSet(){
-        set = (E[]) new Comparable[SIZE];
+        set = new Object[SIZE];
     }
 
     public MathSet(int capacity){
         if(capacity < 0){
             throw new NegativeArraySizeException("Capacity can't be negative: " + capacity);
         }
-        set = (E[]) new Comparable[capacity];
+        set = new Object[capacity];
     }
 
     public MathSet(Number[] numbers){
-        if(numbers == null){
-            throw new NullPointerException("Array can't be null");
+        if(numbers == null || numbers.length == 0){
+            throw new NullPointerException("Array can't be null and can't be empty");
         }
-        set = (E[]) numbers;
+        set = new Object[SIZE];
+        for (int i = 0; i < numbers.length; i++) {
+            if(numbers[i] != null){
+                add((E) numbers[i]);
+            }
+        }
     }
 
     public MathSet(E[] ... numbers){
         if(numbers == null){
             throw new NullPointerException("Array can't be null");
         }
-        set = (E[]) new Number[numbers.length];
-        for(E[] i : numbers){
-            add(i);
+        set = new Object[SIZE];
+        for(int i = 0; i < numbers.length; i++){
+            for (int j = 0; j < numbers[i].length; j++) {
+                if(numbers[i][j] != null)
+                    add(numbers[i][j]);
+            }
         }
     }
 
-//    public MathSet(MathSet numbers){
-//        set = (E[]) numbers.toArray();
-//    }
 
-//    public MathSet(MathSet ... numbers){
-//        for(MathSet mathSet:numbers){
-//            add(mathSet.toArray());
-//        }
-//    }
+    public MathSet(MathSet<E> numbers){
+        this();
+        join(numbers);
+    }
+
+    public MathSet(MathSet<E> ... numbers){
+        this();
+        for(MathSet mathSet:numbers){
+            join(numbers);
+        }
+    }
 
 
 
     public void add(E n){
+        checkNull(n);
         resize();
         for(int i = 0; i <= counter; i++){
             if(n == set[i]){
@@ -73,27 +83,26 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
         }
     }
 
-//    public void join(MathSet mathset){
-//        Object[] number = mathset.toArray();
-//        System.out.println(number.length);
-//        for (int i = 0; i < number.length; i++) {
-//            resize();
-//            add((E) number[i]);
-//        }
-//
-//    }
-//
-//    public void join(MathSet ... mathset){
-//        for(MathSet mathSet: mathset){
-//            join(mathSet);
-//        }
-//    }
+    public void join(MathSet mathset){
+        Object[] number = mathset.toArray();
+        for (int i = 0; i < number.length; i++) {
+            resize();
+            add((E) number[i]);
+        }
+
+    }
+
+    public void join(MathSet ... mathset){
+        for(MathSet mathSet: mathset){
+            join(mathSet);
+        }
+    }
 
     public void sortDesc(){
         for (int i = 0; i <= counter; i++) {
             for (int j = i+1; j <= counter; j++) {
-                if(set[i].compareTo(set[j]) == -1){
-                    E swap = set[i];
+                if(((E) set[i]).compareTo((E)set[j]) == -1){
+                    Object swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -106,8 +115,8 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
 
         for (int i = firstIndex; i < lastIndex; i++) {
             for (int j = i+1; j < lastIndex; j++) {
-                if(set[i].compareTo(set[j]) == -1){
-                    E swap = set[i];
+                if(((E) set[i]).compareTo((E)set[j]) == -1){
+                    Object swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -116,12 +125,13 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
     }
 
     public void sortDesc(E value){
+        checkNull(value);
         int index = checkNumber(value);
         if(index != -1) {
             for (int i = index; i <= counter; i++) {
                 for (int j = i + 1; j <= counter; j++) {
-                    if(set[i].compareTo(set[j]) == -1) {
-                        E swap = set[i];
+                    if(((E) set[i]).compareTo((E)set[j]) == -1) {
+                        Object swap = set[i];
                         set[i] = set[j];
                         set[j] = swap;
                     }
@@ -133,8 +143,8 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
     public void sortAsc(){
         for (int i = 0; i <= counter; i++) {
             for (int j = i+1; j <= counter; j++) {
-                if(set[i].compareTo(set[j]) == 1){
-                    E swap = set[i];
+                if(((E) set[i]).compareTo((E)set[j]) == 1){
+                    Object swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -147,8 +157,8 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
 
         for (int i = firstIndex; i < lastIndex; i++) {
             for (int j = i+1; j < lastIndex; j++) {
-                if(set[i].compareTo(set[j]) == 1){
-                    E swap = set[i];
+                if(((E) set[i]).compareTo((E)set[j]) == 1){
+                    Object swap = set[i];
                     set[i] = set[j];
                     set[j] = swap;
                 }
@@ -157,12 +167,13 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
     }
 
     public void sortAsc(E value){
+        checkNull(value);
         int index = checkNumber(value);
         if(index != -1) {
             for (int i = index; i <= counter; i++) {
                 for (int j = i + 1; j <= counter; j++) {
-                    if(set[i].compareTo(set[j]) == 1) {
-                        E swap = set[i];
+                    if(((E) set[i]).compareTo((E)set[j]) == 1) {
+                        Object swap = set[i];
                         set[i] = set[j];
                         set[j] = swap;
                     }
@@ -174,7 +185,7 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
     public E get(int index){
         if(index < 0 || index > counter)
             throw new ArrayIndexOutOfBoundsException("Index out of bounds");
-        return set[index];
+        return (E) set[index];
     }
 
     public E getMax(){
@@ -183,27 +194,30 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
         }
         int max = 0;
         for(int i = 0; i <= counter; i++){
-            if(set[max].compareTo(set[i])  == -1){
+            if(((E) set[max]).compareTo((E)set[i])  == -1){
                 max = i;
             }
         }
-        return set[max];
+        return (E) set[max];
     }
 
     public E getMin(){
         if(counter+1 == 0){
-            throw new RuntimeException("Maximum number doesn't exist in empty set");
+            throw new RuntimeException("Minimum number doesn't exist in empty set");
         }
         int min = 0;
         for(int i = 1; i <= counter; i++){
-            if(set[min].compareTo(set[i]) == 1){
+            if(((E) set[min]).compareTo((E)set[i]) == 1){
                 min = i;
             }
         }
-        return set[min];
+        return (E) set[min];
     }
 
-    public Number getAverage(){
+    public double getAverage(){
+        if(counter+1 == 0){
+            throw new RuntimeException("Minimum number doesn't exist in empty set");
+        }
         Number[] numbers = new Number[set.length];
         System.arraycopy(set, 0, numbers, 0, set.length);
         double sum = 0, average;
@@ -214,7 +228,10 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
         return average;
     }
 
-    public Number getMedian(){
+    public double getMedian(){
+        if(counter+1 == 0){
+            throw new RuntimeException("Minimum number doesn't exist in empty set");
+        }
         Number[] numbers = new Number[set.length];
         System.arraycopy(set, 0, numbers, 0, set.length);
         for (int i = 0; i <= counter; i++) {
@@ -236,41 +253,41 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
         return median;
     }
 
-//    public E[] toArray(){
-//        E[] arr = (E[]) new Comparable[counter+1];
-//        System.arraycopy(set,0, arr, 0, counter+1);
-//        return arr;
-//    }
+    public Object[] toArray(){
+        Object[] arr = new Object[counter+1];
+        System.arraycopy(set,0, arr, 0, counter+1);
+        return arr;
+    }
 
-//    public E[] toArray(int firstIndex, int lastIndex){
-//        exceptionsIndexes(firstIndex, lastIndex);
-//
-//        Object[] numbers = new Object[lastIndex-firstIndex];
-//        int k = 0;
-//        for (int i = firstIndex; i < lastIndex; i++) {
-//            numbers[k] = set[i];
-//            k++;
-//        }
-//        return (E[]) numbers;
-//    }
-
-    public MathSet squash(int firstIndex, int lastIndex){
+    public Object[] toArray(int firstIndex, int lastIndex){
         exceptionsIndexes(firstIndex, lastIndex);
 
-        MathSet mathSet = new MathSet();
+        Object[] numbers = new Object[lastIndex-firstIndex];
+        int k = 0;
         for (int i = firstIndex; i < lastIndex; i++) {
-            mathSet.add(set[i]);
+            numbers[k] = set[i];
+            k++;
+        }
+        return numbers;
+    }
+
+    public MathSet<E> squash(int firstIndex, int lastIndex){
+        exceptionsIndexes(firstIndex, lastIndex);
+        MathSet<E> mathSet = new MathSet();
+        for (int i = firstIndex; i < lastIndex; i++) {
+            mathSet.add((E)set[i]);
         }
         return mathSet;
     }
 
     public void clear(){
-        set = (E[]) new Comparable[SIZE];
+        set = new Object[SIZE];
         counter = -1;
     }
 
     public void clear(Number[] numbers){
         for (int i = 0; i < numbers.length; i++) {
+            checkNull((E) numbers[i]);
             for (int j = 0; j < set.length; j++) {
                 if(numbers[i].equals(set[j])){
                     for (int k = j+1; k <= counter; k++) {
@@ -302,13 +319,8 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
         if(set[set.length-1] != null){
             Object[] arr = new Object[set.length*2];
             System.arraycopy(set,0, arr, 0, counter+1);
-            set = (E[]) arr;
+            set = arr;
         }
-    }
-
-    @Override
-    public Iterator<Number> iterator() {
-        return null;
     }
 
     private int checkNumber(E value){
@@ -321,5 +333,11 @@ public class MathSet<E extends Comparable<E>> implements InterfaceMS<E>{
             }
         }
         return index;
+    }
+
+    private void checkNull(E value){
+        if(value == null){
+            throw new NullPointerException("MathSet contains null");
+        }
     }
 }
