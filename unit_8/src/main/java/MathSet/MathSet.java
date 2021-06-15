@@ -113,8 +113,8 @@ public class MathSet<E extends Number & Comparable<E>> implements InterfaceMS<E>
     public void sortDesc(int firstIndex, int lastIndex){
         exceptionsIndexes(firstIndex, lastIndex);
 
-        for (int i = firstIndex; i < lastIndex; i++) {
-            for (int j = i+1; j < lastIndex; j++) {
+        for (int i = firstIndex; i <= lastIndex; i++) {
+            for (int j = i+1; j <= lastIndex; j++) {
                 if(((E) set[i]).compareTo((E)set[j]) == -1){
                     Object swap = set[i];
                     set[i] = set[j];
@@ -155,8 +155,8 @@ public class MathSet<E extends Number & Comparable<E>> implements InterfaceMS<E>
     public void sortAsc(int firstIndex, int lastIndex){
         exceptionsIndexes(firstIndex, lastIndex);
 
-        for (int i = firstIndex; i < lastIndex; i++) {
-            for (int j = i+1; j < lastIndex; j++) {
+        for (int i = firstIndex; i <= lastIndex; i++) {
+            for (int j = i+1; j <= lastIndex; j++) {
                 if(((E) set[i]).compareTo((E)set[j]) == 1){
                     Object swap = set[i];
                     set[i] = set[j];
@@ -274,7 +274,7 @@ public class MathSet<E extends Number & Comparable<E>> implements InterfaceMS<E>
     public MathSet<E> squash(int firstIndex, int lastIndex){
         exceptionsIndexes(firstIndex, lastIndex);
         MathSet<E> mathSet = new MathSet();
-        for (int i = firstIndex; i < lastIndex; i++) {
+        for (int i = firstIndex; i <= lastIndex; i++) {
             mathSet.add((E)set[i]);
         }
         return mathSet;

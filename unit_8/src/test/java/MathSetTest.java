@@ -122,7 +122,7 @@ public class MathSetTest {
         for (int i = 0; i < 10; i++) {
             set1.add(i);
         }
-        int num = set1.get(4);
+        int num = set1.get(5);
         set1.sortDesc(2, 5);
         Assertions.assertTrue(set1.get(2) == num);
     }
@@ -156,7 +156,7 @@ public class MathSetTest {
         for (int i = 9; i >= 0; i--) {
             set1.add(i);
         }
-        int num = set1.get(4);
+        int num = set1.get(5);
         set1.sortAsc(2, 5);
         Assertions.assertTrue(set1.get(2) == num);
     }
@@ -246,7 +246,7 @@ public class MathSetTest {
             set1.add(i);
         }
         MathSet<Integer> set2 = set1.squash(1, 5);
-        Assertions.assertTrue(set2.get(0) == 1 && set2.length() == 4);
+        Assertions.assertTrue(set2.get(0) == 1 && set2.length() == 5);
     }
 
     @Order(23)
