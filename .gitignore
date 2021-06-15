@@ -3,4 +3,3 @@
 **/*.class
 .mvn
 **/*target
-/src/test/
