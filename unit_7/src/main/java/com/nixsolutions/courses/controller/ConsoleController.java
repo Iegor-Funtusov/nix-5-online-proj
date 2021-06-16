@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.DateTimeException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 public class ConsoleController {
@@ -89,7 +91,35 @@ public class ConsoleController {
     }
 
     private void compareDates() {
-        printFormats();
+        while (true) {
+            try {
+                printFormats();
+                String format = reader.readLine();
+                System.out.println("Enter comma-separated dates:");
+                String[] input = reader.readLine().split(",");
+                List<Date> dates = new ArrayList<>();
+                for (String date : input) {
+                    dates.add(DateInputFormatter.formatDate(date, format));
+                }
+                System.out.println("Choose order:\n1 - ascending\n2 - descending");
+                String order = reader.readLine();
+                dates = calendarService.compareDates(dates, order);
+
+                printFormats();
+                format = reader.readLine();
+                String output = "";
+                for (Date date : dates) {
+                    output += DateOutputFormatter.formatDate(date, format) + ", ";
+                }
+
+                System.out.println(output);
+                break;
+            } catch (IOException e) {
+                System.out.println("Sorry, something went wrong. Try again");
+            } catch (DataFormatException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
     }
 

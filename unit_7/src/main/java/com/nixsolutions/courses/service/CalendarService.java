@@ -4,15 +4,23 @@ import com.nixsolutions.courses.data.Date;
 import com.nixsolutions.courses.util.CalendarUtils;
 
 import java.time.DateTimeException;
+import java.util.List;
 
 public class CalendarService {
 
+    private final CompareService compareService = new CompareService();
     private final SubtractService subtractService = new SubtractService();
     private final AddService addService = new AddService();
     private final DifferenceService differenceService = new DifferenceService();
 
-    public void compareDates() {
-
+    public List<Date> compareDates(List<Date> list, String order) {
+        switch (order) {
+            case "1":
+                return compareService.compareAscending(list);
+            case "2":
+                return compareService.compareDescending(list);
+        }
+        return list;
     }
 
     public Date subtractFromDate(Date date, int value, String scope) {
