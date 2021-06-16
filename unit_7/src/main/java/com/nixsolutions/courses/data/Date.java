@@ -1,37 +1,37 @@
 package com.nixsolutions.courses.data;
 
-public class Date {
+public class Date implements Comparable<Date>{
 
-    private int day;
-    private int month;
-    private int year;
+    private Integer day;
+    private Integer month;
+    private Integer year;
     private Time time;
 
     public Date() {
         this.time = new Time();
     }
 
-    public int getDay() {
+    public Integer getDay() {
         return day;
     }
 
-    public void setDay(int day) {
+    public void setDay(Integer day) {
         this.day = day;
     }
 
-    public int getMonth() {
+    public Integer getMonth() {
         return month;
     }
 
-    public void setMonth(int month) {
+    public void setMonth(Integer month) {
         this.month = month;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
@@ -51,5 +51,20 @@ public class Date {
                 ", year=" + year +
                 ", " + time.toString() +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Date o) {
+        int result = this.getYear().compareTo(o.getYear());
+        if (result == 0) {
+            result = this.getMonth().compareTo(o.getMonth());
+            if (result == 0) {
+                result = this.getDay().compareTo(o.getDay());
+                if (result == 0) {
+                    result = this.getTime().compareTo(o.getTime());
+                }
+            }
+        }
+        return result;
     }
 }

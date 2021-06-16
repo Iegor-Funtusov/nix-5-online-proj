@@ -1,32 +1,32 @@
 package com.nixsolutions.courses.data;
 
-public class Time {
+public class Time implements Comparable<Time> {
 
-    private int hours;
-    private int minutes;
-    private int seconds;
+    private Integer hours;
+    private Integer minutes;
+    private Integer seconds;
 
-    public int getHours() {
+    public Integer getHours() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHours(Integer hours) {
         this.hours = hours;
     }
 
-    public int getMinutes() {
+    public Integer getMinutes() {
         return minutes;
     }
 
-    public void setMinutes(int minutes) {
+    public void setMinutes(Integer minutes) {
         this.minutes = minutes;
     }
 
-    public int getSeconds() {
+    public Integer getSeconds() {
         return seconds;
     }
 
-    public void setSeconds(int seconds) {
+    public void setSeconds(Integer seconds) {
         this.seconds = seconds;
     }
 
@@ -37,5 +37,18 @@ public class Time {
                 ", minutes=" + minutes +
                 ", seconds=" + seconds +
                 '}';
+    }
+
+
+    @Override
+    public int compareTo(Time o) {
+        int result = this.getHours().compareTo(o.getHours());
+        if (result == 0) {
+            result = this.getMinutes().compareTo(o.getMinutes());
+            if (result == 0) {
+                result = this.getSeconds().compareTo(o.getSeconds());
+            }
+        }
+        return result;
     }
 }
