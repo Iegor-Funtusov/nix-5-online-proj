@@ -66,7 +66,7 @@ public class DateService {
             return 1;
         }
         int dayscount = Integer.parseInt(days);
-        if(dayscount>=1 && dayscount<=getMaxDaysInMonth(date)){
+        if (dayscount >= 1 && dayscount <= getMaxDaysInMonth(date)) {
             return dayscount;
         }
         /*if (months == 2 && dayscount <= 28 && dayscount >= 1) {
@@ -203,11 +203,11 @@ public class DateService {
 
     public static void addDays(int days, MyDate currDate) {
         int prevdays = currDate.getDays();
-        if(currDate.getDays() + days > getMaxDaysInMonth(currDate)){
+        if (currDate.getDays() + days > getMaxDaysInMonth(currDate)) {
             addMonths(1, currDate);
             currDate.setDays(0);
-            addDays(prevdays+days - getMaxDaysInMonth(currDate), currDate);
-        }else{
+            addDays(prevdays + days - getMaxDaysInMonth(currDate), currDate);
+        } else {
             currDate.setDays(currDate.getDays() + days);
         }
         /*
@@ -295,25 +295,27 @@ public class DateService {
         System.out.print(" " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
     }
 
-    public static void subDays(int days, MyDate currDate){
-        if(currDate.getDays() - days< 0){
+    public static void subDays(int days, MyDate currDate) {
+        if (currDate.getDays() - days <= 0) {
             subMonths(1, currDate);
             currDate.setDays(getMaxDaysInMonth(currDate));
-            subDays(days - getMaxDaysInMonth(currDate), currDate);
-        }
+            subDays((currDate.getDays() + days) - getMaxDaysInMonth(currDate), currDate);
+        }else{
         currDate.setDays(currDate.getDays() - days);
     }
-
-    public static void subMonths(int months, MyDate currDate){
-        if(currDate.getMonths() - months < 0){
-            subYears(1, currDate);
-            currDate.setMonths(12);
-            subMonths(months-12, currDate);
-        }
-        currDate.setMonths(currDate.getMonths() - months);
     }
 
-    public static void subYears(int years, MyDate currDate){
+    public static void subMonths(int months, MyDate currDate) {
+        if (currDate.getMonths() - months <= 0) {
+            subYears(1, currDate);
+            currDate.setMonths(12);
+            subMonths((currDate.getMonths() + months) - 12, currDate);
+        }else{
+        currDate.setMonths(currDate.getMonths() - months);
+    }
+    }
+
+    public static void subYears(int years, MyDate currDate) {
         currDate.setYears(currDate.getYears() - years);
     }
 

@@ -30,8 +30,9 @@ public class TimeService {
             addMinutes(1, currDate);
             currDate.setSeconds(0);
             addSeconds(seconds - 60, currDate);
-        }
+        }else{
         currDate.setSeconds(currDate.getSeconds() + seconds);
+    }
     }
 
     public static void addMinutes(int minutes, MyDate currDate) {
@@ -40,7 +41,9 @@ public class TimeService {
             currDate.setMinutes(0);
             addMinutes(minutes - 60, currDate);
         }
+        else{
         currDate.setMinutes(currDate.getMinutes() + minutes);
+    }
     }
 
     public static void addHours(int hours, MyDate currDate) {
@@ -48,26 +51,27 @@ public class TimeService {
             DateService.addDays(1, currDate);
             currDate.setHours(0);
             addHours(hours - 24, currDate);
-        }
+        }else{
         currDate.setHours(currDate.getHours() + hours);
-    }
+    }}
 
     public static void subSeconds(int seconds, MyDate currDate){
         if(currDate.getSeconds() - seconds < 0){
             subMinutes(1, currDate);
             currDate.setSeconds(60);
             subSeconds(seconds - 60, currDate);
-        }
+        }else{
         currDate.setSeconds(currDate.getSeconds() - seconds);
-    }
+    }}
 
     public static void subMinutes(int minutes, MyDate currDate){
         if(currDate.getMinutes() - minutes < 0){
             subHours(1, currDate);
             currDate.setMinutes(60);
             subMinutes(minutes-60, currDate);
-        }
+        }else{
         currDate.setMinutes(currDate.getMinutes()-minutes);
+    }
     }
 
     public static void subHours(int hours, MyDate currDate){
@@ -75,8 +79,9 @@ public class TimeService {
             DateService.subDays(1,currDate);
             currDate.setHours(24);
             subHours(hours - 24, currDate);
-        }
+        }else{
         currDate.setHours(currDate.getHours() - hours);
+    }
     }
 
 }

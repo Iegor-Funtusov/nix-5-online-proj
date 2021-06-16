@@ -127,7 +127,7 @@ public class DateMain {
                         6 - years
                         Anything else to cancel.""");
                 chosen = s.nextLine();
-                System.out.println("Input the amount that you'd like to add.");
+                System.out.println("Input the amount that you'd like to substract.");
                 amount = Integer.parseInt(s.nextLine());
                 if(amount<0){
                     throw new NumberFormatException();
