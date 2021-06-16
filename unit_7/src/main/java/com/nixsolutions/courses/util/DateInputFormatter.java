@@ -39,23 +39,27 @@ public class DateInputFormatter {
                 formatedDate = fourthFormat(date); // dd-mmm-yyyy hh:mm:ss
                 break;
         }
-        if (time.length() != 0) {
-            formatedDate.setTime(formatTime(time));
-        }
+
+        formatedDate.setTime(formatTime(time));
         System.out.println(formatedDate);
         return formatedDate;
     }
 
     private static Time formatTime(String input) {
         Time time = new Time();
-        String[] data = input.split(":");
-        if (data.length == 2) {
-            time.setMinutes(Integer.parseInt(data[0]));
-            time.setSeconds(Integer.parseInt(data[1]));
-        } else {
-            time.setHours(Integer.parseInt(data[0]));
-            time.setMinutes(Integer.parseInt(data[1]));
-            time.setSeconds(Integer.parseInt(data[2]));
+        time.setHours(0);
+        time.setMinutes(0);
+        time.setSeconds(0);
+        if (input.length() != 0) {
+            String[] data = input.split(":");
+            if (data.length == 2) {
+                time.setMinutes(Integer.parseInt(data[0]));
+                time.setSeconds(Integer.parseInt(data[1]));
+            } else {
+                time.setHours(Integer.parseInt(data[0]));
+                time.setMinutes(Integer.parseInt(data[1]));
+                time.setSeconds(Integer.parseInt(data[2]));
+            }
         }
         return time;
     }
