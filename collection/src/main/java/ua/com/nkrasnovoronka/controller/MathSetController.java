@@ -11,8 +11,15 @@ public class MathSetController {
 
     public void run(){
         while (true){
-            int i = UserInput.userInputNumber("Pleas choose action\n1 - add\n2 - sort\n3 - getMax\n4 - getMin" +
-                    "\n5 - getAverage\n6 - getMedian\n7 - print\n0 - exit");
+            int i = 0;
+
+            try {
+                i = UserInput.userInputNumber("Pleas choose action\n1 - add\n2 - sort\n3 - getMax\n4 - getMin" +
+                        "\n5 - getAverage\n6 - getMedian\n7 - print\n0 - exit");
+            }catch (NumberFormatException e){
+                System.err.println("Invalid input pleas try again");
+                run();
+            }
             switch (i){
                 case 1: addElement(); break;
                 case 2: sortMathSet(); break;
