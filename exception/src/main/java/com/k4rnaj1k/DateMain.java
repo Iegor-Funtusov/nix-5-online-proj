@@ -124,8 +124,7 @@ public class DateMain {
                         3 - hours
                         4 - days
                         5 - months
-                        6 - years
-                        Anything else to cancel.""");
+                        6 - years""");
                 chosen = s.nextLine();
                 System.out.println("Input the amount that you'd like to substract.");
                 amount = Integer.parseInt(s.nextLine());
@@ -219,6 +218,10 @@ public class DateMain {
         MyDate diffDate = new MyDate();
         System.out.println("Please input date to find difference with.");
         parseDate(s.nextLine(), diffDate);
+        if(DateService.compare(currDate, diffDate) == 0){
+            System.out.println("The dates are equal.");
+            return;
+        }
         MyDate resDate = new MyDate();
         if (DateService.compare(currDate, diffDate) == 1) {
             DateService.findDiff(diffDate, currDate, resDate);

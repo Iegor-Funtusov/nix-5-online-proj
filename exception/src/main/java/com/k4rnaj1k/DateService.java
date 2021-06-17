@@ -33,12 +33,12 @@ public class DateService {
 
     public static int compare(MyDate date1, MyDate date2) {
         int res = -1;
-        if (date1.getYears() == date2.getYears()) {
-            if (date1.getMonths() == date2.getMonths()) {
-                if (date1.getDays() == date2.getDays()) {
-                    if (date1.getHours() == date2.getHours()) {
-                        if (date1.getMinutes() == date2.getMinutes()) {
-                            if (date1.getSeconds() == date2.getSeconds()) {
+        if (date1.getYears().equals(date2.getYears())) {
+            if (date1.getMonths().equals(date2.getMonths())) {
+                if (date1.getDays().equals(date2.getDays())) {
+                    if (date1.getHours().equals(date2.getHours())) {
+                        if (date1.getMinutes().equals(date2.getMinutes())) {
+                            if (date1.getSeconds().equals(date2.getSeconds())) {
                                 res = 0;
                             } else if (date1.getSeconds() > date2.getSeconds()) {
                                 res = 1;
@@ -203,74 +203,48 @@ public class DateService {
 
     public static void addDays(int days, MyDate currDate) {
         int prevdays = currDate.getDays();
+        int prevmonth = currDate.getMonths();
+        int prevyear = currDate.getYears();
         if (currDate.getDays() + days > getMaxDaysInMonth(currDate)) {
             addMonths(1, currDate);
             currDate.setDays(0);
-            addDays(prevdays + days - getMaxDaysInMonth(currDate), currDate);
+            addDays((prevdays + days) - getMaxDaysInMonth(prevmonth, prevyear), currDate);
         } else {
             currDate.setDays(currDate.getDays() + days);
         }
-        /*
-        if (currDate.getMonths() == 2 && isLeap(currDate.getYears()) && currDate.getDays() + days > 29) {
-            addMonths(1, currDate);
-            currDate.setDays(0);
-            addDays((prevdays + days) - 29, currDate);
-        } else if (currDate.getMonths() == 2 && currDate.getDays() + days > 28) {
-            addMonths(1, currDate);
-            currDate.setDays(0);
-            addDays((prevdays + days) - 28, currDate);
-        } else if ((currDate.getMonths() % 2 == 1 || currDate.getMonths() == 8 || currDate.getMonths() == 12) && currDate.getDays() + days > 31) {
-            addMonths(1, currDate);
-            currDate.setDays(0);
-            addDays((prevdays + days) - 31, currDate);
-        } else if (currDate.getMonths() % 2 == 0 && currDate.getDays() + days > 30) {
-            addMonths(1, currDate);
-            currDate.setDays(0);
-            addDays((prevdays + days) - 30, currDate);
-        } else {
-            currDate.setDays(currDate.getDays() + days);
-        }*/
+    }
+
+    private static int getMaxDaysInMonth(int month, int year) {
+        switch (month) {
+            case 1, 7, 8, 3, 5, 10, 12:
+                return 31;
+            case 2:
+                return isLeap(year) ? 29 : 28;
+            case 4, 6, 9, 11:
+                return 30;
+        }
+        return 0;
     }
 
     private static int getMaxDaysInMonth(MyDate date) {
-        /*Январь - 31 день 1
-        Февраль - 28 дней (29 в високосном)
-        Март - 31 день 3
-        Апрель - 30 дней 4
-        Май - 31 день 5
-        Июнь - 30 дней 6
-        Июль - 31 день 7
-        Август - 31 день 8
-        Сентябрь - 30 дней 9
-        Октябрь - 31 день 10
-        Ноябрь - 30 дней 11
-        Декабрь - 31 день 12*/
         switch (date.getMonths()) {
-            case 1:
-            case 7:
-            case 8:
-            case 3:
-            case 5:
-            case 10:
-            case 12:
+            case 1, 7, 8, 3, 5, 10, 12:
                 return 31;
             case 2:
-                return isLeap(date.getYears()) ? 28 : 29;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
+                return isLeap(date.getYears()) ? 29 : 28;
+            case 4, 6, 9, 11:
                 return 30;
         }
         return 0;
     }
 
     public static void addMonths(int months, MyDate currDate) {
-        if (currDate.getMonths() + months > 12) {
+        currDate.setMonths(currDate.getMonths() + months);
+        if (currDate.getMonths() > 12) {
             addYears((currDate.getMonths() + months) / 12, currDate);
-            currDate.setMonths(months % 12);
-        } else {
-            currDate.setMonths(currDate.getMonths() + months);
+            currDate.setMonths(currDate.getMonths() % 12);
+        } else if (currDate.getDays() > getMaxDaysInMonth(currDate)) {
+            currDate.setDays(getMaxDaysInMonth(currDate));
         }
     }
 
@@ -296,13 +270,14 @@ public class DateService {
     }
 
     public static void subDays(int days, MyDate currDate) {
+        int prevdays = currDate.getDays();
         if (currDate.getDays() - days <= 0) {
             subMonths(1, currDate);
             currDate.setDays(getMaxDaysInMonth(currDate));
-            subDays((currDate.getDays() + days) - getMaxDaysInMonth(currDate), currDate);
-        }else{
-        currDate.setDays(currDate.getDays() - days);
-    }
+            subDays(days - prevdays, currDate);
+        } else {
+            currDate.setDays(currDate.getDays() - days);
+        }
     }
 
     public static void subMonths(int months, MyDate currDate) {
@@ -310,9 +285,11 @@ public class DateService {
             subYears(1, currDate);
             currDate.setMonths(12);
             subMonths((currDate.getMonths() + months) - 12, currDate);
-        }else{
-        currDate.setMonths(currDate.getMonths() - months);
-    }
+        } else if (currDate.getDays() > getMaxDaysInMonth(currDate)) {
+            currDate.setDays(getMaxDaysInMonth(currDate));
+        } else {
+            currDate.setMonths(currDate.getMonths() - months);
+        }
     }
 
     public static void subYears(int years, MyDate currDate) {
