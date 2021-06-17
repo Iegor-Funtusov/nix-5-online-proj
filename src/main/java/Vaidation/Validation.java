@@ -35,7 +35,7 @@ public class Validation {
     }
 
 
-    public static void isEmptySet(MathSet ... setsToCheck){
+    public static void isEmptySet(MathSet... setsToCheck){
         if(setsToCheck == null){
             throw new RuntimeException("Sets do not exist");
         }

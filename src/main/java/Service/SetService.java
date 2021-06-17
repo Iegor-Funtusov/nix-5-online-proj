@@ -7,7 +7,7 @@ public class SetService {
 //    private static SetService instance;
 
 //    private SetService(){
-//        set = new MathSet();
+//        set = new MathSetImpl();
 //    }
 //
 //    public static SetService getInstance(){
@@ -18,7 +18,7 @@ public class SetService {
 //    }
 
     public SetService() {
-       set = new MathSet();
+       set = new MathSetImpl();
     }
 
 
@@ -29,10 +29,10 @@ public class SetService {
         Validation.isEmptyArray(numbers);
         if(isCurrent){
             set.clear();
-            set = new MathSet(numbers);
+            set = new MathSetImpl(numbers);
             return set;
         }
-        return new MathSet(numbers);
+        return new MathSetImpl(numbers);
     }
 
 
@@ -40,10 +40,10 @@ public class SetService {
         Validation.isEmptyArray(numbers);
         if(isCurrent){
             set.clear();
-            set = new MathSet(numbers);
+            set = new MathSetImpl(numbers);
             return set;
         }
-        return new MathSet(numbers);
+        return new MathSetImpl(numbers);
     }
 
 
@@ -51,21 +51,21 @@ public class SetService {
         Validation.isEmptySet(numbers);
         if(isCurrent){
             set.clear();
-            set = new MathSet(numbers);
+            set = new MathSetImpl(numbers);
             return set;
         }
-        return new MathSet(numbers);
+        return new MathSetImpl(numbers);
     }
 
 
-    public MathSet createSet(boolean isCurrent, MathSet ... numbers){
+    public MathSet createSet(boolean isCurrent, MathSet... numbers){
         Validation.isEmptySet(numbers);
         if(isCurrent){
             set.clear();
-            set = new MathSet(numbers);
+            set = new MathSetImpl(numbers);
             return set;
         }
-        return new MathSet(numbers);
+        return new MathSetImpl(numbers);
     }
 
 
@@ -84,7 +84,7 @@ public class SetService {
         set.join(mathSet);
     }
 
-    public void join(MathSet ... mathSets){
+    public void join(MathSet... mathSets){
         Validation.isEmptySet(mathSets);
         set.join(mathSets);
     }
@@ -112,11 +112,13 @@ public class SetService {
         set.clear();
     }
 
+
     public void clear(Number[] numbers){
         Validation.isEmptySet(set);
         Validation.isEmptyArray(numbers);
         set.clear(numbers);
     }
+
 
     public MathSet squash(int firstIndex, int lastIndex){
         Validation.isEmptySet(set);
