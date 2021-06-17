@@ -6,6 +6,12 @@ public class Time implements Comparable<Time> {
     private Integer minutes;
     private Integer seconds;
 
+    public Time() {
+        hours = 0;
+        minutes = 0;
+        seconds = 0;
+    }
+
     public Integer getHours() {
         return hours;
     }
