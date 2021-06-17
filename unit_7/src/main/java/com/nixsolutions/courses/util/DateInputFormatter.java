@@ -4,7 +4,8 @@ import com.nixsolutions.courses.data.Date;
 import com.nixsolutions.courses.data.Time;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 public class DateInputFormatter {
@@ -12,80 +13,74 @@ public class DateInputFormatter {
     private static final String FIRST_REGEX = "\\d{0,2}/\\d{2}/\\d{0,2}"; // dd/mm/yy
     private static final String SECOND_REGEX = "\\d{0,2}/\\d{1,2}/\\d{0,4}"; // m/d/yyyy
     private static final String ONLY_YEAR_REGEX = "\\d{4}";
-    private static final String THIRD_REGEX = "\\D{3,}-\\d{1,2}-\\d{2}"; // mmm-d-yy
-    private static final String FOURTH_REGEX = "\\d{2}-\\D{3,}-\\d{4}"; // dd-mmm-yyyy
+    private static final String THIRD_REGEX = "\\D*-\\d{1,2}-\\d{0,2}"; // mmm-d-yy
+    private static final String FOURTH_REGEX = "\\d{0,2}-\\D{3,}-\\d{0,4}"; // dd-mmm-yyyy
+    private static final String LIST_REGEX = ",\\s*";
+    private static final Integer CURRENT_YEAR = 2021;
 
-    static Date formatedDate;
+    private static Date formattedDate;
 
-    public static Date formatDate(String input, String format) throws DataFormatException {
-        formatedDate = new Date();
-        String data = input.trim();
-        String date = StringUtils.substringBefore(data, " ");
-        System.out.println(date); //
-        String time = StringUtils.substringAfter(data, " ");
-        System.out.println(time); //
-
-        switch (format) {
-            case "1":
-                formatedDate = firstFormat(date); // dd/mm/yy hh:mm:ss
-                break;
-            case "2":
-                formatedDate = secondFormat(date); // m/d/yyyy hh:mm:ss
-                break;
-            case "3":
-                formatedDate = thirdFormat(date); // mmm-d-yy hh:mm:ss
-                break;
-            case "4":
-                formatedDate = fourthFormat(date); // dd-mmm-yyyy hh:mm:ss
-                break;
+    public static List<Date> formatDateList(String input, String format) throws DataFormatException {
+        String[] data = input.split(LIST_REGEX);
+        List<Date> dates = new ArrayList<>();
+        for (String date : data) {
+            dates.add(formatDate(date, format));
         }
-
-        formatedDate.setTime(formatTime(time));
-        System.out.println(formatedDate);
-        return formatedDate;
+        return dates;
     }
 
-    private static Time formatTime(String input) {
-        Time time = new Time();
-        time.setHours(0);
-        time.setMinutes(0);
-        time.setSeconds(0);
-        if (input.length() != 0) {
-            String[] data = input.split(":");
-            if (data.length == 2) {
-                time.setMinutes(Integer.parseInt(data[0]));
-                time.setSeconds(Integer.parseInt(data[1]));
-            } else {
-                time.setHours(Integer.parseInt(data[0]));
-                time.setMinutes(Integer.parseInt(data[1]));
-                time.setSeconds(Integer.parseInt(data[2]));
-            }
+    public static Date formatDate(String input, String format) throws DataFormatException {
+        String data = input.trim();
+        String date = StringUtils.substringBefore(data, " ");
+        String time = StringUtils.substringAfter(data, " ");
+        switch (format) {
+            case "1":
+                formattedDate = firstFormat(date); // dd/mm/yy hh:mm:ss
+                break;
+            case "2":
+                formattedDate = secondFormat(date); // m/d/yyyy hh:mm:ss
+                break;
+            case "3":
+                formattedDate = thirdFormat(date); // mmm-d-yy hh:mm:ss
+                break;
+            case "4":
+                formattedDate = fourthFormat(date); // dd-mmm-yyyy hh:mm:ss
+                break;
         }
-        return time;
+        if (time.length() != 0) formattedDate.setTime(formatTime(time));
+        System.out.println(formattedDate);
+        return formattedDate;
+    }
+
+    private static Time formatTime(String input) throws DataFormatException {
+        if (input.contains(":")) {
+            Time time = new Time();
+            if (StringUtils.substringBetween(input, ":") != null) {
+                time.setHours(Integer.parseInt(StringUtils.substringBefore(input, ":")));
+                time.setMinutes(Integer.parseInt(StringUtils.substringBetween(input, ":")));
+            } else {
+                time.setMinutes(Integer.parseInt(StringUtils.substringBefore(input, ":")));
+            }
+            time.setSeconds(Integer.parseInt(StringUtils.substringAfter(input, ":")));
+            return time;
+        } else {
+            throw new DataFormatException("Wrong time format");
+        }
     }
 
     private static Date firstFormat(String input) throws DataFormatException {
-        if (Pattern.matches(FIRST_REGEX, input)) {
+        if (input.matches(FIRST_REGEX)) {
             Date date = new Date();
-            String[] data = input.split("/");
-            if (data[0].equals("")) {
+            if (StringUtils.isNotBlank(StringUtils.substringBefore(input, "/"))) {
+                date.setDay(Integer.parseInt(StringUtils.substringBefore(input, "/")));
+            } else {
                 date.setDay(1);
-            } else {
-                date.setDay(Integer.parseInt(data[0]));
             }
-            if (data[1].equals("")) {
-                date.setMonth(1);
+            date.setMonth(Integer.parseInt(StringUtils.substringBetween(input, "/")));
+            if (StringUtils.isNotBlank(StringUtils.substringAfterLast(input, "/"))) {
+                date.setYear(Integer.parseInt(StringUtils.substringAfterLast(input, "/")));
             } else {
-                date.setMonth(Integer.parseInt(data[1]));
-            }
-            if (data.length > 2) {
-                if (!data[2].equals("")) {
-                    date.setYear(Integer.parseInt(data[2]));
-                } else {
-                    date.setYear(21);
-                }
-            } else {
-                date.setYear(21);
+                date.setYear(CURRENT_YEAR);
             }
             return date;
         } else {
@@ -94,31 +89,22 @@ public class DateInputFormatter {
     }
 
     private static Date secondFormat(String input) throws DataFormatException {
-        if (Pattern.matches(SECOND_REGEX, input) || Pattern.matches(ONLY_YEAR_REGEX, input)) {
+        if (input.matches(SECOND_REGEX) || input.matches(ONLY_YEAR_REGEX)) {
             Date date = new Date();
             if (input.contains("/")) {
-                String[] data = input.split("/");
-                if (data[0].equals("")) {
+                if (StringUtils.isNotBlank(StringUtils.substringBefore(input, "/"))) {
+                    date.setMonth(Integer.parseInt(StringUtils.substringBefore(input, "/")));
+                } else {
                     date.setMonth(1);
-                } else {
-                    date.setMonth(Integer.parseInt(data[0]));
                 }
-                if (data[1].equals("")) {
-                    date.setDay(1);
+                date.setDay(Integer.parseInt(StringUtils.substringBetween(input, "/")));
+                if (StringUtils.isNotBlank(StringUtils.substringAfterLast(input, "/"))) {
+                    date.setYear(Integer.parseInt(StringUtils.substringAfterLast(input, "/")));
                 } else {
-                    date.setDay(Integer.parseInt(data[1]));
-                }
-                if (data.length > 2) {
-                    if (!data[2].equals("")) {
-                        date.setYear(Integer.parseInt(data[2]));
-                    } else {
-                        date.setYear(2021);
-                    }
-                } else {
-                    date.setYear(2021);
+                    date.setYear(CURRENT_YEAR);
                 }
             } else {
-                date.setYear(Integer.parseInt(input));
+                date.setYear(CURRENT_YEAR);
             }
             return date;
         } else {
@@ -127,23 +113,42 @@ public class DateInputFormatter {
     }
 
     private static Date thirdFormat(String input) throws DataFormatException {
-        if (Pattern.matches(THIRD_REGEX, input)) {
+        if (input.matches(THIRD_REGEX)) {
             Date date = new Date();
-            String[] data = input.split("-");
-            date.setMonth(parseMonth(data[0]));
-            if (data[1].equals("")) {
-                date.setDay(1);
+            if (StringUtils.isNotBlank(StringUtils.substringBefore(input, "-"))) {
+                date.setMonth(parseMonth(StringUtils.substringBefore(input, "-")));
             } else {
-                date.setDay(Integer.parseInt(data[1]));
+                date.setMonth(1);
             }
-            if (data.length > 2) {
-                if (!data[2].equals("")) {
-                    date.setYear(Integer.parseInt(data[2]));
+            date.setDay(Integer.parseInt(StringUtils.substringBetween(input, "-")));
+            if (StringUtils.isNotBlank(StringUtils.substringAfterLast(input, "-"))) {
+                date.setYear(Integer.parseInt(StringUtils.substringAfterLast(input, "-")));
+            } else {
+                date.setYear(CURRENT_YEAR);
+            }
+            return date;
+        } else {
+            throw new DataFormatException("Mismatch with chosen format");
+        }
+    }
+
+    private static Date fourthFormat(String input) throws DataFormatException {
+        if (input.matches(FOURTH_REGEX) || input.matches(ONLY_YEAR_REGEX)) {
+            Date date = new Date();
+            if (input.contains("-")) {
+                if (StringUtils.isNotBlank(StringUtils.substringBefore(input, "-"))) {
+                    date.setDay(Integer.parseInt(StringUtils.substringBefore(input, "-")));
                 } else {
-                    date.setYear(21);
+                    date.setDay(1);
+                }
+                date.setMonth(parseMonth(StringUtils.substringBetween(input, "-")));
+                if (StringUtils.isNotBlank(StringUtils.substringAfterLast(input, "-"))) {
+                    date.setYear(Integer.parseInt(StringUtils.substringAfterLast(input, "-")));
+                } else {
+                    date.setYear(CURRENT_YEAR);
                 }
             } else {
-                date.setYear(21);
+                date.setYear(CURRENT_YEAR);
             }
             return date;
         } else {
@@ -180,30 +185,4 @@ public class DateInputFormatter {
         }
         return 1;
     }
-
-    private static Date fourthFormat(String input) throws DataFormatException {
-        if (Pattern.matches(FOURTH_REGEX, input)) {
-            Date date = new Date();
-            String[] data = input.split("-");
-            if (data[0].equals("")) {
-                date.setDay(0);
-            } else {
-                date.setDay(Integer.parseInt(data[0]));
-            }
-            date.setMonth(parseMonth(data[1]));
-            if (data.length > 2) {
-                if (!data[2].equals("")) {
-                    date.setYear(Integer.parseInt(data[2]));
-                } else {
-                    date.setYear(2021);
-                }
-            } else {
-                date.setYear(2021);
-            }
-            return date;
-        } else {
-            throw new DataFormatException("Mismatch with chosen format");
-        }
-    }
-
 }
