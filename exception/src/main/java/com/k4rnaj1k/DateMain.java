@@ -26,41 +26,45 @@ public class DateMain {
                     4 - Compare dates
                     5 - Reinput date
                     6 - Change output format
-                    Any other number to exit.""");
+                    Anything else to exit.""");
             switch (s.nextLine()) {
-                case "1":
-                    findDiff();
-                    break;
-                case "2":
-                    add();
-                    break;
-                case "3":
-                    sub();break;
-                case "4":
-                    compare();
-                    break;
-                default: {
+                case "1" -> findDiff();
+                case "2" -> add();
+                case "3" -> sub();
+                case "4" -> compare();
+                case "5" -> inputDate();
+                case "6" -> inputFormat();
+                default -> {
                     flag = false;
                 }
-                break;
             }
         }
 
     }
 
     private static void compare() {
-        System.out.println("Input the date u'd like to compare with.");
-        MyDate compDate = new MyDate();
-        parseDate(s.nextLine(), compDate);
-        System.out.print("The date u've entered");
-        if (DateService.compare(currDate, compDate) == -1) {
-            System.out.print(" is coming after ");
-        } else if (DateService.compare(currDate, compDate) == 1) {
-            System.out.print(" was before ");
-        } else {
-            System.out.print("equal to ");
+        System.out.println("Input the dates u'd like to get sorted with a come between them.");
+        String[] dates = s.nextLine().split(", |,");
+        MyDate[] myDates = new MyDate[dates.length];
+        for (int i = 0; i < dates.length; i++) {
+            myDates[i] = new MyDate();
+            parseDate(dates[i], myDates[i]);
         }
-        System.out.print("the current one.");
+        for (int i = 0; i < myDates.length - 1; i++) {
+            for (int j = 0; j < i; j++) {
+                if (DateService.compare(myDates[i], myDates[j]) == -1) {
+                    MyDate temp = new MyDate(myDates[i]);
+                    myDates[i] = myDates[j];
+                    myDates[j] = temp;
+                }
+            }
+        }
+        System.out.println("Dates sorted");
+        for (MyDate date :
+                myDates) {
+            DateService.printDate(date, dateType, english);
+            System.out.println();
+        }
     }
 
     private static void add() {
@@ -81,7 +85,7 @@ public class DateMain {
                 chosen = s.nextLine();
                 System.out.println("Input the amount that you'd like to add.");
                 amount = Integer.parseInt(s.nextLine());
-                if(amount<0){
+                if (amount < 0) {
                     throw new NumberFormatException();
                 }
                 rightinput = true;
@@ -90,28 +94,16 @@ public class DateMain {
             }
         }
         switch (chosen) {
-            case "1":
-                TimeService.addSeconds(amount, currDate);
-                break;
-            case "2":
-                TimeService.addMinutes(amount, currDate);
-                break;
-            case "3":
-                TimeService.addHours(amount, currDate);
-                break;
-            case "4":
-                DateService.addDays(amount, currDate);
-                break;
-            case "5":
-                DateService.addMonths(amount, currDate);
-                break;
-            case "6":
-                DateService.addYears(amount, currDate);
-                break;
+            case "1" -> TimeService.addSeconds(amount, currDate);
+            case "2" -> TimeService.addMinutes(amount, currDate);
+            case "3" -> TimeService.addHours(amount, currDate);
+            case "4" -> DateService.addDays(amount, currDate);
+            case "5" -> DateService.addMonths(amount, currDate);
+            case "6" -> DateService.addYears(amount, currDate);
         }
     }
 
-    private static void sub(){
+    private static void sub() {
         System.out.println("Which time unit would u like to substract from the current date?");
         boolean rightinput = false;
         String chosen = "";
@@ -128,7 +120,7 @@ public class DateMain {
                 chosen = s.nextLine();
                 System.out.println("Input the amount that you'd like to substract.");
                 amount = Integer.parseInt(s.nextLine());
-                if(amount<0){
+                if (amount < 0) {
                     throw new NumberFormatException();
                 }
                 rightinput = true;
@@ -137,38 +129,28 @@ public class DateMain {
             }
         }
         switch (chosen) {
-            case "1":
-                TimeService.subSeconds(amount, currDate);
-                break;
-            case "2":
-                TimeService.subMinutes(amount, currDate);
-                break;
-            case "3":
-                TimeService.subHours(amount, currDate);
-                break;
-            case "4":
-                DateService.subDays(amount, currDate);
-                break;
-            case "5":
-                DateService.subMonths(amount, currDate);
-                break;
-            case "6":
-                DateService.subYears(amount, currDate);
-                break;
+            case "1" -> TimeService.subSeconds(amount, currDate);
+            case "2" -> TimeService.subMinutes(amount, currDate);
+            case "3" -> TimeService.subHours(amount, currDate);
+            case "4" -> DateService.subDays(amount, currDate);
+            case "5" -> DateService.subMonths(amount, currDate);
+            case "6" -> DateService.subYears(amount, currDate);
         }
     }
 
     private static void parseDate(String input, MyDate date) {
+        date.clean();
         String[] inputSplit = input.split(" ");
         boolean rightInput = false;
         while (!rightInput) {
             try {
+                boolean yearparsed = false;
                 String[] splitDate;
                 if (inputSplit[0].replaceAll("[^/]", "").length() == 2) {
                     splitDate = inputSplit[0].split("/");
-                    date.setMonths(DateService.parseMonths(splitDate[1]));
-                    date.setDays(DateService.parseDays(splitDate[0], date));
-                } else if (inputSplit[0].replaceAll("[^-]", "").length() == 2) {
+                        date.setMonths(DateService.parseMonths(splitDate[1]));
+                        date.setDays(DateService.parseDays(splitDate[0], date));
+                    } else if (inputSplit[0].replaceAll("[^-]", "").length() == 2) {
                     splitDate = inputSplit[0].split("-");
                     try {
                         date.setMonths(DateService.parseMonthsfromString(splitDate[0]));
@@ -177,10 +159,20 @@ public class DateMain {
                         date.setMonths(DateService.parseMonthsfromString(splitDate[1]));
                         date.setDays(DateService.parseDays(splitDate[0], date));
                     }
+                } else if (inputSplit[0].length() > 2) {
+                    splitDate = inputSplit[0].split("/");
+                    date.setYears(DateService.parseYears(inputSplit[0]));
+                    yearparsed = true;
                 } else {
                     throw new NumberFormatException();
                 }
-                date.setYears(DateService.parseYears(splitDate[2]));
+                if (!yearparsed) {
+                    if (splitDate.length < 3) {
+                        date.setYears(DateService.parseYears(""));
+                    } else {
+                        date.setYears(DateService.parseYears(splitDate[2]));
+                    }
+                }
                 rightInput = true;
             } catch (NumberFormatException e) {
                 System.out.println("Sorry, the date you've inputted is wrong. Please try again.");
@@ -218,7 +210,7 @@ public class DateMain {
         MyDate diffDate = new MyDate();
         System.out.println("Please input date to find difference with.");
         parseDate(s.nextLine(), diffDate);
-        if(DateService.compare(currDate, diffDate) == 0){
+        if (DateService.compare(currDate, diffDate) == 0) {
             System.out.println("The dates are equal.");
             return;
         }
@@ -229,10 +221,10 @@ public class DateMain {
             DateService.findDiff(currDate, diffDate, resDate);
         }
         System.out.println("The difference between dates is " + resDate.getSeconds() + " seconds " + resDate.getMinutes() + " minutes "
-                + resDate.getHours() + " hours " + resDate.getDays() + " days "  + resDate.getMonths() + " months " + resDate.getYears() + " years");
+                + resDate.getHours() + " hours " + resDate.getDays() + " days " + resDate.getMonths() + " months " + resDate.getYears() + " years");
     }
 
-    private static void inputDate(){
+    private static void inputDate() {
         System.out.println("""
                 Please input date and time to work with.
                 Please note - if year's format is like 21 - system will convert it to 2021.
@@ -243,16 +235,16 @@ public class DateMain {
         parseDate(s.nextLine(), currDate);
     }
 
-    private static void inputFormat(){
+    private static void inputFormat() {
         boolean flag = true;
         System.out.println("""
-                        Please choose date output format
-                        Available formats:
-                        1 - dd/mm/yy - 01/12/21
-                        2 - m/d/yyyy - 3/4/2021
-                        3 - mmm-d-yy - Март-4-21 || March-4-21
-                        4 - dd-mmm-yyyy 00:00 - 09-Апрель-1789 00:00 || 09-April-1789
-                        Note: you can input the date in any format you'd like, only output is affected by this.""");
+                Please choose date output format
+                Available formats:
+                1 - dd/mm/yy - 01/12/21
+                2 - m/d/yyyy - 3/4/2021
+                3 - mmm-d-yy - Март-4-21 || March-4-21
+                4 - dd-mmm-yyyy 00:00 - 09-Апрель-1789 00:00 || 09-April-1789
+                Note: you can input the date in any format you'd like, only output is affected by this.""");
         while (flag) {
             try {
                 int chosen = Integer.parseInt(s.nextLine());
@@ -263,7 +255,7 @@ public class DateMain {
                 }
                 flag = false;
             } catch (NumberFormatException | ArrayIndexOutOfBoundsException n) {
-                System.out.println("Sorry, there was an exception, couldn't parse the input.");
+                System.out.println("Sorry, there was an exception, couldn't parse the input. Please enter the number again.");
             }
         }
     }

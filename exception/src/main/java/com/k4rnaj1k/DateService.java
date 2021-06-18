@@ -69,13 +69,6 @@ public class DateService {
         if (dayscount >= 1 && dayscount <= getMaxDaysInMonth(date)) {
             return dayscount;
         }
-        /*if (months == 2 && dayscount <= 28 && dayscount >= 1) {
-            return dayscount;
-        } else if (dayscount>=1 && dayscount<=getMaxDaysInMonth(months))
-            return dayscount;
-        else if (months % 2 == 0 && dayscount <= 30 && dayscount >= 1) {
-            return dayscount;
-        }*/
         throw new NumberFormatException();
     }
 
@@ -116,26 +109,14 @@ public class DateService {
     }
 
     public static void findDiff(MyDate currDate, MyDate dateDiff, MyDate resDate) {
-//        resDate.setSeconds((currDate.getSeconds() - dateDiff.getSeconds()) + ((currDate.getMinutes() - dateDiff.getMinutes()) * 60) + ((currDate.getHours() - dateDiff.getHours()) * 60 * 60));
-//        diff += currDate.getSeconds() - dateDiff.getSeconds();
-       /* diff += (currDate.getMinutes() - dateDiff.getMinutes()) * 60;
-        diff += (currDate.getHours() - dateDiff.getHours()) * 60 * 60;*/
-//        resDate.setMonths(12 - currDate.getMonths() + dateDiff.getMonths())
         resDate.setDays(findDiffDays(currDate, dateDiff, resDate));
         resDate.setHours(resDate.getDays() * 24 + Math.abs(currDate.getHours() - dateDiff.getHours()));
         resDate.setMinutes(resDate.getHours() * 60 + Math.abs(currDate.getMinutes() - dateDiff.getMinutes()));
         resDate.setSeconds(resDate.getMinutes() * 60 + Math.abs(currDate.getSeconds() - dateDiff.getSeconds()));
         resDate.setYears(resDate.getMonths() / 12);
-//        return diff;
     }
 
     private static boolean isLeap(int year) {
-        // Если год не делится на 4, значит он обычный.
-        // Иначе надо проверить не делится ли год на 100.
-        // Если не делится, значит это не столетие и можно сделать вывод, что год високосный.
-        // Если делится на 100, значит это столетие и его следует проверить его делимость на 400.
-        // Если год делится на 400, то он високосный.
-        // Иначе год обычный.
         boolean res = false;
         if (year % 4 == 0) {
             if (year % 100 == 0) {
@@ -156,7 +137,10 @@ public class DateService {
                 if (j == dateDiff.getMonths()) {
                     days += dateDiff.getDays() - currDate.getDays();
                     break;
-                } else if (j == 2) {
+                }else{
+                    days+=getMaxDaysInMonth(j, currDate.getYears());
+                }
+                /*else if (j == 2) {
                     if (isLeap(currDate.getYears())) {
                         days += 29;
                     } else {
@@ -166,17 +150,17 @@ public class DateService {
                     days += 31;
                 } else {
                     days += 30;
-                }
+                }*/
                 resDate.setMonths(resDate.getMonths() + 1);
             }
-        }
+        }else{
         for (int i = currDate.getYears() + 1; i <= dateDiff.getYears(); i++) {
             if (dateDiff.getYears() == i) {
                 for (int j = 1; j <= dateDiff.getMonths(); j++) {
                     if (j == dateDiff.getMonths()) {
                         days += dateDiff.getDays();
                     }
-                    if (j == 2) {
+                    /*if (j == 2) {
                         if (isLeap(i)) {
                             days += 29;
                         } else {
@@ -184,8 +168,8 @@ public class DateService {
                         }
                     } else if (j % 2 == 1 || j == 8) {
                         days += 31;
-                    } else {
-                        days += 30;
+                    }*/ else {
+                        days += getMaxDaysInMonth(j, i);
                     }
                     resDate.setMonths(resDate.getMonths() + 1);
                 }
@@ -197,6 +181,7 @@ public class DateService {
                 }
                 resDate.setMonths(resDate.getMonths() + 12);
             }
+        }
         }
         return days;
     }
@@ -215,27 +200,21 @@ public class DateService {
     }
 
     private static int getMaxDaysInMonth(int month, int year) {
-        switch (month) {
-            case 1, 7, 8, 3, 5, 10, 12:
-                return 31;
-            case 2:
-                return isLeap(year) ? 29 : 28;
-            case 4, 6, 9, 11:
-                return 30;
-        }
-        return 0;
+        return switch (month) {
+            case 1, 7, 8, 3, 5, 10, 12 -> 31;
+            case 2 -> isLeap(year) ? 29 : 28;
+            case 4, 6, 9, 11 -> 30;
+            default -> 0;
+        };
     }
 
     private static int getMaxDaysInMonth(MyDate date) {
-        switch (date.getMonths()) {
-            case 1, 7, 8, 3, 5, 10, 12:
-                return 31;
-            case 2:
-                return isLeap(date.getYears()) ? 29 : 28;
-            case 4, 6, 9, 11:
-                return 30;
-        }
-        return 0;
+        return switch (date.getMonths()) {
+            case 1, 7, 8, 3, 5, 10, 12 -> 31;
+            case 2 -> isLeap(date.getYears()) ? 29 : 28;
+            case 4, 6, 9, 11 -> 30;
+            default -> 0;
+        };
     }
 
     public static void addMonths(int months, MyDate currDate) {
@@ -254,17 +233,10 @@ public class DateService {
 
     public static void printDate(MyDate date, DateType dateType, boolean english) {
         switch (dateType) {
-            case ddmmyy:
-                System.out.print(date.getDays() + "/" + date.getMonths() + "/" + String.valueOf(date.getYears()).substring(2));
-                break;
-            case mdyyyy:
-                System.out.print(date.getMonths() + "/" + date.getDays() + "/" + date.getYears());
-                break;
-            case mmmdyy:
-                System.out.print(english ? engmonths[date.getMonths() - 1] : rumonths[date.getMonths() - 1] + "-" + date.getDays() + "-" + String.valueOf(date.getYears()).substring(2));
-                break;
-            case ddmmmyyyy:
-                System.out.print(date.getDays() + "-" + (english ? engmonths[date.getMonths() - 1] : rumonths[date.getMonths() - 1]) + "-" + date.getYears());
+            case ddmmyy -> System.out.print(date.getDays() + "/" + date.getMonths() + "/" + String.valueOf(date.getYears()).substring(String.valueOf(date.getYears()).length() > 2? 2: 0));
+            case mdyyyy -> System.out.print(date.getMonths() + "/" + date.getDays() + "/" + date.getYears());
+            case mmmdyy -> System.out.print((english ? engmonths[date.getMonths() - 1] : rumonths[date.getMonths() - 1]) + "-" + date.getDays() + "-" + String.valueOf(date.getYears()).substring(2));
+            case ddmmmyyyy -> System.out.print(date.getDays() + "-" + (english ? engmonths[date.getMonths() - 1] : rumonths[date.getMonths() - 1]) + "-" + date.getYears());
         }
         System.out.print(" " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
     }

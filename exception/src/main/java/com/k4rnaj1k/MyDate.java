@@ -1,12 +1,31 @@
 package com.k4rnaj1k;
 
 public class MyDate {
+
+    public MyDate(MyDate myDate){
+        setYears(myDate.getYears());
+        setMonths(myDate.getMonths());
+        setDays(myDate.getDays());
+        setHours(myDate.getHours());
+        setMinutes(myDate.getMinutes());
+        setSeconds(myDate.getSeconds());
+    }
+
+    public void clean(){
+        this.years=1;
+        this.months=1;
+        this.days=1;
+        this.hours=0;
+        this.minutes=0;
+        this.seconds=0;
+    }
+
     private Integer years, months, days, hours, minutes, seconds;
 
     public MyDate(){
         this.years=0;
-        this.months=0;
-        this.days=0;
+        this.months=1;
+        this.days=1;
         this.hours=0;
         this.minutes=0;
         this.seconds=0;
