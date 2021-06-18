@@ -71,9 +71,9 @@ public class UserController {
 
 
     public static void actionMainMenuList() {
-        System.out.println("Please select option: (for e.x. 1) ");
+        System.out.println("Please select option: (press Enter to confirm) ");
         System.out.println(
-                "- 1 - Add existing dates to Calendar automatically (press Enter to confirm)\n" +
+                "- 1 - Add existing dates to Calendar automatically \n" +
                         "- 2 - Add date to dates list\n" +
                         "- 3 - Remove date\n" +
                         "- 4 - Find differences between dates\n" +
