@@ -3,9 +3,11 @@ package com.nixsolutions.courses.service;
 import com.nixsolutions.courses.data.Date;
 import com.nixsolutions.courses.util.CalendarUtils;
 
+import java.time.DateTimeException;
+
 public class SubtractService {
 
-    protected Date subtractSeconds(Date date, int value) {
+    public Date subtractSeconds(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
@@ -46,7 +48,7 @@ public class SubtractService {
         return date;
     }
 
-    protected Date subtractMinutes(Date date, int value) {
+    public Date subtractMinutes(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
@@ -81,7 +83,7 @@ public class SubtractService {
         return date;
     }
 
-    protected Date subtractHours(Date date, int value) {
+    public Date subtractHours(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
@@ -111,7 +113,7 @@ public class SubtractService {
         return date;
     }
 
-    protected Date subtractDays(Date date, int value) {
+    public Date subtractDays(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
@@ -136,7 +138,7 @@ public class SubtractService {
         return date;
     }
 
-    protected Date subtractMonths(Date date, int value) {
+    public Date subtractMonths(Date date, int value) {
         int year = date.getYear();
         int month = date.getMonth();
         while (value > 0) {
@@ -152,8 +154,11 @@ public class SubtractService {
         return date;
     }
 
-    protected Date subtractYears(Date date, int value) {
-        date.setYear(date.getYear() - value);
-        return date;
+    public Date subtractYears(Date date, int value) {
+        if (value <= date.getYear()) {
+            date.setYear(date.getYear() - value);
+            return date;
+        }
+        throw new DateTimeException("Entered value is bigger than date");
     }
 }

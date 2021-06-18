@@ -6,10 +6,6 @@ import com.nixsolutions.courses.util.CalendarUtils;
 public class AddService {
 
     public Date addSeconds(Date date, int value) {
-        if (value >= 60) {
-            date = addMinutes(date, value / 60);
-            value = value % 60;
-        }
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
@@ -51,10 +47,6 @@ public class AddService {
     }
 
     public Date addMinutes(Date date, int value) {
-        if (value >= 60) {
-            date = addHours(date, value /60);
-            value = value % 60;
-        }
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
@@ -90,10 +82,6 @@ public class AddService {
     }
 
     public Date addHours(Date date, int value) {
-        if (value >= 24) {
-            date = addDays(date, value / 24);
-            value = value % 24;
-        }
         int year = date.getYear();
         int month = date.getMonth();
         int day = date.getDay();
@@ -149,10 +137,6 @@ public class AddService {
     }
 
     public Date addMonths(Date date, int value) {
-        if (value >= 12) {
-            date = addYears(date, value / 12);
-            value = value % 12;
-        }
         int month = date.getMonth();
         int year = date.getYear();
         while (value > 0) {
