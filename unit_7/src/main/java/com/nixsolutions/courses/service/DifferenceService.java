@@ -55,8 +55,17 @@ public class DifferenceService {
                 }
             } else {
                 result = 0;
-                for (int i = from.getMonth(); i < to.getMonth() + 1; i++) {
-                    result += CalendarUtils.daysInMonth(i, from.getYear());
+                if (from.getYear().equals(to.getYear())) {
+                    for (int i = from.getMonth(); i < to.getMonth() + 1; i++) {
+                        result += CalendarUtils.daysInMonth(i, from.getYear());
+                    }
+                } else {
+                    for(int i = from.getMonth(); i < 13; i++) {
+                        result += CalendarUtils.daysInMonth(i, from.getYear());
+                    }
+                    for(int i = 1; i < to.getMonth() + 1; i++) {
+                        result += CalendarUtils.daysInMonth(i, to.getYear());
+                    }
                 }
             }
             result = result - from.getDay() - (CalendarUtils.daysInMonth(to.getMonth(), to.getYear()) - to.getDay());

@@ -1,5 +1,7 @@
 package com.nixsolutions.courses.data;
 
+import java.util.Objects;
+
 public class Date implements Comparable<Date>{
 
     private Integer day;
@@ -51,6 +53,19 @@ public class Date implements Comparable<Date>{
                 ", year=" + year +
                 ", " + time.toString() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Date date = (Date) o;
+        return day.equals(date.day) && month.equals(date.month) && year.equals(date.year) && time.equals(date.time);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(day, month, year, time);
     }
 
     @Override
