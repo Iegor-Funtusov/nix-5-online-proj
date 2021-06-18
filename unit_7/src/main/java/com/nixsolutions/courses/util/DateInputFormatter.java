@@ -61,7 +61,7 @@ public class DateInputFormatter {
             } else {
                 time.setMinutes(Integer.parseInt(StringUtils.substringBefore(input, ":")));
             }
-            time.setSeconds(Integer.parseInt(StringUtils.substringAfter(input, ":")));
+            time.setSeconds(Integer.parseInt(StringUtils.substringAfterLast(input, ":")));
             return time;
         } else {
             throw new DataFormatException("Wrong time format");
