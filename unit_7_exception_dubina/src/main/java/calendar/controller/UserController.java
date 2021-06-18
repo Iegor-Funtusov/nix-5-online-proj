@@ -74,19 +74,19 @@ public class UserController {
         System.out.println("Please select option: (for e.x. 1) ");
         System.out.println(
                 "- 1 - Add existing dates to Calendar automatically (press Enter to confirm)\n" +
-                "- 2 - Add date to dates list\n" +
-                "- 3 - Remove date\n" +
-                "- 4 - Find differences between dates\n" +
-                "- 5 - Add years, dates, hours and other to existing date\n" +
-                "- 6 - Sort dates list\n" +
-                "- 7 - Change format of existing date\n" +
-                "- 0 - Exit from application");
+                        "- 2 - Add date to dates list\n" +
+                        "- 3 - Remove date\n" +
+                        "- 4 - Find differences between dates\n" +
+                        "- 5 - Add years, dates, hours and other to existing date\n" +
+                        "- 6 - Sort dates list\n" +
+                        "- 7 - Change format of existing date\n" +
+                        "- 0 - Exit from application");
     }
 
-    public static void showDateList(){
+    public static void showDateList() {
         if (dateTimeList.isEmpty()) {
-            System.out.println("Dates list is empty.");}
-        else {
+            System.out.println("Dates list is empty.");
+        } else {
             System.out.println("Your date List:");
             for (int i = 1; i <= dateTimeList.size(); i++) {
                 System.out.println(i + ". " + DateTimeValidator.format(dateTimeList.get(i - 1), format));
@@ -94,7 +94,7 @@ public class UserController {
         }
     }
 
-    public static void dateFormatsSelector(){
+    public static void dateFormatsSelector() {
         System.out.println("Select format: ");
         MyFormatter.DateFormats[] values = MyFormatter.DateFormats.values();
         for (int i = 1; i <= MyFormatter.DateFormats.values().length; i++) {
@@ -102,16 +102,15 @@ public class UserController {
         }
     }
 
-    public static void addDateToDateList(){
-            try{
-        System.out.println("Input your date following to next format: \n" +
-        "dd/mm/yyyy  or  dd/mm/yy hh:mm:ss (Use '/' for separating date and ':' for separating time " +
-                "e.g. 20/06/1995 19:20:12)");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();
-        plus(input);
-            }
-            catch (IllegalArgumentException e) {
+    public static void addDateToDateList() {
+        try {
+            System.out.println("Input your date following to next format: \n" +
+                    "dd/mm/yyyy  or  dd/mm/yy hh:mm:ss (Use '/' for separating date and ':' for separating time " +
+                    "e.g. 20/06/1995 19:20:12)");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            plus(input);
+        } catch (IllegalArgumentException e) {
             System.out.println("Incorrect input date: " + e.getMessage());
         }
     }
@@ -139,7 +138,7 @@ public class UserController {
         }
     }
 
-    public static void differenceBetweenDate(){
+    public static void differenceBetweenDate() {
         System.out.println("Enter two numbers of dates which you want to compare: (use Space between them)");
         showDateList();
         Scanner scanner = new Scanner(System.in);
@@ -172,8 +171,8 @@ public class UserController {
         }
     }
 
-    private static void changeDateTime(){
-        try{
+    private static void changeDateTime() {
+        try {
             System.out.println("Enter number of date what you want to change: ");
             showDateList();
             Scanner scanner = new Scanner(System.in);
@@ -186,17 +185,16 @@ public class UserController {
             System.out.println("Enter scale of date what you want to change: ");
             int scale = scanner.nextInt();
 
-            int input [] ={dateNumber, sectionNumber, scale};
+            int input[] = {dateNumber, sectionNumber, scale};
             add(input);
 
             System.out.println(SUCCESS_MESSAGE);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             System.out.println("Incorrect input date: " + e.getMessage());
         }
     }
 
-    private static void add(int [] input) {
+    private static void add(int[] input) {
         if (input.length != 3) {
             throw new IllegalArgumentException("Wrong number of arguments");
         }
@@ -239,22 +237,19 @@ public class UserController {
         System.out.println("Please select option how do you want to sort Dates list: (for e.x. 1) ");
         System.out.println(
                 "- 1 - Ascending sorting\n" +
-                "- 2 - Descending sorting\n");
+                        "- 2 - Descending sorting\n");
         Scanner scanner = new Scanner(System.in);
-        String [] input = scanner.nextLine().split("\\s");
-        if (input.length !=1 ) {
+        String[] input = scanner.nextLine().split("\\s");
+        if (input.length != 1) {
             throw new IllegalArgumentException("Wrong number of arguments");
         }
         if (dateTimeList.isEmpty()) {
             throw new IllegalArgumentException("No dates yet");
-        }
-        else{
+        } else {
             try {
                 int sortOption = Integer.parseInt(input[0]);
                 sort(sortOption);
-            }
-            catch (NumberFormatException nfe)
-            {
+            } catch (NumberFormatException nfe) {
                 System.out.println("NumberFormatException: " + nfe.getMessage());
             }
         }
@@ -292,7 +287,7 @@ public class UserController {
         if (index < 1 || index > 4) {
             throw new IllegalArgumentException("Incorrect index");
         }
-        format = values[index-1];
+        format = values[index - 1];
         System.out.println(SUCCESS_MESSAGE);
     }
 
