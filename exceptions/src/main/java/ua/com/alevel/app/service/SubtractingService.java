@@ -12,13 +12,12 @@ public class SubtractingService {
     public Calendar subSeconds(Calendar calendar, int seconds) throws OutOfBoundsException {
         Time time = calendar.getTime();
         Date date = calendar.getDate();
-        int currentTime = time.getMinutes();
         int num = time.getSeconds() - seconds;
 
-        if (num <= 0) {
-            time.setSeconds((num + 60) % 60);
+        if (num < 0) {
+            time.setSeconds((num % 60) + 60);
             calendar.setTime(time);
-            return subMinutes(calendar, (seconds + currentTime + 60) / 60);
+            return subMinutes(calendar, seconds / 60);
         }
         time.setSeconds(num);
         calendar.setDate(date);
@@ -28,13 +27,12 @@ public class SubtractingService {
     public Calendar subMinutes(Calendar calendar, int minutes) throws OutOfBoundsException {
         Time time = calendar.getTime();
         Date date = calendar.getDate();
-        int currentTime = time.getMinutes();
         int num = time.getMinutes() - minutes;
 
-        if (num <= 0) {
-            time.setMinutes((num + 60) % 60);
+        if (num < 0) {
+            time.setMinutes((num % 60) + 60);
             calendar.setTime(time);
-            return subHours(calendar, (minutes + currentTime + 60) / 60);
+            return subHours(calendar, minutes / 60);
         }
         time.setMinutes(num);
         calendar.setDate(date);
@@ -44,13 +42,12 @@ public class SubtractingService {
     public Calendar subHours(Calendar calendar, int hours) throws OutOfBoundsException {
         Time time = calendar.getTime();
         Date date = calendar.getDate();
-        int currentTime = time.getHours();
         int num = time.getHours() - hours;
 
-        if (num <= 0) {
-            time.setHours((num + 24) % (24));
+        if (num < 0) {
+            time.setHours((num % 24) + 24);
             calendar.setTime(time);
-            return subDays(calendar, (hours + currentTime + 24) / 23);
+            return subDays(calendar, (hours / 24) + 1);
         }
         time.setHours(num);
         calendar.setDate(date);
