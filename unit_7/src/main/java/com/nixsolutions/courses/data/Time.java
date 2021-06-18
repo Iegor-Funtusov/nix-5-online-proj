@@ -1,5 +1,7 @@
 package com.nixsolutions.courses.data;
 
+import java.util.Objects;
+
 public class Time implements Comparable<Time> {
 
     private Integer hours;
@@ -45,6 +47,18 @@ public class Time implements Comparable<Time> {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Time time = (Time) o;
+        return hours.equals(time.hours) && minutes.equals(time.minutes) && seconds.equals(time.seconds);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(hours, minutes, seconds);
+    }
 
     @Override
     public int compareTo(Time o) {
