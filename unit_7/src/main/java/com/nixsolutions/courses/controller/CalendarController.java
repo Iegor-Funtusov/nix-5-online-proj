@@ -4,6 +4,7 @@ import com.nixsolutions.courses.data.Date;
 import com.nixsolutions.courses.service.CalendarService;
 import com.nixsolutions.courses.util.DateInputFormatter;
 import com.nixsolutions.courses.util.DateOutputFormatter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,11 +49,11 @@ public class CalendarController {
                 Date date = DateInputFormatter.formatDate(reader.readLine(), format);
                 String scope = printScopes();
                 System.out.println("Enter value:");
-                int value = Integer.parseInt(reader.readLine());
-                date = calendarService.addToDate(date, value, scope);
+                String value = reader.readLine();
+                if (StringUtils.isEmpty(value)) throw new IOException();
+                date = calendarService.addToDate(date, Integer.parseInt(value), scope);
 
-                format = printFormats();
-                String output = DateOutputFormatter.formatDate(date, format);
+                String output = DateOutputFormatter.formatDate(date, printFormats());
                 System.out.println(output);
                 break;
             } catch (IOException e) {
@@ -71,12 +72,11 @@ public class CalendarController {
                 Date date = DateInputFormatter.formatDate(reader.readLine(), format);
                 String scope = printScopes();
                 System.out.println("Enter value:");
-                int value = Integer.parseInt(reader.readLine());
-                date = calendarService.subtractFromDate(date, value, scope);
+                String value = reader.readLine();
+                if (StringUtils.isEmpty(value)) throw new IOException();
+                date = calendarService.subtractFromDate(date, Integer.parseInt(value), scope);
 
-
-                format = printFormats();
-                String output = DateOutputFormatter.formatDate(date, format);
+                String output = DateOutputFormatter.formatDate(date, printFormats());
                 System.out.println(output);
                 break;
             } catch (IOException e) {
@@ -93,11 +93,9 @@ public class CalendarController {
                 String format = printFormats();
                 System.out.println("Enter comma-separated dates:");
                 List<Date> dates = DateInputFormatter.formatDateList(reader.readLine(), format);
-                String order = printOrder();
-                dates = calendarService.compareDates(dates, order);
+                dates = calendarService.compareDates(dates, printOrder());
 
-                format = printFormats();
-                System.out.println(DateOutputFormatter.formatDateList(dates, format));
+                System.out.println(DateOutputFormatter.formatDateList(dates, printFormats()));
                 break;
             } catch (IOException e) {
                 System.out.println("Sorry, something went wrong. Try again");
@@ -119,7 +117,7 @@ public class CalendarController {
 
     private String printScopes() throws IOException {
         while (true) {
-            System.out.println("Get result in:\n" +
+            System.out.println("Choose scope:\n" +
                     "1 - seconds\n" +
                     "2 - minutes\n" +
                     "3 - hours\n" +
