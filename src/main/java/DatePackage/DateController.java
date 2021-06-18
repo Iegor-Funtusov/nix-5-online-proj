@@ -80,6 +80,7 @@ public class DateController {
 
     private void addDate() {
         try {
+            System.out.println("Choose the date to which you want to add:");
             Date dateToModify = chooseDate();
             System.out.println("Please choose what do you want to add: 1-seconds, 2-minutes, 3-hours, 4-days, 5-months, 6-years");
             switch (Integer.parseInt(bf.readLine())){
@@ -181,6 +182,7 @@ public class DateController {
 
     private void subtractDate(){
         try {
+            System.out.println("Choose the date from which you want to subtract:");
             Date dateToModify = chooseDate();
             System.out.println("Please choose what do you want to subtract: 1-seconds, 2-minutes, 3-hours, 4-days, 5-months, 6-years");
             switch (Integer.parseInt(bf.readLine())){

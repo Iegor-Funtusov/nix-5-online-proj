@@ -69,10 +69,6 @@ public class CountDate {
         Map<Integer, Integer> monthDay = DateConstants.getMonthDay();
         int daysInCurMonth = monthDay.get((int)result.getMonth());
 
-        //Если февраль високосного года, то в нём 29 дней
-        if(result.getMonth() == 2 && checkViscousYear(result)){
-            daysInCurMonth++;
-        }
 
         int totalDays = result.getDay() + days;
         if(totalDays > daysInCurMonth){
@@ -98,7 +94,7 @@ public class CountDate {
             result.setMonth((byte) (totalMonths % DateConstants.QUANTITY_OF_MONTHS));
         }
         else {
-            result.setMonth((byte) (totalMonths % DateConstants.QUANTITY_OF_MONTHS));
+            result.setMonth((byte) (totalMonths));
         }
         return result;
     }
@@ -126,6 +122,8 @@ public class CountDate {
 
         if(totalTime < 0){
             int daysToSubtract = 1 + (Math.abs(totalTime) / DateConstants.SECONDS_PER_DAY);
+
+            totalTime = DateConstants.SECONDS_PER_DAY - seconds;
             result = subtractDays(result, daysToSubtract);
             result.setTime(Math.abs(totalTime) % DateConstants.SECONDS_PER_DAY);
         }
@@ -169,7 +167,13 @@ public class CountDate {
         if(totalTime < 0){
             int daysToSubtract = 1 + (Math.abs(totalTime) / DateConstants.SECONDS_PER_DAY);
             result = subtractDays(result, daysToSubtract);
-            result.setTime(Math.abs(totalTime) % DateConstants.SECONDS_PER_DAY);
+
+            int resultTime = totalTime % DateConstants.SECONDS_PER_DAY;
+            if(resultTime < 0){
+                resultTime += DateConstants.SECONDS_PER_DAY;
+            }
+
+            result.setTime(resultTime);
         }
         else{
             result.setTime(totalTime);
