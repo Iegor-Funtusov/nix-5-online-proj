@@ -4,4 +4,6 @@ cd collection/ || exit
 
 mvn clean install
 
-java -jar collection/target/collection.jar
+cd target/ || exit
+
+java -jar collection.jar
