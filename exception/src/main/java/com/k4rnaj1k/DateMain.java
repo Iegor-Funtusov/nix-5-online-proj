@@ -52,8 +52,19 @@ public class DateMain {
             myDates[i] = new MyDate();
             parseDate(dates[i], myDates[i]);
         }
-        System.out.println("Sort ascending?(y/n)");
+        System.out.println("Sort descending?(y/n)");
         boolean asc = s.nextLine().toLowerCase().startsWith("y");
+        if(myDates.length == 2){
+            if (DateService.compare(myDates[0], myDates[1]) == (asc? 1: -1)) {
+                MyDate temp = new MyDate(myDates[0]);
+                myDates[0] = myDates[1];
+                myDates[1] = temp;
+            } else if (DateService.compare(myDates[1], myDates[0]) == (asc? -1: 1)) {
+                MyDate temp = new MyDate(myDates[0]);
+                myDates[0] = myDates[1];
+                myDates[1] = temp;
+            }
+        }else{
         for (int i = 0; i < myDates.length - 1; i++) {
             for (int j = 0; j < i; j++) {
                 if (DateService.compare(myDates[i], myDates[j]) == (asc? 1: -1)) {
@@ -66,6 +77,7 @@ public class DateMain {
                     myDates[i] = temp;
                 }
             }
+        }
         }
         System.out.println("Dates sorted");
         for (MyDate date :
