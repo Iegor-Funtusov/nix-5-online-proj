@@ -1,12 +1,10 @@
 package com.k4rnaj1k;
 
-import java.io.IOException;
-import java.util.Locale;
 import java.util.Scanner;
 
 public class DateMain {
-    private static Scanner s = new Scanner(System.in);
-    private static MyDate currDate = new MyDate();
+    private static final Scanner s = new Scanner(System.in);
+    private static final MyDate currDate = new MyDate();
     private static boolean english = false;
     private static DateService.DateType dateType;
 
@@ -14,7 +12,6 @@ public class DateMain {
         boolean flag = true;
         inputFormat();
         inputDate();
-        flag = true;
         while (flag) {
             System.out.print("Current date ");
             DateService.printDate(currDate, dateType, english);
@@ -45,7 +42,10 @@ public class DateMain {
     }
 
     private static void compare() {
-        System.out.println("Input the dates u'd like to get sorted with a coma and a space between them." + "\n" + "Like so: \n1/11/21, 1-April-21, 3/4/2021");
+        System.out.println("""
+                Input the dates u'd like to get sorted with a coma and a space between them.
+                Like so:\s
+                1/11/21, 1-April-21, 3/4/2021""");
         String[] dates = s.nextLine().split(", |,");
         MyDate[] myDates = new MyDate[dates.length];
         for (int i = 0; i < dates.length; i++) {

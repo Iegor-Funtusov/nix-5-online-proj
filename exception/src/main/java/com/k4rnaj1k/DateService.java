@@ -249,9 +249,9 @@ public class DateService {
     }
 
     public enum DateType {
+        ddmmmyyyy,
         ddmmyy,
         mdyyyy,
-        mmmdyy,
-        ddmmmyyyy;
+        mmmdyy
     }
 }
