@@ -1,5 +1,7 @@
 package ua.com.alevel.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.alevel.entity.Book;
 import ua.com.alevel.entity.Relation;
 import ua.com.alevel.service.BookService;
@@ -9,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class BookUtil {
+
+    private static final Logger loggerError = LoggerFactory.getLogger("error");
 
     public static Book createBook(BufferedReader reader)
             throws IOException, NumberFormatException {
@@ -37,10 +41,15 @@ public class BookUtil {
         bookService.update(bookForUpdate);
     }
 
-    public static void printAllBooks(BookService bookService) throws RuntimeException{
-        Object[] books = bookService.read();
-        for (Object book : books) {
-            System.out.println(book);
+    public static void printAllBooks(BookService bookService) {
+        try{
+            Object[] books = bookService.read();
+            for (Object book : books) {
+                System.out.println(book);
+            }
+        }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 

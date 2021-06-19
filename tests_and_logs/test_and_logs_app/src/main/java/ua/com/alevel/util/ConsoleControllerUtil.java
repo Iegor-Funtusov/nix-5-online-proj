@@ -1,5 +1,7 @@
 package ua.com.alevel.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.alevel.entity.Author;
 import ua.com.alevel.entity.Book;
 import ua.com.alevel.entity.Relation;
@@ -12,10 +14,13 @@ import java.io.IOException;
 
 public class ConsoleControllerUtil {
 
+    private static final Logger loggerError = LoggerFactory.getLogger("error");
+
     public static void createBook(BookService bookService, BufferedReader reader) {
         try {
             bookService.create(BookUtil.createBook(reader));
         } catch (IOException e) {
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -24,6 +29,7 @@ public class ConsoleControllerUtil {
         try {
             authorService.create(AuthorUtil.createAuthor(reader));
         } catch (IOException | NumberFormatException e) {
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -37,6 +43,7 @@ public class ConsoleControllerUtil {
             Author author = AuthorUtil.readAuthor(authorService, reader);
             RelationUtil.createRelation(book, author, relationService);
         } catch (RuntimeException | IOException e) {
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -48,6 +55,7 @@ public class ConsoleControllerUtil {
             BookUtil.updateBook(readBook, bookService, reader);
             System.out.println("Book updated!");
         } catch (IOException | RuntimeException e) {
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -59,6 +67,7 @@ public class ConsoleControllerUtil {
             AuthorUtil.updateAuthor(readAuthor, authorService, reader);
             System.out.println("Author updated!");
         } catch (RuntimeException | IOException e) {
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -68,6 +77,7 @@ public class ConsoleControllerUtil {
             System.out.println("\t\tBooks");
             BookUtil.printAllBooks(bookService);
         }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -77,6 +87,7 @@ public class ConsoleControllerUtil {
             System.out.println("\t\tAuthors");
             AuthorUtil.printAllAuthors(authorService);
         }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -86,6 +97,7 @@ public class ConsoleControllerUtil {
             System.out.println("\t\tRelations");
             RelationUtil.printAllRelations(relationService);
         }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -98,6 +110,7 @@ public class ConsoleControllerUtil {
             System.out.println("Book deleted!");
             printAllBooks(bookService);
         }catch (RuntimeException | IOException e){
+            loggerError.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }
@@ -110,6 +123,7 @@ public class ConsoleControllerUtil {
             System.out.println("Author deleted!");
             printAllAuthors(authorService);
         }catch (RuntimeException | IOException e){
+            loggerError.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }
@@ -125,6 +139,7 @@ public class ConsoleControllerUtil {
             RelationUtil.deleteRelationByBookAndAuthor(book, author, relationService);
             RelationUtil.printAllBooksForAuthor(author, relationService.read());
         } catch (RuntimeException | IOException e) {
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -141,6 +156,7 @@ public class ConsoleControllerUtil {
             RelationUtil.deleteRelationByBookAndAuthor(book, author, relationService);
             RelationUtil.printAllAuthorsForBook(book, relationService.read());
         } catch (IOException e) {
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -156,6 +172,7 @@ public class ConsoleControllerUtil {
                 }
             }
         }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -171,6 +188,7 @@ public class ConsoleControllerUtil {
                 }
             }
         }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
             e.printStackTrace();
         }
     }
@@ -183,6 +201,7 @@ public class ConsoleControllerUtil {
             System.out.println("Relation deleted!");
             printAllRelations(relationService);
         }catch (RuntimeException | IOException e){
+            loggerError.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }

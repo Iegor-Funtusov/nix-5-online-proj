@@ -17,8 +17,8 @@ public class ConsoleController {
     private static final RelationService relationService = new RelationService();
 
     public void run() {
-        System.out.println("Hello, this is CRUD-application " +
-                "for operations with Books & Authors.");
+        System.out.println("Hello, this is application " +
+                "for CRUD-operations with Books & Authors.");
         while (true) {
             printMenu();
             String operation;
@@ -33,7 +33,7 @@ public class ConsoleController {
     }
 
     private static void printMenu() {
-        System.out.print("\n\t\t\tMain menu\nPlease, choose what would you like to do:" +
+        System.out.print("\t\t\tMain menu\nPlease, choose what would you like to do:" +
                 "\n 1 - create the book " +
                 "\n 2 - create the author " +
                 "\n 3 - create the relation book-author" +

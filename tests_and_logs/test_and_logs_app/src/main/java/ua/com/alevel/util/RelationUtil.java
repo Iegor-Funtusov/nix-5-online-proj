@@ -1,5 +1,7 @@
 package ua.com.alevel.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.alevel.entity.Author;
 import ua.com.alevel.entity.Book;
 import ua.com.alevel.entity.Relation;
@@ -10,6 +12,8 @@ import java.io.IOException;
 
 
 public class RelationUtil {
+
+    private static final Logger loggerError = LoggerFactory.getLogger("error");
 
     public static void createRelation(Book book, Author author, RelationService relationService) {
         Relation relation = new Relation(book, author);
@@ -46,12 +50,18 @@ public class RelationUtil {
     }
 
     public static void printAllBooksForAuthor(Author author, Object[] relations) {
-        System.out.println(author);
-        for (Object relation : relations) {
-            if (((Relation) relation).getAuthor().getId().equals(author.getId())) {
-                System.out.println("\t" + ((Relation) relation).getAuthor());
+        try{
+            System.out.println(author);
+            for (Object relation : relations) {
+                if (((Relation) relation).getAuthor().getId().equals(author.getId())) {
+                    System.out.println("\t" + ((Relation) relation).getAuthor());
+                }
             }
+        }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
+            System.out.println(e.getMessage());
         }
+
     }
 
     public static Relation readRelation(RelationService relationService, BufferedReader reader) throws IOException, RuntimeException {

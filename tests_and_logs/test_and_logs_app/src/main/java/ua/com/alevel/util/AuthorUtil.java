@@ -1,5 +1,7 @@
 package ua.com.alevel.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.alevel.entity.Author;
 import ua.com.alevel.entity.Relation;
 import ua.com.alevel.service.AuthorService;
@@ -9,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 public class AuthorUtil {
+
+    private static final Logger loggerError = LoggerFactory.getLogger("error");
 
     public static Author createAuthor(BufferedReader reader)
             throws IOException, NumberFormatException {
@@ -46,6 +50,7 @@ public class AuthorUtil {
                 System.out.println(author);
             }
         }catch (RuntimeException e){
+            loggerError.error(e.getMessage());
             System.out.println(e.getMessage());
         }
     }

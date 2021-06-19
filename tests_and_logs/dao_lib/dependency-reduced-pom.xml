@@ -6,16 +6,10 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>test_and_logs_app</artifactId>
+  <artifactId>dao_lib</artifactId>
   <version>1.0</version>
   <build>
-    <resources>
-      <resource>
-        <filtering>true</filtering>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-    <finalName>crud</finalName>
+    <finalName>dao_lib</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -31,18 +25,6 @@
         </configuration>
       </plugin>
       <plugin>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>${maven.jar.plugin.version}</version>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-              <mainClass>ua.com.alevel.TestsAndLogsMain</mainClass>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-shade-plugin</artifactId>
         <version>${maven.shade.plugin.version}</version>
         <executions>
@@ -51,38 +33,11 @@
             <goals>
               <goal>shade</goal>
             </goals>
-            <configuration>
-              <transformers>
-                <transformer>
-                  <mainClass>ua.com.alevel.TestsAndLogsMain</mainClass>
-                </transformer>
-              </transformers>
-            </configuration>
           </execution>
         </executions>
       </plugin>
     </plugins>
   </build>
-  <profiles>
-    <profile>
-      <id>local</id>
-      <properties>
-        <log.warn>logs/local/warn.log</log.warn>
-        <log.info>logs/local/info.log</log.info>
-        <log.error>logs/local/error.log</log.error>
-        <log.archived>logs/local/archived</log.archived>
-      </properties>
-    </profile>
-    <profile>
-      <id>prod</id>
-      <properties>
-        <log.warn>logs/prod/warn.log</log.warn>
-        <log.info>logs/prod/info.log</log.info>
-        <log.error>logs/prod/error.log</log.error>
-        <log.archived>logs/prod/archived</log.archived>
-      </properties>
-    </profile>
-  </profiles>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -134,11 +89,9 @@
     </dependency>
   </dependencies>
   <properties>
-    <dao.lib.version>1.0</dao.lib.version>
     <maven.compiler.target>11</maven.compiler.target>
-    <logback.core.version>1.2.3</logback.core.version>
     <maven.compiler.source>11</maven.compiler.source>
-    <slf4j.api.version>1.7.30</slf4j.api.version>
-    <logback.classic.version>1.2.3</logback.classic.version>
+    <commons.lang3.version>3.12.0</commons.lang3.version>
+    <reflections.version>0.9.12</reflections.version>
   </properties>
 </project>
