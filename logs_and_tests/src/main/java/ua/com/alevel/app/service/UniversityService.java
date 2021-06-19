@@ -1,16 +1,21 @@
-package ua.com.alevel.app;
+package ua.com.alevel.app.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.com.alevel.app.dao.CourseDAO;
+import ua.com.alevel.app.dao.StudentDAO;
+import ua.com.alevel.app.entity.Course;
+import ua.com.alevel.app.entity.Student;
+import ua.com.alevel.app.entity.University;
 import ua.com.alevel.lib.BaseEntityContainer;
 
-public class University {
-    private final BaseEntityContainer<StudentAndCourse> studentAndCourseList = new BaseEntityContainer<>();
+public class UniversityService {
+
+    private final BaseEntityContainer<University> studentAndCourseList = new BaseEntityContainer<>();
     private final StudentDAO studentDAO = new StudentDAO();
     private final CourseDAO courseDAO = new CourseDAO();
     private static final Logger log_info = LoggerFactory.getLogger("info");
     private static final Logger log_warn = LoggerFactory.getLogger("warn");
-    private static final Logger log_error = LoggerFactory.getLogger("error");
 
     public void addStudent(String name, int age) {
         log_info.info("Add student method started " + "Class: " + this.getClass().getSimpleName());
@@ -39,21 +44,11 @@ public class University {
     }
 
     public void printAllCourses() {
-        log_info.info("Printing courses", this.getClass().getSimpleName());
+        log_info.info("Printing courses" + this.getClass().getSimpleName());
         BaseEntityContainer<Course> temp = courseDAO.readAll();
         for (int i = 0; i < temp.size(); i++) {
             System.out.println(i + 1 + ": " + temp.get(i));
         }
-    }
-
-    public void printAllCoursesTakenByStudent(long studentId) {
-        StringBuilder coursesTakenByStudent = new StringBuilder(studentDAO.read(studentId).getName() + ": ");
-        for (int i = 0; i < studentAndCourseList.size(); i++) {
-            if (studentAndCourseList.get(i).getStudId() == studentId) {
-                coursesTakenByStudent.append(courseDAO.read(studentAndCourseList.get(i).getCourseId()));
-            }
-        }
-        System.out.println(coursesTakenByStudent);
     }
 
     public void printAllStudentsOnCourse(long courseId) {
@@ -75,7 +70,7 @@ public class University {
 
     public void addStudentToCourse(long studentId, long courseId) {
         if (studentDAO.read(studentId) != null && courseDAO.read(courseId) != null) {
-            StudentAndCourse temp = new StudentAndCourse(studentId, courseId);
+            University temp = new University(studentId, courseId);
             for (int i = 0; i < studentAndCourseList.size(); i++) {
                 if (temp.equals(studentAndCourseList.get(i))) {
                     System.out.println("This student already attends this course");
@@ -83,13 +78,14 @@ public class University {
                 }
             }
             studentAndCourseList.add(temp);
+        } else {
+            System.out.println("There's no student or course with this ID");
         }
-        System.out.println("There's no student or course with this ID");
     }
 
     public void removeStudentFromCourse(long studentId, long courseId) {
         log_warn.warn("Removing student from course started " + "Class: " + this.getClass().getSimpleName());
-        StudentAndCourse temp = new StudentAndCourse(studentId, courseId);
+        University temp = new University(studentId, courseId);
         for (int i = 0; i < studentAndCourseList.size(); i++) {
             if (temp.equals(studentAndCourseList.get(i))) {
                 studentAndCourseList.remove(i);
@@ -143,10 +139,6 @@ public class University {
 
     public Course getCourse(long id) {
         return courseDAO.read(id);
-    }
-
-    public int size() {
-        return studentAndCourseList.size();
     }
 
     public BaseEntityContainer<Student> getStudentList() {

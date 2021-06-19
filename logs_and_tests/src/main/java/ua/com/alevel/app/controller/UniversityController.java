@@ -1,36 +1,36 @@
-package ua.com.alevel.app;
+package ua.com.alevel.app.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.com.alevel.app.entity.Course;
+import ua.com.alevel.app.entity.Student;
+import ua.com.alevel.app.service.UniversityService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class UniversityUserInterface {
-    private final BufferedReader reader = new BufferedReader(
-            new InputStreamReader(System.in)
-    );
-    private final University university = new University();
-    private static final Logger log_info = LoggerFactory.getLogger("info");
-    private static final Logger log_warn = LoggerFactory.getLogger("warn");
+public class UniversityController {
+
+    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final UniversityService universityService = new UniversityService();
     private static final Logger log_error = LoggerFactory.getLogger("error");
 
     public void printUserMenu() {
         System.out.println(
                 "Enter number to choose operation:" +
-                        "\n1 - Create Student" +
-                        "\n2 - Create Course" +
-                        "\n3 - Update Student" +
-                        "\n4 - Update Course" +
-                        "\n5 - Remove Student from course" +
-                        "\n6 - Remove Student" +
-                        "\n7 - Remove Course" +
-                        "\n8 - Print all students on courses" +
-                        "\n9 - Print all students" +
-                        "\n10 - Print all courses" +
-                        "\n11 - To add student to some course" +
-                        "\n0 - Exit"
+                        "\n1 -> Create Student" +
+                        "\n2 -> Create Course" +
+                        "\n3 -> Update Student" +
+                        "\n4 -> Update Course" +
+                        "\n5 -> Remove Student from course" +
+                        "\n6 -> Remove Student" +
+                        "\n7 -> Remove Course" +
+                        "\n8 -> Print all students on courses" +
+                        "\n9 -> Print all students" +
+                        "\n10 -> Print all courses" +
+                        "\n11 -> To add student to some course" +
+                        "\n0 -> Exit"
         );
     }
 
@@ -90,7 +90,7 @@ public class UniversityUserInterface {
         String name = getUserString();
         System.out.println("Enter student's age: ");
         int age = getUserInt();
-        university.addStudent(name, age);
+        universityService.addStudent(name, age);
     }
 
     private void createCourse() throws IOException {
@@ -98,11 +98,11 @@ public class UniversityUserInterface {
         String name = getUserString();
         System.out.println("Enter duration of course: ");
         int hours = getUserInt();
-        university.addCourse(name, hours);
+        universityService.addCourse(name, hours);
     }
 
     private void printAll() {
-        university.printAllStudentsOnCourses();
+        universityService.printAllStudentsOnCourses();
     }
 
     private String getUserString() throws IOException {
@@ -121,11 +121,11 @@ public class UniversityUserInterface {
     }
 
     private void printAllStudents() {
-        university.printAllStudents();
+        universityService.printAllStudents();
     }
 
     private void printAllCourses() {
-        university.printAllCourses();
+        universityService.printAllCourses();
     }
 
     private void addStudentOnCourse() throws IOException {
@@ -134,7 +134,7 @@ public class UniversityUserInterface {
             int studId = getUserInt();
             System.out.println("Enter id of course where to add student: ");
             int courseId = getUserInt();
-            university.addStudentToCourse(studId, courseId);
+            universityService.addStudentToCourse(studId, courseId);
         } catch (IllegalArgumentException e) {
             log_error.error("User wrong input " + "Class: " + this.getClass().getSimpleName());
             System.out.println("Wrong input!\n" +
@@ -157,14 +157,14 @@ public class UniversityUserInterface {
             if (userInput == 1) {
                 System.out.println("Enter new name");
                 String newName = getUserString();
-                Student student = new Student(newName, university.getStudent(studentId).getAge());
-                university.updateStudentInfo(studentId, student);
+                Student student = new Student(newName, universityService.getStudent(studentId).getAge());
+                universityService.updateStudentInfo(studentId, student);
             }
             if (userInput == 2) {
                 System.out.println("Entre new age");
                 int age = getUserInt();
-                Student student = new Student(university.getStudent(studentId).getName(), age);
-                university.updateStudentInfo(studentId, student);
+                Student student = new Student(universityService.getStudent(studentId).getName(), age);
+                universityService.updateStudentInfo(studentId, student);
             }
         } catch (NullPointerException | IllegalArgumentException e1) {
             log_error.error("User wrong input " + "Class: " + this.getClass().getSimpleName());
@@ -189,14 +189,14 @@ public class UniversityUserInterface {
             if (userInput == 1) {
                 System.out.println("Enter new name");
                 String newName = getUserString();
-                Course course = new Course(newName, university.getCourse(courseId).getDuration());
-                university.updateCourseInfo(courseId, course);
+                Course course = new Course(newName, universityService.getCourse(courseId).getDuration());
+                universityService.updateCourseInfo(courseId, course);
             }
             if (userInput == 2) {
                 System.out.println("Entre new duration");
                 int duration = getUserInt();
-                Course course = new Course(university.getCourse(courseId).getName(), duration);
-                university.updateCourseInfo(courseId, course);
+                Course course = new Course(universityService.getCourse(courseId).getName(), duration);
+                universityService.updateCourseInfo(courseId, course);
             }
         } catch (NullPointerException | IllegalArgumentException e1) {
             log_error.error("User wrong input " + "Class: " + this.getClass().getSimpleName());
@@ -215,7 +215,7 @@ public class UniversityUserInterface {
             int studentId = getUserInt();
             System.out.println("Enter id of course");
             int courseId = getUserInt();
-            university.removeStudentFromCourse(studentId, courseId);
+            universityService.removeStudentFromCourse(studentId, courseId);
         } catch (IllegalArgumentException e) {
             log_error.error("User wrong input " + "Class: " + this.getClass().getSimpleName());
             System.out.println("Wrong input!!!\n" +
@@ -231,7 +231,7 @@ public class UniversityUserInterface {
         try {
             System.out.println("Enter student id");
             int studentId = getUserInt();
-            university.removeStudent(studentId);
+            universityService.removeStudent(studentId);
         } catch (IllegalArgumentException e) {
             log_error.error("User wrong input " + "Class: " + this.getClass().getSimpleName());
             System.out.println("Wrong input!\n" +
@@ -247,7 +247,7 @@ public class UniversityUserInterface {
         try {
             System.out.println("Enter course id");
             int courseId = getUserInt();
-            university.removeCourse(courseId);
+            universityService.removeCourse(courseId);
         } catch (IllegalArgumentException e) {
             log_error.error("User wrong input " + "Class: " + this.getClass().getSimpleName());
             System.out.println("Wrong input!\n" +

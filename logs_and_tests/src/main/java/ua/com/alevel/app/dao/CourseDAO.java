@@ -1,10 +1,12 @@
-package ua.com.alevel.app;
+package ua.com.alevel.app.dao;
 
+import ua.com.alevel.app.entity.Course;
 import ua.com.alevel.lib.ArrayListCrudService;
 import ua.com.alevel.lib.BaseEntityContainer;
 import ua.com.alevel.lib.CRUDService;
 
 public class CourseDAO implements CRUDService<Course> {
+
     private final ArrayListCrudService<Course> courseList = new ArrayListCrudService<>();
 
     @Override

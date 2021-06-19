@@ -1,25 +1,24 @@
-package ua.com.alevel.app;
+package ua.com.alevel.app.entity;
 
 import ua.com.alevel.lib.BaseEntity;
 
 import java.util.Objects;
 
-public class StudentAndCourse extends BaseEntity {
+public class University extends BaseEntity {
+
     long studId;
     long courseId;
 
-    public StudentAndCourse(long studId, long courseId) {
+    public University(long studId, long courseId) {
         this.studId = studId;
         this.courseId = courseId;
     }
-
-    public StudentAndCourse() {}
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StudentAndCourse that = (StudentAndCourse) o;
+        University that = (University) o;
         return studId == that.studId && courseId == that.courseId;
     }
 
@@ -32,15 +31,7 @@ public class StudentAndCourse extends BaseEntity {
         return studId;
     }
 
-    public void setStudId(long studId) {
-        this.studId = studId;
-    }
-
     public long getCourseId() {
         return courseId;
-    }
-
-    public void setCourseId(long courseId) {
-        this.courseId = courseId;
     }
 }

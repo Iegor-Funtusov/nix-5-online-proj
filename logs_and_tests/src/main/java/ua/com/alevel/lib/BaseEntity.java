@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class BaseEntity {
+
     private long id;
 
     public BaseEntity() {

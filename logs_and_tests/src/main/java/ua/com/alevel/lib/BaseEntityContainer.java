@@ -1,6 +1,7 @@
 package ua.com.alevel.lib;
 
 public class BaseEntityContainer<T extends BaseEntity> {
+
     private T[] arr = (T[]) new BaseEntity[10];
     private int size;
 

@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import ua.com.alevel.lib.*;
 
 public class ArrayListCrudTest {
-    private  ArrayListCrudService<BaseEntity> list = new ArrayListCrudService<>();
-    private BaseEntityContainer<BaseEntity> container = new BaseEntityContainer<>();
+
+    private final ArrayListCrudService<BaseEntity> list = new ArrayListCrudService<>();
+    private final BaseEntityContainer<BaseEntity> container = new BaseEntityContainer<>();
     private  final int n = 10;
 
 

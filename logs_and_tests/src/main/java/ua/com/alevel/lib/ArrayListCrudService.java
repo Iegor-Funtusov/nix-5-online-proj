@@ -1,7 +1,8 @@
 package ua.com.alevel.lib;
 
-public class ArrayListCrudService<T extends BaseEntity> implements CRUDService<T> {
-    private final BaseEntityContainer<T> entitiesList = new BaseEntityContainer<>();
+public class ArrayListCrudService <T extends BaseEntity> implements CRUDService<T> {
+
+    private final BaseEntityContainer<T> list = new BaseEntityContainer<>();
 
     @Override
     public void update(long id, T entity) {
@@ -11,7 +12,7 @@ public class ArrayListCrudService<T extends BaseEntity> implements CRUDService<T
         int updatingEntity = locateEntity(id);
         if (updatingEntity != -1) {
             entity.setId(id);
-            entitiesList.set(updatingEntity, entity);
+            list.set(updatingEntity, entity);
         }
     }
 
@@ -19,7 +20,7 @@ public class ArrayListCrudService<T extends BaseEntity> implements CRUDService<T
     public void delete(long id) {
         int updatingEntity = locateEntity(id);
         if (updatingEntity != -1) {
-            entitiesList.remove(updatingEntity);
+            list.remove(updatingEntity);
         }
     }
 
@@ -29,7 +30,7 @@ public class ArrayListCrudService<T extends BaseEntity> implements CRUDService<T
             throw new NullPointerException("Entity is null!");
         int id = Math.abs(entity.hashCode());
         entity.setId(id);
-        entitiesList.add(entity);
+        list.add(entity);
     }
 
     @Override
@@ -37,21 +38,21 @@ public class ArrayListCrudService<T extends BaseEntity> implements CRUDService<T
         int readingEntity = locateEntity(id);
         if (readingEntity == -1)
             return null;
-        return entitiesList.get(readingEntity);
+        return list.get(readingEntity);
     }
 
     @Override
     public BaseEntityContainer<T> readAll(){
         BaseEntityContainer<T> temp = new BaseEntityContainer<>();
-        for(int i = 0; i < entitiesList.size(); i++){
-            temp.add(entitiesList.get(i));
+        for(int i = 0; i < list.size(); i++){
+            temp.add(list.get(i));
         }
         return temp;
     }
 
     private int locateEntity(long id) {
-        for (int i = 0; i < entitiesList.size(); i++) {
-            if (entitiesList.get(i).getId() == id) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).getId() == id) {
                 return i;
             }
         }
