@@ -12,30 +12,26 @@ public class MyDate {
     }
 
     public void clean(){
-        this.years=1;
+        this.years= 0L;
         this.months=1;
-        this.days=1;
-        this.hours=0;
-        this.minutes=0;
-        this.seconds=0;
+        this.days=1L;
+        this.hours=0L;
+        this.minutes=0L;
+        this.seconds=0L;
     }
 
-    private Integer years, months, days, hours, minutes, seconds;
+    private Long years, days, hours, minutes, seconds;
+    private Integer months;
 
     public MyDate(){
-        this.years=0;
-        this.months=1;
-        this.days=1;
-        this.hours=0;
-        this.minutes=0;
-        this.seconds=0;
+        clean();
     }
 
-    public Integer getYears() {
+    public Long getYears() {
         return years;
     }
 
-    public void setYears(Integer years) {
+    public void setYears(Long years) {
         this.years = years;
     }
 
@@ -47,35 +43,35 @@ public class MyDate {
         this.months = months;
     }
 
-    public Integer getDays() {
+    public Long getDays() {
         return days;
     }
 
-    public void setDays(Integer days) {
+    public void setDays(Long days) {
         this.days = days;
     }
 
-    public Integer getHours() {
+    public Long getHours() {
         return hours;
     }
 
-    public void setHours(Integer hours) {
+    public void setHours(Long hours) {
         this.hours = hours;
     }
 
-    public Integer getMinutes() {
+    public Long getMinutes() {
         return minutes;
     }
 
-    public void setMinutes(Integer minutes) {
+    public void setMinutes(Long minutes) {
         this.minutes = minutes;
     }
 
-    public Integer getSeconds() {
+    public Long getSeconds() {
         return seconds;
     }
 
-    public void setSeconds(Integer seconds) {
+    public void setSeconds(Long seconds) {
         this.seconds = seconds;
     }
 

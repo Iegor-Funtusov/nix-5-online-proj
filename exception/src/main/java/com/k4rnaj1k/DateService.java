@@ -31,8 +31,8 @@ public class DateService {
             "Декабрь"
     };
 
-    public static int compare(MyDate date1, MyDate date2) {
-        int res = -1;
+    public static long compare(MyDate date1, MyDate date2) {
+        long res = -1;
         if (date1.getYears().equals(date2.getYears())) {
             if (date1.getMonths().equals(date2.getMonths())) {
                 if (date1.getDays().equals(date2.getDays())) {
@@ -61,11 +61,11 @@ public class DateService {
         return res;
     }
 
-    public static int parseDays(String days, MyDate date) throws NumberFormatException {
+    public static long parseDays(String days, MyDate date) throws NumberFormatException {
         if (days.length() == 0) {
             return 1;
         }
-        int dayscount = Integer.parseInt(days);
+        long dayscount = Long.parseLong(days);
         if (dayscount >= 1 && dayscount <= getMaxDaysInMonth(date)) {
             return dayscount;
         }
@@ -96,16 +96,16 @@ public class DateService {
         return monthscount;
     }
 
-    public static int parseYears(String years) throws NumberFormatException {
+    public static long parseYears(String years) throws NumberFormatException {
+        long yearscount;
         if (years.length() == 0) {
-            return 2021;
+            yearscount = 2021;
+        }else if (years.length() == 2 || years.length() == 1) {
+            yearscount = Long.parseLong(years) + 1900;
+        }else{
+            yearscount = Long.parseLong(years);
         }
-        int yearscount;
-        if (years.length() == 2) {
-            yearscount = Integer.parseInt(years) + 2000;
-            return yearscount;
-        }
-        return Integer.parseInt(years);
+        return yearscount;
     }
 
     public static void findDiff(MyDate currDate, MyDate dateDiff, MyDate resDate) {
@@ -113,10 +113,10 @@ public class DateService {
         resDate.setHours(resDate.getDays() * 24 + Math.abs(currDate.getHours() - dateDiff.getHours()));
         resDate.setMinutes(resDate.getHours() * 60 + Math.abs(currDate.getMinutes() - dateDiff.getMinutes()));
         resDate.setSeconds(resDate.getMinutes() * 60 + Math.abs(currDate.getSeconds() - dateDiff.getSeconds()));
-        resDate.setYears(resDate.getMonths() / 12);
+        resDate.setYears(resDate.getMonths() / 12L);
     }
 
-    private static boolean isLeap(int year) {
+    private static boolean isLeap(long year) {
         boolean res = false;
         if (year % 4 == 0) {
             if (year % 100 == 0) {
@@ -130,76 +130,56 @@ public class DateService {
         return res;
     }
 
-    private static int findDiffDays(MyDate currDate, MyDate dateDiff, MyDate resDate) {
-        int days = 0;
+    private static long findDiffDays(MyDate currDate, MyDate dateDiff, MyDate resDate) {
+        long days = 0;
         if (currDate.getYears().equals(dateDiff.getYears())) {
             for (int j = currDate.getMonths(); j <= dateDiff.getMonths(); j++) {
                 if (j == dateDiff.getMonths()) {
                     days += dateDiff.getDays() - currDate.getDays();
                     break;
-                }else{
-                    days+=getMaxDaysInMonth(j, currDate.getYears());
-                }
-                /*else if (j == 2) {
-                    if (isLeap(currDate.getYears())) {
-                        days += 29;
-                    } else {
-                        days += 28;
-                    }
-                } else if (j % 2 == 1 || j == 8 || j == 12) {
-                    days += 31;
                 } else {
-                    days += 30;
-                }*/
+                    days += getMaxDaysInMonth(j, currDate.getYears());
+                }
                 resDate.setMonths(resDate.getMonths() + 1);
             }
-        }else{
-        for (int i = currDate.getYears() + 1; i <= dateDiff.getYears(); i++) {
-            if (dateDiff.getYears() == i) {
-                for (int j = 1; j <= dateDiff.getMonths(); j++) {
-                    if (j == dateDiff.getMonths()) {
-                        days += dateDiff.getDays();
-                    }
-                    /*if (j == 2) {
-                        if (isLeap(i)) {
-                            days += 29;
+        } else {
+            for (long i = currDate.getYears() + 1; i <= dateDiff.getYears(); i++) {
+                if (dateDiff.getYears() == i) {
+                    for (int j = 1; j <= dateDiff.getMonths(); j++) {
+                        if (j == dateDiff.getMonths()) {
+                            days += dateDiff.getDays();
                         } else {
-                            days += 28;
+                            days += getMaxDaysInMonth(j, i);
                         }
-                    } else if (j % 2 == 1 || j == 8) {
-                        days += 31;
-                    }*/ else {
-                        days += getMaxDaysInMonth(j, i);
+                        resDate.setMonths(resDate.getMonths() + 1);
                     }
-                    resDate.setMonths(resDate.getMonths() + 1);
-                }
-            } else {
-                if (isLeap(i)) {
-                    days += 366;
                 } else {
-                    days += 365;
+                    if (isLeap(i)) {
+                        days += 366;
+                    } else {
+                        days += 365;
+                    }
+                    resDate.setMonths(resDate.getMonths() + 12);
                 }
-                resDate.setMonths(resDate.getMonths() + 12);
             }
-        }
         }
         return days;
     }
 
-    public static void addDays(int days, MyDate currDate) {
-        int prevdays = currDate.getDays();
+    public static void addDays(long days, MyDate currDate) {
+        long prevdays = currDate.getDays();
         int prevmonth = currDate.getMonths();
-        int prevyear = currDate.getYears();
+        long prevyear = currDate.getYears();
         if (currDate.getDays() + days > getMaxDaysInMonth(currDate)) {
             addMonths(1, currDate);
-            currDate.setDays(0);
+            currDate.setDays(0L);
             addDays((prevdays + days) - getMaxDaysInMonth(prevmonth, prevyear), currDate);
         } else {
             currDate.setDays(currDate.getDays() + days);
         }
     }
 
-    private static int getMaxDaysInMonth(int month, int year) {
+    private static long getMaxDaysInMonth(int month, long year) {
         return switch (month) {
             case 1, 7, 8, 3, 5, 10, 12 -> 31;
             case 2 -> isLeap(year) ? 29 : 28;
@@ -208,7 +188,7 @@ public class DateService {
         };
     }
 
-    private static int getMaxDaysInMonth(MyDate date) {
+    private static long getMaxDaysInMonth(MyDate date) {
         return switch (date.getMonths()) {
             case 1, 7, 8, 3, 5, 10, 12 -> 31;
             case 2 -> isLeap(date.getYears()) ? 29 : 28;
@@ -227,13 +207,13 @@ public class DateService {
         }
     }
 
-    public static void addYears(int years, MyDate currDate) {
+    public static void addYears(long years, MyDate currDate) {
         currDate.setYears(currDate.getYears() + years);
     }
 
     public static void printDate(MyDate date, DateType dateType, boolean english) {
         switch (dateType) {
-            case ddmmyy -> System.out.print(date.getDays() + "/" + date.getMonths() + "/" + String.valueOf(date.getYears()).substring(String.valueOf(date.getYears()).length() > 2? 2: 0));
+            case ddmmyy -> System.out.print(date.getDays() + "/" + date.getMonths() + "/" + String.valueOf(date.getYears()).substring(String.valueOf(date.getYears()).length() > 2 ? 2 : 0));
             case mdyyyy -> System.out.print(date.getMonths() + "/" + date.getDays() + "/" + date.getYears());
             case mmmdyy -> System.out.print((english ? engmonths[date.getMonths() - 1] : rumonths[date.getMonths() - 1]) + "-" + date.getDays() + "-" + String.valueOf(date.getYears()).substring(2));
             case ddmmmyyyy -> System.out.print(date.getDays() + "-" + (english ? engmonths[date.getMonths() - 1] : rumonths[date.getMonths() - 1]) + "-" + date.getYears());
@@ -241,8 +221,8 @@ public class DateService {
         System.out.print(" " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
     }
 
-    public static void subDays(int days, MyDate currDate) {
-        int prevdays = currDate.getDays();
+    public static void subDays(long days, MyDate currDate) {
+        long prevdays = currDate.getDays();
         if (currDate.getDays() - days <= 0) {
             subMonths(1, currDate);
             currDate.setDays(getMaxDaysInMonth(currDate));
@@ -264,7 +244,7 @@ public class DateService {
         }
     }
 
-    public static void subYears(int years, MyDate currDate) {
+    public static void subYears(long years, MyDate currDate) {
         currDate.setYears(currDate.getYears() - years);
     }
 

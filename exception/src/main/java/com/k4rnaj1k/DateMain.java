@@ -1,6 +1,7 @@
 package com.k4rnaj1k;
 
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class DateMain {
@@ -21,10 +22,10 @@ public class DateMain {
             System.out.println("""
                     Choose what to do next:
                     1 - Find difference between dates.
-                    2 - Add seconds/minutes/etc. to date.
-                    3 - Subtract seconds/minutes/etc. from date.
-                    4 - Compare dates
-                    5 - Reinput date
+                    2 - Add seconds/minutes/etc. to the current date.
+                    3 - Subtract seconds/minutes/etc. from the current date.
+                    4 - Compare dates input in line
+                    5 - Reinput current date
                     6 - Change output format
                     Anything else to exit.""");
             switch (s.nextLine()) {
@@ -35,7 +36,8 @@ public class DateMain {
                 case "5" -> inputDate();
                 case "6" -> inputFormat();
                 default -> {
-                    flag = false;
+                    System.out.println("Are you sure u'd like to quit?(y/n)");
+                    flag = s.nextLine().toLowerCase().startsWith("y");
                 }
             }
         }
@@ -43,19 +45,25 @@ public class DateMain {
     }
 
     private static void compare() {
-        System.out.println("Input the dates u'd like to get sorted with a come between them.");
+        System.out.println("Input the dates u'd like to get sorted with a coma and a space between them." + "\n" + "Like so: \n1/11/21, 1-April-21, 3/4/2021");
         String[] dates = s.nextLine().split(", |,");
         MyDate[] myDates = new MyDate[dates.length];
         for (int i = 0; i < dates.length; i++) {
             myDates[i] = new MyDate();
             parseDate(dates[i], myDates[i]);
         }
+        System.out.println("Sort ascending?(y/n)");
+        boolean asc = s.nextLine().toLowerCase().startsWith("y");
         for (int i = 0; i < myDates.length - 1; i++) {
             for (int j = 0; j < i; j++) {
-                if (DateService.compare(myDates[i], myDates[j]) == -1) {
+                if (DateService.compare(myDates[i], myDates[j]) == (asc? 1: -1)) {
                     MyDate temp = new MyDate(myDates[i]);
                     myDates[i] = myDates[j];
                     myDates[j] = temp;
+                } else if (DateService.compare(myDates[i], myDates[j]) == (asc? -1: 1)) {
+                    MyDate temp = new MyDate(myDates[j]);
+                    myDates[j] = myDates[i];
+                    myDates[i] = temp;
                 }
             }
         }
@@ -125,7 +133,7 @@ public class DateMain {
                 }
                 rightinput = true;
             } catch (NumberFormatException n) {
-                System.out.println("Sorry, there was a mistake. Please try again.");
+                System.out.println("Sorry, there was a mistake. Please input again.");
             }
         }
         switch (chosen) {
@@ -148,9 +156,14 @@ public class DateMain {
                 String[] splitDate;
                 if (inputSplit[0].replaceAll("[^/]", "").length() == 2) {
                     splitDate = inputSplit[0].split("/");
-                        date.setMonths(DateService.parseMonths(splitDate[1]));
-                        date.setDays(DateService.parseDays(splitDate[0], date));
-                    } else if (inputSplit[0].replaceAll("[^-]", "").length() == 2) {
+                    try{
+                    date.setMonths(DateService.parseMonths(splitDate[1]));
+                    date.setDays(DateService.parseDays(splitDate[0], date));
+                }catch (NumberFormatException n){
+                        date.setMonths(DateService.parseMonths(splitDate[0]));
+                        date.setDays(DateService.parseDays(splitDate[1], date));
+                    }
+                } else if (inputSplit[0].replaceAll("[^-]", "").length() == 2) {
                     splitDate = inputSplit[0].split("-");
                     try {
                         date.setMonths(DateService.parseMonthsfromString(splitDate[0]));
@@ -227,7 +240,7 @@ public class DateMain {
     private static void inputDate() {
         System.out.println("""
                 Please input date and time to work with.
-                Please note - if year's format is like 21 - system will convert it to 2021.
+                Please note - if year's format is like 21 - system will convert it to 1921.
                 Also, you can input time.
                 01 - will be converted to 0 hours, 0 minutes, 1 second.
                 01:01 - will be converted to 0 hours, 1 minute, 1 second.
