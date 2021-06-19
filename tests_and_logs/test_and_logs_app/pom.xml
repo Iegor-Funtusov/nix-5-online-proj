@@ -82,7 +82,7 @@
     </dependencies>
 
     <build>
-        <finalName>crud</finalName>
+        <finalName>logs_tests</finalName>
 
         <resources>
             <resource>

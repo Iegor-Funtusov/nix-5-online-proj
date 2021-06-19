@@ -15,7 +15,7 @@
         <directory>src/main/resources</directory>
       </resource>
     </resources>
-    <finalName>crud</finalName>
+    <finalName>logs_tests</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
