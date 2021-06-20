@@ -51,13 +51,21 @@ public class MathSetImpl implements MathSet{
 
     //Lifo список
     public void add(Number info){
+        if(info == null){
+            throw new RuntimeException("Number is not exists");
+        }
         //Если элемент не уникален, то в множество он не добавляется
         if(!checkUniqueness(info)){
             return;
         }
-        if(info == null){
-            throw new RuntimeException("Number is not exists");
+
+        if(top == null){
+            top = new Node();
+            top.info = info;
+            top.next = null;
+            return;
         }
+
         Node cur;
         cur = new Node();
         cur.info = info;
@@ -205,36 +213,14 @@ public class MathSetImpl implements MathSet{
 
 
 
-
-//    public void sortAsc()
-//    { Node q, out, p , pr;
-//        out = null;         // выходной список пуст
-//        while (top != null){              // пока не пуст входной список
-//
-//            q = top;
-//            top = top.next;      // исключить очередной
-//
-//            // поиск места включения
-//            for( p=out,pr=null; p!=null && (compareTo(q.info, p.info) == 1); pr=p,p=p.next);
-//
-//            if (pr==null){             // включение перед первым
-//             q.next=out; out=q;
-//            }
-//            else{                      // иначе после предыдущего
-//             q.next=p; pr.next=q;
-//            }
-//        }
-//        top = out;
-//    }
-
-
-    //Сортировка вставками1
+    //Сортировка вставками
     public void sortAsc() {
         Node new_top = null;
+        Node localTop = top;
 
-        while ( top != null ) {
-            Node node = top;
-            top = top.next;
+        while ( localTop != null ) {
+            Node node = localTop;
+            localTop = localTop.next;
 
             if ( new_top == null || (compareTo(node.info, new_top.info) == -1)) {
                 node.next = new_top;
@@ -242,7 +228,7 @@ public class MathSetImpl implements MathSet{
             }
 
             else {
-               Node current = new_top;
+                Node current = new_top;
                 while ( current.next != null && !( compareTo(node.info, current.next.info) == -1)) {
                     current = current.next;
                 }
@@ -257,42 +243,71 @@ public class MathSetImpl implements MathSet{
     }
 
 
-    //Не до конца корректно сортирует
+
+
+
+
+
     public void sortAsc(int firstIndex, int lastIndex){
-//        Number sortFrom = get(firstIndex);
-//        Number sortTo = get(lastIndex);
-//
-//        //Ищу от какого элемента начать сортировку
-//        while(compareTo(top.info, sortFrom) != 0){
-//            top = top.next;
-//        }
-//
-//        Node new_top = null;
-//        while ( compareTo(top.info, sortTo) != 0 ) {
-//            Node node = top;
-//            top = top.next;
-//
-//            if ( new_top == null || (compareTo(node.info, new_top.info) == -1)) {
-//                node.next = new_top;
-//                new_top = node;
-//            }
-//
-//            else {
-//                Node current = new_top;
-//                while ( current.next != null && !( compareTo(node.info, current.next.info) == -1)) {
-//                    current = current.next;
-//                }
-//
-//                node.next = current.next;
-//                current.next = node;
-//            }
-//        }
-//
-//        top = new_top;
+        Number []elements = toArray();
+        Number tmp;
+
+        for( int i = firstIndex; i < lastIndex; i++) {            // i - номер прохода
+            for( int j = i+1; j <= lastIndex; j++ ) {     // внутренний цикл прохода
+                if ( compareTo(elements[i], elements[j]) == 1 ) {
+                    tmp = elements[i];
+                    elements[i] = elements[j];
+                    elements[j] = tmp;
+                }
+            }
+        }
+
+
+        //Инверсия массива, т.к. список лифо
+        for (int i = 0; i < elements.length / 2; i++) {
+            tmp = elements[i];
+            elements[i] = elements[elements.length - i - 1];
+            elements[elements.length - i - 1] =  tmp;
+        }
+
+        clear();
+        add(elements);
     }
 
-    public void sortAsc(Number value){
 
+    public void sortAsc(Number value){
+        Number []elements = toArray();
+        Number tmp;
+        Node localTop = top;
+        int index = 0;
+
+        while(localTop != null){
+            if(compareTo(localTop.info, value) != 0){
+                index++;
+                localTop = localTop.next;
+            }
+            else break;
+        }
+
+
+        for( int i = index; i < elements.length; i++) {
+            for( int j = i+1; j < elements.length; j++ ) {
+                if ( compareTo(elements[i], elements[j]) == 1 ) {
+                    tmp = elements[i];
+                    elements[i] = elements[j];
+                    elements[j] = tmp;
+                }
+            }
+        }
+
+        for (int i = 0; i < elements.length / 2; i++) {
+            tmp = elements[i];
+            elements[i] = elements[elements.length - i - 1];
+            elements[elements.length - i - 1] =  tmp;
+        }
+
+        clear();
+        add(elements);
     }
 
 
@@ -322,12 +337,66 @@ public class MathSetImpl implements MathSet{
         top = new_top;
     }
 
-    public void sortDesc(int firstIndex, int lastIndex){
 
+    public void sortDesc(int firstIndex, int lastIndex){
+        Number []elements = toArray();
+        Number tmp;
+
+        for( int i = firstIndex; i < lastIndex; i++) {            // i - номер прохода
+            for( int j = i+1; j <= lastIndex; j++ ) {     // внутренний цикл прохода
+                if ( compareTo(elements[i], elements[j]) == -1 ) {
+                    tmp = elements[i];
+                    elements[i] = elements[j];
+                    elements[j] = tmp;
+                }
+            }
+        }
+
+
+        //Инверсия массива, т.к. список лифо
+        for (int i = 0; i < elements.length / 2; i++) {
+            tmp = elements[i];
+            elements[i] = elements[elements.length - i - 1];
+            elements[elements.length - i - 1] =  tmp;
+        }
+
+        clear();
+        add(elements);
     }
 
     public void sortDesc(Number value){
+        Number []elements = toArray();
+        Number tmp;
+        Node localTop = top;
+        int index = 0;
 
+        while(localTop != null){
+            if(compareTo(localTop.info, value) != 0){
+                index++;
+                localTop = localTop.next;
+            }
+            else break;
+        }
+
+
+        for( int i = index; i < elements.length; i++) {
+            for( int j = i+1; j < elements.length; j++ ) {
+                if ( compareTo(elements[i], elements[j]) == -1 ) {
+                    tmp = elements[i];
+                    elements[i] = elements[j];
+                    elements[j] = tmp;
+                }
+            }
+        }
+
+        for (int i = 0; i < elements.length / 2; i++) {
+            tmp = elements[i];
+            elements[i] = elements[elements.length - i - 1];
+            elements[elements.length - i - 1] =  tmp;
+        }
+
+        clear();
+        add(elements);
     }
 
 
