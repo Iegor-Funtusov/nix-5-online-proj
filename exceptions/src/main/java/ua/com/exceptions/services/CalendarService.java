@@ -1,11 +1,8 @@
 package ua.com.exceptions.services;
 
-import ua.com.exceptions.entity.Calendar;
-
 public class CalendarService {
 
-    public Calendar checkDate(int year, int month, int day, int hours, int minutes, int seconds){
-        try{
+    public static boolean checkDate(int year, int month, int day, int hours, int minutes, int seconds) throws RuntimeException{
             if(validYear(year) &&
                     validMonth(month) &&
                     validDay(day, month, year) &&
@@ -13,25 +10,21 @@ public class CalendarService {
                     validMinute(minutes)
                     && validSeconds(seconds)
             ){
-                return new Calendar(year, month, day, hours, minutes, seconds);
+                return true;
             }
-        }
-        catch (RuntimeException ex){
-            System.out.println(ex.getMessage());
-        }
-        return null;
+            return false;
     }
 
-    private boolean validYear(int year){
-        if(year > 0 && year <=10000){
+    private static boolean validYear(int year) throws RuntimeException{
+        if(year >= 0 && year <=10000){
             return true;
         }
         else{
-            throw new RuntimeException("Error! Year should be in a range 1-10_000");
+            throw new RuntimeException("Error! Year should be in a range 0-10_000");
         }
     }
 
-    private boolean validMonth(int month){
+    private static boolean validMonth(int month){
         if(month > 0 && month <= 12){
             return true;
         }
@@ -40,7 +33,7 @@ public class CalendarService {
         }
     }
 
-    private boolean validDay(int day, int month, int year){
+    private static boolean validDay(int day, int month, int year){
         if(day > 0 && day <= getMonthCount(month, year)){
             return true;
         }
@@ -71,7 +64,7 @@ public class CalendarService {
         }
     }
 
-    private boolean validHour(int hours){
+    private static boolean  validHour(int hours){
         if(hours >=0 && hours <= 23){
             return true;
         }
@@ -80,7 +73,7 @@ public class CalendarService {
         }
     }
 
-    private boolean validMinute(int minutes){
+    private static boolean validMinute(int minutes){
         if(minutes >=0 && minutes <= 59){
             return true;
         }
@@ -89,7 +82,7 @@ public class CalendarService {
         }
     }
 
-    private boolean validSeconds(int seconds){
+    private static boolean validSeconds(int seconds){
         if(seconds >=0 && seconds <= 59){
             return true;
         }
