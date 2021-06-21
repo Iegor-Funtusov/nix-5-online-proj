@@ -1,2 +1,2 @@
-mvn clean install ; \n 
+mvn clean install ;
 java -jar target/MathSet.jar
