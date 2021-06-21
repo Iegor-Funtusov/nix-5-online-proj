@@ -15,8 +15,8 @@ public class OutputUtil {
             }
             case 2: {
                 //  m/d/yyyy
-                System.out.println(calendar.getDay() + "/" +
-                        calendar.getMonth() + "/" +
+                System.out.println(calendar.getMonth() + "/" +
+                        calendar.getDay()+ "/" +
                         calendar.getYear() + " " +
                         printHMS(calendar));
                 break;
@@ -50,6 +50,9 @@ public class OutputUtil {
         if(number >=1 && number<=9){
             return "0" + number;
         }
+        if(number == 0){
+            return "00";
+        }
         return Integer.toString(number);
     }
 
@@ -60,18 +63,18 @@ public class OutputUtil {
 
     private static String getMonthName(int month){
         switch (month){
-            case 1: {return   "Январь";}
-            case 2: {return   "Февраль";}
-            case 3: {return   "Март";}
-            case 4: {return   "Апрель";}
-            case 5: {return   "Май" ;}
-            case 6: {return   "Июнь" ;}
-            case 7: {return   "Июль";}
-            case 8: {return   "Август"  ;}
-            case 9: {return   "Сентябрь";}
-            case 10: {return  "Октябрь" ;}
-            case 11: {return  "Ноябрь"  ;}
-            case 12: {return  "Декабрь" ;}
+            case 1: {return   "January";}
+            case 2: {return   "February";}
+            case 3: {return   "March";}
+            case 4: {return   "April";}
+            case 5: {return   "May" ;}
+            case 6: {return   "June" ;}
+            case 7: {return   "July";}
+            case 8: {return   "August"  ;}
+            case 9: {return   "September";}
+            case 10: {return  "October" ;}
+            case 11: {return  "November"  ;}
+            case 12: {return  "December" ;}
         }
         return null;
     }
