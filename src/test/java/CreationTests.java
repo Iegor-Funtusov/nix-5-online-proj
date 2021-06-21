@@ -1,5 +1,5 @@
-import SetPackage.MathSet;
-import SetPackage.MathSetImpl;
+import Set.MathSet;
+import Set.MathSetImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
