@@ -1,6 +1,6 @@
-package service.impl;
+package com.k4rnaj1k.service.impl;
 
-import service.MathSet;
+import com.k4rnaj1k.service.MathSet;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

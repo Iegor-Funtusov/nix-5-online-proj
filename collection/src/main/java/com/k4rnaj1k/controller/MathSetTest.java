@@ -1,5 +1,7 @@
-import service.MathSet;
-import service.impl.MathSetImpl;
+package com.k4rnaj1k.controller;
+
+import com.k4rnaj1k.service.MathSet;
+import com.k4rnaj1k.service.impl.MathSetImpl;
 
 public class MathSetTest {
     public static void main(String[] args) {

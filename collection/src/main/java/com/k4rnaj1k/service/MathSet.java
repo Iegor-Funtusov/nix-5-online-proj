@@ -1,4 +1,4 @@
-package service;
+package com.k4rnaj1k.service;
 
 public interface MathSet<T extends Number & Comparable<T>> {
     void add(T n);
