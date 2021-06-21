@@ -42,8 +42,8 @@ public class InputUtil {
                 Time = timeFunc(time);
                 if(CalendarService.checkDate(Date[2], Date[0], Date[1],
                         Time[0], Time[1], Time[2])){
-                return new Calendar(Date[2], Date[0], Date[1],
-                        Time[0], Time[1], Time[2]);
+                    return new Calendar(Date[2], Date[0], Date[1],
+                            Time[0], Time[1], Time[2]);
                 }
             }
             case 3 : {
@@ -63,23 +63,17 @@ public class InputUtil {
                 if(checkFOURTH_FORMAT(date)){
                     Date = splitFOURTH(date);
                 }
+                if (checkYEAR(date)){
+                    Date[0] = DEFAULT_DAY_MONTH_VALUE;
+                    Date[1] = DEFAULT_DAY_MONTH_VALUE;
+                    Date[2] = splitYEAR(date);
+                }
                 Time = timeFunc(time);
                 if(CalendarService.checkDate(Date[2], Date[1], Date[0],
                         Time[0], Time[1], Time[2])){
                 return new Calendar(Date[2], Date[1], Date[0],
                         Time[0], Time[1], Time[2]);
                 }
-            }
-            case 5: {
-                // yyyy
-                if(checkYEAR(date)){
-                    Date[0] = splitYEAR(date);
-                }
-                Time = timeFunc(time);
-                if(CalendarService.checkDate(Date[2], 1, 1,
-                        Time[0], Time[1], Time[2]))
-                return new Calendar(Date[2], 1, 1,
-                        Time[0], Time[1], Time[2]);
             }
         }
       return null;
