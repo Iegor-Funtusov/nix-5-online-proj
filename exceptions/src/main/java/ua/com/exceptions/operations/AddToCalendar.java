@@ -79,11 +79,11 @@ public class AddToCalendar {
                 int willBeDaysAfterAdd = wasDays + day;
                 int k = 0;
                 int countyear = 0;
-                System.out.println(willBeDaysAfterAdd);
+               // System.out.println(willBeDaysAfterAdd);
                 if(willBeDaysAfterAdd >= 365 + CalendarService.leapYearCheck(calendar.getYear())){
                     while (willBeDaysAfterAdd >= 365 + CalendarService.leapYearCheck(calendar.getYear() + k)){
                         willBeDaysAfterAdd-= 365 + CalendarService.leapYearCheck(calendar.getYear() + k);
-                        System.out.println(willBeDaysAfterAdd);
+                     //   System.out.println(willBeDaysAfterAdd);
                         k++;
                         countyear+=12;
                     }

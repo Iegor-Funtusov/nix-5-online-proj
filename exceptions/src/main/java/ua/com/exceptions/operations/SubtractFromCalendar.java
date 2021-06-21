@@ -66,7 +66,20 @@ public class SubtractFromCalendar {
     public static Calendar subtractDay(Calendar calendar, int day) {
         int dayNew = calendar.getDay() - day;
         int k = 0;
-        if (dayNew<= CalendarService.getMonthCount(calendar.getMonth(),
+        if(dayNew == 0){
+            if(calendar.getMonth()-1!=0){
+                calendar.setDay(CalendarService.getMonthCount
+                        (calendar.getMonth()-1, calendar.getYear()));
+            calendar.setMonth(calendar.getMonth()-1);
+            return calendar;}
+        if(calendar.getMonth()-1 == 0){
+                calendar.setDay(31);
+                calendar.setMonth(1);
+                calendar.setYear(calendar.getYear()-1);
+                return calendar;
+            }
+        }
+        if (dayNew <= CalendarService.getMonthCount(calendar.getMonth(),
                 calendar.getYear()) && dayNew > 0) {
             calendar.setDay(dayNew);
             return calendar;
@@ -106,21 +119,24 @@ public class SubtractFromCalendar {
                     countyear+=12;
                 }
                 int sumDay = willBeDaysAfterSubtract;
-                int resultMonth = 1;
+                int resultMonth = 12;
                 for(int i = 0; i < MONTHS.length; i++){
-                    if(sumDay > MONTHS[i]){
+                    if(sumDay > MONTHS[12-i-1]){
                         if(i == 1 && CalendarService.leapYearCheck(calendar.getYear() - k - 1) == 1 ) {
                             sumDay--;
                         }
-                        sumDay -= MONTHS[i];
-                        resultMonth++;
+                        sumDay -= MONTHS[12-i-1];
+                        resultMonth--;
+                    }
+                   if(sumDay < MONTHS[12-i-1]){
+                        int res = MONTHS[12-i-1] - sumDay;
+                        calendar.setDay(res);
+                        calendar.setMonth(resultMonth);
+                        break;
                     }
                 }
-                calendar.setDay(CalendarService.getMonthCount(resultMonth,
-                        calendar.getYear()) - sumDay-1);
-                calendar.setMonth(resultMonth - 1);
-                if(countyear != 0){
-                    return SubtractFromCalendar.subtractMonth(calendar, countyear);
+                if(countyear >= 12){
+                    return SubtractFromCalendar.subtractYear(calendar, countyear/12);
                 }
             }
             return calendar;
@@ -128,23 +144,31 @@ public class SubtractFromCalendar {
     }
 
     public static Calendar subtractMonth(Calendar calendar, int month){
+        int year = 0;
+        if(calendar.getMonth() == month){
+            calendar.setMonth(12);
+            calendar.setYear(calendar.getYear()-1);
+            return calendar;
+        }
+        if(calendar.getMonth() - month > 0){
+            calendar.setMonth(12 - calendar.getMonth() - month);
+            return calendar;
+        }
+        if(calendar.getMonth() - month <= 0){
+            month -= calendar.getMonth();
+            year++;
+        }
         if(month >= 12){
             int monthNew = month;
-            int year = 0;
             while (monthNew >= 12){
                 monthNew -= 12;
                 year++;
             }
+            System.out.println(year);
             calendar = SubtractFromCalendar.subtractYear(calendar, year);
             month = monthNew;
         }
-        if(calendar.getMonth() - month > 0){
-            calendar.setMonth(12 - calendar.getMonth() - month);
-        }
-        else {
-            calendar.setMonth(Math.abs(12 - calendar.getMonth() - month));
-            calendar.setYear(calendar.getYear() + 1);
-        }
+            calendar.setMonth(Math.abs(12 - month));
         return calendar;
     }
 
