@@ -1,4 +1,4 @@
-package SetPackage;
+package Set;
 import java.math.BigDecimal;
 
 public class MathSetImpl implements MathSet{
@@ -101,8 +101,8 @@ public class MathSetImpl implements MathSet{
         for(MathSet item : sets){
             Node setTop = item.getTop();
             while(setTop != null){
-                add(top.info);
-                top = top.next;
+                add(setTop.info);
+                setTop = setTop.next;
             }
         }
     }

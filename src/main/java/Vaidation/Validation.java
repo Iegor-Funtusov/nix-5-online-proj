@@ -1,7 +1,7 @@
 package Vaidation;
 
-import SetPackage.MathSet;
-import SetPackage.Node;
+import Set.MathSet;
+import Set.Node;
 
 public class Validation {
 

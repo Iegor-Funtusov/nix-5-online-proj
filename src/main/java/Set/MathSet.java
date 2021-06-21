@@ -1,4 +1,4 @@
-package SetPackage;
+package Set;
 
 public interface MathSet<E extends Number>{
     void add(E n);
