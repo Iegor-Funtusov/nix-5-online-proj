@@ -42,8 +42,9 @@ public class GeneralService {
             String res = bufferedReader.readLine();
             int res_ = Integer.parseInt(res);
             if(res_ == 0) {exchangeFormat();}
-        }catch (IOException e){
+        }catch (IOException | NumberFormatException e){
             System.out.println("Error! Please enter format in a range 1-2");
+            continue;
         }
         System.out.println("Please, choose operation");
         System.out.println("1 -> Add to date");
@@ -62,7 +63,7 @@ public class GeneralService {
             else{
                 throw new IOException("Error! Please enter operation in a range 1-5");
             }
-        }catch (IOException e){
+        }catch (IOException | NumberFormatException e){
             System.out.println("Error! Please enter operation in a range 1-5");
         }
     }
@@ -200,8 +201,9 @@ public class GeneralService {
         try{
             variable = Integer.parseInt(bufferedReader.readLine());
         }
-        catch (IOException e){
-            System.out.println(e.getMessage());
+        catch (IOException | NumberFormatException e){
+            System.out.println("Sorry, you entered empty");
+            //chooseAdd(choise);
         }
         String date = enterStringData();
         Calendar calendar = CreateCalendar(date);
@@ -269,8 +271,9 @@ public class GeneralService {
         try{
             variable = Integer.parseInt(bufferedReader.readLine());
         }
-        catch (IOException e){
-            System.out.println(e.getMessage());
+        catch (IOException | NumberFormatException e){
+            System.out.println("Sorry, entered empty");
+           // chooseSub(choise);
         }
         String date = enterStringData();
         Calendar calendar = CreateCalendar(date);
@@ -326,8 +329,8 @@ public class GeneralService {
             return res;
             }
         }
-        catch (IOException e){
-            System.out.println(e.getMessage());
+        catch (IOException | NumberFormatException e){
+           // System.out.println(e.getMessage());
         }
         System.out.println("Sorry! You`ve entered invalid format");
         return 0;
