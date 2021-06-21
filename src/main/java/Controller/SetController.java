@@ -1,12 +1,13 @@
 package Controller;
-
 import Service.SetService;
-import SetPackage.MathSet;
+import Set.MathSet;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+
 
 public class SetController {
     private final SetService service;
@@ -15,8 +16,7 @@ public class SetController {
 
 
     public SetController(){
-        //service = SetService.getInstance();
-        service = new SetService();
+        service = SetService.getInstance();
         bf = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -37,28 +37,18 @@ public class SetController {
                     default -> System.out.println("Incorrect value entered");
                 }
 
-            } catch (NumberFormatException e){
-                System.out.println("Incorrect value entered");
-            }  catch (IOException e){
+            } catch (NumberFormatException | IOException e){
                 System.out.println("Incorrect value entered");
             } catch (RuntimeException e){
                 System.out.println(e.getMessage());
             }
         }
-//        finally {
-//            try {
-//                bf.close();
-//            } catch (IOException exception) {
-//                System.out.println(exception.getMessage());
-//            }
-//        }
-
     }
 
 
 
 
-    private void createNewCurrentSet() throws IOException{
+    private void createNewCurrentSet(){
         try {
             ArrayList<Number> elements = scanElements();
             Number []setElements = new Number[elements.size()];
@@ -77,66 +67,40 @@ public class SetController {
 
     private ArrayList<Number> scanElements() throws IOException{
         ArrayList<Number> elements = new ArrayList<>();
-        String choose;
-        int typeOfElement;
-
+        int index = 0;
         try{
-            typeOfElement = chooseTypeOfElement();
+            System.out.println("Enter the elements which you want to add by the 'Enter'");
+            System.out.println("If you want to stop input elements you should press 'S'");
             do{
-                switch (typeOfElement){
-                    case 1 -> elements.add(scanInteger());
-                    case 2 -> elements.add(scanDouble());
-                    case 3 -> elements.add(scanFloat());
-                    case 4 -> elements.add(scanByte());
-                    case 5 -> elements.add(scanShort());
-                    case 6 -> elements.add(scanLong());
+                System.out.println("Enter element #" + index + ":");
+                String item = bf.readLine();
+                if(item.equalsIgnoreCase("S")){
+                    return  elements;
                 }
+                Number numToAdd = readElement(item);
+                elements.add(numToAdd);
+                index++;
 
-                System.out.println("Do you want to add one more element? 1-yes with same type, 2-yes with new type, else-no");
-                choose = bf.readLine();
-                if(choose.equals("2")){
-                    typeOfElement = chooseTypeOfElement();
-                }
-            } while ( choose.equals("1") || choose.equals("2"));
+            } while(true);
+
         } catch (IOException | NumberFormatException e){
             System.out.println("Incorrect value entered");
-        }
-        finally {
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        } finally {
             return elements;
         }
     }
 
 
-    private int chooseTypeOfElement(){
-        try{
-            System.out.println("Choose type of the element: 1-Integer, 2-Double, 3-Float, 4-Byte, 5-Short, 6-Long");
-            System.out.println("If you entered incorrect value, by default will be chosen Integer type");
-            int typeOfElement = Integer.parseInt(bf.readLine());
-            if(typeOfElement < 1 || typeOfElement > 6){
-                return  1;
-            }
-            return typeOfElement;
 
-        } catch (IOException | NumberFormatException e) {
-            System.out.println("Incorrect value entered");
-            return 1;
-        }
-    }
-
-
-    private void addElement() throws IOException{
+    private void addElement(){
         try {
-            int typeOfElement = chooseTypeOfElement();
-
-            switch (typeOfElement){
-                case 1 -> service.addElement(scanInteger());
-                case 2 -> service.addElement(scanDouble());
-                case 3 -> service.addElement(scanFloat());
-                case 4 -> service.addElement(scanByte());
-                case 5 -> service.addElement(scanShort());
-                case 6 -> service.addElement(scanLong());
-            }
-
+            System.out.println("Enter the element which you want to add to the set:");
+            String item = bf.readLine();
+            Number numToAdd = readElement(item);
+            service.addElement(numToAdd);
+            System.out.println("Successfully added");
             showResult();
         } catch (IOException | NumberFormatException e){
             System.out.println("Incorrect value entered. " + e.getMessage());
@@ -147,50 +111,79 @@ public class SetController {
     }
 
 
-    private Integer scanInteger() throws IOException{
-        System.out.println("Enter new integer element:");
-        return Integer.parseInt(bf.readLine());
+
+    private Number readElement(String numStr){
+        try{
+            return Byte.parseByte(numStr);
+
+        } catch(NumberFormatException e){
+            return readShort(numStr);
+        }
     }
 
 
-    private Double scanDouble() throws IOException {
-        System.out.println("Enter new double element:");
-        return Double.parseDouble(bf.readLine());
+    private Number readShort(String numStr){
+        try{
+            return Short.parseShort(numStr);
+
+        } catch(NumberFormatException e){
+            return readInteger(numStr);
+        }
     }
 
 
-    private Float scanFloat() throws IOException {
-        System.out.println("Enter new float element:");
-        return Float.parseFloat(bf.readLine());
+    private Number readInteger(String numStr){
+        try{
+            return Integer.parseInt(numStr);
+
+        } catch(NumberFormatException e){
+            return readLong(numStr);
+        }
     }
 
 
-    private Byte scanByte() throws IOException {
-        System.out.println("Enter new byte element:");
-        return Byte.parseByte(bf.readLine());
+    private Number readLong(String numStr){
+        try{
+            return Long.parseLong(numStr);
+
+        } catch(NumberFormatException e){
+            return readFloat(numStr);
+        }
     }
 
 
-    private Short scanShort() throws IOException {
-        System.out.println("Enter new short element:");
-        return Short.parseShort(bf.readLine());
+    private Number readFloat(String numStr){
+        try{
+            return Float.parseFloat(numStr);
+
+        } catch(NumberFormatException e){
+            return readDouble(numStr);
+        }
     }
 
 
-    private Long scanLong() throws IOException {
-        System.out.println("Enter new long element:");
-        return Long.parseLong(bf.readLine());
+    private Number readDouble(String numStr){
+        try{
+            return Double.parseDouble(numStr);
+
+        } catch(NumberFormatException e){
+            throw new RuntimeException("Incorrect value entered");
+        }
     }
 
 
     private void getAllSet(){
-        Number []elements = service.toArray();
-        for(Number number : elements){
-            System.out.print(number + "  ");
-        }
-        System.out.println();
-    }
+        try {
+            Number []elements = service.toArray();
+            for(Number number : elements){
+                System.out.print(number + "  ");
+            }
+            System.out.println();
 
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
+    }
 
 
     private void mainFunctionalityInterface(){
@@ -238,198 +231,319 @@ public class SetController {
     }
 
 
-    private void joinSets()  throws IOException{
-        System.out.println("Create new set to join with yours");
-        ArrayList<Number> elements = scanElements();
-        Number []setElements = new Number[elements.size()];
-        MathSet newSet = service.createSet(false, elements.toArray(setElements));
-        service.join(newSet);
-        System.out.println("Successfully joined");
-        showResult();
+    private void joinSets(){
+        try{
+            System.out.println("Create new set to join with yours");
+            ArrayList<Number> elements = scanElements();
+            Number []setElements = new Number[elements.size()];
+
+            MathSet newSet = service.createSet(false, elements.toArray(setElements));
+            service.join(newSet);
+
+            System.out.println("Successfully joined");
+            showResult();
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered. " + e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void ascSetSort() throws IOException{
-        System.out.println("1-sort all set, 2-sort from index to index, 3-sort from num to end");
-        switch (bf.readLine()){
-            case "1" -> {
-                service.sortAsc();
-            }
-            case "2" -> {
-                System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
-                if(bf.readLine().equals(AGREE_INPUT)){
-                    getAvailableIndexes();
-                }
-                System.out.println("Enter first index:");
-                int firstIndex = Integer.parseInt(bf.readLine());
-                System.out.println("Enter last index:");
-                int lastIndex = Integer.parseInt(bf.readLine());
-                service.sortAsc(firstIndex, lastIndex);
-            }
-            case "3" -> {
-                //Считать Number
-            }
-            default -> {
-                System.out.println("Incorrect value entered");
-                return;
-            }
-        }
+        try {
+            System.out.println("1-sort all set, 2-sort from index to index, 3-sort from num to end");
+            switch (bf.readLine()){
+                case "1" -> service.sortAsc();
 
-        showResult();
+                case "2" -> {
+                    System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
+                    if(bf.readLine().equals(AGREE_INPUT)){
+                        getAvailableIndexes();
+                    }
+                    System.out.println("Enter first index:");
+                    int firstIndex = Integer.parseInt(bf.readLine());
+                    System.out.println("Enter last index:");
+                    int lastIndex = Integer.parseInt(bf.readLine());
+                    service.sortAsc(firstIndex, lastIndex);
+                }
+
+                case "3" -> {
+                    System.out.println("Enter number from which you want to sort the set:");
+                    String item = bf.readLine();
+                    Number from = readElement(item);
+                    service.sortAsc(from);
+                }
+
+                default -> {
+                    System.out.println("Incorrect value entered");
+                    return;
+                }
+            }
+
+            showResult();
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered. " + e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void descSetSort() throws IOException{
-        System.out.println("1-sort all set, 2-sort from index to index, 3-sort from num to end");
-        switch (bf.readLine()){
-            case "1" -> {
-                service.sortDesc();
-            }
-            case "2" -> {
-                System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
-                if(bf.readLine().equals(AGREE_INPUT)){
-                    getAvailableIndexes();
-                }
-                System.out.println("Enter first index:");
-                int firstIndex = Integer.parseInt(bf.readLine());
-                System.out.println("Enter last index:");
-                int lastIndex = Integer.parseInt(bf.readLine());
-                service.sortDesc(firstIndex, lastIndex);
-            }
-            case "3" -> {
-                //Считать Number
-            }
-            default -> {
-                System.out.println("Incorrect value entered");
-                return;
-            }
-        }
+        try {
+            System.out.println("1-sort all set, 2-sort from index to index, 3-sort from num to end");
+            switch (bf.readLine()){
+                case "1" -> service.sortDesc();
 
-        showResult();
+                case "2" -> {
+                    System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
+                    if(bf.readLine().equals(AGREE_INPUT)){
+                        getAvailableIndexes();
+                    }
+                    System.out.println("Enter first index:");
+                    int firstIndex = Integer.parseInt(bf.readLine());
+                    System.out.println("Enter last index:");
+                    int lastIndex = Integer.parseInt(bf.readLine());
+                    service.sortDesc(firstIndex, lastIndex);
+                }
+
+                case "3" -> {
+                    System.out.println("Enter number from which you want to sort the set:");
+                    String item = bf.readLine();
+                    Number from = readElement(item);
+                    service.sortDesc(from);
+                }
+
+                default -> {
+                    System.out.println("Incorrect value entered");
+                    return;
+                }
+            }
+
+            showResult();
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered. " + e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void getMaxElement(){
-        Number maxValue = service.getMax();
-        getAllSet();
-        System.out.println("Max element in set is: " + maxValue);
+        try{
+            Number maxValue = service.getMax();
+            getAllSet();
+            System.out.println("Max element in set is: " + maxValue);
+
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void getMinElement(){
-        Number minValue = service.getMin();
-        getAllSet();
-        System.out.println("Min element in set is: " + minValue);
+        try {
+            Number minValue = service.getMin();
+            getAllSet();
+            System.out.println("Min element in set is: " + minValue);
+
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void getAverage(){
-        DecimalFormat f = new DecimalFormat("##.00");
-        Number average = service.getAverage();
-        getAllSet();
-        System.out.println("Average of set is: " + f.format(average));
+        try {
+            DecimalFormat f = new DecimalFormat("##.00");
+            Number average = service.getAverage();
+            getAllSet();
+            System.out.println("Average of set is: " + f.format(average));
+
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void getMedian(){
-        DecimalFormat f = new DecimalFormat("##.00");
-        Number median = service.getMedian();
-        getAllSet();
-        System.out.println("Median of set is: " + f.format(median));
+        try {
+            DecimalFormat f = new DecimalFormat("##.00");
+            Number median = service.getMedian();
+            getAllSet();
+            System.out.println("Median of set is: " + f.format(median));
+
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void squash(){
-        //Доделать
-    }
+        try {
+            System.out.println("Select the indices from which to which you want to get the set");
+            System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
+            if(bf.readLine().equals(AGREE_INPUT)){
+                getAvailableIndexes();
+            }
 
+            System.out.println("Enter first index:");
+            int firstIndex = Integer.parseInt(bf.readLine());
+            System.out.println("Enter last index:");
+            int lastIndex = Integer.parseInt(bf.readLine());
 
-    private void setToArray() throws IOException{
-        Number[] elements;
-        System.out.println("1-get all set, 2-get from index to index");
-        switch(bf.readLine()){
-            case "1" -> {
-                elements = service.toArray();
-                for(Number item : elements){
-                    System.out.print(item + " ");
-                }
-                System.out.println();
+            MathSet newSet = service.squash(firstIndex, lastIndex);
+            System.out.println("Successfully");
+            System.out.println(Arrays.toString(newSet.toArray()));
+
+            System.out.println("Do you want to make the resulting set current for next work? 1-yes, else-no");
+            if(bf.readLine().equals(AGREE_INPUT)){
+                service.createSet(true, newSet);
             }
-            case "2" -> {
-                System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
-                if(bf.readLine().equals(AGREE_INPUT)){
-                    getAvailableIndexes();
-                }
-                System.out.println("Enter first index:");
-                int firstIndex = Integer.parseInt(bf.readLine());
-                System.out.println("Enter last index:");
-                int lastIndex = Integer.parseInt(bf.readLine());
-                elements = service.toArray(firstIndex, lastIndex);
-                for(Number item : elements){
-                    System.out.print(item + " ");
-                }
-                System.out.println();
-            }
-            default -> {
-                System.out.println("Incorrect value entered");
-                return;
-            }
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered. " + e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
         }
     }
 
 
-    private void getElementByIndex() throws IOException{
-        System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
-        if(bf.readLine().equals(AGREE_INPUT)){
-            getAvailableIndexes();
+    private void setToArray(){
+        try {
+            Number[] elements;
+            System.out.println("1-get all set, 2-get from index to index");
+            switch(bf.readLine()){
+                case "1" -> {
+                    elements = service.toArray();
+                    for(Number item : elements){
+                        System.out.print(item + " ");
+                    }
+                    System.out.println();
+                }
+
+                case "2" -> {
+                    System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
+                    if(bf.readLine().equals(AGREE_INPUT)){
+                        getAvailableIndexes();
+                    }
+
+                    System.out.println("Enter first index:");
+                    int firstIndex = Integer.parseInt(bf.readLine());
+
+                    System.out.println("Enter last index:");
+                    int lastIndex = Integer.parseInt(bf.readLine());
+
+                    elements = service.toArray(firstIndex, lastIndex);
+                    for(Number item : elements){
+                        System.out.print(item + " ");
+                    }
+                    System.out.println();
+                }
+
+                default -> System.out.println("Incorrect value entered");
+            }
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered. " + e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
         }
-        System.out.println("Enter index of element");
-        int indexOfElement = Integer.parseInt(bf.readLine());
-        System.out.println("Element by index " + indexOfElement + " is: " + service.get(indexOfElement));
+    }
+
+
+    private void getElementByIndex(){
+        try {
+            System.out.println("Do you want to see range of available indexes? 1-yes, else-no");
+            if(bf.readLine().equals(AGREE_INPUT)){
+                getAvailableIndexes();
+            }
+
+            System.out.println("Enter index of element");
+            int indexOfElement = Integer.parseInt(bf.readLine());
+            System.out.println("Element by index " + indexOfElement + " is: " + service.get(indexOfElement));
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered. " + e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
     private void getSizeOfSet(){
-        int size = service.getSize();
-        System.out.println("Size of the set is: " + size + " elements");
+        try {
+            int size = service.getSize();
+            System.out.println("Size of the set is: " + size + " elements");
+
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
-    private void clearSet() throws IOException{
-        System.out.println("1-clear all set, 2-clear few numbers");
-        switch (bf.readLine()){
-            case "1" -> {
-                service.clear();
-                System.out.println("Successfully cleared");
+    private void clearSet(){
+        try{
+            System.out.println("1-clear all set, 2-clear few numbers");
+            switch (bf.readLine()){
+                case "1" -> {
+                    service.clear();
+                    System.out.println("Successfully cleared");
+                }
+
+                case "2" -> {
+                    System.out.println("Enter elements which you want to delete:");
+                    System.out.println("If you enter an element that is not in the set, it will be skipped");
+                    ArrayList<Number> numbersToClear = scanElements();
+                    Number []elements = new Number[numbersToClear.size()];
+                    service.clear(numbersToClear.toArray(elements));
+                    System.out.println("Successfully cleared");
+                    showResult();
+                }
+
+                default -> System.out.println("Incorrect value entered");
             }
-            case "2" -> {
-                System.out.println("Enter elements which you want to delete:");
-                System.out.println("If you enter an element that is not in the set, it will be skipped");
-                ArrayList<Number> numbersToClear = scanElements();
-                Number []elements = new Number[numbersToClear.size()];
-                service.clear(numbersToClear.toArray(elements));
-                System.out.println("Successfully cleared");
-                showResult();
-            }
-            default -> {
-                System.out.println("Incorrect value entered");
-                return;
-            }
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered");
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
         }
+
     }
 
 
     //Служебные методы
     private void getAvailableIndexes(){
-        int sizeOfSet = service.getSize();
-        System.out.println("Available indexes: 0-" + (sizeOfSet-1));
+        try {
+            int sizeOfSet = service.getSize();
+            switch (sizeOfSet){
+                case 0 -> throw new RuntimeException("Set is empty");
+                case 1 -> System.out.println("Available index is: 0");
+                default -> System.out.println("Available indexes: 0-" + (sizeOfSet-1));
+            }
+
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
     }
 
 
-    private void showResult() throws  IOException{
-        System.out.println("Do you want to see the result set? 1-yes, else-no");
-        if(bf.readLine().equals(AGREE_INPUT)){
-            getAllSet();
+    private void showResult(){
+        try {
+            System.out.println("Do you want to see the result set? 1-yes, else-no");
+            if(bf.readLine().equals(AGREE_INPUT)){
+                getAllSet();
+            }
+
+        } catch (IOException | NumberFormatException e){
+            System.out.println("Incorrect value entered");
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
         }
     }
 

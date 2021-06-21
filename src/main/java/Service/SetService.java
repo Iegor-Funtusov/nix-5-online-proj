@@ -1,24 +1,20 @@
 package Service;
 import Vaidation.Validation;
-import SetPackage.*;
+import Set.*;
 
 public class SetService {
     private MathSet set;
-//    private static SetService instance;
+    private static SetService instance;
 
-//    private SetService(){
-//        set = new MathSetImpl();
-//    }
-//
-//    public static SetService getInstance(){
-//        if(instance == null){
-//            instance =  new SetService();
-//        }
-//        return instance;
-//    }
+    private SetService(){
+        set = new MathSetImpl();
+    }
 
-    public SetService() {
-       set = new MathSetImpl();
+    public static SetService getInstance(){
+        if(instance == null){
+            instance =  new SetService();
+        }
+        return instance;
     }
 
 
