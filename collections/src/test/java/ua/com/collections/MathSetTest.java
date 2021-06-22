@@ -87,8 +87,8 @@ public class MathSetTest {
 
     @Test
     public void getMax() {
-        Integer integer = 56;
-        assertEquals(integer, mathSet.getMax());
+        Integer integer = 30;
+        assertEquals(integer, mathSet2.getMax());
     }
 
     @Test

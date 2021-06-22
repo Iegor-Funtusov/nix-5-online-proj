@@ -1,6 +1,5 @@
 package ua.com.collections;
 
-import java.lang.Number;
 import java.util.Arrays;
 
 public class MathSet<N extends Number & Comparable<N>> {
@@ -132,8 +131,9 @@ public class MathSet<N extends Number & Comparable<N>> {
     }
 
     public void sortDesc(N value) {
-        if(getIndexIfExist(value) != -1){
-            generalSort(getIndexIfExist(value), counter-1, false);
+        int v = getIndexIfExist(value);
+        if(v!=-1){
+            generalSort(v, counter-1, false);
         }
     }
 
@@ -191,7 +191,7 @@ public class MathSet<N extends Number & Comparable<N>> {
     public N getMax() {
         if(counter!=0) {
             N max = (N) this.get(1);
-            for (int i = 1; i < counter; i++) {
+            for (int i = 1; i <= counter; i++) {
                 if(max.compareTo(this.get(i)) == -1){
                     max = this.get(i);
                 }
@@ -206,7 +206,7 @@ public class MathSet<N extends Number & Comparable<N>> {
     public N getMin() {
         if(counter!=0) {
             N min = (N) this.get(1);
-            for (int i = 1; i < counter; i++) {
+            for (int i = 1; i <= counter; i++) {
                 if(min.compareTo(this.get(i)) == 1){
                     min = this.get(i);
                 }
@@ -231,15 +231,15 @@ public class MathSet<N extends Number & Comparable<N>> {
         }
     }
 
-    public Double getMedian() {
+    public N getMedian() {
         MathSet<N> new_ = new MathSet<N>();
         new_ = this;
         new_.sortAsc();
         double result = 0.0;
         if(counter%2 == 0){
-            return new_.get(counter/2 + 1).doubleValue();
+            return new_.get(counter/2 + 1);
         }
-        return new_.get((int) Math.ceil(counter/2)).doubleValue();
+        return new_.get(counter/2 + 1);
     }
 
     public Object[] toArray() {
@@ -331,6 +331,15 @@ public class MathSet<N extends Number & Comparable<N>> {
                 "counter=" + counter +
                 ", array=" + Arrays.toString(array) +
                 '}';
+    }
+
+    public void showMathset() {
+        StringBuilder s = null;
+        for (Object a : array) {
+            if (a != null) {
+                System.out.print(a + " ");
+            }
+        }
     }
 }
 
