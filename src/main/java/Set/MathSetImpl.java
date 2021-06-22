@@ -400,7 +400,7 @@ public class MathSetImpl implements MathSet{
     }
 
 
-    public Double getAverage(){
+    public Number getAverage(){
         double sum = 0;
         Node localTop = top;
         while(localTop != null){
@@ -411,10 +411,10 @@ public class MathSetImpl implements MathSet{
     }
 
 
-    public Double getMedian(){
+    public Number getMedian(){
         //Если нечётное кол-во, беру средний элемент
         if(size() % 2 != 0){
-            return (Double) get(size() / 2);
+            return get(size() / 2);
         }
         //Если чётное кол-во, среднее арифм. двух средних элементов
         double first = get(size() / 2).doubleValue();

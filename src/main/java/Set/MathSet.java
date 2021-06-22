@@ -27,9 +27,9 @@ public interface MathSet<E extends Number>{
 
     E getMin();
 
-    Double getAverage();
+    Number getAverage();
 
-    Double getMedian();
+    Number getMedian();
 
     Number[] toArray();
 

@@ -10,7 +10,7 @@ public class Validation {
             throw new RuntimeException("Set does not exist");
         }
         if(index < 0 || index > (set.size()-1)){
-            throw new RuntimeException("Index out of bounds");
+            throw new RuntimeException("Incorrect index entered");
         }
     }
 
