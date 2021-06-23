@@ -1,4 +1,4 @@
-import ua.com.services.MathSetController;
+package ua.com.services;
 
 public class Main {
 
