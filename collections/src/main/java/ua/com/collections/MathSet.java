@@ -12,16 +12,8 @@ public class MathSet<N extends Number & Comparable<N>> {
         return counter;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
-
     public Object[] getArray() {
         return array;
-    }
-
-    public void setArray(Object[] array) {
-        this.array = array;
     }
 
     public MathSet(){
@@ -221,7 +213,7 @@ public class MathSet<N extends Number & Comparable<N>> {
     public Double getAverage() {
         if(counter!=0) {
             Double average = 0.0;
-            for (int i = 1; i < counter; i++) {
+            for (int i = 1; i <= counter; i++) {
                     average += this.get(i).doubleValue();
                 }
             return average/counter;

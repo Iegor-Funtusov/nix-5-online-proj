@@ -1,6 +1,6 @@
 package ua.com.collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -100,7 +100,7 @@ public class MathSetTest {
     @Test
     public void getAverage() {
         double sum = 0;
-        for (int i =1; i < mathSet.getCounter(); i++){
+        for (int i = 1; i <= mathSet.getCounter(); i++){
             sum += mathSet.get(i).doubleValue();
         }
         assertEquals(sum/mathSet.getCounter(), mathSet.getAverage(), 0.0);
