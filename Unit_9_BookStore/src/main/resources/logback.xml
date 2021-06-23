@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <property name="HOME_LOG" value="logs"/>
+    <property name="ARCHIVED_LOG" value="archived"/>
+
+    <appender name="infoBook" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/infoB.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/infoBook/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>20</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="warnBook" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/warnB.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/warnBook/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>20</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="errorBook" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/errorB.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/errorBook/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
+            <totalSizeCap>2GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="infoAuthor" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/infoA.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/infoAuthor/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>20</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="warnAuthor" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/warnA.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/warnAuthor/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <totalSizeCap>3GB</totalSizeCap>
+            <maxHistory>20</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="errorAuthor" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}/errorA.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${HOME_LOG}/${ARCHIVED_LOG}/errorAuthor/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
+            <totalSizeCap>2GB</totalSizeCap>
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="infoBook" level="info" additivity="false">
+        <appender-ref ref="infoBook"/>
+    </logger>
+
+    <logger name="warnBook" level="warn" additivity="false">
+        <appender-ref ref="warnBook"/>
+    </logger>
+
+    <logger name="errorBook" level="error" additivity="false">
+        <appender-ref ref="errorBook"/>
+    </logger>
+
+    <logger name="infoAuthor" level="info" additivity="false">
+        <appender-ref ref="infoAuthor"/>
+    </logger>
+
+    <logger name="warnAuthor" level="warn" additivity="false">
+        <appender-ref ref="warnAuthor"/>
+    </logger>
+
+    <logger name="errorAuthor" level="error" additivity="false">
+        <appender-ref ref="errorAuthor"/>
+    </logger>
+
+</configuration>
