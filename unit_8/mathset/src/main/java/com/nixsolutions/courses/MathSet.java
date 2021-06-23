@@ -28,9 +28,9 @@ public interface MathSet<E extends Comparable> {
 
     E getMin();
 
-    E getAverage();
+    Number getAverage();
 
-    E getMedian();
+    Number getMedian();
 
     int getSize();
 
