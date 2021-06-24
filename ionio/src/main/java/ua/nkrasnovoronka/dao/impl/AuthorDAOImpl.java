@@ -1,7 +1,7 @@
 package ua.nkrasnovoronka.dao.impl;
 
 import ua.nkrasnovoronka.dao.AuthorDAO;
-import ua.nkrasnovoronka.data.CSVLibraryDB;
+import ua.nkrasnovoronka.data.impl.CSVLibraryDB;
 import ua.nkrasnovoronka.data.LibraryDB;
 import ua.nkrasnovoronka.model.Author;
 
@@ -26,12 +26,12 @@ public class AuthorDAOImpl implements AuthorDAO {
 
     @Override
     public Author findByID(Long id) {
-        return null;
+        return libraryDB.getAuthorById(id);
     }
 
     @Override
     public List<Author> findAll() {
-        return null;
+        return libraryDB.getAllAuthors();
     }
 
     @Override

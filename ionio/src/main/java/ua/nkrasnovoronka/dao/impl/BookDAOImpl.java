@@ -1,7 +1,7 @@
 package ua.nkrasnovoronka.dao.impl;
 
 import ua.nkrasnovoronka.dao.BookDAO;
-import ua.nkrasnovoronka.data.CSVLibraryDB;
+import ua.nkrasnovoronka.data.impl.CSVLibraryDB;
 import ua.nkrasnovoronka.data.LibraryDB;
 import ua.nkrasnovoronka.model.Book;
 
@@ -26,12 +26,12 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public Book findByID(Long id) {
-        return null;
+        return libraryDB.getBookById(id);
     }
 
     @Override
     public List<Book> findAll() {
-        return null;
+        return libraryDB.getAllBooks();
     }
 
     @Override

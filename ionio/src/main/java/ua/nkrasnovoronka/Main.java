@@ -12,5 +12,7 @@ public class Main {
         authorService.create(author);
         author.setFirstName("Kall");
         authorService.create(author);
+
+        System.out.println(authorService.getAllAuthors());
     }
 }

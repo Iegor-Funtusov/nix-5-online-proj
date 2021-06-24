@@ -29,7 +29,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Collection<Book> getAllBooks() {
-        return null;
+        return bookDAO.findAll();
     }
 
     @Override
@@ -39,6 +39,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book getBookByName(String name) {
+//        return bookDAO.findAll().stream().filter(book -> book.equals());
         return null;
     }
 }

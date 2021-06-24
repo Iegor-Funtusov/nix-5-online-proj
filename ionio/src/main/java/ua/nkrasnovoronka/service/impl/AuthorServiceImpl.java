@@ -30,7 +30,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Collection<Author> getAllAuthors() {
-        return null;
+        return authorDAO.findAll();
     }
 
     @Override
