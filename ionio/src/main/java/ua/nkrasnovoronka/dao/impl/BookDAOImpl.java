@@ -1,19 +1,22 @@
 package ua.nkrasnovoronka.dao.impl;
 
 import ua.nkrasnovoronka.dao.BookDAO;
+import ua.nkrasnovoronka.data.CSVLibraryDB;
+import ua.nkrasnovoronka.data.LibraryDB;
 import ua.nkrasnovoronka.model.Book;
 
 import java.util.List;
 
 public class BookDAOImpl implements BookDAO {
+    private final LibraryDB libraryDB = CSVLibraryDB.getInstance();
+
     @Override
-    public Book create(Book book) {
-        return null;
+    public void create(Book book) {
+        libraryDB.createBook(book);
     }
 
     @Override
-    public Book update(Book book) {
-        return null;
+    public void update(Book book) {
     }
 
     @Override

@@ -11,13 +11,12 @@ public class AuthorDAOImpl implements AuthorDAO {
     private final LibraryDB libraryDB = CSVLibraryDB.getInstance();
 
     @Override
-    public Author create(Author author) {
-        return null;
+    public void create(Author author) {
+        libraryDB.createAuthor(author);
     }
 
     @Override
-    public Author update(Author author) {
-        return null;
+    public void update(Author author) {
     }
 
     @Override

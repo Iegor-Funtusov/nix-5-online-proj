@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.nkrasnovoronka.dao.AuthorDAO;
 import ua.nkrasnovoronka.dao.impl.AuthorDAOImpl;
-import ua.nkrasnovoronka.data.CSVLibraryDB;
-import ua.nkrasnovoronka.data.LibraryDB;
 import ua.nkrasnovoronka.model.Author;
 import ua.nkrasnovoronka.model.Book;
 import ua.nkrasnovoronka.service.AuthorService;
@@ -18,10 +16,11 @@ public class AuthorServiceImpl implements AuthorService {
     private static final Logger loggerWarn = LoggerFactory.getLogger("warn");
     private static final Logger loggerError = LoggerFactory.getLogger("error");
 
+    private final AuthorDAO authorDAO = new AuthorDAOImpl();
 
     @Override
-    public Author create(Author author) {
-        return null;
+    public void create(Author author) {
+        authorDAO.create(author);
     }
 
     @Override

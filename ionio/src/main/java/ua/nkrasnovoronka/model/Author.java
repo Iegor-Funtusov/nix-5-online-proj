@@ -17,6 +17,7 @@ public class Author extends AbstractEntity {
 
     public Author() {
         booksList = new HashSet<>();
+        super.setVisible(true);
     }
 
     public void setBooksList(Long bookId) {

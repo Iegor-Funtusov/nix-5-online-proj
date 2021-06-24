@@ -6,7 +6,7 @@ import ua.nkrasnovoronka.model.Book;
 import java.util.Collection;
 
 public interface AuthorService {
-    Author create(Author author);
+    void create(Author author);
 
     Author removeAuthorByName(String name);
 

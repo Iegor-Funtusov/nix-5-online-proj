@@ -3,6 +3,9 @@ package ua.nkrasnovoronka.data;
 import com.opencsv.CSVWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ua.nkrasnovoronka.model.Author;
+import ua.nkrasnovoronka.model.Book;
+import ua.nkrasnovoronka.util.Util;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,8 +28,8 @@ public class CSVLibraryDB implements LibraryDB {
     private final List<String[]> bookHeader = Collections.singletonList(new String[]{"id", "title", "genre", "visible"});
 
 
-    private final long authorId = 1;
-    private final long bookId = 1;
+    private long authorId = 1;
+    private long bookId = 1;
 
     private static CSVLibraryDB instance;
 
@@ -64,6 +67,24 @@ public class CSVLibraryDB implements LibraryDB {
             return instance;
         }
         return new CSVLibraryDB();
+    }
+
+    @Override
+    public void createAuthor(Author author){
+        try(CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV, true))) {
+            authorWriter.writeNext(Util.authorToStringArray(author, authorId++));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void createBook(Book book){
+        try(CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV, true))) {
+            bookWriter.writeNext(Util.bookToStringArray(book, bookId++));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

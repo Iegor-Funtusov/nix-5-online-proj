@@ -5,7 +5,7 @@ import ua.nkrasnovoronka.model.Book;
 import java.util.Collection;
 
 public interface BookService {
-    Book create(Book book);
+    void create(Book book);
 
     Book removeBookByName(String name);
 
