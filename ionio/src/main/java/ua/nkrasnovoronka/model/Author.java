@@ -1,6 +1,5 @@
 package ua.nkrasnovoronka.model;
 
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +18,6 @@ public class Author extends AbstractEntity {
     public Author() {
         booksList = new HashSet<>();
     }
-
 
     public void setBooksList(Long bookId) {
         booksList.add(bookId);

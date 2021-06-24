@@ -1,6 +1,5 @@
 package ua.nkrasnovoronka.model;
 
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = true)
-public class Book extends AbstractEntity{
+public class Book extends AbstractEntity {
     private String bookTitle;
     private Genre genre;
     private double bookRating;
