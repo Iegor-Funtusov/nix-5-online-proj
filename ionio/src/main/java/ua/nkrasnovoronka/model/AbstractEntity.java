@@ -1,6 +1,16 @@
 package ua.nkrasnovoronka.model;
 
-public abstract class AbstractEntity {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
+public class AbstractEntity {
     private Long id;
+    private boolean visible;
 
 }
