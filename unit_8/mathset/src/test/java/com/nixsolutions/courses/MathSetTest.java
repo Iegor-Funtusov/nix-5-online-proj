@@ -224,6 +224,17 @@ public class MathSetTest {
     }
 
     @Test
+    public void squash() {
+        Integer[] array = randomArray();
+        MathSet<Integer> mathSet = new MathSetNumber<>(array);
+        int indexFrom = DEFAULT_CAPACITY/2 - DEFAULT_CAPACITY/3;
+        int indexTo = DEFAULT_CAPACITY/2 + DEFAULT_CAPACITY/3;
+        Integer[] arr = ArrayUtils.copyOfRange(array, indexFrom, indexTo, Integer[].class);
+        MathSet<Integer> squashSet = mathSet.squash(indexFrom, indexTo);
+        Assertions.assertTrue(Arrays.equals(arr, squashSet.toArray()));
+    }
+
+    @Test
     public void clear() {
         MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
         mathSet.clear();
