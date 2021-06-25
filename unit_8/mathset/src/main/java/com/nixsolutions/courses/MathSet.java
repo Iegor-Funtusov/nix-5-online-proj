@@ -1,6 +1,6 @@
 package com.nixsolutions.courses;
 
-public interface MathSet<E extends Comparable> {
+public interface MathSet<E extends Number> {
 
     void add(E n);
 
@@ -34,9 +34,9 @@ public interface MathSet<E extends Comparable> {
 
     int getSize();
 
-    Object[] toArray();
+    Number[] toArray();
 
-    Object[] toArray(int firstIndex, int lastIndex);
+    Number[] toArray(int firstIndex, int lastIndex);
 
     MathSet squash(int firstIndex, int lastIndex);
 

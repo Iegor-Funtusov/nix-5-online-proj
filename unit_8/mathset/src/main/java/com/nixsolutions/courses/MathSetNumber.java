@@ -3,32 +3,35 @@ package com.nixsolutions.courses;
 
 import com.nixsolutions.courses.utils.ArrayUtils;
 
+import java.util.NoSuchElementException;
+
 public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<E> {
 
     private static final int DEFAULT_CAPACITY = 10;
 
-    private Object[] mathSet;
+    private Number[] mathSet;
     private int size;
 
     public MathSetNumber() {
-        mathSet = new Object[DEFAULT_CAPACITY];
+        mathSet = new Number[DEFAULT_CAPACITY];
     }
 
     public MathSetNumber(int capacity) {
         if (capacity >= 0) {
-            mathSet = new Object[capacity];
+            mathSet = new Number[capacity];
         } else {
             throw new IllegalArgumentException("Capacity value is illegal");
         }
     }
 
     public MathSetNumber(E[] numbers) {
-        mathSet = new Object[numbers.length];
+        mathSet = new Number[numbers.length];
         add(numbers);
     }
 
+    @SafeVarargs
     public MathSetNumber(E[]... numbers) {
-        mathSet = new Object[numbers.length * DEFAULT_CAPACITY];
+        mathSet = new Number[numbers.length * DEFAULT_CAPACITY];
         for (E[] array : numbers) {
             add(array);
         }
@@ -36,15 +39,16 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public void add(E n) {
-        if (mathSet.length == size) mathSet = resize();
+        if (mathSet.length == size) resize();
         if (isUnique(n)) {
             mathSet[size++] = n;
         }
     }
 
+    @SafeVarargs
     @Override
-    public void add(E... n) {
-        if (mathSet.length - size < n.length) mathSet = resize(n.length);
+    public final void add(E... n) {
+        if (mathSet.length - size < n.length) resize(mathSet.length + n.length);
         for (E t : n) {
             add(t);
         }
@@ -52,13 +56,15 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public void join(MathSet<E> ms) {
-        for (Object o : ms.toArray()) {
-            add((E)o);
+        if (mathSet.length - size < ms.getSize()) resize(mathSet.length + ms.getSize());
+        for (Number n : ms.toArray()) {
+            add((E) n);
         }
     }
 
+    @SafeVarargs
     @Override
-    public void join(MathSet<E>... ms) {
+    public final void join(MathSet<E>... ms) {
         for (MathSet<E> m : ms) {
             join(m);
         }
@@ -66,24 +72,15 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public void sortDesc() {
-        Object temp;
-        for (int i = 0; i < size; i++) {
-            for (int j = i + 1; j < size; j++) {
-                if (((E)mathSet[j]).compareTo((E)mathSet[i]) > 0) {
-                    temp = mathSet[i];
-                    mathSet[i] = mathSet[j];
-                    mathSet[j] = temp;
-                }
-            }
-        }
+        sortDesc(0, size);
     }
 
     @Override
     public void sortDesc(int firstIndex, int lastIndex) {
-        Object temp;
+        Number temp;
         for (int i = firstIndex; i < lastIndex; i++) {
             for (int j = i + 1; j < lastIndex; j++) {
-                if (((E)mathSet[j]).compareTo((E)mathSet[i]) > 0) {
+                if (((E) mathSet[j]).compareTo((E) mathSet[i]) > 0) {
                     temp = mathSet[i];
                     mathSet[i] = mathSet[j];
                     mathSet[j] = temp;
@@ -95,29 +92,20 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     @Override
     public void sortDesc(E value) {
         int index = indexOf(value);
-        sortDesc(index, size + 1);
+        sortDesc(index, size);
     }
 
     @Override
     public void sortAsc() {
-        Object temp;
-        for (int i = 0; i < size; i++) {
-            for (int j = i + 1; j < size; j++) {
-                if (((E)mathSet[j]).compareTo((E)mathSet[i]) < 0) {
-                    temp = mathSet[i];
-                    mathSet[i] = mathSet[j];
-                    mathSet[j] = temp;
-                }
-            }
-        }
+        sortAsc(0, size);
     }
 
     @Override
     public void sortAsc(int firstIndex, int lastIndex) {
-        Object temp;
+        Number temp;
         for (int i = firstIndex; i < lastIndex; i++) {
             for (int j = i + 1; j < lastIndex; j++) {
-                if (((E)mathSet[j]).compareTo((E)mathSet[i]) < 0) {
+                if (((E) mathSet[j]).compareTo((E) mathSet[i]) < 0) {
                     temp = mathSet[i];
                     mathSet[i] = mathSet[j];
                     mathSet[j] = temp;
@@ -129,77 +117,87 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     @Override
     public void sortAsc(E value) {
         int index = indexOf(value);
-        sortAsc(index, size + 1);
+        sortAsc(index, size);
     }
 
     @Override
     public E get(int index) {
-        if (index > mathSet.length) throw new IndexOutOfBoundsException("Index is out of boundaries");
-        return (E)mathSet[index];
+        if (validIndex(index)) return (E) mathSet[index];
+        return null;
     }
 
     @Override
     public E getMax() {
-        E max = (E)mathSet[0];
+        E max = (E) mathSet[0];
         for (int i = 1; i < size - 1; i++) {
-            if (max.compareTo((E) mathSet[i + 1]) < 0) max = (E)mathSet[i+1];
+            if (max.compareTo((E) mathSet[i + 1]) < 0) max = (E) mathSet[i + 1];
         }
         return max;
     }
 
     @Override
     public E getMin() {
-        E min = (E)mathSet[0];
+        E min = (E) mathSet[0];
         for (int i = 1; i < size - 1; i++) {
-            if (min.compareTo((E)mathSet[i+1]) > 0) min = (E)mathSet[i+1];
+            if (min.compareTo((E) mathSet[i + 1]) > 0) min = (E) mathSet[i + 1];
         }
         return min;
     }
 
     @Override
     public Number getAverage() {
-        int sum = 0;
-        for (Object o : mathSet) {
-            sum += (int)o;
+        double sum = 0;
+        for (Number n : mathSet) {
+            sum += (int) n;
         }
         return sum / size;
     }
 
     @Override
     public Number getMedian() {
-        sortAsc();
-        if (size % 2 != 0) {
-            return get(size/2);
+        MathSetNumber set = new MathSetNumber(mathSet);
+        set.sortAsc();
+        if (set.getSize() % 2 != 0) {
+            return set.get(set.getSize() / 2);
         } else {
-            return (get(size/2 - 1).doubleValue() + get(size/2).doubleValue())/2;
+            return (set.get(set.getSize() / 2 - 1).doubleValue() + set.get(set.getSize() / 2).doubleValue()) / 2;
         }
     }
 
     @Override
-    public Object[] toArray() {
-        Object[] copy = new Object[size];
-        System.arraycopy(mathSet, 0, copy, 0, size);
-        return copy;
+    public Number[] toArray() {
+        return ArrayUtils.copyOfRange(mathSet, 0, size - 1, Number[].class);
     }
 
     @Override
-    public Object[] toArray(int firstIndex, int lastIndex) {
-        return null;
+    public Number[] toArray(int firstIndex, int lastIndex) {
+        if (validIndex(firstIndex) && validIndex(lastIndex) && lastIndex - firstIndex + 1 < size)
+            return ArrayUtils.copyOfRange(mathSet, firstIndex, lastIndex, Number[].class);
+        throw new IllegalArgumentException("Illegal pair of indexes");
     }
 
     @Override
-    public MathSet squash(int firstIndex, int lastIndex) {
-        return null;
+    public MathSet<E> squash(int firstIndex, int lastIndex) {
+        return new MathSetNumber<E>((E[]) toArray(firstIndex, lastIndex));
     }
 
     @Override
     public void clear() {
-        mathSet = new Object[DEFAULT_CAPACITY];
+        mathSet = new Number[DEFAULT_CAPACITY];
         size = 0;
     }
 
     @Override
     public void clear(E[] numbers) {
+        for (E number : numbers) {
+            try {
+                int index = indexOf(number);
+                mathSet[index] = null;
+                size--;
+            } catch (NoSuchElementException e) {
+                System.out.println(e.getMessage());
+            }
+        }
 
     }
 
@@ -207,12 +205,12 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
         return size;
     }
 
-    private Object[] resize(int newCapacity) {
-        return ArrayUtils.copyOf(mathSet, newCapacity);
+    private void resize(int newCapacity) {
+        ArrayUtils.copyOf(mathSet, newCapacity, Number[].class);
     }
 
-    private Object[] resize() {
-        return resize(size + size / 3);
+    private void resize() {
+        resize(size + (size / 2));
     }
 
     private int indexOf(E element) {
@@ -220,12 +218,18 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     }
 
     private boolean isUnique(E element) {
-        for (Object o : mathSet) {
-            if (o != null) {
-                if (o.equals(element)) return false;
+        if (size == 0) return true;
+        for (Number n : mathSet) {
+            if (n != null) {
+                if (n.equals(element)) return false;
             }
         }
         return true;
+    }
+
+    private boolean validIndex(int index) {
+        if (index >= 0 && index <= size - 1) return true;
+        throw new IndexOutOfBoundsException("Index is out of boundaries");
     }
 
 }

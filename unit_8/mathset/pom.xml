@@ -36,7 +36,7 @@
     </dependencies>
 
     <build>
-        <finalName>crud</finalName>
+        <finalName>mathset</finalName>
         <resources>
             <resource>
                 <filtering>true</filtering>
