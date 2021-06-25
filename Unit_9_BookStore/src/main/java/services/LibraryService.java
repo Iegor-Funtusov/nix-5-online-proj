@@ -165,10 +165,13 @@ public class LibraryService {
             List<String[]> read = reader.readAll();
             for (String[] r : read) {
                 if (r[2].contains(authorName)) {
-                    if(choice == 1)
+                    if(choice == 1) {
                         BookService.update(bookName, authorName, newInput, choice);
+                        break;
+                    }
                     else{
                         BookService.update(r[1], authorName, newInput, 2);
+                        break;
                     }
                 }
             }
