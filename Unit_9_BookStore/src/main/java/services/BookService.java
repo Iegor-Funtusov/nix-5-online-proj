@@ -23,7 +23,7 @@ public class BookService {
 
     private final static String INVISIBLE = "INVISIBLE";
     private final static String VISIBLE = "VISIBLE";
-    private static int indexInFile = 0;
+    private static int indexInFile;
 
     private static final Logger loggerInfo = LoggerFactory.getLogger("infoBook");
     private static final Logger loggerWarn = LoggerFactory.getLogger("warnBook");
@@ -32,97 +32,44 @@ public class BookService {
     public static void create(Book book){
         loggerInfo.info("Adding the book: " + book.getName());
         String[] currentBook = new String[4];
-        currentBook[0] = String.format("%d", ++indexInFile);
         currentBook[1] = book.getName().trim();
         currentBook[2] = book.getListOfAuthors();;
         currentBook[3] = VISIBLE;
+
+        if(currentBook[1].isBlank() || currentBook[2].isBlank())
+            return;
 
         checkFileBook();
         checkFileAuthor();
 
         List<String[]> csv = new ArrayList<>();
-//        if(!(new File(BOOKS).exists())){
-//            loggerWarn.warn("Creating of file");
-//            String[] header = {"name", "list of authors"};
-//            csv.add(header);
-//            csv.add(currentBook);
-//            try(CSVWriter writer = new CSVWriter(new FileWriter(BOOKS, true))) {
-//                writer.writeAll(csv);
-//            } catch (IOException e) {
-//                loggerError.error("Error when program tried to write header");
-//                e.printStackTrace();
-//            }
-//            loggerWarn.warn("File was created");
-//            flag1 = true;
-//        }
         try(CSVReader reader = new CSVReader(new FileReader(BOOKS))) {
             List<String[]> read = reader.readAll();
             for (String[] r : read) {
-                if(r[1].equalsIgnoreCase(currentBook[1].trim()) && r[2].equalsIgnoreCase(currentBook[2].trim())){
+                if(r[1].equalsIgnoreCase(currentBook[1].trim()) && r[2].equalsIgnoreCase(currentBook[2].trim())
+                        && !r[3].contains(INVISIBLE)){
                     loggerWarn.warn("Book \"" + r[1] + "\" already exists");
-                    System.out.println("Book\"" + r[1] + "\" already exists");
+                    System.out.println("Book \"" + r[1] + "\" already exists");
                     return;
                 }
             }
+            indexInFile = read.size();
         } catch (IOException | CsvException e) {
             loggerError.error("Error when program tried to read rows in file");
             e.printStackTrace();
         }
 
+
+        currentBook[0] = String.format("%d", indexInFile);
         csv.add(currentBook);
 
-//        if(flag1 == false) {
-            try (CSVWriter writer = new CSVWriter(new FileWriter(BOOKS, true))) {
-                writer.writeAll(csv);
-            } catch (IOException e) {
-                loggerError.error("Error when program tried to write new Author");
-                e.printStackTrace();
-            }
-//        }
-//        else {
-//            try (CSVWriter writer = new CSVWriter(new FileWriter(AUTHORS))) {
-//                writer.writeAll(csv);
-//            } catch (IOException e) {
-//                loggerError.error("Error when program tried to write new Author");
-//                e.printStackTrace();
-//            }
-//        }
 
-//        try (CSVWriter writer = new CSVWriter(new FileWriter(BOOKS, true))) {
-//            writer.writeAll(csv);
-//        } catch (IOException e) {
-//            loggerError.error("Error when program tried to write new Book");
-//            e.printStackTrace();
-//        }
-//        try(CSVReader reader = new CSVReader(new FileReader(AUTHORS))) {
-//            boolean flag = false;
-//            for (int i = 0; i < authors.length; i++) {
-//                List<String[]> read = reader.readAll();
-//                for(String[] r : read) {
-//                    if (r[1].equalsIgnoreCase(authors[i].trim())) {
-//                        flag = true;
-//                    }
-//                }
-//                if (flag == false) {
-//                    Author author = new Author();
-//                    String[] fullName = authors[i].trim().split(" ");
-//                    if(fullName.length != 2){
-//                        loggerWarn.warn("Incorrect input. Input must contain first and last names");
-//                        System.out.println("Incorrect input. Input must contain first and last names");
-//                        return;
-//                    }
-//                    author.setFirstName(fullName[0]);
-//                    author.setLastName(fullName[1]);
-//                    author.setListOfBooks(currentBook[0]);
-//                    AuthorService.create(author);
-//                }
-//                flag = false;
-//            }
-//        } catch (IOException | CsvException e) {
-//            loggerError.error("Error when program tried to read rows in file");
-//            e.printStackTrace();
-//        }
-
+        try (CSVWriter writer = new CSVWriter(new FileWriter(BOOKS, true))) {
+            writer.writeAll(csv);
+        } catch (IOException e) {
+            loggerError.error("Error when program tried to write new Author");
+            e.printStackTrace();
+        }
         loggerInfo.info("Book was added");
     }
 
@@ -143,9 +90,6 @@ public class BookService {
     }
 
     public static void readAll(){
-        if(!checkFileBooks()){
-            return;
-        }
         loggerInfo.info("begin of reading of complete file");
         try(CSVReader reader = new CSVReader(new FileReader(BOOKS))) {
             List<String[]> read = reader.readAll();
@@ -161,9 +105,6 @@ public class BookService {
     }
 
     public static void readAll(String name){
-        if(!checkFileBooks()){
-            return;
-        }
         loggerInfo.info("begin of reading of complete file");
         int counter = 0;
         try(CSVReader reader = new CSVReader(new FileReader(BOOKS))) {
@@ -186,15 +127,17 @@ public class BookService {
         }
     }
 
-    public static void update(String bookName, String authorName, String newInput, int choice){// check exist such book or author
-        if(!checkFileBooks()){
-            return;
-        }
+    public static void update(String bookName, String authorName, String newInput, int choice){
         loggerInfo.info("begin of updating data in file");
         int counter = 0;
         try(CSVReader reader = new CSVReader(new FileReader(BOOKS))) {
             List<String[]> read = reader.readAll();
             for (String[] r : read) {
+                if(choice == 1 && r[1].equalsIgnoreCase(newInput) && r[2].contains(authorName) && !r[3].contains(INVISIBLE)){
+                    loggerWarn.warn("Such book already exists. Nothing will be changed");
+                    System.out.println("Such book already exists. Nothing will be changed");
+                    return;
+                }
                 if(r[1].equalsIgnoreCase(bookName) && r[2].contains(authorName) && !r[3].contains(INVISIBLE)){
                     if(choice == 1) {
                         r[1] = newInput;
@@ -209,15 +152,13 @@ public class BookService {
             }
             if(counter == read.size()){
                 loggerWarn.warn("Such record doesn't exist");
-                System.out.println("Such record doesn't exist");
+                System.out.println("Such record doesn't exist in book file");
                 return;
             }
             FileWriter sw = new FileWriter(BOOKS);
             CSVWriter writer = new CSVWriter(sw);
             writer.writeAll(read);
             writer.close();
-//            if(choice == 1)
-//                AuthorService.update(bookName,authorName, newInput, choice);
         } catch (IOException | CsvException e) {
             loggerError.error("Error when program tried to read/write rows in file (updating data)");
             e.printStackTrace();
@@ -225,10 +166,7 @@ public class BookService {
         loggerInfo.info("end of updating data in file");
     }
 
-    public static void delete(String bookName, String authorName){
-        if(!checkFileBooks()){
-            return;
-        }
+    public static void delete(String bookName, String authorName, boolean check){
         loggerWarn.warn("begin of deleting");
         int counter = 0;
         boolean flag = false;
@@ -236,11 +174,15 @@ public class BookService {
             List<String[]> allElements = reader.readAll();
             for (String[] r : allElements) {
                 if(r[1].equalsIgnoreCase(bookName) && r[2].contains(authorName) &&
-                        !(r[3].contains(INVISIBLE))) {
+                        !(r[3].contains(INVISIBLE)) && check == true) {
                     r[3] = INVISIBLE;
 //                    allElements.remove(r);
                     flag = true;
                     break;
+                }
+                if(r[1].equalsIgnoreCase(bookName) && r[2].contains(authorName) &&
+                        !(r[3].contains(INVISIBLE)) && check == false){
+                    flag = true;
                 }
                 counter++;
             }
@@ -258,14 +200,5 @@ public class BookService {
             e.printStackTrace();
         }
         loggerWarn.warn("end of deleting");
-    }
-
-    public static boolean checkFileBooks(){
-        if(!(new File(BOOKS).exists())){
-            loggerWarn.warn("File doesn't exist");
-            System.out.println("File doesn't exists. Please, create book or author.");
-            return false;
-        }
-        return true;
     }
 }

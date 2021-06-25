@@ -79,8 +79,7 @@ public class crudTest {
     @Order(4)
     public void updateBook(){
         LibraryService.updateBook("testBook", "author1 author1, author2 author2", "testTestBook", 1);
-        LibraryService.updateBook("testTestBook", "author1 author1, author2 author2", "author author", 2);
-        Assertions.assertTrue(findBooks("testTestBook", "author author"));
+        Assertions.assertTrue(findBooks("testTestBook", "author1 author1, author2 author2"));
     }
 
     @Test

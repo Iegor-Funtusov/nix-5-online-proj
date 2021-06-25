@@ -15,18 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static services.BookService.checkFileBook;
+import static services.LibraryService.checkFileAuthors;
 
 public class AuthorService {
     public final static String AUTHORS = "authors.csv";
     private final static String INVISIBLE = "INVISIBLE";
     private final static String VISIBLE = "VISIBLE";
-    private static int indexInFile = 0;
+    private static int indexInFile;
 
     private static final Logger loggerInfo = LoggerFactory.getLogger("infoAuthor");
     private static final Logger loggerWarn = LoggerFactory.getLogger("warnAuthor");
     private static final Logger loggerError = LoggerFactory.getLogger("errorAuthor");
 
-    public static void create(Author author){ // right creating with adding of books, right index when create
+    public static void create(Author author){
         loggerInfo.info("Adding the Author: " + author.getFirstName() + " " + author.getLastName());
         List<String[]> csv = new ArrayList<>();
         String string = author.getListOfBooks();
@@ -36,7 +37,6 @@ public class AuthorService {
         checkFileAuthor();
 
         String[] currentAuthor = new String[5];
-        currentAuthor[0] = String.format("%d", ++indexInFile);
         currentAuthor[1] = author.getFirstName();
 
         currentAuthor[2] = author.getLastName();
@@ -50,9 +50,9 @@ public class AuthorService {
             String newBooks = findBooks(read, Books, currentAuthor);
             for(String[] r : read) {
                 if (r[1].equalsIgnoreCase(currentAuthor[1].trim()) && r[2].equalsIgnoreCase(currentAuthor[2].trim())) {
-                    if(!newBooks.isBlank() && newBooks.charAt(0) == ',')
-                        newBooks = newBooks.substring(1);
                     r[3] += newBooks;
+                    if(!r[3].isBlank() && r[3].charAt(0) == ',')
+                        r[3] = newBooks.substring(2);
                     currentAuthor[3] = r[3];
                     currentAuthor[0] = r[0];
                     flag1 = true;
@@ -62,50 +62,28 @@ public class AuthorService {
             }
             if(counter == read.size()){
                 currentAuthor[3] = author.getListOfBooks();
+                indexInFile = read.size();
+                currentAuthor[0] = String.format("%d", indexInFile);
                 csv.add(currentAuthor);
+                FileWriter sw = new FileWriter(AUTHORS, true);
+                CSVWriter writer = new CSVWriter(sw);
+                writer.writeAll(csv);
+                writer.close();
+            }
+            else {
+                FileWriter sw = new FileWriter(AUTHORS);
+                CSVWriter writer = new CSVWriter(sw);
+                writer.writeAll(read);
+                writer.close();
             }
             if(flag1 == true){
                 loggerWarn.warn("Author \"" + fullName + "\" already exists");
-                System.out.println("Such author already exists. New books (if such ones were in input) were added");
+                System.out.println("Author \"" + fullName + "\" already exists. New books (if such ones were in input) were added");
             }
         } catch (IOException | CsvException e) {
-            loggerError.error("Error when program tried to read rows in file");
+            loggerError.error("Error when program tried to read/write rows in file");
             e.printStackTrace();
         }
-            try (CSVWriter writer = new CSVWriter(new FileWriter(AUTHORS, true))) {
-                writer.writeAll(csv);
-            } catch (IOException e) {
-                loggerError.error("Error when program tried to write new Author");
-                e.printStackTrace();
-            }
-//        int counter = 0;
-//        try(CSVReader reader = new CSVReader(new FileReader(BOOKS));) {
-//            for (int i = 0; i < Books.length; i++) {
-//                List<String[]> read = reader.readAll();
-//                for(String[] r : read) {
-//                    if(r[0].equalsIgnoreCase(Books[i].trim())){
-//                        if(!r[1].contains(fullName)){
-//                            Book book = new Book();
-//                            book.setName(Books[i].trim());
-//                            book.setListOfAuthors(fullName);
-//                            BookService.create(book);
-//                        }
-//                        continue;
-//                    }
-//                    counter++;
-//                }
-//                if(counter == read.size()){
-//                    Book book = new Book();
-//                    book.setName(Books[i].trim());
-//                    book.setListOfAuthors(fullName);
-//                    BookService.create(book);
-//                }
-//                counter = 0;
-//            }
-//        } catch (IOException | CsvException e) {
-//            loggerError.error("Error when program tried to read rows in file");
-//            e.printStackTrace();
-//        }
         loggerInfo.info("Author was added");
     }
 
@@ -131,7 +109,7 @@ public class AuthorService {
             if (r[1].equalsIgnoreCase(currentAuthor[1].trim()) && r[2].equalsIgnoreCase(currentAuthor[2].trim())) {
                 for (int i = 0; i < Books.length; i++) {
                     if (!r[3].contains(Books[i])) {
-                        newBooks += "," + Books[i];
+                        newBooks += ", " + Books[i];
                     }
                     if(i == Books.length-1){
                         return newBooks;
@@ -143,25 +121,9 @@ public class AuthorService {
     }
 
     public static void readAll(){
-        if(!checkFileAuthors()){
-            return;
-        }
         loggerInfo.info("begin of reading of complete file");
-//        String authors = "";
         try(CSVReader reader = new CSVReader(new FileReader(AUTHORS))) {
             List<String[]> read = reader.readAll();
-//            for(String[] r : read){
-//                String[] row = r[1].split(",");
-//                for (int i = 0; i < row.length; i++) {
-//                    if(!authors.contains(row[i])){
-//                        authors += row[i]+",";
-//                    }
-//                }
-//            }
-//            String[] onlyAuthors = authors.split(",");
-//            for (int i = 0; i < onlyAuthors.length; i++) {
-//                System.out.println(onlyAuthors[i]);
-//            }
             for (String[] r : read) {
                 if(!(r[4].contains(INVISIBLE)))
                     System.out.println(r[0] + " | " + r[1] + " | " + r[2] + " | " + r[3]);
@@ -179,6 +141,7 @@ public class AuthorService {
         }
         String[] fullName = name.split(" ");
         loggerInfo.info("begin of reading of complete file");
+        int counter = 0;
         String books = "";
         try(CSVReader reader = new CSVReader(new FileReader(AUTHORS))) {
             List<String[]> read = reader.readAll();
@@ -187,16 +150,17 @@ public class AuthorService {
                         !(r[4].contains(INVISIBLE))){
                     books += r[3];
                 }
+                counter++;
             }
             String[] arrBooks = books.split(",");
-            if(arrBooks.length == 0){
+            if(counter == read.size()){
                 loggerWarn.warn("Such author doesn't exist: " + name);
                 System.out.println("Such author doesn't exist");
                 return;
             }
             System.out.println("All books of this author: ");
             for (int i = 0; i < arrBooks.length; i++) {
-                System.out.println(arrBooks[i]);
+                System.out.println(arrBooks[i].trim());
             }
         } catch (IOException | CsvException e) {
             loggerError.error("Error when program tried to find rows in file related with the certain name");
@@ -205,10 +169,7 @@ public class AuthorService {
         loggerInfo.info("end of reading of complete file");
     }
 
-    public static void update(String bookName, String authorName, String newInput, int choice){ // check exist such book or author
-        if(!checkFileAuthors()){
-            return;
-        }
+    public static void update(String bookName, String authorName, String newInput, int choice){
         String[] input = authorName.split(" ");
         loggerInfo.info("begin of updating data in file");
         try(CSVReader reader = new CSVReader(new FileReader(AUTHORS))) {
@@ -217,9 +178,22 @@ public class AuthorService {
             for (String[] r : read) {
                 if(r[1].equalsIgnoreCase(input[0]) && r[2].equalsIgnoreCase(input[1]) && !r[4].contains(INVISIBLE)){
                     if(choice == 1) {
-                        if(r[3].contains(bookName)){
-                            r[3] = r[3].replace(bookName, newInput);
-                            break;
+                        if (r[3].contains(bookName)) {
+                            String[] books = r[3].split(", ");
+                            boolean flag = false;
+                            for (int i = 0; i < books.length; i++) {
+                                if (books[i].equalsIgnoreCase(newInput))
+                                    flag = true;
+                            }
+                            if (flag == false) {
+                                r[3] = r[3].replace(bookName, newInput);
+                                break;
+                            }
+                            else {
+                                loggerWarn.warn("Author has such book. Nothing will be updated");
+                                System.out.println("Author has such book. Nothing will be updated");
+                                return;
+                            }
                         }
                     }
                     if(choice == 2){
@@ -233,22 +207,13 @@ public class AuthorService {
             }
             if(counter == read.size()){
                 loggerWarn.warn("Such record doesn't exist");
-                System.out.println("Such record doesn't exist");
+                System.out.println("Such record doesn't exist in author file");
                 return;
             }
             FileWriter sw = new FileWriter(AUTHORS);
             CSVWriter writer = new CSVWriter(sw);
             writer.writeAll(read);
             writer.close();
-//            if(choice == 1){
-//                String[] books = newInput.split(",");
-//                for (int i = 0; i < books.length; i++) {
-//                    BookService.update(bookName, authorName, books[i], choice);
-//                }
-//            }
-//            else {
-//                BookService.update(bookName, authorName, newInput, choice);
-//            }
         } catch (IOException | CsvException e) {
             loggerError.error("Error when program tried to read/write rows in file (updating data)");
             e.printStackTrace();
@@ -257,9 +222,6 @@ public class AuthorService {
     }
 
     public static void delete(String name){
-        if(!checkFileAuthors()){
-            return;
-        }
         loggerWarn.warn("begin of deleting");
         try(CSVReader reader = new CSVReader(new FileReader(AUTHORS))) {
             List<String[]> read = reader.readAll();
@@ -270,12 +232,7 @@ public class AuthorService {
                 if(r[1].contains(fullName[0]) && r[2].contains(fullName[1]) &&
                         !(r[4].contains(INVISIBLE))){
                     r[4] = INVISIBLE;
-//                    r[1] += " " + INVISIBLE;
                     flag = true;
-//                    books = r[2].split(",");
-//                    for (int i = 0; i < books.length; i++) {
-//                        BookService.delete(books[i], name);
-//                    }
                 }
             }
             FileWriter sw = new FileWriter(AUTHORS);
@@ -293,14 +250,5 @@ public class AuthorService {
             e.printStackTrace();
         }
         loggerWarn.warn("end of deleting");
-    }
-
-    public static boolean checkFileAuthors(){
-        if(!(new File(AUTHORS).exists())){
-            loggerWarn.warn("File doesn't exist");
-            System.out.println("File doesn't exists. Please, create book or author.");
-            return false;
-        }
-        return true;
     }
 }

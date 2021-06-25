@@ -69,45 +69,25 @@ public class Controller {
                 case "3": {
                     System.out.println("Input name of book by the authors which you want to know:");
                     String name;
-                    try {
-                        name = reader.readLine();
-                        LibraryService.readAllBooks(name);
-                    } catch (IOException e) {
-                        System.out.println("Incorrect input. Try again");
-                    }
+                    name = name();
+                    LibraryService.readAllBooks(name);
                 }
                 break;
                 case "4": {
                     boolean flag = true;
                     while (flag) {
-                        String bookName, authorName, newInput, decision;
+                        String bookName, authorName, newInput;
                         try {
                             System.out.println("Input name of book that you want to change");
                             bookName = name();
                             System.out.println("Input at least one of the authors (if some authors exists)");
                             authorName = reader.readLine();
-                            System.out.println("What do you want to change:\n" +
-                                    "1 >> name of book\n" +
-                                    "2 >> authors");
-                            decision = reader.readLine();
-                            switch (decision) {
-                                case "1": {
-                                    System.out.println("Input new name of book");
-                                    newInput = name();
-                                    LibraryService.updateBook(bookName, authorName, newInput, 1);
-                                    flag = false;
-                                }
-                                break;
-                                case "2": {
-                                    System.out.println("Input all authors of book (separated by comma)");
-                                    newInput = list();
-                                    LibraryService.updateBook(bookName, authorName, newInput, 2);
-                                    flag = false;
-                                }
-                                break;
-                                default:
-                                    System.out.println("Wrong input. Input again");
-                            }
+
+                            System.out.println("Input new name of book");
+                            newInput = name();
+                            LibraryService.updateBook(bookName, authorName, newInput, 1);
+                            flag = false;
+
                         } catch (IOException e) {
                             System.out.println("Incorrect input. Try again");
                         }
@@ -158,7 +138,7 @@ public class Controller {
         }
         for (int i = 0; i < authors.length(); i++) {
             if(!(Character.isLetter(authors.charAt(i)) || authors.charAt(i) == ' ' || authors.charAt(i) == ',')){
-                System.out.println("Input only name of authors and separate them via comma");
+                System.out.println("Input only name and last name of authors and separate them via comma");
                 return list();
             }
         }
@@ -171,7 +151,14 @@ public class Controller {
                 return list();
             }
         }
-        return authors;
+        String list = "";
+        for (int i = 0; i < listOfAuthors.length; i++) {
+            if(i == listOfAuthors.length - 1)
+                list += listOfAuthors[i];
+            else
+                list += listOfAuthors[i] + ", ";
+        }
+        return list;
     }
 
     private void authorsCRUD(){
@@ -193,14 +180,22 @@ public class Controller {
                     author.setFirstName(FirstLastName());
                     System.out.println("Input last name of author");
                     author.setLastName(FirstLastName());
-                    System.out.println("Would you like to add books?\n" +
-                            "1 >> yes\n" +
-                            "2 >> no");
                     try {
-                        String YesNo = reader.readLine();
+                        String YesNo;
+                        while (true) {
+                            System.out.println("Would you like to add books?\n" +
+                                    "1 >> yes\n" +
+                                    "2 >> no");
+                            YesNo = reader.readLine();
+                            if(!(YesNo.equals("1") || YesNo.equals("2"))){
+                                System.out.println("Wrong input. Input again 1 or 2");
+                            }
+                            else
+                                break;
+                        }
                         if(YesNo.equals("1")) {
                             System.out.println("Input books of author (separated by comma)");
-                            author.setListOfBooks(reader.readLine());
+                            author.setListOfBooks(listOfBooks());
                         }
                         else
                             author.setListOfBooks("");
@@ -228,10 +223,13 @@ public class Controller {
                 case "4": {
                     boolean flag = true;
                     while (flag) {
-                        String oldBook, authorName, newInput, decision;
+                        String oldBook, authorName, authorLastName, fullName, newInput, decision;
                         try {
-                            System.out.println("Input author's name:");
-                            authorName = FirstLastName(); // full name with spaces
+                            System.out.println("Input author's first name:");
+                            authorName = FirstLastName();
+                            System.out.println("Input author's last name");
+                            authorLastName = FirstLastName();
+                            fullName = authorName + " " + authorLastName;
                             System.out.println("What do you want to change:\n" +
                                     "1 >> name of book\n" +
                                     "2 >> author's name");
@@ -242,14 +240,16 @@ public class Controller {
                                     oldBook = name();
                                     System.out.println("Input new name of book:");
                                     newInput = name();
-                                    LibraryService.updateBook(oldBook, authorName, newInput, 1);
+                                    LibraryService.updateAuthor(oldBook, fullName, newInput, 1);
                                     flag = false;
                                 }
                                 break;
                                 case "2": {
-                                    System.out.println("Input new full name of author:");
+                                    System.out.println("Input new name of author:");
                                     newInput = FirstLastName();
-                                    LibraryService.updateBook("", authorName, newInput, 2);
+                                    System.out.println("Input new last name of author:");
+                                    newInput += " " + FirstLastName();
+                                    LibraryService.updateAuthor("", fullName, newInput, 2);
                                     flag = false;
                                 }
                                 break;
@@ -295,10 +295,39 @@ public class Controller {
         }
         for (int i = 0; i < name.length(); i++) {
             if(!Character.isLetter(name.charAt(i))){
-                System.out.println("Name can contain only letters. Input again");
+                System.out.println("Name and last name can contain only letters. Input again");
                 return FirstLastName();
             }
         }
         return name;
+    }
+
+    private String listOfBooks(){
+        Scanner scanner = new Scanner(System.in);
+        String listOfBooks = scanner.nextLine();
+        if(listOfBooks.length() > 40){
+            System.out.println("Input is too long. Input again");
+            return listOfBooks();
+        }
+        if(listOfBooks.isEmpty()){
+            System.out.println("Your input is empty. Input again");
+            return listOfBooks();
+        }
+        for (int i = 0; i < listOfBooks.length(); i++) {
+            if(!Character.isLetter(listOfBooks.charAt(i))){
+                System.out.println("Input list of book separated by comma without any excess symbols. Input again");
+                return listOfBooks();
+            }
+        }
+
+        String[] books = listOfBooks.split(",");
+        String list = "";
+        for (int i = 0; i < books.length; i++) {
+            if(i == books.length - 1)
+                list += books[i];
+            else
+                list += books[i] + ", ";
+        }
+        return list;
     }
 }
