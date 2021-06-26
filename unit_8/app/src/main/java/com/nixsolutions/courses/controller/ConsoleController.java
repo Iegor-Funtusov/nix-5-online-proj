@@ -13,140 +13,94 @@ public class ConsoleController {
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
     private final MathSetService<Integer> mathSetService = new MathSetService<>();
 
-    private void create() throws Exception {
+    private void create() throws InstanceAlreadyExistsException {
         if (mathSetService.isNull()) {
-            if (mathSetService.create()) {
-                System.out.println("MathSet created");
-            } else {
-                throw new Exception("MathSet was not created");
-            }
+            mathSetService.create();
+            System.out.println("Empty mathSet created");
         } else {
             throw new InstanceAlreadyExistsException("MathSet instance already exists");
         }
     }
 
+    private void createRandom() {
+        mathSetService.createRandom();
+        System.out.println("Instance creates");
+    }
+
     private void add() throws IOException {
-        if (!mathSetService.isNull()) {
-            System.out.println("Enter one or several space-separated numbers:");
-            Integer[] numbers = formatInput(reader.readLine());
-            mathSetService.add(numbers);
-            System.out.println("Result mathset: " + mathSetService.toString());
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        System.out.println("Enter one or several space-separated numbers:");
+        Integer[] numbers = formatInput(reader.readLine());
+        mathSetService.add(numbers);
+        System.out.println("Result mathset: " + mathSetService.toString());
     }
 
     private void join() throws IOException {
-        if (!mathSetService.isNull()) {
-            System.out.println("Enter space-separated numbers for mathset to join existing:");
-            Integer[] numbers = formatInput(reader.readLine());
-            MathSet<Integer> set = mathSetService.createNewSet(numbers);
-            mathSetService.join(set);
-            System.out.println("New mathset joined");
-            System.out.println("Result mathset: " + mathSetService.toString());
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        System.out.println("Enter space-separated numbers for mathset to join existing:");
+        Integer[] numbers = formatInput(reader.readLine());
+        MathSet<Integer> set = mathSetService.createNewSet(numbers);
+        mathSetService.join(set);
+        System.out.println("New mathset joined");
+        System.out.println("Result mathset: " + mathSetService.toString());
     }
 
     private void sortDesc() {
-        if (!mathSetService.isNull()) {
-            mathSetService.sortDesc();
-            System.out.println("Mathset sorted in descending order");
-            System.out.println("Result mathset: " + mathSetService.toString());
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        mathSetService.sortDesc();
+        System.out.println("Mathset sorted in descending order");
+        System.out.println("Result mathset: " + mathSetService.toString());
     }
 
     private void sortAsc() {
-        if (!mathSetService.isNull()) {
-            mathSetService.sortAsc();
-            System.out.println("Mathset sorted in ascending order");
-            System.out.println("Result mathset: " + mathSetService.toString());
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        mathSetService.sortAsc();
+        System.out.println("Mathset sorted in ascending order");
+        System.out.println("Result mathset: " + mathSetService.toString());
     }
 
     private void getByIndex() throws IOException {
-        if (!mathSetService.isNull()) {
-            System.out.println("Enter index:");
-            int index = Integer.parseInt(reader.readLine());
-            Integer element = mathSetService.get(index);
-            System.out.println("Element by index " + index + ": " + element);
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        System.out.println("Enter index:");
+        int index = Integer.parseInt(reader.readLine());
+        Integer element = mathSetService.get(index);
+        System.out.println("Element by index " + index + ": " + element);
     }
 
     private void getMin() {
-        if (!mathSetService.isNull()) {
-            Integer min = mathSetService.getMin();
-            System.out.println("Mathset minimum: " + min);
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        Integer min = mathSetService.getMin();
+        System.out.println("Mathset minimum: " + min);
     }
 
     private void getMax() {
-        if (!mathSetService.isNull()) {
-            Integer max = mathSetService.getMax();
-            System.out.println("Mathset maximum: " + max);
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        Integer max = mathSetService.getMax();
+        System.out.println("Mathset maximum: " + max);
     }
 
     private void getAverage() {
-        if (!mathSetService.isNull()) {
-            Number average = mathSetService.getAverage();
-            System.out.println("Mathset average: " + average);
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        Number average = mathSetService.getAverage();
+        System.out.println("Mathset average: " + average);
     }
 
     private void getMedian() {
-        if (!mathSetService.isNull()) {
-            Number median = mathSetService.getMedian();
-            System.out.println("Mathset median: " + median);
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        Number median = mathSetService.getMedian();
+        System.out.println("Mathset median: " + median);
     }
 
     private void toArray() {
-        if (!mathSetService.isNull()) {
-            Number[] array = mathSetService.toArray();
-            for (Number number : array) {
-                System.out.print(number + " ");
-            }
-            System.out.println("");
-        } else {
-            throw new NullPointerException("MathSet is null");
+        Number[] array = mathSetService.toArray();
+        for (Number number : array) {
+            System.out.print(number + " ");
         }
+        System.out.println("");
     }
 
     private void squash() throws IOException {
-        if (!mathSetService.isNull()) {
-            System.out.println("Enter space-separated indexes:");
-            Number[] indexes = formatInput(reader.readLine());
-            MathSet<Integer> set = mathSetService.squash((int) indexes[0], (int) indexes[1]);
-            System.out.println(set.toString());
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        System.out.println("Enter space-separated indexes:");
+        Number[] indexes = formatInput(reader.readLine());
+        MathSet<Integer> set = mathSetService.squash((int) indexes[0], (int) indexes[1]);
+        System.out.println(set.toString());
     }
 
     private void clear() {
-        if (!mathSetService.isNull()) {
-            mathSetService.clear();
-            System.out.println("Mathset cleared");
-            System.out.println("size: " + mathSetService.getSize());
-        } else {
-            throw new NullPointerException("MathSet is null");
-        }
+        mathSetService.clear();
+        System.out.println("Mathset cleared");
+        System.out.println("size: " + mathSetService.getSize());
     }
 
     private Integer[] formatInput(String input) {
@@ -157,14 +111,6 @@ public class ConsoleController {
         }
         return array;
     }
-
-//    private String printSet(MathSet mathSet) {
-//        StringBuilder out = new StringBuilder();
-//        for (Number number : mathSetService.toArray(mathSet)) {
-//            out.append(number).append(" ");
-//        }
-//        return String.valueOf(out);
-//    }
 
     private String readConsole() {
         System.out.println("Choose option:\n" +
@@ -195,6 +141,10 @@ public class ConsoleController {
         String input;
         while ((input = readConsole()) != null) {
             try {
+                if (!input.equals("0") && !input.equals("1") && mathSetService.isNull()) {
+                    System.out.println("No mathSet instance");
+                    createRandom();
+                }
                 switch (input) {
                     case "0":
                         System.exit(0);

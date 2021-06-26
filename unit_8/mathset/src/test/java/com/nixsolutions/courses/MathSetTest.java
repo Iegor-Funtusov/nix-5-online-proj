@@ -4,8 +4,10 @@ import com.nixsolutions.courses.utils.ArrayUtils;
 import org.apache.commons.math3.stat.descriptive.rank.Median;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.IntStream;
 
@@ -25,7 +27,9 @@ public class MathSetTest {
     @Test
     public void capacityConstructor() {
         MathSet<Integer> mathSet = new MathSetNumber<>(DEFAULT_CAPACITY);
+
         Assertions.assertNotNull(mathSet, "Unable to create instance");
+        Assertions.assertThrows(IllegalArgumentException.class, () -> new MathSetNumber<>(-1));
     }
 
     @Test
@@ -37,7 +41,7 @@ public class MathSetTest {
 
     @Test
     public void arrayVarargsConstructor() {
-        Integer[][] array = IntStream.range(0, DEFAULT_CAPACITY)
+        Integer[][] array = IntStream.range(0, rand.nextInt(DEFAULT_CAPACITY))
                 .mapToObj(rowArray -> randomArray())
                 .toArray(Integer[][]::new);
         int distinct = (int) Arrays.stream(array).flatMap(Arrays::stream).distinct().count();
@@ -46,7 +50,42 @@ public class MathSetTest {
     }
 
     @Test
-    public void joinMathSet() {
+    public void setConstructor() {
+        MathSet<Integer> set = new MathSetNumber<>(randomArray());
+        MathSet<Integer> mathSet = new MathSetNumber<>(set);
+        Assertions.assertEquals(set.getSize(), mathSet.getSize());
+    }
+
+    @Test
+    public void setVarargsConstructor() {
+        MathSet[] ms = new MathSetNumber[rand.nextInt(DEFAULT_CAPACITY)];
+        for (int i = 0; i < ms.length; i++) {
+            ms[i] = new MathSetNumber<>(randomArray());
+        }
+        int distinct = (int)Arrays.stream(ms).map(MathSet::toArray).flatMap(Arrays::stream).filter(Objects::nonNull).distinct().count();
+        MathSet<Integer> mathSet = new MathSetNumber<>(ms);
+        Assertions.assertEquals(distinct, mathSet.getSize());
+    }
+
+    @Test
+    public void add() {
+        MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
+        Integer element = rand.nextInt(DEFAULT_CAPACITY);
+        mathSet.add(element);
+        Assertions.assertEquals(element, mathSet.get(mathSet.getSize() - 1));
+    }
+
+    @Test
+    public void addVarargs() {
+        MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
+        int oldSize = mathSet.getSize();
+        Integer[] elements = randomArray();
+        mathSet.add(elements);
+        Assertions.assertTrue(Arrays.equals(elements, mathSet.toArray(oldSize, mathSet.getSize() - 1)));
+    }
+
+    @Test
+    public void join() {
         MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
         MathSet<Integer> emptySet = new MathSetNumber<>();
         emptySet.join(mathSet);
@@ -54,7 +93,7 @@ public class MathSetTest {
     }
 
     @Test
-    public void joinVarargsMathSet() {
+    public void joinVarargs() {
         Integer[] array = randomArray();
         MathSet<Integer> firstSet = new MathSetNumber<>(array);
         MathSet<Integer> secondSet = new MathSetNumber<>(array);
@@ -67,15 +106,9 @@ public class MathSetTest {
     public void sortDesc() {
         MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
         mathSet.sortDesc();
-        boolean descending = true;
         Number[] a = mathSet.toArray();
-        for (int i = 0; i < a.length - 1; i++) {
-            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) < 0) {
-                descending = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(descending);
+
+        Assertions.assertTrue(checkDesc(a, 0, a.length - 1));
     }
 
     @Test
@@ -84,15 +117,9 @@ public class MathSetTest {
         int indexFrom = DEFAULT_CAPACITY/2 - DEFAULT_CAPACITY/3;
         int indexTo = DEFAULT_CAPACITY/2 + DEFAULT_CAPACITY/3;
         mathSet.sortDesc(indexFrom, indexTo);
-        boolean descending = true;
         Number[] a = mathSet.toArray();
-        for (int i = indexFrom; i < indexTo - 1; i++) {
-            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) < 0) {
-                descending = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(descending);
+
+        Assertions.assertTrue(checkDesc(a, indexFrom, indexTo));
     }
 
     @Test
@@ -101,30 +128,18 @@ public class MathSetTest {
         MathSet<Integer> mathSet = new MathSetNumber<>(array);
         int elementIndex = rand.nextInt(DEFAULT_CAPACITY - 1);
         mathSet.sortDesc(array[elementIndex]);
-        boolean descending = true;
         Number[] a = mathSet.toArray();
-        for (int i = elementIndex; i < a.length - 1; i++) {
-            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) < 0) {
-                descending = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(descending);
+
+        Assertions.assertTrue(checkDesc(a, elementIndex, a.length - 1));
     }
 
     @Test
     public void sortAsc() {
         MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
         mathSet.sortAsc();
-        boolean ascending = true;
         Number[] a = mathSet.toArray();
-        for (int i = 0; i < a.length - 1; i++) {
-            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) > 0) {
-                ascending = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(ascending);
+
+        Assertions.assertTrue(checkAsc(a, 0, a.length - 1));
     }
 
     @Test
@@ -132,16 +147,10 @@ public class MathSetTest {
         MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
         int indexFrom = DEFAULT_CAPACITY/2 - DEFAULT_CAPACITY/3;
         int indexTo = DEFAULT_CAPACITY/2 + DEFAULT_CAPACITY/3;
-        mathSet.sortDesc(indexFrom, indexTo);
-        boolean descending = true;
+        mathSet.sortAsc(indexFrom, indexTo);
         Number[] a = mathSet.toArray();
-        for (int i = indexFrom; i < indexTo - 1; i++) {
-            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) < 0) {
-                descending = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(descending);
+
+        Assertions.assertTrue(checkAsc(a, indexFrom, indexTo));
     }
 
     @Test
@@ -149,16 +158,10 @@ public class MathSetTest {
         Integer[] array = randomArray();
         MathSet<Integer> mathSet = new MathSetNumber<>(array);
         int elementIndex = rand.nextInt(DEFAULT_CAPACITY - 1);
-        mathSet.sortDesc(array[elementIndex]);
-        boolean ascending = true;
+        mathSet.sortAsc(array[elementIndex]);
         Number[] a = mathSet.toArray();
-        for (int i = elementIndex; i < a.length - 1; i++) {
-            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) < 0) {
-                ascending = false;
-                break;
-            }
-        }
-        Assertions.assertTrue(ascending);
+
+        Assertions.assertTrue(checkAsc(a, elementIndex, a.length - 1));
     }
 
     @Test
@@ -194,16 +197,19 @@ public class MathSetTest {
         Integer[] array = randomArray();
         MathSet<Integer> mathSet = new MathSetNumber<>(array);
         double average = Arrays.stream(array).mapToInt(Integer::intValue).average().orElse(Double.NaN);
-        Assertions.assertEquals(average, mathSet.getAverage());
+        Assertions.assertEquals(average, mathSet.getAverage().doubleValue());
     }
 
     @Test
     public void getMedian() {
         Integer[] array = randomArray();
         MathSet<Integer> mathSet = new MathSetNumber<>(array);
+        MathSet<Integer> emptySet = new MathSetNumber<>();
         Median median = new Median();
         double medianValue = median.evaluate(Arrays.stream(array).mapToDouble(i -> i).toArray());
-        Assertions.assertEquals(medianValue, mathSet.getMedian());
+
+        Assertions.assertEquals(medianValue, mathSet.getMedian().doubleValue());
+        Assertions.assertThrows(IllegalStateException.class, emptySet::getMedian);
     }
 
     @Test
@@ -220,7 +226,10 @@ public class MathSetTest {
         int indexFrom = DEFAULT_CAPACITY/2 - DEFAULT_CAPACITY/3;
         int indexTo = DEFAULT_CAPACITY/2 + DEFAULT_CAPACITY/3;
         Integer[] arr = ArrayUtils.copyOfRange(array, indexFrom, indexTo, Integer[].class);
+
         Assertions.assertTrue(Arrays.equals(arr,mathSet.toArray(indexFrom, indexTo)));
+        Assertions.assertThrows(IndexOutOfBoundsException.class, () -> mathSet.toArray(-1, array.length));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> mathSet.toArray(indexTo, indexFrom));
     }
 
     @Test
@@ -236,7 +245,7 @@ public class MathSetTest {
 
     @Test
     public void clear() {
-        MathSet<Integer> mathSet = new MathSetNumber<>(randomArray());
+        MathSet mathSet = new MathSetNumber(randomArray());
         mathSet.clear();
         boolean isAnyValue = false;
         for (Number n : mathSet.toArray()) {
@@ -251,13 +260,37 @@ public class MathSetTest {
     @Test
     public void clearWithArray() {
         Integer[] array = randomArray();
-        MathSet<Integer> mathSet = new MathSetNumber<>(array);
+        MathSet mathSet = new MathSetNumber(array);
         int indexFrom = DEFAULT_CAPACITY/2 - DEFAULT_CAPACITY/3;
         int indexTo = DEFAULT_CAPACITY/2 + DEFAULT_CAPACITY/3;
         Integer[] arr = ArrayUtils.copyOfRange(array, indexFrom, indexTo, Integer[].class);
         mathSet.clear(arr);
         boolean contains = Arrays.asList(mathSet.toArray()).containsAll(Arrays.asList(arr));
         Assertions.assertFalse(contains);
+    }
+
+    private boolean checkDesc(Number[] a, int indexFrom, int indexTo) {
+        boolean descending = true;
+
+        for (int i = indexFrom; i < indexTo; i++) {
+            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) < 0) {
+                descending = false;
+                break;
+            }
+        }
+        return descending;
+    }
+
+    private boolean checkAsc(Number[] a, int indexFrom, int indexTo) {
+        boolean descending = true;
+
+        for (int i = indexFrom; i < indexTo; i++) {
+            if (((Integer) a[i]).compareTo((Integer) a[i + 1]) > 0) {
+                descending = false;
+                break;
+            }
+        }
+        return descending;
     }
 
     private Integer[] randomArray() {

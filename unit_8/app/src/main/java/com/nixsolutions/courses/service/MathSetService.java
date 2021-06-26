@@ -3,7 +3,13 @@ package com.nixsolutions.courses.service;
 import com.nixsolutions.courses.MathSet;
 import com.nixsolutions.courses.MathSetNumber;
 
+import java.util.Random;
+
 public class MathSetService<E extends Number & Comparable<E>> {
+
+    private static final int DEFAULT_CAPACITY = 10;
+    private static final int RAND_MIN = 0;
+    private static final int RAND_MAX = 100;
 
     private MathSet<E> mathSet;
 
@@ -11,9 +17,16 @@ public class MathSetService<E extends Number & Comparable<E>> {
         return mathSet.getSize();
     }
 
-    public boolean create() {
+    public void create() {
         mathSet = new MathSetNumber<>();
-        return !isNull();
+    }
+
+    public void createRandom() {
+        Integer[] arr = new Random().ints(DEFAULT_CAPACITY, RAND_MIN, RAND_MAX)
+                .distinct()
+                .boxed()
+                .toArray(Integer[]::new);
+        mathSet = new MathSetNumber(arr);
     }
 
     public MathSet<E> createNewSet(E[] numbers) {
@@ -31,6 +44,7 @@ public class MathSetService<E extends Number & Comparable<E>> {
     public void sortDesc() {
         mathSet.sortDesc();
     }
+
     public void sortAsc() {
         mathSet.sortAsc();
     }
@@ -59,7 +73,7 @@ public class MathSetService<E extends Number & Comparable<E>> {
         return mathSet.squash(firstIndex, lastIndex);
     }
 
-    public Number[] toArray() {
+    public E[] toArray() {
         return mathSet.toArray();
     }
 

@@ -41,6 +41,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
         this(numbers.toArray());
     }
 
+    @SafeVarargs
     public MathSetNumber(MathSet<E> ... numbers) {
         this(numbers.length * DEFAULT_CAPACITY);
         join(numbers);
@@ -85,15 +86,15 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public void sortDesc() {
-        sortDesc(0, size);
+        sortDesc(0, size - 1);
     }
 
     @Override
     public void sortDesc(int firstIndex, int lastIndex) {
-        if (validIndex(firstIndex) && validIndex(lastIndex) && lastIndex - firstIndex + 1 < size) {
+        if (validIndex(firstIndex) && validIndex(lastIndex) && lastIndex - firstIndex < size) {
             Number temp;
-            for (int i = firstIndex; i < lastIndex; i++) {
-                for (int j = i + 1; j < lastIndex; j++) {
+            for (int i = firstIndex; i <= lastIndex; i++) {
+                for (int j = i + 1; j <= lastIndex; j++) {
                     if (((E) mathSet[j]).compareTo((E) mathSet[i]) > 0) {
                         temp = mathSet[i];
                         mathSet[i] = mathSet[j];
@@ -107,20 +108,20 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     @Override
     public void sortDesc(E value) {
         int index = indexOf(value);
-        sortDesc(index, size);
+        sortDesc(index, size - 1);
     }
 
     @Override
     public void sortAsc() {
-        sortAsc(0, size);
+        sortAsc(0, size - 1);
     }
 
     @Override
     public void sortAsc(int firstIndex, int lastIndex) {
-        if (validIndex(firstIndex) && validIndex(lastIndex) && lastIndex - firstIndex + 1 < size) {
+        if (validIndex(firstIndex) && validIndex(lastIndex) && lastIndex - firstIndex < size) {
             Number temp;
-            for (int i = firstIndex; i < lastIndex; i++) {
-                for (int j = i + 1; j < lastIndex; j++) {
+            for (int i = firstIndex; i <= lastIndex; i++) {
+                for (int j = i + 1; j <= lastIndex; j++) {
                     if (((E) mathSet[j]).compareTo((E) mathSet[i]) < 0) {
                         temp = mathSet[i];
                         mathSet[i] = mathSet[j];
@@ -134,7 +135,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     @Override
     public void sortAsc(E value) {
         int index = indexOf(value);
-        sortAsc(index, size);
+        sortAsc(index, size - 1);
     }
 
     @Override
@@ -193,7 +194,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public E[] toArray(int firstIndex, int lastIndex) {
-        if (validIndex(firstIndex) && validIndex(lastIndex) && lastIndex - firstIndex + 1 < size)
+        if (validIndex(firstIndex) && validIndex(lastIndex) && lastIndex - firstIndex < size && lastIndex - firstIndex > 0)
             return (E[]) ArrayUtils.copyOfRange(mathSet, firstIndex, lastIndex, Number[].class);
         throw new IllegalArgumentException("Illegal pair of indexes");
     }
@@ -259,7 +260,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     }
 
     private boolean validIndex(int index) throws IndexOutOfBoundsException{
-        if (index >= 0 && index <= size - 1) return true;
+        if (index >= 0 && index <= size) return true;
         throw new IndexOutOfBoundsException("Index is out of boundaries");
     }
 
