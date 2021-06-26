@@ -44,7 +44,7 @@ public class Author extends BaseEntity {
 
     @Override
     public String toString() {
-        if(books.isEmpty()){
+        if(books.size() == 0){
             return super.toString() + " full name: " + getFullName();
         }
 

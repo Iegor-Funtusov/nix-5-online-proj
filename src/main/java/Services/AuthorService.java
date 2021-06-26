@@ -50,7 +50,11 @@ public class AuthorService{
         return AuthorHelper.addBookToAuthor(author, bookToAdd);
     }
 
-    //Аналогично с удалением
+
+    public Author deleteBookFromAuthor(Author author, Book bookToDelete){
+        return AuthorHelper.deleteBookFromAuthor(author, bookToDelete);
+    }
+
 
     public Author findAuthorByName(String fullName) throws IOException, CsvException {
         List<Author> allAuthors = read();

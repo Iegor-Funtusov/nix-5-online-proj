@@ -49,7 +49,9 @@ public class BookService {
         return BookHelper.addAuthorToBook(book, authorToAdd);
     }
 
-    //Аналогично с удалением
+    public Book deleteAuthorFromBook(Book book, Author authorToDelete){
+        return BookHelper.deleteAuthorFromBook(book, authorToDelete);
+    }
 
     public Book findBookByName(String bookName) throws IOException, CsvException {
         List<Book> allBooks = read();
