@@ -1,0 +1,7 @@
+"ID","Title","Authors","Visible"
+"ID","Title","Authors","Visible"
+"a8bc9b71-b7a8-4ce5-9a38-bff0cdc45538","Test Book0","17f1eb82-6751-44c8-b526-5357247c8654|17f1eb82-6751-44c8-b526-5357247c8654|","true"
+"0992bb04-d845-435e-a5ab-fb023ebd7ebc","Test Book1","6346ac6d-912c-4b14-a039-f5fb580237ee|73bd2950-0fe7-486f-b0bd-93b415a02f0c|","true"
+"b9f879bd-c8e1-4f77-aa99-00c467d7d7b4","Test Book2","73bd2950-0fe7-486f-b0bd-93b415a02f0c|011b1c95-2799-484d-84af-98102d3b36cf|","true"
+"917408e7-85aa-4829-a977-f9aa35aa123d","Test Book3","d19024aa-323e-4582-b81c-32f498144cb3|c41ed27a-4e53-4443-90b3-0972cef6066d|","true"
+"cc5c5e29-a41c-48ec-ba2e-44f93ed90dfc","Test Book4","011b1c95-2799-484d-84af-98102d3b36cf|2ccc6122-cdca-406f-a0e3-02b93e4d31bf|","true"
