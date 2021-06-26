@@ -1,6 +1,6 @@
 package com.nixsolutions.courses;
 
-public interface MathSet<E extends Number> {
+public interface MathSet<E extends Number & Comparable<E>> {
 
     void add(E n);
 
@@ -12,33 +12,33 @@ public interface MathSet<E extends Number> {
 
     void sortDesc();
 
-    void sortDesc(int firstIndex, int lastIndex);
+    void sortDesc(int firstIndex, int lastIndex) throws IndexOutOfBoundsException;
 
     void sortDesc(E value);
 
     void sortAsc();
 
-    void sortAsc( int firstIndex, int lastIndex);
+    void sortAsc( int firstIndex, int lastIndex) throws IndexOutOfBoundsException;
 
     void sortAsc(E value);
 
-    E get(int index);
+    E get(int index) throws IllegalStateException;
 
-    E getMax();
+    E getMax() throws IllegalStateException;
 
-    E getMin();
+    E getMin() throws IllegalStateException;
 
-    Number getAverage();
+    Number getAverage() throws IllegalStateException;
 
-    Number getMedian();
+    Number getMedian() throws IllegalStateException;
 
     int getSize();
 
-    Number[] toArray();
+    E[] toArray();
 
-    Number[] toArray(int firstIndex, int lastIndex);
+    E[] toArray(int firstIndex, int lastIndex) throws IllegalArgumentException, IndexOutOfBoundsException;
 
-    MathSet squash(int firstIndex, int lastIndex);
+    MathSet<E> squash(int firstIndex, int lastIndex);
 
     void clear();
 
