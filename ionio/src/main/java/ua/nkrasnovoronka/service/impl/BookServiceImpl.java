@@ -9,9 +9,7 @@ import ua.nkrasnovoronka.service.BookService;
 import java.util.Collection;
 
 public class BookServiceImpl implements BookService {
-
     private BookDAO bookDAO = new BookDAOImpl();
-
 
     @Override
     public void create(Book book) {

@@ -33,17 +33,17 @@ public class Util {
         return bookString;
     }
 
-    public static Author authorFromStringArray(String[] authorString){
+    public static Author authorFromStringArray(String[] authorString) {
         Author author = new Author();
         author.setId(Long.valueOf(authorString[0]));
         author.setFirstName(authorString[1]);
         author.setLastName(authorString[2]);
-        author.setBooksList(Arrays.stream(authorString[3].split(",")).map(Long::valueOf).collect(Collectors.toSet()));
+        author.setBooksList(Arrays.stream(authorString[3].split(",")).filter(s -> !s.isEmpty()).map(Long::valueOf).collect(Collectors.toSet()));
         author.setVisible(Boolean.parseBoolean(authorString[4]));
         return author;
     }
 
-    public static Book bookFromString(String[] bookString){
+    public static Book bookFromString(String[] bookString) {
         Book book = new Book();
         book.setId(Long.valueOf(bookString[0]));
         book.setBookTitle(bookString[1]);

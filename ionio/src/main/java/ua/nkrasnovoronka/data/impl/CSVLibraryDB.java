@@ -89,6 +89,9 @@ public class CSVLibraryDB implements LibraryDB {
     @Override
     public void createBook(Book book) {
         try (CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV, true))) {
+            if(!book.getBooksAuthors().isEmpty()){
+                book.getBooksAuthors().forEach(aLong -> addBookToAuthor(aLong, bookIdCounter));
+            }
             bookWriter.writeNext(Util.bookToStringArray(book, bookIdCounter++));
         } catch (IOException e) {
             e.printStackTrace();

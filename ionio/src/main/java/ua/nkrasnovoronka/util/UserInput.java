@@ -11,9 +11,9 @@ import java.util.stream.Stream;
 public class UserInput {
     private static final BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
 
-    public static List<Integer> userInputNumbers() {
+    public static List<Integer> userInputNumbers(String message) {
         List<Integer> userInput = new ArrayList<>();
-        System.out.println("Pleas enter numbers split by space");
+        System.out.println(message);
         try {
             userInput = Stream.of(bufferedReader.readLine().split(" "))
                     .map(Integer::parseInt)
@@ -24,9 +24,9 @@ public class UserInput {
         return userInput;
     }
 
-    public static int userInputNumber() {
+    public static int userInputNumber(String message) {
         int num = 0;
-        System.out.println("Pleas enter number");
+        System.out.println(message);
         try {
             num = Integer.parseInt(bufferedReader.readLine());
         } catch (IOException e) {
@@ -35,8 +35,8 @@ public class UserInput {
         return num;
     }
 
-    public static String userInputString() {
-        System.out.println("Pleas enter string ");
+    public static String userInputString(String message) {
+        System.out.println(message);
         String res = "";
         try {
             res = bufferedReader.readLine();

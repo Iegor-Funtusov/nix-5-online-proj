@@ -30,8 +30,6 @@ public class Author extends AbstractEntity {
         return "Author{" +
                 "id='" + super.getId() + '\'' +
                 ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", booksList=" + booksList +
-                '}';
+                ", lastName='" + lastName + '\'' + '}';
     }
 }

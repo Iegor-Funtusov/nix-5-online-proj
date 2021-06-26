@@ -56,5 +56,5 @@ public class BookDAOImpl implements BookDAO {
     public void removeAuthorFromBook(Long bookId, Long authorId) {
         libraryDB.removeAuthorFromBook(bookId, authorId);
     }
-    
+
 }

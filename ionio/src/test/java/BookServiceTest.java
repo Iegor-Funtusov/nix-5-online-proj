@@ -1,13 +1,11 @@
 import org.junit.jupiter.api.*;
-import ua.nkrasnovoronka.model.Author;
-import ua.nkrasnovoronka.model.Book;
 import ua.nkrasnovoronka.service.AuthorService;
 import ua.nkrasnovoronka.service.BookService;
 import ua.nkrasnovoronka.service.impl.AuthorServiceImpl;
 import ua.nkrasnovoronka.service.impl.BookServiceImpl;
 
-
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookServiceTest {

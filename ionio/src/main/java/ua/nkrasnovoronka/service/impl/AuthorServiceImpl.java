@@ -1,7 +1,5 @@
 package ua.nkrasnovoronka.service.impl;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import ua.nkrasnovoronka.dao.AuthorDAO;
 import ua.nkrasnovoronka.dao.impl.AuthorDAOImpl;
 import ua.nkrasnovoronka.model.Author;
@@ -29,10 +27,14 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public void removeAuthorById(Long id) {
+        authorDAO.delete(id);
+    }
+
+    @Override
     public Author getAuthorById(Long id) {
         return authorDAO.findByID(id);
     }
-
 
     @Override
     public Collection<Book> getAllAuthorBooks(Long authorId) {

@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.*;
+import ua.nkrasnovoronka.model.Author;
 import ua.nkrasnovoronka.service.AuthorService;
 import ua.nkrasnovoronka.service.BookService;
 import ua.nkrasnovoronka.service.impl.AuthorServiceImpl;
@@ -12,10 +13,12 @@ public class AuthorServiceTest {
 
     @BeforeAll
     public static void setUp() {
-//        for (int i = 0; i < 10; i++) {
-//            Author author = new Author(String.valueOf(i));
-//            authorService.create(author);
-//        }
+        for (int i = 0; i < 10; i++) {
+            Author author = new Author();
+            author.setFirstName("Test " + i);
+//            author.setFirstName(i);
+            authorService.create(author);
+        }
     }
 
     @Test
