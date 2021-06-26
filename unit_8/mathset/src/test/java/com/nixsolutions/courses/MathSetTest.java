@@ -4,7 +4,6 @@ import com.nixsolutions.courses.utils.ArrayUtils;
 import org.apache.commons.math3.stat.descriptive.rank.Median;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 
 import java.util.Arrays;
 import java.util.Objects;
