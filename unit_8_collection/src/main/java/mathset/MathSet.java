@@ -240,7 +240,7 @@ public class MathSet<T extends Number & Comparable<T>> {
                         numbers[i] = numbers[j];
                         numbers[j] = temp;
                     }
-                } else System.out.println("Есть пустые значения!");
+                }
             }
         }
         double median;
@@ -266,8 +266,8 @@ public class MathSet<T extends Number & Comparable<T>> {
         return numbers;
     }
 
-    @SuppressWarnings("unchecked")
-    public MathSet<?> squash(Class<? extends Number> cls, int firstIndex, int lastIndex) {
+    //@SuppressWarnings("unchecked")
+    public MathSet<T> squash(Class<? extends Number> cls, int firstIndex, int lastIndex) {
         MathSet<T> mathSet = new MathSet(cls);
         for (int i = firstIndex; i < lastIndex; i++) {
             mathSet.add(this.numbers[i]);
@@ -321,7 +321,7 @@ public class MathSet<T extends Number & Comparable<T>> {
                     }
                 }
 
-            Number[] temp = new Number[this.numbers.length];
+            Number[] temp = new Number[size];
             for (int i = 0, j = 0; i < this.numbers.length; i++) {
                 if (this.numbers[i] != null) {
                     temp[j] = this.numbers[i];
