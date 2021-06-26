@@ -23,7 +23,8 @@ public class Controller {
         while (true) {
             System.out.println("\nA - операции с Авторами(crud)" +
                     "\nB - опреации с Книгами(crud)" +
-                    "\nC - общие операции(получить авторов по книге, получить книги по автору.)" +
+                    "\nC - общие операции(получить авторов по книге, получить книги по автору.) " +
+                    "\nT - запуск COMMON TEST" +
                     "\n_____________" +
                     "\nX- выход");
             String a = scanner.next();
@@ -270,6 +271,106 @@ public class Controller {
                     }
                     break;
                 }
+
+                case 'T': {
+                    System.out.println("Запуск теста\n");
+                    System.out.println("Создание 10 авторов(в файле есть еще с тестов)");
+                    for (int i = 0; i < 10; i++) {
+                        Author author = new Author();
+                        author.setFirstName("TestAuthorFname" + i);
+                        author.setLastName("TestAuthorLname" + i);
+                        author.setVisibleFlag(true);
+                        allService.createAuthor(author);
+                    }
+                    System.out.println("Чтение авторов из файла");
+                    List<Author> authors = allService.readAllAuthor();
+                    for (Author author : authors) {
+                        System.out.println(author);
+                    }
+                    System.out.println("________________________________________________________\n\n");
+
+                    System.out.println("Создание 5 книг");
+                    for (int i = 0; i < 5; i++) {
+                        Author author = allService.readAllAuthor().get(i);
+                        Author author2 = allService.readAllAuthor().get((i*2));
+                        List<String> aId = new ArrayList<>();
+                        aId.add(author.getId());
+                        aId.add(author2.getId());
+                        Book book = new Book();
+                        book.setTitle("Test Book" + i);
+                        book.setVisibleFlag(true);
+                        book.setAuthors(aId);
+                        allService.createBook(book, aId);
+                    }
+                    System.out.println("Чтение книг из файла");
+                    List<Book> books = allService.readAllBook();
+                    for (Book book : books) {
+                        System.out.println(book);
+                    }
+
+                    System.out.println("________________________________________________________\n\n");
+
+                    System.out.println("Выводим  книгу по ИД ");
+                    Book book = allService.readAllBook().get(7);
+                    System.out.println(book);
+                    System.out.println("Выводим авторов этой книги, по списку айди авторов");
+                    System.out.println("Как видим в авторах добавились айди книги");
+                    List<String> aId = book.getAuthors();
+                    for (String id : aId) {
+                        Author author = allService.findAuthorById(id);
+                        System.out.println(author);
+                    }
+
+                    System.out.println("________________________________________________________\n\n");
+                    System.out.println("Выводим авторов этой книги, с помощью функции- Вывод авторов по книге ");
+                    System.out.println("ID этой книги  " + book.getId());
+                    List<Author> aut= allService.findAutByBook(book.getId());
+                    for (Author author : aut) {
+                        System.out.println(author);
+                    }
+                    String idOfaut = aut.get(0).getId();
+                    System.out.println("Выводим книги автора с помощью функции- Вывод книг по автору ");
+                    System.out.println("ID этого автора" + idOfaut);
+                    List<Book> bookList = allService.findBookByAut(idOfaut);
+                    for (Book book1 : bookList) {
+                        System.out.println(book1);
+                    }
+                    System.out.println("________________________________________________________\n\n");
+
+                    System.out.println("Дальнейшии функции круда будут выполняться с этим автором и этой книгой");
+                    System.out.println("________________________________________________________\n\n");
+                    System.out.println("Книга - изначальный вид");
+                    System.out.println(allService.findBookById(book.getId()));
+                    System.out.println("Обновление книги (в данном случае изменение названия на Nazvanie)");
+                    book.setTitle("Nazvanie");
+                    allService.updateBook(book);
+                    System.out.println("Читаем из файла данную книгу");
+                    System.out.println(allService.findBookById(book.getId()));
+                    System.out.println("Удаляем книгу( флаг Visible)");
+                    allService.deleteBook(book.getId());
+                    System.out.println("Читаем из файла данную книгу");
+                    System.out.println(allService.findBookById(book.getId()));
+                    System.out.println("________________________________________________________\n\n");
+                    System.out.println("Автор - изначальный вид");
+                    System.out.println(allService.findAuthorById(idOfaut));
+                    System.out.println("Обновление автора (в данном случае изменение Имени и Фамилии на Ivan Ivanov)");
+                    Author author123 = allService.findAuthorById(idOfaut);
+                    author123.setFirstName("Ivan");
+                    author123.setLastName("Ivanov");
+                    allService.updateAuthor(author123);
+                    System.out.println("Читаем из файла данного автора");
+                    System.out.println(allService.findAuthorById(idOfaut));
+                    System.out.println("Удаляем автора( флаг Visible)");
+                    allService.deleteBook(idOfaut);
+                    System.out.println("Читаем из файла данного автора");
+                    System.out.println(allService.findAuthorById(idOfaut));
+
+                    System.out.println("_________________________________");
+                    System.out.println("END");
+                     break;
+
+                }
+
 
 
                 case 'X': {
