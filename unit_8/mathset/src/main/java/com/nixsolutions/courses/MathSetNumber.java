@@ -48,7 +48,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     @SafeVarargs
     @Override
     public final void add(E... n) {
-        if (mathSet.length - size < n.length) resize(mathSet.length + n.length);
+        if (mathSet.length - size < n.length) resize(mathSet.length + 2 * n.length);
         for (E t : n) {
             add(t);
         }
@@ -122,12 +122,14 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public E get(int index) {
+        if (isEmpty()) return null;
         if (validIndex(index)) return (E) mathSet[index];
         return null;
     }
 
     @Override
     public E getMax() {
+        if (isEmpty()) return null;
         E max = (E) mathSet[0];
         for (int i = 1; i < size - 1; i++) {
             if (max.compareTo((E) mathSet[i + 1]) < 0) max = (E) mathSet[i + 1];
@@ -137,6 +139,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public E getMin() {
+        if (isEmpty()) return null;
         E min = (E) mathSet[0];
         for (int i = 1; i < size - 1; i++) {
             if (min.compareTo((E) mathSet[i + 1]) > 0) min = (E) mathSet[i + 1];
@@ -146,6 +149,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public Number getAverage() {
+        if (isEmpty()) return null;
         double sum = 0;
         for (Number n : mathSet) {
             sum += (int) n;
@@ -155,6 +159,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public Number getMedian() {
+        if (isEmpty()) return null;
         MathSetNumber set = new MathSetNumber(mathSet);
         set.sortAsc();
         if (set.getSize() % 2 != 0) {
@@ -178,7 +183,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
 
     @Override
     public MathSet<E> squash(int firstIndex, int lastIndex) {
-        return new MathSetNumber<E>((E[]) toArray(firstIndex, lastIndex));
+        return new MathSetNumber<>((E[]) toArray(firstIndex, lastIndex));
     }
 
     @Override
@@ -206,7 +211,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     }
 
     private void resize(int newCapacity) {
-        ArrayUtils.copyOf(mathSet, newCapacity, Number[].class);
+        mathSet = ArrayUtils.copyOf(mathSet, newCapacity, Number[].class);
     }
 
     private void resize() {
@@ -218,6 +223,7 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
     }
 
     private boolean isUnique(E element) {
+        if (element == null) return false;
         if (size == 0) return true;
         for (Number n : mathSet) {
             if (n != null) {
@@ -225,6 +231,10 @@ public class MathSetNumber<E extends Number & Comparable<E>> implements MathSet<
             }
         }
         return true;
+    }
+
+    private boolean isEmpty() {
+        return size == 0;
     }
 
     private boolean validIndex(int index) {
