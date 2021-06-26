@@ -6,6 +6,7 @@ mvn clean install
 
 mvn exec:java -D exec.mainClass=MathSetTest
 
+
 или:
 
 mvn clean install
