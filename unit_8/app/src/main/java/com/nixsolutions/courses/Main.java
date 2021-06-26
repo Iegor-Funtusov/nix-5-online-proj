@@ -1,7 +1,10 @@
 package com.nixsolutions.courses;
 
+import com.nixsolutions.courses.controller.ConsoleController;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Main.main");
+       ConsoleController consoleController = new ConsoleController();
+       consoleController.printMenu();
     }
 }
