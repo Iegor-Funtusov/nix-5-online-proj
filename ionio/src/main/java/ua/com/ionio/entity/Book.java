@@ -8,8 +8,9 @@ public class Book {
     private List<String> listAuthors;
     private boolean isvisableBook;
 
-    public Book(String id, String title, List<String> listAuthors) {
-        this.id = id;
+    public Book() {}
+
+    public Book(String title, List<String> listAuthors) {
         this.title = title;
         this.listAuthors = listAuthors;
         this.isvisableBook = true;
@@ -45,5 +46,13 @@ public class Book {
 
     public void setIsvisableBook(boolean isvisableBook) {
         this.isvisableBook = isvisableBook;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", listAuthors=" + listAuthors + '}';
     }
 }

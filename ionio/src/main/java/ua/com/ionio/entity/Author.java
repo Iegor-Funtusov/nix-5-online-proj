@@ -3,19 +3,29 @@ package ua.com.ionio.entity;
 import java.util.List;
 
 public class Author {
+
     private String id;
     private String firstname;
     private String lastname;
     private List<String> listBooks;
     private boolean isvisableAuthor;
 
-    public Author(String id, String firstname,
+    public Author() {}
+
+    public Author(String firstname,
                   String lastname, List<String> listBooks) {
-        this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.listBooks = listBooks;
         this.isvisableAuthor = true;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getFirstname() {
@@ -48,5 +58,14 @@ public class Author {
 
     public void setIsvisableAuthor(boolean isvisableAuthor) {
         this.isvisableAuthor = isvisableAuthor;
+    }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id='" + id + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", listBooks=" + listBooks + '}';
     }
 }
