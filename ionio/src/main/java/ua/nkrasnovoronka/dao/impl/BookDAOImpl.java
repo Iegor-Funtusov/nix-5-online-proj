@@ -17,11 +17,12 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public void update(Book book) {
+        libraryDB.updateBook(book);
     }
 
     @Override
     public void delete(Long id) {
-
+        libraryDB.deleteBookById(id);
     }
 
     @Override

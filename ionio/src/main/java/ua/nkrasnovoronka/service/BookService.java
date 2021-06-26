@@ -7,11 +7,11 @@ import java.util.Collection;
 public interface BookService {
     void create(Book book);
 
-    Book removeBookByName(String name);
+    void removeBookById(Long id);
 
     Collection<Book> getAllBooks();
 
     void updateBook(Book book);
 
-    Book getBookByName(String name);
+    Book getBookById(Long bookId);
 }

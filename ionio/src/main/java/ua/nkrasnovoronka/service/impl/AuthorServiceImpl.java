@@ -11,11 +11,6 @@ import ua.nkrasnovoronka.service.AuthorService;
 import java.util.Collection;
 
 public class AuthorServiceImpl implements AuthorService {
-
-    private static final Logger loggerInfo = LoggerFactory.getLogger("info");
-    private static final Logger loggerWarn = LoggerFactory.getLogger("warn");
-    private static final Logger loggerError = LoggerFactory.getLogger("error");
-
     private final AuthorDAO authorDAO = new AuthorDAOImpl();
 
     @Override
@@ -24,9 +19,10 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author removeAuthorByName(String name) {
-        return null;
+    public Author removeAuthorById(Long id) {
+        return authorDAO.deleteAuthorById(id);
     }
+
 
     @Override
     public Collection<Author> getAllAuthors() {
@@ -35,16 +31,17 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public void updateAuthor(Author author) {
-
+        authorDAO.update(author);
     }
 
     @Override
-    public Author getAuthorByName(String name) {
-        return null;
+    public Author getAuthorById(Long id) {
+        return authorDAO.findByID(id);
     }
 
+
     @Override
-    public Collection<Book> getAllAuthorBooks(String authorName) {
-        return null;
+    public Collection<Book> getAllAuthorBooks(Long authorId) {
+        return authorDAO.findAllAuthorsBooks(authorId);
     }
 }

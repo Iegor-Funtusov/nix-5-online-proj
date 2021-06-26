@@ -26,17 +26,17 @@ public class LibraryController {
     public void removeAuthor() {
         System.out.println("Pleas enter author name to be removed");
         String authorName = UserInput.userInputString();
-        authorService.removeAuthorByName(authorName);
+//        authorService.removeAuthorById(authorName);
     }
 
     public void updateAuthor() {
         System.out.println("Pleas enter author name to be updated");
         String authorName = UserInput.userInputString();
-        Author authorByName = authorService.getAuthorByName(authorName);
+//        Author authorByName = authorService.getAuthorByName(authorName);
         System.out.println("Pleas enter updated author name");
         String updatedAuthorName = UserInput.userInputString();
 //        authorByName.setName(updatedAuthorName);
-        authorService.updateAuthor(authorByName);
+//        authorService.updateAuthor(authorByName);
     }
 
     public void createBook() {
@@ -45,7 +45,7 @@ public class LibraryController {
         System.out.println("Pleas enter book author name");
         String authorName = UserInput.userInputString();
 //        Book book = new Book(bookName);
-        Author authorByName = authorService.getAuthorByName(authorName);
+//        Author authorByName = authorService.getAuthorByName(authorName);
 //        book.setAuthorId(authorByName.getId());
 //        bookService.create(book);
     }
@@ -68,7 +68,7 @@ public class LibraryController {
                 case 2: {
                     System.out.println("Pleas enter new book author name");
                     String updatedBookAuthor = UserInput.userInputString();
-                    Author authorByName = authorService.getAuthorByName(updatedBookAuthor);
+//                    Author authorByName = authorService.getAuthorByName(updatedBookAuthor);
 //                    bookByName.setAuthorId(authorByName.getId());
                     break;
                 }
@@ -91,13 +91,13 @@ public class LibraryController {
     public void printAllBooksByAuthor() {
         System.out.println("Pleas enter author name ");
         String authorName = UserInput.userInputString();
-        System.out.println(authorService.getAllAuthorBooks(authorName));
+//        System.out.println(authorService.getAllAuthorBooks(authorName));
     }
 
     public void getAuthorByName() {
         System.out.println("Pleas enter author name");
         String authorName = UserInput.userInputString();
-        System.out.println(authorService.getAuthorByName(authorName));
+//        System.out.println(authorService.getAuthorByName(authorName));
     }
 
     public void getBookByName() {
@@ -108,8 +108,8 @@ public class LibraryController {
 
     public void removeBook() {
         System.out.println("Pleas enter book name to be removed");
-        String bookName = UserInput.userInputString();
-        bookService.removeBookByName(bookName);
+        Long bookId = (long) UserInput.userInputNumber();
+        bookService.removeBookById(bookId);
     }
 
 

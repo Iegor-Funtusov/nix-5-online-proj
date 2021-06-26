@@ -8,13 +8,13 @@ import java.util.Collection;
 public interface AuthorService {
     void create(Author author);
 
-    Author removeAuthorByName(String name);
+    Author removeAuthorById(Long id);
 
     Collection<Author> getAllAuthors();
 
     void updateAuthor(Author author);
 
-    Author getAuthorByName(String name);
+    Author getAuthorById(Long id);
 
-    Collection<Book> getAllAuthorBooks(String authorName);
+    Collection<Book> getAllAuthorBooks(Long authorId);
 }

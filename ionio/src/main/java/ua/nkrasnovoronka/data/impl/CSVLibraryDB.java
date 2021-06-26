@@ -6,6 +6,7 @@ import com.opencsv.exceptions.CsvException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ua.nkrasnovoronka.data.LibraryDB;
+import ua.nkrasnovoronka.model.AbstractEntity;
 import ua.nkrasnovoronka.model.Author;
 import ua.nkrasnovoronka.model.Book;
 import ua.nkrasnovoronka.util.Util;
@@ -16,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,12 +32,12 @@ public class CSVLibraryDB implements LibraryDB {
     public static final String AUTHOR_CSV = "src/main/resources/csvdb/author.csv";
     public static final String BOOK_CSV = "src/main/resources/csvdb/book.csv";
 
-    private final List<String[]> authorHeader = Collections.singletonList(new String[]{"id", "firstName", "lastName", "visible"});
-    private final List<String[]> bookHeader = Collections.singletonList(new String[]{"id", "title", "genre", "visible"});
+    private final List<String[]> authorHeader = Collections.singletonList(new String[]{"id", "firstName", "lastName", "booksId", "visible"});
+    private final List<String[]> bookHeader = Collections.singletonList(new String[]{"id", "title", "genre", "rating", "authorsId", "visible"});
 
 
-    private long authorId = 1;
-    private long bookId = 1;
+    private long authorIdCounter = 1;
+    private long bookIdCounter = 1;
 
     private static CSVLibraryDB instance;
 
@@ -78,7 +80,7 @@ public class CSVLibraryDB implements LibraryDB {
     @Override
     public void createAuthor(Author author) {
         try (CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV, true))) {
-            authorWriter.writeNext(Util.authorToStringArray(author, authorId++));
+            authorWriter.writeNext(Util.authorToStringArray(author, authorIdCounter++));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +89,7 @@ public class CSVLibraryDB implements LibraryDB {
     @Override
     public void createBook(Book book) {
         try (CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV, true))) {
-            bookWriter.writeNext(Util.bookToStringArray(book, bookId++));
+            bookWriter.writeNext(Util.bookToStringArray(book, bookIdCounter++));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,6 +102,7 @@ public class CSVLibraryDB implements LibraryDB {
         try (CSVReader authorReader = new CSVReader(new FileReader(AUTHOR_CSV))) {
             allAuthors = authorReader.readAll().stream()
                     .skip(1)
+                    .filter(strings -> Boolean.parseBoolean(strings[4]))
                     .map(Util::authorFromStringArray)
                     .collect(Collectors.toList());
         } catch (IOException | CsvException e) {
@@ -116,6 +119,7 @@ public class CSVLibraryDB implements LibraryDB {
         try (CSVReader bookReader = new CSVReader(new FileReader(BOOK_CSV))) {
             allBooks = bookReader.readAll().stream()
                     .skip(1)
+                    .filter(strings -> Boolean.parseBoolean(strings[5]))
                     .map(Util::bookFromString)
                     .collect(Collectors.toList());
         } catch (IOException | CsvException e) {
@@ -127,8 +131,13 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public Author getAuthorById(Long authorId) {
+        List<Author> allAuthors = getAllAuthors();
+        if (isValidId(authorId, allAuthors)) {
+            loggerError.error("Author with id {} doesn`t exists", authorId);
+            return null;
+        }
         loggerInfo.info("Getting author with id {}", authorId);
-        return getAllAuthors().stream()
+        return allAuthors.stream()
                 .filter(author -> author.getId().equals(authorId) && author.isVisible())
                 .findFirst()
                 .orElse(null);
@@ -136,10 +145,111 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public Book getBookById(Long bookId) {
+        List<Book> allBooks = getAllBooks();
+        if (isValidId(bookId, allBooks)) {
+            loggerError.error("Book with id {} doesn`t exists", bookId);
+            return null;
+        }
         loggerInfo.info("Getting book with id {}", bookId);
-        return getAllBooks().stream()
-                .filter(book -> book.getId().equals(authorId) && book.isVisible())
+        return allBooks.stream()
+                .filter(book -> book.getId().equals(bookId) && book.isVisible())
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public void deleteBookById(Long id) {
+        List<Book> allBooks = getAllBooks();
+        if (isValidId(id, allBooks)) {
+            loggerInfo.error("Book with id {} doesn`t exists", id);
+            return;
+        }
+        List<String[]> collect = new ArrayList<>();
+        for (Book b : allBooks) {
+            if (b.getId().equals(id)) {
+                b.setVisible(false);
+            }
+            collect.add(Util.bookToStringArray(b, b.getId()));
+        }
+        try (CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV))) {
+            bookWriter.writeAll(bookHeader);
+            bookWriter.writeAll(collect);
+        } catch (IOException e) {
+            loggerError.error("Cannot remove book with id {}", id);
+            e.printStackTrace();
+        }
+        loggerInfo.info("Removing book with id {}", id);
+
+    }
+
+    private boolean isValidId(Long id, List<? extends AbstractEntity> list) {
+        return list.size() < id - 1 || list.isEmpty() || !(list.get(id.intValue() - 1).isVisible());
+    }
+
+    @Override
+    public void deleteAuthorById(Long id) {
+        List<Author> allAuthors = getAllAuthors();
+        if (isValidId(id, allAuthors)) {
+            loggerInfo.error("Author with id {} doesn`t exists", id);
+            return;
+        }
+        List<String[]> collect = new ArrayList<>();
+        for (Author a : allAuthors) {
+            if (a.getId().equals(id)) {
+                a.setVisible(false);
+            }
+            collect.add(Util.authorToStringArray(a, a.getId()));
+        }
+        try (CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV))) {
+            authorWriter.writeAll(authorHeader);
+            authorWriter.writeAll(collect);
+        } catch (IOException e) {
+            loggerError.error("Cannot remove author with id {}", id);
+            e.printStackTrace();
+        }
+        loggerInfo.info("Removing author with id {}", id);
+    }
+
+    @Override
+    public void updateAuthor(Author author) {
+        List<Author> authors = getAllAuthors();
+        List<String[]> collect = new ArrayList<>();
+
+        for (Author a : authors) {
+            if (a.getId().equals(author.getId())) {
+                a.setFirstName(author.getFirstName());
+                a.setLastName(author.getLastName());
+            }
+            collect.add(Util.authorToStringArray(a, a.getId()));
+        }
+
+        loggerInfo.info("Author with id {} was updated", author.getId());
+    }
+
+    @Override
+    public void updateBook(Book book) {
+        List<Book> books = getAllBooks();
+        List<String[]> collect = new ArrayList<>();
+
+        for (Book b : books) {
+            if (b.getId().equals(book.getId())) {
+                b.setBookTitle(book.getBookTitle());
+                b.setGenre(book.getGenre());
+                b.setBookRating(book.getBookRating());
+            }
+            collect.add(Util.bookToStringArray(b, b.getId()));
+        }
+
+        loggerInfo.info("Book with id {} was updated", book.getId());
+    }
+
+    @Override
+    public Collection<Book> getAllAuthorBooks(Long authorId) {
+        Author authorById = getAuthorById(authorId);
+        loggerInfo.info("Getting all books author with id {}", authorById);
+        return authorById.getBooksList()
+                .stream()
+                .map(this::getBookById)
+                .collect(Collectors.toList());
     }
 }

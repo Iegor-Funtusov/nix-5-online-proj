@@ -20,7 +20,7 @@ public class Author extends AbstractEntity {
         super.setVisible(true);
     }
 
-    public void setBooksList(Long bookId) {
+    public void addBookToAuthor(Long bookId) {
         booksList.add(bookId);
     }
 

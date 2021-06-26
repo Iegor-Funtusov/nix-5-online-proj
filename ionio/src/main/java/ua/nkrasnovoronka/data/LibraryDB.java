@@ -3,6 +3,7 @@ package ua.nkrasnovoronka.data;
 import ua.nkrasnovoronka.model.Author;
 import ua.nkrasnovoronka.model.Book;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface LibraryDB {
@@ -19,4 +20,14 @@ public interface LibraryDB {
     Author getAuthorById(Long authorId);
 
     Book getBookById(Long bookId);
+
+    void deleteBookById(Long id);
+
+    void deleteAuthorById(Long id);
+
+    void updateAuthor(Author author);
+
+    void updateBook(Book book);
+
+    Collection<Book> getAllAuthorBooks(Long authorId);
 }

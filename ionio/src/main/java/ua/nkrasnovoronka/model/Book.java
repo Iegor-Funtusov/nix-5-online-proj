@@ -19,10 +19,11 @@ public class Book extends AbstractEntity {
 
     public Book() {
         booksAuthors = new HashSet<>();
+        genre = Genre.OTHER;
         super.setVisible(true);
     }
 
-    public void setBooksAuthors(Long authorId) {
+    public void addAuthorToBook(Long authorId) {
         booksAuthors.add(authorId);
     }
 
