@@ -73,7 +73,7 @@ public class MathSetService<E extends Number & Comparable<E>> {
         return mathSet.squash(firstIndex, lastIndex);
     }
 
-    public E[] toArray() {
+    public Number[] toArray() {
         return mathSet.toArray();
     }
 

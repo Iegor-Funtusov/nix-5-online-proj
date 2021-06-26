@@ -10,8 +10,12 @@ import java.io.InputStreamReader;
 
 public class ConsoleController {
 
-    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private final MathSetService<Integer> mathSetService = new MathSetService<>();
+    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final MathSetService<Integer> mathSetService;
+
+    public ConsoleController() {
+        mathSetService = new MathSetService<>();
+    }
 
     private void create() throws InstanceAlreadyExistsException {
         if (mathSetService.isNull()) {
@@ -40,19 +44,22 @@ public class ConsoleController {
         MathSet<Integer> set = mathSetService.createNewSet(numbers);
         mathSetService.join(set);
         System.out.println("New mathset joined");
-        System.out.println("Result mathset: " + mathSetService.toString());
+        System.out.println("Result mathset: ");
+        toArray();
     }
 
     private void sortDesc() {
         mathSetService.sortDesc();
         System.out.println("Mathset sorted in descending order");
-        System.out.println("Result mathset: " + mathSetService.toString());
+        System.out.println("Result mathset: ");
+        toArray();
     }
 
     private void sortAsc() {
         mathSetService.sortAsc();
         System.out.println("Mathset sorted in ascending order");
-        System.out.println("Result mathset: " + mathSetService.toString());
+        System.out.println("Result mathset: ");
+        toArray();
     }
 
     private void getByIndex() throws IOException {
