@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 public class ConsoleController {
 
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-    private final MathSetService mathSetService = new MathSetService();
+    private final MathSetService<Integer> mathSetService = new MathSetService<>();
 
     private void create() throws Exception {
         if (mathSetService.isNull()) {
@@ -29,7 +29,7 @@ public class ConsoleController {
     private void add() throws IOException {
         if (!mathSetService.isNull()) {
             System.out.println("Enter one or several space-separated numbers:");
-            Number[] numbers = formatInput(reader.readLine());
+            Integer[] numbers = formatInput(reader.readLine());
             if (mathSetService.add(numbers)) {
                 System.out.println("");
                 System.out.println("Result mathset: " + printSet(mathSetService.getMathSet()));
@@ -42,8 +42,8 @@ public class ConsoleController {
     private void join() throws IOException {
         if (!mathSetService.isNull()) {
             System.out.println("Enter space-separated numbers for mathset to join existing:");
-            Number[] numbers = formatInput(reader.readLine());
-            MathSet set = mathSetService.createNewSet(numbers);
+            Integer[] numbers = formatInput(reader.readLine());
+            MathSet<Integer> set = mathSetService.createNewSet(numbers);
             if (mathSetService.join(set)) {
                 System.out.println("New mathset joined");
                 System.out.println("Result mathset: " + printSet(mathSetService.getMathSet()));
@@ -79,7 +79,7 @@ public class ConsoleController {
         if (!mathSetService.isNull()) {
             System.out.println("Enter index:");
             int index = Integer.parseInt(reader.readLine());
-            Integer element = (Integer) mathSetService.get(index);
+            Integer element = mathSetService.get(index);
             System.out.println("Element by index " + index + ": " + element);
         } else {
             throw new NullPointerException("MathSet is null");
@@ -151,9 +151,9 @@ public class ConsoleController {
         }
     }
 
-    private Number[] formatInput(String input) {
+    private Integer[] formatInput(String input) {
         String[] data = input.split(" ");
-        Number[] array = new Number[data.length];
+        Integer[] array = new Integer[data.length];
         for (int i = 0; i < data.length; i++) {
             array[i] = Integer.parseInt(data[i]);
         }
