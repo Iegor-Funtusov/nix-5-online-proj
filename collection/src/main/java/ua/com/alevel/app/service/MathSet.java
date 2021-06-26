@@ -1,228 +1,234 @@
 package ua.com.alevel.app.service;
 
-public class MathSet {
+public class MathSet<T extends Number> {
 
-    private Number[] numbers;
-    private int capacity;
-    private int amount;
+    private int capacity = 10;
+    private T[] number;
+    private int lastIndex;
 
     public MathSet() {
-        capacity = 10;
-        numbers = new Number[capacity];
-        amount = 0;
+        number = (T[]) new Number[capacity];
     }
 
     public MathSet(int capacity) {
         this.capacity = capacity;
-        numbers = new Number[capacity];
-        amount = 0;
+        number = (T[]) new Number[capacity];
     }
 
-    public MathSet(Number[] numbers) {
-        capacity = numbers.length;
-        amount = 0;
-        this.numbers = new Number[capacity];
-        add(numbers);
+    public MathSet(T[] number) {
+        this();
+        add(number);
     }
 
-    public MathSet(Number[] ... numbers) {
-        capacity = numbers.length;
-        amount = 0;
-        this.numbers = new Number[capacity];
-        for (Number[] n : numbers) {
-            add(n);
+    public MathSet(T[]... number) {
+        this();
+        for (T[] numbers : number) {
+            add(numbers);
         }
     }
 
-    public MathSet(MathSet numbers) {
-        Number[] arr = numbers.toArray();
-        capacity = arr.length;
-        amount = 0;
-        this.numbers = new Number[capacity];
-        add(arr);
+    public MathSet(MathSet<T> mathSet) {
+        this();
+        join(mathSet);
     }
 
-    public MathSet(MathSet... numbers) {
-        capacity = numbers[0].toArray().length;
-        amount = 0;
-        this.numbers = new Number[capacity];
-        for (MathSet n : numbers) {
-            add(n.toArray());
+    public MathSet(MathSet<T>... mathSet) {
+        this();
+        for (MathSet<T> m : mathSet) {
+            join(m);
         }
     }
 
-    public void add(Number n) {
-        if (amount == numbers.length) {
+    public void add(T n) {
+        if (lastIndex > 1) {
+            for (int i = 0; i < lastIndex; i++) {
+                T value = number[i];
+                if (value.equals(n))
+                    throw new IllegalArgumentException("argument is already present");
+            }
+        }
+        number[lastIndex++] = n;
+        if (lastIndex == capacity)
             increaseCapacity();
-        }
-        if (isContain(n)) {
-            return;
-        }
-        numbers[amount] = n;
-        amount++;
     }
 
-    public void add(Number... n) {
-        for (Number number : n) {
-            add(number);
+    @SafeVarargs
+    public final void add(T... n) {
+        for (T number1 : n) {
+            add(number1);
         }
     }
 
-    public void join(MathSet ms) {
-        add(ms.toArray());
+    public void join(MathSet<T> ms) {
+        T[] msArray = ms.toArray();
+        add(msArray);
     }
 
-    public void join(MathSet... ms) {
-        for (MathSet mathSet : ms) {
-            join(mathSet);
+    @SafeVarargs
+    public final void join(MathSet<T>... ms) {
+        for (MathSet<T> m : ms) {
+            join(m);
         }
     }
 
     public void sortDesc() {
-        sortDesc(0, amount);
+        sortDesc(0, lastIndex);
     }
 
     public void sortDesc(int firstIndex, int lastIndex) {
-        lastIndex = Math.min(amount, lastIndex);
-        for (int i = firstIndex; i < lastIndex; i++) {
-            for (int j = firstIndex; j < lastIndex - 1; j++) {
-                if (numbers[j].doubleValue() < numbers[j + 1].doubleValue()) {
-                    Number temp = numbers[j + 1];
-                    numbers[j + 1] = numbers[j];
-                    numbers[j] = temp;
-                }
-            }
-        }
+        T[] tempArray = descendingSort(firstIndex, lastIndex);
+        System.arraycopy(tempArray, 0, number, firstIndex, lastIndex - firstIndex);
     }
 
-    public void sortDesc(Number value) {
-        if (isContain(value)) {
-            sortDesc(0, getIndexOf(value));
-        }
+    public void sortDesc(T value){
+        sortDesc(0, findIndex(value));
     }
 
     public void sortAsc() {
-        sortAsc(0, amount);
+        sortAsc(0, lastIndex);
     }
 
     public void sortAsc(int firstIndex, int lastIndex) {
-        lastIndex = Math.min(amount, lastIndex);
-        for (int i = firstIndex; i < lastIndex; i++) {
-            for (int j = firstIndex; j < lastIndex-1; j++) {
-                if (numbers[j].doubleValue() > numbers[j + 1].doubleValue()) {
-                    Number temp = numbers[j + 1];
-                    numbers[j + 1] = numbers[j];
-                    numbers[j] = temp;
-                }
-            }
+        T[] tempArray = ascendingSort(firstIndex, lastIndex);
+        System.arraycopy(tempArray, 0, number, firstIndex, lastIndex - firstIndex);
+    }
+
+    public void sortAsc(T value)
+    {
+        sortAsc(0, findIndex(value));
+    }
+
+    public T get(int index) {
+        if (number[index] == null)
+            throw new IllegalArgumentException("Incorrect input");
+        return number[index];
+    }
+
+    public T getMax() {
+        T[] tempArray = ascendingSort(0, lastIndex);
+        return tempArray[tempArray.length - 1];
+    }
+
+    public T getMin() {
+        T[] tempArray = ascendingSort(0, lastIndex);
+        return tempArray[0];
+    }
+
+    public T getAverage() {
+        double res = 0;
+        for (int i = 0; i < lastIndex; i++) {
+            res += number[i].doubleValue();
         }
+        res /= lastIndex;
+        return (T) Double.valueOf(res);
     }
 
-    public void sortAsc(Number value) {
-        if (isContain(value)) {
-            sortAsc(0, getIndexOf(value));
+    public T getMedian() {
+        T[] tempArray = ascendingSort(0, lastIndex);
+        int middleIndex = tempArray.length / 2;
+        if (tempArray.length % 2 == 0) {
+            double sumValue = tempArray[middleIndex].doubleValue() + tempArray[middleIndex - 1].doubleValue();
+            return (T) Double.valueOf(sumValue / 2d);
         }
+        return tempArray[middleIndex];
     }
 
-    public Number get(int index) {
-        return numbers[index];
+    public T[] toArray() {
+        return toArray(0, lastIndex);
     }
 
-    public Number getMax() {
-        Number max = numbers[0];
-        for (int i = 0; i < amount; i++) {
-            if (numbers[i].doubleValue() > max.doubleValue()) {
-                max = numbers[i];
-            }
-        }
-        return max;
+    public T[] toArray(int firstIndex, int lastIndex) {
+        T[] resArray = (T[]) new Number[lastIndex - firstIndex];
+        System.arraycopy(number, firstIndex, resArray, 0, lastIndex - firstIndex);
+        return resArray;
     }
 
-    public Number getMin() {
-        Number min = numbers[0];
-        for (int i = 0; i < amount; i++) {
-            if (numbers[i].doubleValue() < min.doubleValue()) {
-                min = numbers[i];
-            }
-        }
-        return min;
-    }
-
-    public Number getAverage() {
-        double sum = 0;
-        for (int i = 0; i < amount; i++) {
-            sum += numbers[i].doubleValue();
-        }
-        return sum / amount;
-    }
-
-    public Number getMedian() {
-        return amount % 2 != 0 ? numbers[amount /2] : ((numbers[amount /2].doubleValue() + numbers[amount /2 - 1].doubleValue())/2);
-    }
-
-    public Number[] toArray(){
-        Number[] arr = new Number[amount];
-        if (amount >= 0) System.arraycopy(numbers, 0, arr, 0, amount);
-        return arr;
-    }
-
-    public Number[] toArray(int firstIndex, int lastIndex) {
-        if (firstIndex >= 0 && lastIndex > 0 && lastIndex > firstIndex) {
-            Number[] arr = new Number[lastIndex - firstIndex];
-            int arrIterator = 0;
-            for (int i = firstIndex; i < lastIndex; i++) {
-                arr[arrIterator++] = numbers[i];
-            }
-            return arr;
-        }
-        throw new IndexOutOfBoundsException();
-    }
-
-    public MathSet squash(int firstIndex, int lastIndex) {
-        MathSet temp = new MathSet();
-        for (int i = firstIndex; i < lastIndex; i++) {
-            temp.add(numbers[i]);
-        }
-        return temp;
+    public MathSet<T> squash(int firstIndex, int lastIndex) {
+        T[] tempArray = (T[]) new Number[lastIndex - firstIndex];
+        System.arraycopy(number, firstIndex, tempArray, 0, lastIndex - firstIndex);
+        clear(tempArray);
+        return new MathSet<>(tempArray);
     }
 
     public void clear() {
-        amount = 0;
-        numbers = new Number[capacity];
+        capacity = 10;
+        number = (T[]) new Number[capacity];
+        lastIndex = 0;
     }
 
-    public void clear(Number[] numbers) {
-        for (Number number : numbers) {
-            if (isContain(number)) {
-                this.numbers[getIndexOf(number)] = this.numbers[amount - 1];
-                this.numbers[amount - 1] = null;
-                amount--;
+    public void clear(T[] nums) {
+        T[] newArray = (T[]) new Number[capacity];
+        int index = 0;
+        for (int i = 0; i < lastIndex; i++) {
+            for (T num : nums) {
+                if (number[i].equals(num)) {
+                    number[i] = null;
+                    break;
+                }
             }
         }
+        for (int i = 0; i < lastIndex; i++) {
+            if (number[i] != null) {
+                newArray[index] = number[i];
+                index++;
+            }
+        }
+        lastIndex = index;
+        number = newArray;
     }
 
     private void increaseCapacity() {
         capacity = (capacity * 3) / 2 + 1;
-        Number[] tempArr = new Number[capacity];
-        System.arraycopy(numbers, 0, tempArr, 0, numbers.length);
-        numbers = tempArr;
+        T[] newArray = (T[]) new Number[capacity];
+        System.arraycopy(number, 0, newArray, 0, lastIndex);
+        number = newArray;
     }
 
-    private boolean isContain(Number number) {
-        for (int i = 0; i < amount; i++) {
-            if (number.doubleValue() == numbers[i].doubleValue()) {
-                return true;
+    private T[] ascendingSort(int firstIndex, int lastIndex) {
+        T[] arr = (T[]) new Number[lastIndex - firstIndex];
+        System.arraycopy(number, firstIndex, arr, 0, lastIndex - firstIndex);
+        T tmp;
+        for (int i = 0; i <= lastIndex - firstIndex; i++) {
+            for (int j = 1; j < (lastIndex - firstIndex - i); j++) {
+                if (arr[j - 1].longValue() > arr[j].longValue()) {
+                    tmp = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = tmp;
+                }
             }
         }
-        return false;
+        return arr;
     }
 
-    private int getIndexOf(Number value) {
-        for (int i = 0; i < amount; i++) {
-            if (value.doubleValue() == numbers[i].doubleValue()) {
+    private T[] descendingSort(int firstIndex, int lastIndex) {
+        T[] arr = (T[]) new Number[lastIndex - firstIndex];
+        System.arraycopy(number, firstIndex, arr, 0, lastIndex - firstIndex);
+        T tmp;
+        for (int i = 0; i <= lastIndex - firstIndex; i++) {
+            for (int j = 1; j < (lastIndex - firstIndex - i); j++) {
+                if (arr[j - 1].longValue() < arr[j].longValue()) {
+                    tmp = arr[j - 1];
+                    arr[j - 1] = arr[j];
+                    arr[j] = tmp;
+                }
+            }
+        }
+        return arr;
+    }
+
+    private int findIndex(T value) {
+        for (int i = 0; i < lastIndex; i++) {
+            if(value.equals(number[i]))
                 return i;
-            }
         }
-        throw new IllegalArgumentException();
+        throw new IllegalArgumentException("Incorrect value");
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getLastIndex() {
+        return lastIndex;
     }
 }
