@@ -19,19 +19,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Author removeAuthorById(Long id) {
-        return authorDAO.deleteAuthorById(id);
-    }
-
-
-    @Override
     public Collection<Author> getAllAuthors() {
         return authorDAO.findAll();
     }
 
     @Override
-    public void updateAuthor(Author author) {
-        authorDAO.update(author);
+    public void updateAuthor(Long authorId, Author author) {
+        authorDAO.update(authorId, author);
     }
 
     @Override
@@ -43,5 +37,15 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Collection<Book> getAllAuthorBooks(Long authorId) {
         return authorDAO.findAllAuthorsBooks(authorId);
+    }
+
+    @Override
+    public void addBookToAuthor(Long authorId, Long bookId) {
+        authorDAO.addBookToAuthor(authorId, bookId);
+    }
+
+    @Override
+    public void removeBookFromAuthor(Long authorId, Long bookId) {
+        authorDAO.removeBookFromAuthor(authorId, bookId);
     }
 }

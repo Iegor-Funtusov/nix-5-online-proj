@@ -53,7 +53,7 @@ public class LibraryController {
     public void updateBook() {
         System.out.println("Pleas enter book name to be updated");
         String bookName = UserInput.userInputString();
-        Book bookByName = bookService.getBookByName(bookName);
+//        Book bookByName = bookService.getBookByName(bookName);
         boolean isRunning = true;
         while (isRunning) {
             System.out.println("Pleas enter 1 - change book name 2 - book author 0 - to exit");
@@ -81,7 +81,7 @@ public class LibraryController {
                 }
             }
         }
-        bookService.updateBook(bookByName);
+//        bookService.updateBook(bookByName);
     }
 
     public void printAllBooks() {
@@ -103,7 +103,7 @@ public class LibraryController {
     public void getBookByName() {
         System.out.println("Pleas enter book name");
         String bookName = UserInput.userInputString();
-        System.out.println(bookService.getBookByName(bookName));
+//        System.out.println(bookService.getBookByName(bookName));
     }
 
     public void removeBook() {

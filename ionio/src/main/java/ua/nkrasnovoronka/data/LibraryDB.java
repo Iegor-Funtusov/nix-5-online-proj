@@ -25,9 +25,19 @@ public interface LibraryDB {
 
     void deleteAuthorById(Long id);
 
-    void updateAuthor(Author author);
+    void updateAuthor(Long authorId, Author author);
 
-    void updateBook(Book book);
+    void updateBook(Long bookId, Book book);
 
     Collection<Book> getAllAuthorBooks(Long authorId);
+
+    Collection<Author> getAllBooksAuthors(Long bookId);
+
+    void addBookToAuthor(Long authorId, Long bookId);
+
+    void removeBookFromAuthor(Long authorId, Long bookId);
+
+    void addAuthorToBook(Long bookId, Long authorId);
+
+    void removeAuthorFromBook(Long bookId, Long authorId);
 }

@@ -8,11 +8,12 @@ import java.util.List;
 
 public interface AuthorDAO {
     void create (Author author);
-    void update(Author author);
+    void update(Long authorId, Author author);
     void delete(Long id);
     Author findByID(Long id);
     List<Author> findAll();
     List<Author> findByBookID(Long bookId);
-    Author deleteAuthorById(Long id);
     Collection<Book> findAllAuthorsBooks(Long authorId);
+    void addBookToAuthor(Long authorId, Long bookId);
+    void removeBookFromAuthor(Long authorId, Long bookId);
 }

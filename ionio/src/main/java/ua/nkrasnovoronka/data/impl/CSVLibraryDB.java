@@ -211,7 +211,7 @@ public class CSVLibraryDB implements LibraryDB {
     }
 
     @Override
-    public void updateAuthor(Author author) {
+    public void updateAuthor(Long authorId, Author author) {
         List<Author> authors = getAllAuthors();
         List<String[]> collect = new ArrayList<>();
 
@@ -219,28 +219,43 @@ public class CSVLibraryDB implements LibraryDB {
             if (a.getId().equals(author.getId())) {
                 a.setFirstName(author.getFirstName());
                 a.setLastName(author.getLastName());
+                a.setBooksList(author.getBooksList());
             }
             collect.add(Util.authorToStringArray(a, a.getId()));
+            try (CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV))) {
+                authorWriter.writeAll(authorHeader);
+                authorWriter.writeAll(collect);
+            } catch (IOException e) {
+                loggerError.error("Cannot update author with id {}", authorId);
+                e.printStackTrace();
+            }
         }
 
-        loggerInfo.info("Author with id {} was updated", author.getId());
+        loggerInfo.info("Author with id {} was updated", author);
     }
 
     @Override
-    public void updateBook(Book book) {
+    public void updateBook(Long bookId, Book book) {
         List<Book> books = getAllBooks();
         List<String[]> collect = new ArrayList<>();
 
         for (Book b : books) {
-            if (b.getId().equals(book.getId())) {
+            if (b.getId().equals(bookId)) {
                 b.setBookTitle(book.getBookTitle());
                 b.setGenre(book.getGenre());
                 b.setBookRating(book.getBookRating());
             }
             collect.add(Util.bookToStringArray(b, b.getId()));
         }
+        try (CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV))) {
+            bookWriter.writeAll(bookHeader);
+            bookWriter.writeAll(collect);
+        } catch (IOException e) {
+            loggerError.error("Cannot remove book with id {}", bookId);
+            e.printStackTrace();
+        }
 
-        loggerInfo.info("Book with id {} was updated", book.getId());
+        loggerInfo.info("Book with id {} was updated", bookId);
     }
 
     @Override
@@ -251,5 +266,45 @@ public class CSVLibraryDB implements LibraryDB {
                 .stream()
                 .map(this::getBookById)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Author> getAllBooksAuthors(Long bookId) {
+        Book bookById = getBookById(bookId);
+        loggerInfo.info("Getting all authors with book id {}", bookById);
+        return bookById.getBooksAuthors()
+                .stream()
+                .map(this::getAuthorById)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addBookToAuthor(Long authorId, Long bookId) {
+        Author authorById = getAuthorById(authorId);
+        authorById.addBookToAuthor(bookId);
+        updateAuthor(authorId, authorById);
+    }
+
+    @Override
+    public void removeBookFromAuthor(Long authorId, Long bookId) {
+        Author authorById = getAuthorById(authorId);
+        authorById.setBooksList(authorById.getBooksList()
+                .stream().filter(aLong -> !aLong.equals(bookId)).collect(Collectors.toSet()));
+        updateAuthor(authorId, authorById);
+
+    }
+
+    @Override
+    public void addAuthorToBook(Long bookId, Long authorId) {
+        Book bookById = getBookById(bookId);
+        bookById.addAuthorToBook(authorId);
+        updateBook(bookId, bookById);
+    }
+
+    @Override
+    public void removeAuthorFromBook(Long bookId, Long authorId) {
+        Book bookById = getBookById(bookId);
+        bookById.setBooksAuthors(bookById.getBooksAuthors().stream().filter(aLong -> !aLong.equals(authorId)).collect(Collectors.toSet()));
+        updateBook(bookId, bookById);
     }
 }

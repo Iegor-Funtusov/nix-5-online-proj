@@ -1,10 +1,12 @@
 package ua.nkrasnovoronka.dao.impl;
 
 import ua.nkrasnovoronka.dao.BookDAO;
-import ua.nkrasnovoronka.data.impl.CSVLibraryDB;
 import ua.nkrasnovoronka.data.LibraryDB;
+import ua.nkrasnovoronka.data.impl.CSVLibraryDB;
+import ua.nkrasnovoronka.model.Author;
 import ua.nkrasnovoronka.model.Book;
 
+import java.util.Collection;
 import java.util.List;
 
 public class BookDAOImpl implements BookDAO {
@@ -16,8 +18,8 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public void update(Book book) {
-        libraryDB.updateBook(book);
+    public void update(Long bookId, Book book) {
+        libraryDB.updateBook(bookId, book);
     }
 
     @Override
@@ -36,7 +38,23 @@ public class BookDAOImpl implements BookDAO {
     }
 
     @Override
-    public List<Book> findByAuthorID(Long authorId) {
-        return null;
+    public List<Book> findByBookID(Long bookId) {
+        return (List<Book>) libraryDB.getAllAuthorBooks(bookId);
     }
+
+    @Override
+    public Collection<Author> findAllBooksAuthors(Long bookId) {
+        return libraryDB.getAllBooksAuthors(bookId);
+    }
+
+    @Override
+    public void addAuthorToBook(Long bookId, Long authorId) {
+        libraryDB.addAuthorToBook(bookId, authorId);
+    }
+
+    @Override
+    public void removeAuthorFromBook(Long bookId, Long authorId) {
+        libraryDB.removeAuthorFromBook(bookId, authorId);
+    }
+    
 }
