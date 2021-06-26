@@ -22,7 +22,7 @@ public class ArrayUtils {
         return copy;
     }
 
-    public static <T> int indexOf(T element, Object[] array) {
+    public static <T> int indexOf(T element, Object[] array) throws NoSuchElementException{
         for (int i = 0; i < array.length; i++) {
             if (array[i] != null) {
                 if (array[i].equals(element)) return i;

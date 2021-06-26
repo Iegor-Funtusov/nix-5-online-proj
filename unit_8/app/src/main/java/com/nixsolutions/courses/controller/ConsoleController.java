@@ -15,7 +15,6 @@ public class ConsoleController {
 
     private void create() throws Exception {
         if (mathSetService.isNull()) {
-//            System.out.println("You can enter capacity, space-separated numbers, comma separated group of numbers or nothing");
             if (mathSetService.create()) {
                 System.out.println("MathSet created");
             } else {
@@ -30,10 +29,8 @@ public class ConsoleController {
         if (!mathSetService.isNull()) {
             System.out.println("Enter one or several space-separated numbers:");
             Integer[] numbers = formatInput(reader.readLine());
-            if (mathSetService.add(numbers)) {
-                System.out.println("");
-                System.out.println("Result mathset: " + printSet(mathSetService.getMathSet()));
-            }
+            mathSetService.add(numbers);
+            System.out.println("Result mathset: " + mathSetService.toString());
         } else {
             throw new NullPointerException("MathSet is null");
         }
@@ -44,10 +41,9 @@ public class ConsoleController {
             System.out.println("Enter space-separated numbers for mathset to join existing:");
             Integer[] numbers = formatInput(reader.readLine());
             MathSet<Integer> set = mathSetService.createNewSet(numbers);
-            if (mathSetService.join(set)) {
-                System.out.println("New mathset joined");
-                System.out.println("Result mathset: " + printSet(mathSetService.getMathSet()));
-            }
+            mathSetService.join(set);
+            System.out.println("New mathset joined");
+            System.out.println("Result mathset: " + mathSetService.toString());
         } else {
             throw new NullPointerException("MathSet is null");
         }
@@ -55,10 +51,9 @@ public class ConsoleController {
 
     private void sortDesc() {
         if (!mathSetService.isNull()) {
-            if (mathSetService.sortDesc()) {
-                System.out.println("Mathset sorted in descending order");
-                System.out.println("Result mathset: " + printSet(mathSetService.getMathSet()));
-            }
+            mathSetService.sortDesc();
+            System.out.println("Mathset sorted in descending order");
+            System.out.println("Result mathset: " + mathSetService.toString());
         } else {
             throw new NullPointerException("MathSet is null");
         }
@@ -66,10 +61,9 @@ public class ConsoleController {
 
     private void sortAsc() {
         if (!mathSetService.isNull()) {
-            if (mathSetService.sortAsc()) {
-                System.out.println("Mathset sorted in ascending order");
-                System.out.println("Result mathset: " + printSet(mathSetService.getMathSet()));
-            }
+            mathSetService.sortAsc();
+            System.out.println("Mathset sorted in ascending order");
+            System.out.println("Result mathset: " + mathSetService.toString());
         } else {
             throw new NullPointerException("MathSet is null");
         }
@@ -88,7 +82,7 @@ public class ConsoleController {
 
     private void getMin() {
         if (!mathSetService.isNull()) {
-            Integer min = (Integer) mathSetService.getMin();
+            Integer min = mathSetService.getMin();
             System.out.println("Mathset minimum: " + min);
         } else {
             throw new NullPointerException("MathSet is null");
@@ -97,7 +91,7 @@ public class ConsoleController {
 
     private void getMax() {
         if (!mathSetService.isNull()) {
-            Integer max = (Integer) mathSetService.getMax();
+            Integer max = mathSetService.getMax();
             System.out.println("Mathset maximum: " + max);
         } else {
             throw new NullPointerException("MathSet is null");
@@ -106,7 +100,7 @@ public class ConsoleController {
 
     private void getAverage() {
         if (!mathSetService.isNull()) {
-            Integer average = (Integer) mathSetService.getAverage();
+            Number average = mathSetService.getAverage();
             System.out.println("Mathset average: " + average);
         } else {
             throw new NullPointerException("MathSet is null");
@@ -124,7 +118,11 @@ public class ConsoleController {
 
     private void toArray() {
         if (!mathSetService.isNull()) {
-            System.out.println(printSet(mathSetService.getMathSet()));
+            Number[] array = mathSetService.toArray();
+            for (Number number : array) {
+                System.out.print(number + " ");
+            }
+            System.out.println("");
         } else {
             throw new NullPointerException("MathSet is null");
         }
@@ -134,8 +132,8 @@ public class ConsoleController {
         if (!mathSetService.isNull()) {
             System.out.println("Enter space-separated indexes:");
             Number[] indexes = formatInput(reader.readLine());
-            MathSet set = mathSetService.squash((int) indexes[0], (int) indexes[1]);
-            System.out.println(printSet(set));
+            MathSet<Integer> set = mathSetService.squash((int) indexes[0], (int) indexes[1]);
+            System.out.println(set.toString());
         } else {
             throw new NullPointerException("MathSet is null");
         }
@@ -160,13 +158,13 @@ public class ConsoleController {
         return array;
     }
 
-    private String printSet(MathSet mathSet) {
-        StringBuilder out = new StringBuilder();
-        for (Number number : mathSetService.toArray(mathSet)) {
-            out.append(number).append(" ");
-        }
-        return String.valueOf(out);
-    }
+//    private String printSet(MathSet mathSet) {
+//        StringBuilder out = new StringBuilder();
+//        for (Number number : mathSetService.toArray(mathSet)) {
+//            out.append(number).append(" ");
+//        }
+//        return String.valueOf(out);
+//    }
 
     private String readConsole() {
         System.out.println("Choose option:\n" +
