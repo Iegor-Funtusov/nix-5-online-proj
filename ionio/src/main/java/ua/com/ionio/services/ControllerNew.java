@@ -141,7 +141,13 @@ public class ControllerNew {
                     System.out.println("Enter Author id to get it");
                     try {
                         String id = reader.readLine();
-                        System.out.println( access.getAuthorById(id));
+                        Author author = access.getAuthorById(id);
+                        if(author.isIsvisableAuthor()){
+                            System.out.println(author);
+                        }
+                        else {
+                            throw new IllegalArgumentException("Author doesn't exist");
+                        }
                     }
                     catch (IOException e) {
                         System.out.println("Incorrect input. Try once more");
@@ -191,19 +197,26 @@ public class ControllerNew {
                             try {
                                 String id = reader.readLine();
                                 Book book = access.getBookById(id);
+                                if(book.isIsvisableBook()){
                                 System.out.println("Enter new Title");
                                 String tilte = reader.readLine();
                                 if(tilte!=null) {
                                     book.setTitle(tilte);
                                     access.updateBook(book);
                                     break;
+                                    }
+                                }
+                                else{
+                                    throw new IllegalArgumentException("This book doesn`t exist");
                                 }
                             }
                             catch (IOException e) {
                                 System.out.println("Incorrect input. Try once more");
+                                break;
                             }
                             catch (IllegalArgumentException ec){
                                 System.out.println(ec.getMessage());
+                                break;
                             }
                         }
                         case 2: {
@@ -211,21 +224,28 @@ public class ControllerNew {
                             try {
                                 String id = reader.readLine();
                                 Book book = access.getBookById(id);
-                                System.out.println("Enter Authors` id");
-                                String authors = reader.readLine();
-                                String[] strs = authors.trim().split("\\s+");
-                                List<String> toadd = new ArrayList<String>();
-                                toadd.addAll(Arrays.asList(strs));
-                                if(!toadd.get(0).equals("")){
-                                    updateBook(id, toadd);
+                                if(book.isIsvisableBook()) {
+                                    System.out.println("Enter Authors` id");
+                                    String authors = reader.readLine();
+                                    String[] strs = authors.trim().split("\\s+");
+                                    List<String> toadd = new ArrayList<String>();
+                                    toadd.addAll(Arrays.asList(strs));
+                                    if (!toadd.get(0).equals("")) {
+                                        updateBook(id, toadd);
+                                    }
+                                }
+                                else {
+                                    throw new IllegalArgumentException("This book doesn`t exist");
                                 }
                                 break;
                             }
                             catch (IOException e) {
                                 System.out.println("Incorrect input. Try once more");
+                                break;
                             }
                             catch (IllegalArgumentException ec){
                                 System.out.println(ec.getMessage());
+                                break;
                             }
                         }
                         default: {System.out.println("Make your choise again!");}
@@ -251,7 +271,14 @@ public class ControllerNew {
                     System.out.println("Enter Book id to get it");
                     try {
                         String id = reader.readLine();
-                        System.out.println( access.getBookById(id));
+                        Book book = access.getBookById(id);
+                        if(book.isIsvisableBook()){
+                            System.out.println(book);
+                        }
+                        else {
+                            throw new IllegalArgumentException("Book doesn't exist");
+                        }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

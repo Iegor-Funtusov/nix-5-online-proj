@@ -101,7 +101,7 @@ public class DaoAuthor {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        loggerError.error("Author doesn`t exist - can`t get it");
+        loggerError.error("Author doesn`t exist - can`t ");
         throw new IllegalArgumentException("This Author doesn`t exist");
     }
 
