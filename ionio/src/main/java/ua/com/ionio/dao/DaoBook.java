@@ -100,7 +100,7 @@ public class DaoBook {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        loggerError.error("Book doesn`t exist - can`t get");
+        loggerError.error("Book doesn` exist");
         throw new IllegalArgumentException("This Book doesn`t exist");
     }
 

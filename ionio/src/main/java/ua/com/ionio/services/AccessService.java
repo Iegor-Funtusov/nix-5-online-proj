@@ -135,7 +135,7 @@ public class AccessService {
     }
 
     public List<Author> getAuthorbyBook(String book_id){
-         if(daoBooK.findBookById(book_id)!= null) {
+         if(daoBooK.findBookById(book_id)!= null && daoBooK.findBookById(book_id).isIsvisableBook()) {
              Book book = daoBooK.findBookById(book_id);
                  if (book.getListAuthors() != null) {
                      List<Author> authors = new ArrayList<Author>();
@@ -146,15 +146,16 @@ public class AccessService {
                          }
                      }
                      return authors;
-                 } else {
-                     return null;
                  }
+//                 else {
+//                     return null;
+//                 }
          }
              throw new IllegalArgumentException("Book doesn`t exist");
     }
 
     public List<Book> getBookbyAuthor(String author_id){
-        if(daoAuthor.findAuthorById(author_id)!= null){
+        if(daoAuthor.findAuthorById(author_id)!= null && daoAuthor.findAuthorById(author_id).isIsvisableAuthor()){
             Author author = daoAuthor.findAuthorById(author_id);
             if(author.getListBooks()!=null) {
                 List<Book> books = new ArrayList<Book>();
@@ -167,9 +168,9 @@ public class AccessService {
                 return books;
                 }
             }
-            else{
-                return null;
-            }
+//            else{
+//                return null;
+//            }
         throw new IllegalArgumentException("Book doesn`t exist");
     }
 

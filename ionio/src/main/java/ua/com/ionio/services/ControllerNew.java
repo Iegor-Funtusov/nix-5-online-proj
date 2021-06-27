@@ -84,12 +84,8 @@ public class ControllerNew {
                                 if(!firstname.equals("")) {
                                     author.setFirstname(firstname);
                                     access.updateAuthor(author);
-
+                                    break;
                                 }
-                                else{
-                                    System.out.println("Can not create: empty field");
-                                }
-                                break;
                             }
                             catch (IOException e) {
                                 System.out.println("Incorrect input. Try once more");
@@ -110,11 +106,8 @@ public class ControllerNew {
                                 if(!lastname.equals("")) {
                                     author.setLastname(lastname);
                                     access.updateAuthor(author);
+                                    break;
                                 }
-                                else{
-                                    System.out.println("Can not create: empty field");
-                                }
-                                break;
                             }
                             catch (IOException e) {
                                 System.out.println("Incorrect input. Try once more");
@@ -173,9 +166,6 @@ public class ControllerNew {
                         toadd.addAll(Arrays.asList(strs));
                         if(title!=null && !toadd.get(0).equals("")){
                             createBook(title, toadd);
-                        }
-                        else{
-                            System.out.println("Can not create: empty field");
                         }
                     } catch (IOException e) {
                         System.out.println("Incorrect input. Try once more");
@@ -439,26 +429,38 @@ public class ControllerNew {
 
     private void beforedeleteAuthor(String id){
         List<String> books = access.getAuthorById(id).getListBooks();
-        if(!books.get(0).equals("")) {
-            for (String s : books) {
-                if (access.getBookById(s).getListAuthors().size() == 1 &&
-                        access.getBookById(s).getListAuthors().get(0).equals(id)) {
-                    Book book = access.getBookById(s);
-                    book.setIsvisableBook(false);
-                    access.updateBook(book);
-                }
+        if(books.get(0).equals(""))
+        for (String s: books) {
+            if(access.getBookById(s)!=null && access.getBookById(s).getListAuthors().size() == 1 &&
+                    access.getBookById(s).getListAuthors().get(0).equals(id)){
+                Book book = access.getBookById(s);
+                book.setIsvisableBook(false);
+                access.updateBook(book);
             }
+
+        }
+    }
+
+    private Author ifExist(String id){
+        try{
+            Author author = access.getAuthorById(id);
+            return author;
+        }
+        catch (IllegalArgumentException e){
+            return null;
         }
     }
 
     private void beforedeleteBook(String id){
         List<String> authors = access.getBookById(id).getListAuthors();
         for (String s: authors) {
-            if(access.getAuthorById(s).isIsvisableAuthor() && access.getAuthorById(s).getListBooks().size() == 1 &&
-                    access.getAuthorById(s).getListBooks().get(0).equals(id)){
-                Author author = access.getAuthorById(s);
-                author.setIsvisableAuthor(false);
-                access.updateAuthor(author);
+            if(ifExist(s)!=null) {
+                if (access.getAuthorById(s).isIsvisableAuthor() && access.getAuthorById(s).getListBooks().size() == 1 &&
+                        access.getAuthorById(s).getListBooks().get(0).equals(id)) {
+                    Author author = access.getAuthorById(s);
+                    author.setIsvisableAuthor(false);
+                    access.updateAuthor(author);
+                }
             }
         }
     }
