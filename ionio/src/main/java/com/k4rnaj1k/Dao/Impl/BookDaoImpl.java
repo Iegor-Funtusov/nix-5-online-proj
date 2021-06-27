@@ -58,6 +58,7 @@ public class BookDaoImpl implements BookDao {
             CSVWriter writer = new CSVWriter(new FileWriter("books.csv", false));
             data.set(current.getId(), new String[]{String.valueOf(current.getId()), updated.getName(), updated.getAuthors(), updated.getVisible()});
             writer.writeAll(data);
+            writer.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -78,21 +79,21 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book find(String bookName) {
+        Book res = null;
         try (CSVReader reader = new CSVReader(new FileReader("books.csv"))) {
             List<String[]> data = reader.readAll();
             for (String[] book :
                     data) {
                 if (book[CSVIndex.NAME.ordinal()].equals(bookName)) {
-                    Book res = new Book();
+                    res = new Book();
                     res.setId(Integer.parseInt(book[CSVIndex.ID.ordinal()]));
                     res.setName(book[CSVIndex.NAME.ordinal()]);
                     res.setAuthors(book[CSVIndex.AUTHORS.ordinal()]);
                     res.setVisible(book[CSVIndex.VISIBLE.ordinal()]);
-                    return res;
                 }
             }
         } catch (Exception e) {
         }
-        return null;
+        return res;
     }
 }

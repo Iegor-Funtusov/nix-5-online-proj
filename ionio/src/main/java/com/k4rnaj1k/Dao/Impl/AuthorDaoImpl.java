@@ -66,19 +66,22 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public Author find(Author author) {
+        Author res = null;
         try(CSVReader reader = new CSVReader(new FileReader("authors.csv"))){
             List<String[]> authors = reader.readAll();
             for (int i = 1; i < authors.size(); i++) {
                 String[] authorrow = authors.get(i);
                 if(author.getName().equals(authorrow[CSVIndex.NAME.ordinal()]) && author.getSurname().equals(authorrow[CSVIndex.SURNAME.ordinal()])){
-                    author.setBooklist(authorrow[CSVIndex.BOOKS.ordinal()]);
-                    author.setId(Integer.parseInt(authorrow[CSVIndex.ID.ordinal()]));
-                    return author;
+                    res = new Author();
+                    res.setBooklist(authorrow[CSVIndex.BOOKS.ordinal()]);
+                    res.setId(Integer.parseInt(authorrow[CSVIndex.ID.ordinal()]));
+                    res.setName(authorrow[CSVIndex.NAME.ordinal()]);
+                    res.setSurname(authorrow[CSVIndex.SURNAME.ordinal()]);
                 }
             }
         }catch (Exception e){
         }
-        return null;
+        return res;
     }
 
     @Override
