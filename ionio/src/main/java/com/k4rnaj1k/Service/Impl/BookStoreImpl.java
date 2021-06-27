@@ -28,7 +28,7 @@ public class BookStoreImpl implements BookStoreService {
                 try {
                     int count = Integer.parseInt(s.nextLine());
                     flag = false;
-                    for (int i = 0; i < count ; i++){
+                    for (int i = 0; i < count; i++) {
                         Author author = new Author();
                         System.out.println("Please input author's name");
                         author.setName(s.nextLine());
@@ -44,14 +44,29 @@ public class BookStoreImpl implements BookStoreService {
                         }
                         book.setAuthors(book.getAuthors().concat(author.getName() + " " + author.getSurname() + "; "));
                     }
+                } catch (NumberFormatException e) {
+                    System.out.println("Wrong input.Try again.");
                 }
-            catch(NumberFormatException e){
-                System.out.println("Wrong input.Try again.");
-            }
             }
             bookDao.create(book);
-        } else {
-            System.out.println("Trying to create a duplicate book.");
+        } else if (bookDao.find(book.getName()).getVisible().equals("false")) {
+            book = bookDao.find(book.getName());
+            String[] authors = book.getAuthors().split("; ");
+            for (int i = 0; i < authors.length; i++) {
+                Author author = new Author();
+                author.setName(authors[i].split(" ")[0]);
+                author.setSurname(authors[i].split(" ")[1]);
+                if (authorDao.find(author) == null) {
+                    author.setBooklist(book.getName());
+                    authorDao.create(author);
+                } else {
+                    author = authorDao.find(author);
+                    author.setBooklist(author.getBooklist() + book.getName() + "; ");
+                    authorDao.update(authorDao.find(author), author);
+                }
+            }
+            book.setVisible("true");
+            bookDao.update(bookDao.find(book.getName()), book);
         }
     }
 
@@ -102,7 +117,7 @@ public class BookStoreImpl implements BookStoreService {
         Book found = bookDao.find(s.nextLine());
         if (found != null) {
             System.out.println(found.getName());
-            Arrays.stream(found.getAuthors().split("; ")).forEach(string-> System.out.println("\t" + string));
+            Arrays.stream(found.getAuthors().split("; ")).forEach(string -> System.out.println("\t" + string));
         } else {
             System.out.println("Couldn't find the book.");
         }
@@ -269,9 +284,17 @@ public class BookStoreImpl implements BookStoreService {
         System.out.println("Please input the name of the book u'd like to remove.");
         String name = s.nextLine();
         if (bookDao.find(name) != null) {
-            Book removed = new Book();
-            removed = bookDao.find(removed.getName());
+            Book removed = bookDao.find(name);
             removed.setVisible("false");
+            for (String author :
+                    bookDao.find(name).getAuthors().split("; ")) {
+                Author authorOfBook = new Author();
+                authorOfBook.setName(author.split(" ")[0]);
+                authorOfBook.setSurname(author.split(" ")[1]);
+                authorOfBook = authorDao.find(authorOfBook);
+                authorOfBook.setBooklist(authorOfBook.getBooklist().replaceAll(removed.getName() + "; ", ""));
+                authorDao.update(authorDao.find(authorOfBook), authorOfBook);
+            }
             bookDao.update(bookDao.find(removed.getName()), removed);
         } else {
             System.out.println("Couldn't find the book.");

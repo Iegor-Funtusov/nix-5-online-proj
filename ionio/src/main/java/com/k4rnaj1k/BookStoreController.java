@@ -1,9 +1,7 @@
 package com.k4rnaj1k;
 
-import com.k4rnaj1k.Dao.Impl.AuthorDaoImpl;
 import com.k4rnaj1k.Service.Impl.BookStoreImpl;
 import com.k4rnaj1k.Service.BookStoreService;
-import com.k4rnaj1k.entities.Author;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
@@ -57,7 +55,7 @@ public class BookStoreController {
         System.out.println("Initialized books.csv");
     }
 
-    private void initCSV(String file, String[] header){
+    public static void initCSV(String file, String[] header){
         try (CSVReader reader = new CSVReader(new FileReader(file))) {
             String[] fileHeader = reader.readNext();
             for (int i = 0; i < header.length; i++) {

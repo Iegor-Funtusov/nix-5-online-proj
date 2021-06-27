@@ -33,19 +33,18 @@ public class BookDaoImpl implements BookDao {
     public ArrayList<Book> findAll() {
         ArrayList<Book> books = new ArrayList<>();
         try (CSVReader reader = new CSVReader(new FileReader(new File("books.csv")))) {
-            for (String[] bookData :
-                    reader.readAll()) {
+            List<String[]> data = reader.readAll();
+            for (int i = 1; i < data.size(); i++) {
                 Book book = new Book();
+                String[] bookData = data.get(i);
                 book.setName(bookData[CSVIndex.NAME.ordinal()]);
                 book.setAuthors(bookData[CSVIndex.AUTHORS.ordinal()]);
                 book.setVisible(bookData[CSVIndex.VISIBLE.ordinal()]);
                 books.add(book);
             }
-            return books;
         } catch (Exception e) {
-            System.out.println("Sorry, there was an exception, couldn't parse the file.");
         }
-        return null;
+        return books;
     }
 
     @Override

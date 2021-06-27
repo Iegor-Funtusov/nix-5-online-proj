@@ -32,6 +32,12 @@ public class Author {
         return booklist;
     }
 
+    public Author(String name, String surname, String booklist){
+        this.name = name;
+        this.surname = surname;
+        this.booklist = booklist;
+    }
+
     public void setBooklist(String booklist) {
         this.booklist = booklist;
     }
