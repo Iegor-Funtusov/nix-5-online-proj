@@ -1,6 +1,6 @@
-package Dao;
+package com.k4rnaj1k.Dao;
 
-import entities.Book;
+import com.k4rnaj1k.entities.Book;
 
 import java.util.ArrayList;
 

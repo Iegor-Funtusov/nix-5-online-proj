@@ -1,4 +1,4 @@
-package Service;
+package com.k4rnaj1k.Service;
 
 import java.util.Scanner;
 
@@ -19,4 +19,10 @@ public interface BookStoreService {
     void updateAuthor(Scanner s);
 
     void updateBook(Scanner s);
+
+    void removeAuthor(Scanner s);
+
+    void removeBook(Scanner s);
+
+    void autotest(BookStoreService service);
 }

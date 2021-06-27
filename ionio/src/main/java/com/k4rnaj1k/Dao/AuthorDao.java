@@ -1,6 +1,6 @@
-package Dao;
+package com.k4rnaj1k.Dao;
 
-import entities.Author;
+import com.k4rnaj1k.entities.Author;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ public interface AuthorDao {
         NAME,
         SURNAME,
         BOOKS,
-        VISIBLУ
+        VISIBLE
     }
 
     void create(Author author);

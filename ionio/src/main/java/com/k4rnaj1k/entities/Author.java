@@ -1,13 +1,24 @@
-package entities;
-
-import java.util.Arrays;
+package com.k4rnaj1k.entities;
 
 public class Author {
+
+    public Author(){
+        booklist = "";
+    }
 
     private int id;
     private String name;
     private String surname;
     private String booklist;
+    private String visible;
+
+    public String getVisible() {
+        return visible;
+    }
+
+    public void setVisible(String visible) {
+        this.visible = visible;
+    }
 
     public int getId() {
         return id;

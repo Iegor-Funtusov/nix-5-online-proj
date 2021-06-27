@@ -1,9 +1,9 @@
-package Dao.Impl;
+package com.k4rnaj1k.Dao.Impl;
 
-import Dao.AuthorDao;
+import com.k4rnaj1k.Dao.AuthorDao;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
-import entities.Author;
+import com.k4rnaj1k.entities.Author;
 
 import java.io.File;
 import java.io.FileReader;
@@ -24,6 +24,7 @@ public class AuthorDaoImpl implements AuthorDao {
         try(CSVReader reader = new CSVReader(new FileReader("authors.csv"))){
             List<String[]> csvData = reader.readAll();
             id = Integer.parseInt(csvData.get(csvData.size()-1)[CSVIndex.ID.ordinal()]);
+            id++;
         }catch (Exception e){
             id = 1;
         }
@@ -53,6 +54,7 @@ public class AuthorDaoImpl implements AuthorDao {
                 author.setName(all.get(i)[CSVIndex.NAME.ordinal()]);
                 author.setSurname(all.get(i)[CSVIndex.SURNAME.ordinal()]);
                 author.setBooklist(all.get(i)[CSVIndex.BOOKS.ordinal()]);
+                author.setVisible(all.get(i)[CSVIndex.VISIBLE.ordinal()]);
                 authors.add(author);
             }
             return authors;
@@ -66,7 +68,6 @@ public class AuthorDaoImpl implements AuthorDao {
     public Author find(Author author) {
         try(CSVReader reader = new CSVReader(new FileReader("authors.csv"))){
             List<String[]> authors = reader.readAll();
-            System.out.println("authors size = " + authors.size());
             for (int i = 1; i < authors.size(); i++) {
                 String[] authorrow = authors.get(i);
                 if(author.getName().equals(authorrow[CSVIndex.NAME.ordinal()]) && author.getSurname().equals(authorrow[CSVIndex.SURNAME.ordinal()])){
@@ -76,7 +77,6 @@ public class AuthorDaoImpl implements AuthorDao {
                 }
             }
         }catch (Exception e){
-            System.out.println("Couldn't find the given author.");
         }
         return null;
     }
@@ -93,7 +93,6 @@ public class AuthorDaoImpl implements AuthorDao {
             writer.writeAll(data);
             writer.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 }

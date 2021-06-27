@@ -1,5 +1,9 @@
-import Service.Impl.BookStoreImpl;
-import Service.BookStoreService;
+package com.k4rnaj1k;
+
+import com.k4rnaj1k.Dao.Impl.AuthorDaoImpl;
+import com.k4rnaj1k.Service.Impl.BookStoreImpl;
+import com.k4rnaj1k.Service.BookStoreService;
+import com.k4rnaj1k.entities.Author;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvValidationException;
@@ -23,7 +27,9 @@ public class BookStoreController {
                 5 - get all author's books
                 6 - get all book's authors
                 7 - create a book
-                8 - update a book""");
+                8 - update a book
+                9 - remove author
+                T - start common test.""");
         switch (s.nextLine()){
             case "1": service.createAuthor(s);break;
             case "2": service.updateAuthor(s);break;
@@ -33,10 +39,12 @@ public class BookStoreController {
             case "6": service.getBooksAuthors(s);break;
             case "7": service.createBook(s);break;
             case "8": service.updateBook(s);break;
+            case "9": service.removeAuthor(s); break;
+            case "10": service.removeBook(s); break;
+            case "T": service.autotest(service); break;
         }
     }
     }
-
 
 
     public BookStoreController() {
