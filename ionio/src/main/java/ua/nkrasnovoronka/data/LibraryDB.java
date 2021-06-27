@@ -8,7 +8,6 @@ import java.util.List;
 
 public interface LibraryDB {
 
-
     void createAuthor(Author author);
 
     void createBook(Book book);

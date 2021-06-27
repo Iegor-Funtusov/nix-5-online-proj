@@ -3,11 +3,13 @@ package ua.nkrasnovoronka.dao.impl;
 import ua.nkrasnovoronka.dao.BookDAO;
 import ua.nkrasnovoronka.data.LibraryDB;
 import ua.nkrasnovoronka.data.impl.CSVLibraryDB;
+import ua.nkrasnovoronka.model.AbstractEntity;
 import ua.nkrasnovoronka.model.Author;
 import ua.nkrasnovoronka.model.Book;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BookDAOImpl implements BookDAO {
     private final LibraryDB libraryDB = CSVLibraryDB.getInstance();
@@ -34,7 +36,7 @@ public class BookDAOImpl implements BookDAO {
 
     @Override
     public List<Book> findAll() {
-        return libraryDB.getAllBooks();
+        return libraryDB.getAllBooks().stream().filter(AbstractEntity::isVisible).collect(Collectors.toList());
     }
 
     @Override

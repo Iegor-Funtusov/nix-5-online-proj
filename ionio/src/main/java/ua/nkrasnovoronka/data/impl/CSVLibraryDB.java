@@ -49,7 +49,7 @@ public class CSVLibraryDB implements LibraryDB {
     private void initFiles() {
         try {
             loggerInfo.info("Initialize csv files");
-            Files.createDirectories(Path.of(CSV_DIRECTORY));
+           Files.createDirectories(Path.of(CSV_DIRECTORY));
             writeHeaders();
         } catch (IOException e) {
             e.printStackTrace();
@@ -105,7 +105,6 @@ public class CSVLibraryDB implements LibraryDB {
         try (CSVReader authorReader = new CSVReader(new FileReader(AUTHOR_CSV))) {
             allAuthors = authorReader.readAll().stream()
                     .skip(1)
-                    .filter(strings -> Boolean.parseBoolean(strings[4]))
                     .map(Util::authorFromStringArray)
                     .collect(Collectors.toList());
         } catch (IOException | CsvException e) {
@@ -122,7 +121,6 @@ public class CSVLibraryDB implements LibraryDB {
         try (CSVReader bookReader = new CSVReader(new FileReader(BOOK_CSV))) {
             allBooks = bookReader.readAll().stream()
                     .skip(1)
-                    .filter(strings -> Boolean.parseBoolean(strings[5]))
                     .map(Util::bookFromString)
                     .collect(Collectors.toList());
         } catch (IOException | CsvException e) {
@@ -223,15 +221,16 @@ public class CSVLibraryDB implements LibraryDB {
                 a.setFirstName(author.getFirstName());
                 a.setLastName(author.getLastName());
                 a.setBooksList(author.getBooksList());
+                a.setVisible(author.isVisible());
             }
             collect.add(Util.authorToStringArray(a, a.getId()));
-            try (CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV))) {
-                authorWriter.writeAll(authorHeader);
-                authorWriter.writeAll(collect);
-            } catch (IOException e) {
-                loggerError.error("Cannot update author with id {}", authorId);
-                e.printStackTrace();
-            }
+        }
+        try (CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV))) {
+            authorWriter.writeAll(authorHeader);
+            authorWriter.writeAll(collect);
+        } catch (IOException e) {
+            loggerError.error("Cannot update author with id {}", authorId);
+            e.printStackTrace();
         }
 
         loggerInfo.info("Author with id {} was updated", author);
@@ -247,6 +246,8 @@ public class CSVLibraryDB implements LibraryDB {
                 b.setBookTitle(book.getBookTitle());
                 b.setGenre(book.getGenre());
                 b.setBookRating(book.getBookRating());
+                b.setBooksAuthors(book.getBooksAuthors());
+                b.setVisible(book.isVisible());
             }
             collect.add(Util.bookToStringArray(b, b.getId()));
         }

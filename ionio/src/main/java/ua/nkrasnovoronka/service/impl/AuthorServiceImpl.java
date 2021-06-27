@@ -1,7 +1,9 @@
 package ua.nkrasnovoronka.service.impl;
 
 import ua.nkrasnovoronka.dao.AuthorDAO;
+import ua.nkrasnovoronka.dao.BookDAO;
 import ua.nkrasnovoronka.dao.impl.AuthorDAOImpl;
+import ua.nkrasnovoronka.dao.impl.BookDAOImpl;
 import ua.nkrasnovoronka.model.Author;
 import ua.nkrasnovoronka.model.Book;
 import ua.nkrasnovoronka.service.AuthorService;
@@ -10,6 +12,7 @@ import java.util.Collection;
 
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorDAO authorDAO = new AuthorDAOImpl();
+    private final BookDAO bookDAO = new BookDAOImpl();
 
     @Override
     public void create(Author author) {
@@ -44,10 +47,12 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void addBookToAuthor(Long authorId, Long bookId) {
         authorDAO.addBookToAuthor(authorId, bookId);
+        bookDAO.addAuthorToBook(bookId, authorId);
     }
 
     @Override
     public void removeBookFromAuthor(Long authorId, Long bookId) {
         authorDAO.removeBookFromAuthor(authorId, bookId);
+        bookDAO.removeAuthorFromBook(bookId, authorId);
     }
 }
