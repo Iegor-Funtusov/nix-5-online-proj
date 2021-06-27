@@ -31,7 +31,5 @@ public class PreStartAppConfig {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //Удаляю все ненужные файлы и тд
     }
 }
