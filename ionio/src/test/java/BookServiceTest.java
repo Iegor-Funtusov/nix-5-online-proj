@@ -1,88 +1,89 @@
 import org.junit.jupiter.api.*;
+import ua.nkrasnovoronka.model.Author;
+import ua.nkrasnovoronka.model.Book;
 import ua.nkrasnovoronka.service.AuthorService;
 import ua.nkrasnovoronka.service.BookService;
 import ua.nkrasnovoronka.service.impl.AuthorServiceImpl;
 import ua.nkrasnovoronka.service.impl.BookServiceImpl;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
- class BookServiceTest {
+class BookServiceTest {
     private static BookService bookService = new BookServiceImpl();
     private static AuthorService authorService = new AuthorServiceImpl();
 
     @BeforeAll
     public static void setUp() {
-//        Author author = new Author("test author");
-//        authorService.create(author);
-//        for (int i = 0; i < 10; i++) {
-//            Book book = new Book(String.valueOf(i));
-//            book.setAuthorId(author.getId());
-//            bookService.create(book);
-//        }
+        Author author = new Author();
+        author.setFirstName("Test");
+        authorService.create(author);
+        for (int i = 0; i < 10; i++) {
+            Book book = new Book();
+            book.setBookTitle(String.valueOf(i));
+            book.addAuthorToBook(1L);
+            bookService.create(book);
+        }
     }
 
     @Test
     @Order(1)
-    public void createBook() {
-//        Book book = new Book("created");
-//        bookService.create(book);
-//        Book result = bookService.getBookByName("created");
-//        assertEquals(book, result);
+    void createBook() {
+        Book book = new Book();
+        book.setId(11L);
+        book.setBookTitle("book");
+        bookService.create(book);
+        Book result = bookService.getBookById(11L);
+        assertEquals(book, result);
     }
 
     @Test
     @Order(2)
-    public void shouldThrowAnExceptionIfBookIsNull() {
+    void shouldThrowAnExceptionIfBookIsNull() {
         assertThrows(NullPointerException.class, () -> bookService.create(null));
     }
 
     @Test
     @Order(3)
-    public void removeBookByName() {
-//        Book removed = bookService.removeBookByName("9");
-//        assertFalse(bookService.getAllBooks().contains(removed));
+     void removeBookById() {
+        bookService.removeBookById(1L);
+        assertFalse(bookService.getAllBooks().stream().anyMatch(book -> book.getId().equals(1L)));
     }
 
     @Test
     @Order(4)
-    public void shouldThrowExceptionIfRemovedBookIsNull() {
-//        assertThrows(NullPointerException.class, () -> bookService.removeBookByName(null));
+     void shouldThrowExceptionIfRemovedBookIsNull() {
+        assertThrows(NullPointerException.class, () -> bookService.removeBookById(null));
     }
 
     @Test
     @Order(5)
-    public void getAllBooks() {
+    void getAllBooks() {
         assertFalse(bookService.getAllBooks().isEmpty());
     }
 
     @Test
     @Order(6)
-    public void updateBookTest() {
-//        Book bookByName = bookService.getBookByName("2");
-//        bookByName.setName("updated");
-//        bookService.updateBook(bookByName);
-//        assertSame(bookByName, bookService.getBookByName("updated"));
+    void updateBookTest() {
+        Book bookByName = bookService.getBookById(2L);
+        bookByName.setBookTitle("updated");
+        bookService.updateBook(2L, bookByName);
+        assertEquals("updated", bookService.getBookById(2L).getBookTitle());
     }
 
     @Test
     @Order(7)
-    public void shouldThrowExceptionIfUpdatedBookIsNull() {
-//        assertThrows(NullPointerException.class, () -> bookService.updateBook(null));
+    void getBookById() {
+        Book book = new Book();
+        book.setId(12L);
+        book.setBookTitle("Get");
+        bookService.create(book);
+        assertEquals(book, bookService.getBookById(12L));
     }
 
     @Test
     @Order(8)
-    public void getBookByName() {
-//        Book book = new Book("get");
-//        bookService.create(book);
-//        assertSame(book, bookService.getBookById(1L));
-    }
-
-    @Test
-    @Order(9)
     public void shouldThrowExceptionIfGetBookIsNull() {
-//        assertThrows(NullPointerException.class, () -> bookService.getBookById(null));
+        assertThrows(NullPointerException.class, () -> bookService.getBookById(null));
     }
 }

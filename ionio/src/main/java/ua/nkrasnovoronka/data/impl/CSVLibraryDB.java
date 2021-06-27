@@ -49,7 +49,7 @@ public class CSVLibraryDB implements LibraryDB {
     private void initFiles() {
         try {
             loggerInfo.info("Initialize csv files");
-           Files.createDirectories(Path.of(CSV_DIRECTORY));
+            Files.createDirectories(Path.of(CSV_DIRECTORY));
             writeHeaders();
         } catch (IOException e) {
             e.printStackTrace();
@@ -79,17 +79,25 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public void createAuthor(Author author) {
-        try (CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV, true))) {
-            authorWriter.writeNext(Util.authorToStringArray(author, authorIdCounter++));
-        } catch (IOException e) {
-            e.printStackTrace();
+        loggerInfo.info("Creating author");
+        if (author != null) {
+            try (CSVWriter authorWriter = new CSVWriter(new FileWriter(AUTHOR_CSV, true))) {
+                authorWriter.writeNext(Util.authorToStringArray(author, authorIdCounter++));
+            } catch (IOException e) {
+                loggerError.error("Cannot create author");
+                e.printStackTrace();
+            }
+        } else {
+            loggerError.error("Author entity is null");
+            throw new NullPointerException("Author cannot be null");
         }
+
     }
 
     @Override
     public void createBook(Book book) {
         try (CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV, true))) {
-            if(!book.getBooksAuthors().isEmpty()){
+            if (!book.getBooksAuthors().isEmpty()) {
                 book.getBooksAuthors().forEach(aLong -> addBookToAuthor(aLong, bookIdCounter));
             }
             bookWriter.writeNext(Util.bookToStringArray(book, bookIdCounter++));
@@ -192,7 +200,7 @@ public class CSVLibraryDB implements LibraryDB {
         List<Author> allAuthors = getAllAuthors();
         if (isValidId(id, allAuthors)) {
             loggerInfo.error("Author with id {} doesn`t exists", id);
-            return;
+            throw new NullPointerException("Author with id " + id + " dosent exists");
         }
         List<String[]> collect = new ArrayList<>();
         for (Author a : allAuthors) {
@@ -214,6 +222,10 @@ public class CSVLibraryDB implements LibraryDB {
     @Override
     public void updateAuthor(Long authorId, Author author) {
         List<Author> authors = getAllAuthors();
+        if (isValidId(authorId, authors) && author == null) {
+            loggerInfo.error("Author with id {} doesn`t exists", authorId);
+            throw new NullPointerException("Author with id " + authorId + " dosent exists");
+        }
         List<String[]> collect = new ArrayList<>();
 
         for (Author a : authors) {
