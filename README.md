@@ -13,5 +13,3 @@ or
 
     cd unit_8/mathset
     mvn clean install
-    java -jar target/app.jar
-
