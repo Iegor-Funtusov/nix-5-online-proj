@@ -16,16 +16,16 @@ public class CommonTests {
     private static BookService bookService = new BookServiceImpl();
 
     public static void runSimulation() {
-        System.out.println("<Creating 5 authors>");
+        System.out.println("<Creating 5 authors>\n");
         for (int i = 1; i <= 5; i++) {
             Author author = new Author();
             author.setFirstName("FirstName " + i);
             author.setLastName("LastName " + i);
             authorService.create(author);
         }
-        System.out.println("<Created 5 authors>");
+        System.out.println("<Created 5 authors>\n");
 
-        System.out.println("<Creating 5 books>");
+        System.out.println("<Creating 5 books>\n");
         for (int i = 1; i <= 5; i++) {
             Book book = new Book();
             book.setBookTitle("Title " + i);
@@ -34,18 +34,18 @@ public class CommonTests {
             book.setBooksAuthors(Collections.singleton((long) i));
             bookService.create(book);
         }
-        System.out.println("<Created  5 books>");
-        System.out.println("Deleting author and book with id 2");
+        System.out.println("<Created  5 books>\n");
+        System.out.println("Deleting author and book with id 2\n");
 
         authorService.removeAuthorById(2L);
         bookService.removeBookById(2L);
 
-        System.out.println("<Print all authors and books>");
+        System.out.println("<Print all authors and books>\n");
 
         System.out.println(authorService.getAllAuthors());
         System.out.println(bookService.getAllBooks());
 
-        System.out.println("<Updating author and book with id 4");
+        System.out.println("<Updating author and book with id 4\n");
 
         Author updatedAuthor = authorService.getAuthorById(4L);
         updatedAuthor.setFirstName("Updated");
@@ -58,20 +58,20 @@ public class CommonTests {
         updatedBook.setBookRating(1000);
         bookService.updateBook(4L, updatedBook);
 
-        System.out.println("<Print all authors and books>");
+        System.out.println("<Print all authors and books>\n");
 
         System.out.println(authorService.getAllAuthors());
         System.out.println(bookService.getAllBooks());
 
-        System.out.println("<Getting author with id 1");
+        System.out.println("<Getting author with id 1\n");
         System.out.println(authorService.getAuthorById(1L));
 
-        System.out.println("Adding book with id 1 to author with id 5");
+        System.out.println("Adding book with id 1 to author with id 5\n");
         authorService.addBookToAuthor(1L, 5L);
 
-        System.out.println("Printing all author books");
+        System.out.println("Printing all author books\n");
         System.out.println(authorService.getAllAuthorBooks(1L));
-        System.out.println("Removing book with id 5 from author with id 1");
+        System.out.println("Removing book with id 5 from author with id 1\n");
 
         bookService.removeAuthorFromBook(5L, 1L);
         System.out.println(authorService.getAllAuthorBooks(1L));
