@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class MainController {
     private final AuthorService authorService;
     private final BookService bookService;
@@ -33,7 +32,7 @@ public class MainController {
         while(true){
             try{
                 System.out.println("""
-                        Choose thr option:\s
+                        Choose the option:\s
                         1-create book, 2-update book, 3-get info, 4-get all books, 5-delete book, Q-exit program\s
                         6-create author, 7-update author, 8-get info, 9-get all authors, 0-delete author, Q-exit program""");
 
@@ -81,10 +80,6 @@ public class MainController {
             authorService.updateAuthor(author);
             System.out.println("Successfully created. " + newBook.toString() + "\n");
 
-            //Несколько авторов или один?
-            //System.out.println("1-Choose the author from existing. 2-create new author");
-
-
         } catch (IOException e){
             System.out.println("Incorrect value entered");
         } catch (RuntimeException e){
@@ -116,7 +111,7 @@ public class MainController {
         try {
             List<Book> allBooks = bookService.read();
             allBooks.forEach(System.out::println);
-            System.out.println("\n");
+            System.out.println();
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -147,6 +142,13 @@ public class MainController {
     }
 
 
+    private boolean isBookContainsAuthor(Book book, Author author){
+        List<String> allAuthors = book.getAuthors();
+        if(allAuthors.stream().anyMatch(a -> a.equals(author.getFullName()))){
+            return true;
+        }
+        return false;
+    }
 
 
     private void updateBook(){
@@ -159,7 +161,7 @@ public class MainController {
             switch (choose){
                 case "1" -> {
                     //Удаляю у авторов книги старое имя книги
-                    deleteBookFromAuthors(bookToUpd);       //НЕ УДАЛИЛОСЬ СТАРОЕ НАЗВАНИЕ КНИГИ
+                    deleteBookFromAuthors(bookToUpd);
 
                     System.out.println("Enter new book's name:");
                     String newBookName = bf.readLine();
@@ -177,6 +179,11 @@ public class MainController {
                         System.out.println("Incorrect value entered");
                         return;
                     }
+                    if(isBookContainsAuthor(bookToUpd, authorToAdd)){
+                        System.out.println("You can not add this author. Because book already contains such author");
+                        return;
+                    }
+
                     bookToUpd = bookService.addAuthorToBook(bookToUpd, authorToAdd);
                     bookService.updateBook(bookToUpd);
 
@@ -184,19 +191,26 @@ public class MainController {
                     authorService.updateAuthor(authorToAdd);
                 }
                 case "3" -> {
-                    //МОГУ УДАЛЯТЬ ИЗ КНИГИ ТОЛЬКО ТОГО АВТОРА, КОТОРЫЙ ЕСТЬ В КНИГЕ
+                    if(bookToUpd.getAuthors().size() == 1){
+                        System.out.println("You can not delete author from this book, because this book has only one author");
+                        return;
+                    }
+                    System.out.println("Choose the author which you want to delete:");
+                    Author authorToDel = chooseAuthor();
+                    if(authorToDel == null){
+                        System.out.println("Incorrect value entered");
+                        return;
+                    }
+                    if(!isBookContainsAuthor(bookToUpd, authorToDel)){
+                        System.out.println("You can not delete this author. Because book does not contain such author");
+                        return;
+                    }
 
-//                    if(bookToUpd.getAuthors().size() == 1){
-//                        System.out.println("You can not delete author from this book, because this book has only one author");
-//                        return;
-//                    }
-//                    System.out.println("Choose the author which you want to delete:");
-//                    Author authorToDelete = chooseAuthor();
-//                    if(authorToDelete == null){
-//                        System.out.println("Incorrect value entered");
-//                        return;
-//                    }
-//                    bookToUpd = bookService.deleteAuthorFromBook(bookToUpd, authorToDelete);
+                    bookToUpd = bookService.deleteAuthorFromBook(bookToUpd, authorToDel);
+                    bookService.updateBook(bookToUpd);
+
+                    authorToDel = authorService.deleteBookFromAuthor(authorToDel, bookToUpd);
+                    authorService.updateAuthor(authorToDel);
                 }
                 case "0" -> System.exit(1);
                 default -> System.out.println("Incorrect value entered");
@@ -221,6 +235,7 @@ public class MainController {
             System.out.println("Choose the book which you want to delete:");
             Book bookToDelete = chooseBook();
             bookService.deleteBook(bookToDelete);
+            deleteBookFromAuthors(bookToDelete);
             System.out.println("Successfully deleted");
 
         } catch (IOException e){
@@ -233,8 +248,6 @@ public class MainController {
     }
 
 
-
-//МБ Предлагать создать новую книгу если такой ещё нет
     private void createAuthor(){
         try{
             Author newAuthor = new Author();
@@ -252,7 +265,7 @@ public class MainController {
             if(bf.readLine().equals(AGREE_INPUT)){
                 Book bookToAdd = chooseBook();
                 if(bookToAdd != null){
-                    authorService.addBookToAuthor(newAuthor,bookToAdd);
+                    newAuthor = authorService.addBookToAuthor(newAuthor,bookToAdd);
                     bookService.addAuthorToBook(bookToAdd, newAuthor);
                     bookService.updateBook(bookToAdd);
                 }
@@ -278,11 +291,15 @@ public class MainController {
         try{
             System.out.println("Enter full name of the author information about which you want to get:");
             String fullName = bf.readLine();
+            Author author = authorService.findAuthorByName(fullName);
+            System.out.println("Successfully found. " + author.toString());
 
         } catch (IOException e){
             System.out.println("Incorrect value entered");
         } catch (RuntimeException e){
             System.out.println(e.getMessage());
+        } catch (CsvException e) {
+            e.printStackTrace();
         }
     }
 
@@ -291,7 +308,7 @@ public class MainController {
         try {
             List<Author> allAuthors = authorService.read();
             allAuthors.forEach(System.out::println);
-            System.out.println("\n");
+            System.out.println();
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
@@ -318,9 +335,17 @@ public class MainController {
         List<String> allBooks = new ArrayList<>(authorToUpd.getBooks());
         for(String item : allBooks){
             Book bookToAdd = bookService.findBookByName(item);
-            authorToUpd = authorService.addBookToAuthor(authorToUpd, bookToAdd);
-            authorService.updateAuthor(authorToUpd);
+            bookToAdd = bookService.addAuthorToBook(bookToAdd, authorToUpd);
+            bookService.updateBook(bookToAdd);
         }
+    }
+
+    private boolean isAuthorContainsBook(Author author, Book book){
+        List<String> allBooks = author.getBooks();
+        if(allBooks.stream().anyMatch(b -> b.equals(book.getBookName()))){
+            return true;
+        }
+        return false;
     }
 
 
@@ -333,7 +358,6 @@ public class MainController {
             String choose = bf.readLine();
             switch (choose){
                 case "1" -> {
-                    //Вылетает ексепшн
                     deleteAuthorFromBooks(authorToUpd);
                     System.out.println("Enter new author's firstname");
                     String newFirstName = bf.readLine();
@@ -356,14 +380,35 @@ public class MainController {
                         System.out.println("Incorrect vale entered");
                         return;
                     }
+                    if(isAuthorContainsBook(authorToUpd, bookToAdd)){
+                        System.out.println("You can not add this book. Because such author already contains such book");
+                        return;
+                    }
+
                     authorToUpd = authorService.addBookToAuthor(authorToUpd, bookToAdd);
                     bookToAdd = bookService.addAuthorToBook(bookToAdd, authorToUpd);
+                    authorService.updateAuthor(authorToUpd);
                     bookService.updateBook(bookToAdd);
                 }
                 case "4" -> {
-                    //Могу удалять только те, которые есть у автора, а не вообще все
-                    //Предусмотреть что модет быть без книг
-                    System.out.println("Deleting book");
+                    if(authorToUpd.getBooks().size() == 0){
+                        System.out.println("Author does not contain any book");
+                        return;
+                    }
+                    System.out.println("Choose the book which you want to delete from the author:");
+                    Book bookToDel = chooseBook();
+                    if(bookToDel == null){
+                        System.out.println("Incorrect vale entered");
+                        return;
+                    }
+                    if(!isAuthorContainsBook(authorToUpd, bookToDel)){
+                        System.out.println("You can not delete this book. Because such author does not contain such book");
+                        return;
+                    }
+                    authorToUpd = authorService.deleteBookFromAuthor(authorToUpd, bookToDel);
+                    bookToDel = bookService.deleteAuthorFromBook(bookToDel, authorToUpd);
+                    authorService.updateAuthor(authorToUpd);
+                    bookService.updateBook(bookToDel);
                 }
                 case "0" -> System.exit(1);
                 default -> System.out.println("Incorrect value entered");
@@ -389,12 +434,7 @@ public class MainController {
             Author authorToDelete = chooseAuthor();
             List<String> allBooks = authorToDelete.getBooks();
             authorService.deleteAuthor(authorToDelete);
-            for (String item : allBooks) {
-                Book bookToModify = bookService.findBookByName(item);
-                bookToModify = bookService.deleteAuthorFromBook(bookToModify, authorToDelete);
-                bookService.updateBook(bookToModify);
-            }
-
+            //Если автор удаляется, то книги онаписанные им остаются
             System.out.println("Successfully deleted");
 
         } catch (IOException e){
@@ -408,7 +448,7 @@ public class MainController {
 
 
 
-    private Author chooseAuthor(){
+    private Author chooseAuthor() throws IOException, CsvException {
         try {
             List<Author> allAuthors = authorService.read();
             int index = 1;
@@ -421,10 +461,6 @@ public class MainController {
             index--;    //Т.к. для пользователя индексация начинается с единицы
             Validator.validateIndexOfElement(index, allAuthors);
             return allAuthors.get(index);
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        } catch (CsvException e) {
-            System.out.println(e.getMessage());
         } catch (RuntimeException e){
             System.out.println(e.getMessage());
         }
@@ -445,10 +481,6 @@ public class MainController {
             index--;    //Т.к. для пользователя индексация начинается с единицы
             Validator.validateIndexOfElement(index, allBooks);
             return allBooks.get(index);
-        } catch (IOException e){
-            System.out.println(e.getMessage());
-        } catch (CsvException e){
-            System.out.println(e.getMessage());
         } catch (RuntimeException e){
             System.out.println(e.getMessage());
         }
