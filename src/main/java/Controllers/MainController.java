@@ -35,7 +35,6 @@ public class MainController {
 
             authorService.addBookToAuthor(author, newBook);
             authorService.updateAuthor(author);
-            System.out.println("Successfully created. " + newBook.toString() + "\n");
     }
 
 
@@ -52,12 +51,11 @@ public class MainController {
     }
 
 
-    public void updateBookName(Book bookToUpd) throws IOException, CsvException {
-        //Удаляю у авторов книги старое имя книги
-        deleteBookFromAuthors(bookToUpd);
+    public void updateBookName(Book bookToUpd, String newBookName) throws IOException, CsvException {
+        deleteBookFromAuthors(bookToUpd);       //Удаляю у авторов книги старое имя книги
+        bookToUpd.setBookName(newBookName);
         bookService.updateBook(bookToUpd);      //Обновляю книгу
-        //Добавляю авторам книгу с новым именем
-        addBooksToAuthors(bookToUpd);
+        addBooksToAuthors(bookToUpd);           //Добавляю авторам книгу с новым именем
     }
 
 

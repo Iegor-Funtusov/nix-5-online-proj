@@ -1,5 +1,6 @@
 package Controllers;
 
+import Configs.PathConfigs;
 import DataClasses.Author;
 import DataClasses.Book;
 import com.opencsv.exceptions.CsvException;
@@ -7,6 +8,10 @@ import com.opencsv.exceptions.CsvException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserInterface {
@@ -25,7 +30,8 @@ public class UserInterface {
                 System.out.println("""
                         Choose the option:\s
                         1-create book, 2-update book, 3-get info, 4-get all books, 5-delete book, Q-exit program\s
-                        6-create author, 7-update author, 8-get info, 9-get all authors, 0-delete author, Q-exit program""");
+                        6-create author, 7-update author, 8-get info, 9-get all authors, 0-delete author, Q-exit program\s
+                        To run the common test press T""");
 
                 String choose = bf.readLine();
                 switch (choose.toUpperCase()){
@@ -39,6 +45,7 @@ public class UserInterface {
                     case "8" -> readAuthor();
                     case "9" -> readAllAuthors();
                     case "0" -> deleteAuthor();
+                    case "T" -> commonTestRun();
                     case "Q" -> System.exit(1);
                     default -> System.out.println("Incorrect value entered");
                 }
@@ -61,7 +68,7 @@ public class UserInterface {
             System.out.println("Choose the author");
             Author author = mainController.chooseAuthor();
             mainController.createBook(newBook, author);
-            System.out.println("Successfully created. " + newBook.toString() + "\n");
+            System.out.println("Book was successfully created. " + newBook.toString() + "\n");
 
         } catch (IOException e){
             System.out.println("Incorrect value entered");
@@ -116,8 +123,7 @@ public class UserInterface {
                 case "1" -> {
                     System.out.println("Enter new book's name:");
                     String newBookName = bf.readLine();
-                    bookToUpd.setBookName(newBookName);
-                    mainController.updateBookName(bookToUpd);
+                    mainController.updateBookName(bookToUpd, newBookName);
                 }
 
                 case "2" -> {
@@ -189,7 +195,7 @@ public class UserInterface {
                 mainController.createAuthor(newAuthor);
             }
 
-            System.out.println("Successfully created. " + newAuthor.toString() + "\n");
+            System.out.println("Author was successfully created. " + newAuthor.toString() + "\n");
 
         } catch (IOException e){
             System.out.println("Incorrect value entered");
@@ -293,6 +299,167 @@ public class UserInterface {
 
         } catch (IOException e){
             System.out.println("Incorrect value entered");
+        } catch (CsvException e) {
+            System.out.println(e.getMessage());
+        } catch (RuntimeException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+    private void commonTestRun() {
+        try {
+            List<Author> allAuthors;
+            List<Book> allBooks;
+
+            System.out.println("Common test:");
+            System.out.println("___________________________________________________________________");
+
+
+            System.out.println("Generating authors WITHOUT books");
+            for (int i = 0; i < 10; i++) {
+                Author newAuthor = new Author();
+                newAuthor.setFirstName("Firstname " + (i + 1));
+                newAuthor.setLastName("Lastname " + (i + 1));
+                mainController.createAuthor(newAuthor);
+            }
+            System.out.println("Successfully created authors");
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("All created authors:");
+            allAuthors = mainController.readAllAuthors();
+            allAuthors.forEach(System.out::println);
+            System.out.println();
+
+
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("Generating books:");
+            for(int i = 0; i < 10; i++){
+                Book newBook = new Book();
+                newBook.setBookName("BookName " + (i+1));
+                List<String> authors = new ArrayList<>();
+                Author authorOfBook = mainController.readAllAuthors().get(i);
+                mainController.createBook(newBook, authorOfBook);
+            }
+            System.out.println("Successfully created books");
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("All created books:");
+            allBooks = mainController.readAllBooks();
+            allBooks.forEach(System.out::println);
+            System.out.println();
+
+
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("All created authors WITH books:");
+            allAuthors = mainController.readAllAuthors();
+            allAuthors.forEach(System.out::println);
+            System.out.println();
+
+
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("Updating authors:");
+            System.out.println("Changing firstname of the author");
+            allAuthors = mainController.readAllAuthors();
+            for(int i = 0; i < 10; i++){
+                Author authorToUpd = allAuthors.get(i);
+                String newFirstName = "UpdatedFirstname" + (i+1);
+                mainController.updateAuthorFirstName(authorToUpd, newFirstName);
+            }
+            System.out.println("Successfully updated authors");
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("All updated authors:");
+            allAuthors = mainController.readAllAuthors();
+            allAuthors.forEach(System.out::println);
+            System.out.println();
+
+
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("Updating books:");
+            System.out.println("Adding new author to book with +1 index");
+            allBooks = mainController.readAllBooks();
+            for(int i = 0; i < 10; i++){
+                Book bookToUpd = allBooks.get(i);
+                Author authorToAdd;
+
+                if(i == 9){
+                    authorToAdd = allAuthors.get(0);
+                } else {
+                    authorToAdd = allAuthors.get(i + 1);
+                }
+                mainController.updateBookAddAuthor(bookToUpd, authorToAdd);
+            }
+            System.out.println("Successfully updated books");
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("All updated books:");
+            allBooks = mainController.readAllBooks();
+            allBooks.forEach(System.out::println);
+            System.out.println();
+
+
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("Deleting books:");
+            System.out.println("Delete 5 first books");
+            allBooks = mainController.readAllBooks();
+            for(int i = 0; i < 5; i++){
+                Book bookToDel = allBooks.get(i);
+                mainController.deleteBook(bookToDel);
+            }
+            System.out.println("Successfully deleted");
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("All remaining books:");
+            allBooks = mainController.readAllBooks();
+            allBooks.forEach(System.out::println);
+            System.out.println();
+
+
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("Deleting authors:");
+            System.out.println("Delete 5 first authors");
+            allAuthors = mainController.readAllAuthors();
+            for(int i = 0; i < 5; i++){
+                Author authorToDel = allAuthors.get(i);
+                mainController.deleteAuthor(authorToDel);
+            }
+            System.out.println("Successfully deleted");
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("All remaining authors:");
+            allAuthors = mainController.readAllAuthors();
+            allAuthors.forEach(System.out::println);
+            System.out.println();
+
+
+
+            System.out.println("___________________________________________________________________");
+            System.out.println("End of common test");
+            System.out.println("___________________________________________________________________");
+
+
+            System.out.println("Do you want to delete common test files? 1-yes, else-no");
+            if(bf.readLine().equals(AGREE_INPUT)){
+                Path pathToBooksCSV = Paths.get(PathConfigs.BOOKS_FILE.getPath());
+                Path pathToAuthorsCSV = Paths.get(PathConfigs.AUTHORS_FILE.getPath());
+
+                Files.deleteIfExists(pathToBooksCSV);
+                Files.deleteIfExists(pathToAuthorsCSV);
+
+                System.out.println("Successfully deleted");
+                System.out.println("___________________________________________________________________");
+            }
+
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
         } catch (CsvException e) {
             System.out.println(e.getMessage());
         } catch (RuntimeException e){
