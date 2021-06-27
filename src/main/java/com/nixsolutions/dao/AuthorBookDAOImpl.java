@@ -80,7 +80,7 @@ public class AuthorBookDAOImpl implements AuthorBookDAO {
     }
 
     @Override
-    public List<Author> reedAllAuthors(){
+    public List<Author> readAllAuthors(){
 
         List<Author> authors = new ArrayList<>();
         try(CSVReader reader = new CSVReader(new FileReader(FileType.FILE_AUTHORS.getPath()))) {

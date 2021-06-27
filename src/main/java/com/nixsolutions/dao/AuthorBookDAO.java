@@ -10,7 +10,7 @@ public interface AuthorBookDAO {
 
     void createAuthor(Author author);
 
-    List<Author> reedAllAuthors();
+    List<Author> readAllAuthors();
 
     Author findAuthorById(String id);
 
