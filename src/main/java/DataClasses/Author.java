@@ -44,14 +44,14 @@ public class Author extends BaseEntity {
 
     @Override
     public String toString() {
-        if(books.size() == 0){
-            return super.toString() + " full name: " + getFullName();
+        if(books.isEmpty()){
+            return super.toString() + "\tfull name: " + getFullName();
         }
 
         StringBuilder booksInString = new StringBuilder("");
         for(String item : books){
             booksInString.append(item).append("; ");
         }
-        return super.toString() + " full name: " + getFullName() + " books:" + booksInString;
+        return super.toString() + "\tfull name: " + getFullName() + "\tbooks:" + booksInString;
     }
 }

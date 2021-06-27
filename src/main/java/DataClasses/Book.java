@@ -4,7 +4,6 @@ import CrudCSV.BaseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Book extends BaseEntity {
     private String bookName;
@@ -37,6 +36,6 @@ public class Book extends BaseEntity {
             authorsInString.append(item).append("; ");
         }
 
-        return super.toString() + " " + "name: " + bookName + " authors: " + authorsInString;
+        return super.toString() + "\t name: " + bookName + "\tauthors: " + authorsInString;
     }
 }
