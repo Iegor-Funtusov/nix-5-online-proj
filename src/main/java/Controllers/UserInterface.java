@@ -244,11 +244,18 @@ public class UserInterface {
             String lastname = bf.readLine();
             newAuthor.setLastName(lastname);
 
-            System.out.println("Do you want to add book to the author? 1-yes, else-no");
-            if(bf.readLine().equals(AGREE_INPUT)){
-                Book bookToAdd = mainController.chooseBook();
-                mainController.createAuthor(newAuthor, bookToAdd);
-            } else{
+            //Если пользоавтель сразу захочет добавить книгу, а созданных книг не окажется,
+            //То при выбросе исключения будет создан автор без книги
+            try{
+                System.out.println("Do you want to add book to the author? 1-yes, else-no");
+                if(bf.readLine().equals(AGREE_INPUT)){
+                    Book bookToAdd = mainController.chooseBook();
+                    mainController.createAuthor(newAuthor, bookToAdd);
+                } else{
+                    System.out.println("Author will be added without books");
+                    mainController.createAuthor(newAuthor);
+                }
+            } catch(RuntimeException e){
                 System.out.println("Author will be added without books");
                 mainController.createAuthor(newAuthor);
             }
