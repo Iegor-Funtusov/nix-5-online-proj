@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class BookServiceTest {
+ class BookServiceTest {
     private static BookService bookService = new BookServiceImpl();
     private static AuthorService authorService = new AuthorServiceImpl();
 
