@@ -17,7 +17,7 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class AuthorCrudTest {
     private static AuthorService authorService = new AuthorService(TestsPathsConfigs.AUTHORS_TEST_FILE.getPath());
-    private static int AUTHOR_QUANTITY;             //Мб попробовать потом перенести в константы
+    private static int AUTHOR_QUANTITY;
 
     @BeforeAll
     public static void setUp(){

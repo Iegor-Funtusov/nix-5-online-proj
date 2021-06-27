@@ -1,6 +1,5 @@
 package Tests;
 
-import DataClasses.Author;
 import DataClasses.Book;
 import Services.BookService;
 import TestsConfigs.TestsPathsConfigs;
@@ -18,7 +17,7 @@ import java.util.List;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class BookCrudTest {
     private static final BookService bookService = new BookService(TestsPathsConfigs.BOOKS_TEST_FILE.getPath());
-    private static int BOOK_QUANTITY;        //Мб попробовать потом перенести в константы
+    private static int BOOK_QUANTITY;
 
 
     @BeforeAll
@@ -63,7 +62,9 @@ public class BookCrudTest {
             bookToAdd.setAuthors(authors);
             bookService.createBook(bookToAdd);
 
-            Assertions.assertNotEquals(bookService.read().size(), BOOK_QUANTITY);
+            Book check = bookService.findBookByName(bookToAdd.getBookName());
+            Assertions.assertNotNull(check);
+            Assertions.assertEquals(check.getId(), bookToAdd.getId());
             BOOK_QUANTITY = bookService.read().size();
 
         } catch (IOException exception) {
