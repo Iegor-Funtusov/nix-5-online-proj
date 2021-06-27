@@ -1,6 +1,5 @@
 package ua.nkrasnovoronka;
 
-import ua.UICommonTest;
 import ua.nkrasnovoronka.util.UserInput;
 
 public class Main {

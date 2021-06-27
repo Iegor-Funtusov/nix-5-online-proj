@@ -1,4 +1,4 @@
-package ua;
+package ua.nkrasnovoronka;
 
 import ua.nkrasnovoronka.controller.LibraryController;
 import ua.nkrasnovoronka.util.UserInput;
