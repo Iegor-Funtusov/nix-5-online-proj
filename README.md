@@ -5,7 +5,9 @@ mvn clean install
 
 java -jar target\ionio.jar
 
-PLease, runs COMMONTEST first or don`t run it at all - depends on ids
+
+
+PLease, run COMMONTEST first or don`t run it at all - depends on ids
 
 Main logic:
 
