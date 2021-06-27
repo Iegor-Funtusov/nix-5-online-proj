@@ -52,23 +52,14 @@ public class BookServiceTest {
         service.createBook(new Scanner("The Little Prince\n1\nAntoine\nSaint-Exupery"));
         Assertions.assertEquals(bookDao.findAll().stream().filter(book -> book.getVisible().equals("true")).toArray().length, 4);
     }
-    //void createBook(Scanner s);
-    //
-    //    void createAuthor(Scanner s);
-    //
-    //    void getBooksAuthors(Scanner s);
-    //
-    //    void getAuthorsBooks(Scanner s);
-    //
-    //    void getBooks();
-    //
-    //    void getAuthors();
-    //
-    //    void updateAuthor(Scanner s);
-    //
-    //    void updateBook(Scanner s);
-    //
-    //    void removeAuthor(Scanner s);
-    //
-    //    void removeBook(Scanner s);
+
+    @Test
+    @Order(3)
+    public void getBooksByAuthor(){
+        Author author = new Author();
+        author.setName("Antoine");
+        author.setSurname("Saint-Exupery");
+        Assertions.assertNotEquals(authorDao.find(author), null);
+        Assertions.assertEquals(authorDao.find(author).getBooklist(), "The Little Prince; ");
+    }
 }

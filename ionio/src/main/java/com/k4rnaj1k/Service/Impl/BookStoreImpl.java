@@ -132,6 +132,7 @@ public class BookStoreImpl implements BookStoreService {
         author.setSurname(s.nextLine());
         author = authorDao.find(author);
         if (author != null) {
+            System.out.println(author.getName() + " " + author.getSurname());
             for (String book :
                     author.getBooklist().split("; ")) {
                 System.out.println("\t" + book);
