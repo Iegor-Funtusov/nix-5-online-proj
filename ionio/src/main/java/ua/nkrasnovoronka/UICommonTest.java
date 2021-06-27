@@ -70,6 +70,9 @@ public class UICommonTest {
                     crudAction();
                     break;
                 }
+                case 0:{
+                    System.exit(0);
+                }
                 default: {
                     System.out.println("Sorry wrong action. Pleas repeat");
                 }
