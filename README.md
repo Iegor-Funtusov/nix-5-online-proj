@@ -8,7 +8,7 @@ or
     mvn clean install
     java -jar target/app.jar
 ### To build library jar file
-run buildmathsetjar.bat
+run buildmathsetjar.bat  
 or
 
     cd unit_8/mathset
