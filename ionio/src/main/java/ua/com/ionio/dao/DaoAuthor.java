@@ -3,6 +3,8 @@ package ua.com.ionio.dao;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.ionio.entity.Author;
 import ua.com.ionio.file.FileType;
 
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DaoAuthor {
+
+    private static final Logger loggerError = LoggerFactory.getLogger("error");
 
     int id = 0;
 
@@ -36,6 +40,7 @@ public class DaoAuthor {
             }
         }
         else {
+            loggerError.error("Author is empty - can not create");
             throw new IllegalArgumentException("Author is empty!");
         }
     }
@@ -96,6 +101,7 @@ public class DaoAuthor {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        loggerError.error("Author doesn`t exist - can`t get");
         throw new IllegalArgumentException("This Author doesn`t exist");
     }
 

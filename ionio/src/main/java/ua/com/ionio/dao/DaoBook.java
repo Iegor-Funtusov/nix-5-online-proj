@@ -3,6 +3,8 @@ package ua.com.ionio.dao;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ua.com.ionio.entity.Book;
 import ua.com.ionio.file.FileType;
 
@@ -13,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DaoBook {
+
+    private static final Logger loggerError = LoggerFactory.getLogger("error");
 
     int id = 0;
 
@@ -35,6 +39,7 @@ public class DaoBook {
             }
         }
         else {
+            loggerError.error("Book is empty - can not create");
             throw new IllegalArgumentException("Book is empty!");
         }
     }
@@ -95,6 +100,7 @@ public class DaoBook {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        loggerError.error("Book doesn`t exist - can`t get");
         throw new IllegalArgumentException("This Book doesn`t exist");
     }
 
