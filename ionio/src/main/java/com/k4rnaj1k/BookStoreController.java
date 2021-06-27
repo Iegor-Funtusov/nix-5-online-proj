@@ -29,6 +29,7 @@ public class BookStoreController {
                 7 - create a book
                 8 - update a book
                 9 - remove author
+                10 - remove book
                 T - start common test.""");
         switch (s.nextLine()){
             case "1": service.createAuthor(s);break;
