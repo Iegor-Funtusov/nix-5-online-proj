@@ -2,6 +2,7 @@ package com.k4rnaj1k.Dao.Impl;
 
 import com.k4rnaj1k.Dao.AuthorDao;
 import com.k4rnaj1k.Dao.BookDao;
+import com.k4rnaj1k.entities.Author;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import com.k4rnaj1k.entities.Book;
@@ -65,6 +66,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void create(Book book) {
+        getId();
         try (CSVWriter writer = new CSVWriter(new FileWriter("books.csv", true))) {
             ArrayList<String[]> csvData = new ArrayList<>();
             String[] csvRow = new String[]{String.valueOf(id++), book.getName(), book.getAuthors(), "true"};

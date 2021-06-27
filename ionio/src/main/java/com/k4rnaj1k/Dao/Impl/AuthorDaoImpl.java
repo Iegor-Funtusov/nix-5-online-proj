@@ -32,9 +32,10 @@ public class AuthorDaoImpl implements AuthorDao {
 
     @Override
     public void create(Author author) {
+        getId();
         try (CSVWriter writer = new CSVWriter(new FileWriter("authors.csv", true))) {
             List<String[]> csvData = new ArrayList<>();
-            String[] data = {String.valueOf(id++), author.getName(), author.getSurname(), author.getBooklist(), "true"};
+            String[] data = {String.valueOf(id), author.getName(), author.getSurname(), author.getBooklist(), "true"};
             csvData.add(data);
             writer.writeAll(csvData);
             writer.flush();
@@ -77,6 +78,7 @@ public class AuthorDaoImpl implements AuthorDao {
                     res.setId(Integer.parseInt(authorrow[CSVIndex.ID.ordinal()]));
                     res.setName(authorrow[CSVIndex.NAME.ordinal()]);
                     res.setSurname(authorrow[CSVIndex.SURNAME.ordinal()]);
+                    res.setVisible(authorrow[CSVIndex.VISIBLE.ordinal()]);
                 }
             }
         }catch (Exception e){
@@ -90,7 +92,7 @@ public class AuthorDaoImpl implements AuthorDao {
                 CSVReader reader = new CSVReader(new FileReader("authors.csv"))
         ) {
             List<String[]> data = reader.readAll();
-            data.set(current.getId(), new String[]{String.valueOf(current.getId()), updated.getName(), updated.getSurname(), current.getBooklist(), "true"});
+            data.set(current.getId(), new String[]{String.valueOf(current.getId()), updated.getName(), updated.getSurname(), current.getBooklist(), updated.getVisible()==null?current.getVisible(): updated.getVisible()});
             reader.close();
             CSVWriter writer = new CSVWriter(new FileWriter(new File("authors.csv"), false));
             writer.writeAll(data);

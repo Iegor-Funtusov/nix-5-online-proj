@@ -15,7 +15,8 @@ public class BookStoreController {
     public void start() {
         BookStoreService service = new BookStoreImpl();
         Scanner s = new Scanner(System.in);
-        while(true){
+        boolean stop = false;
+        while(!stop){
         System.out.println("""
                 What'd u like to do next?
                 1 - create an author.
@@ -41,6 +42,7 @@ public class BookStoreController {
             case "9": service.removeAuthor(s); break;
             case "10": service.removeBook(s); break;
             case "T": service.autotest(service); break;
+            default:stop = true;break;
         }
     }
     }
