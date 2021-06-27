@@ -7,7 +7,7 @@ java -jar target\ionio.jar
 
 
 
-PLease, run COMMONTEST first or don`t run it at all - depends on ids
+PLease, run COMMONTEST only one time
 
 Main logic:
 
