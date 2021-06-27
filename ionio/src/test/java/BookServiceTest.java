@@ -27,16 +27,6 @@ public class BookServiceTest {
     private static final AuthorDao authorDao = new AuthorDaoImpl();
     private static final BookDao bookDao = new BookDaoImpl();
 
-    @BeforeAll
-    public static void removeCSV(){//Особо ни на что не влияет
-        try{
-            Files.deleteIfExists(Paths.get("authors.csv"));
-            Files.deleteIfExists(Paths.get("books.csv"));
-        }catch (IOException e){
-            System.out.println("An exception occured during the removal of the csv files.");
-        }
-    }
-
     @Test
     @Order(1)
     public void createAuthor(){
@@ -140,5 +130,16 @@ public class BookServiceTest {
         Assertions.assertNotEquals(bookDao.find("The little Prince"), null);
         service.updateBook(new Scanner("The little Prince\nThe Little Prince\n1\nAntoine\nSaint-Exupery"));
         Assertions.assertNull(bookDao.find("The little Prince"));
+    }
+
+
+    @AfterAll
+    public static void deleteCSV(){//Особо ни на что не влияет
+        try{
+            Files.deleteIfExists(Paths.get("authors.csv"));
+            Files.deleteIfExists(Paths.get("books.csv"));
+        }catch (IOException e){
+            System.out.println("An exception occured during the removal of the csv files.");
+        }
     }
 }

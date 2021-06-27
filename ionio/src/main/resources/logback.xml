@@ -20,7 +20,6 @@
     </appender>
 
     <appender name="warn" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--        <file>${HOME_LOG}/warn.log</file>-->
         <file>${log.warn}</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
@@ -36,7 +35,6 @@
     </appender>
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <!--        <file>${HOME_LOG}/error.log</file>-->
         <file>${log.error}</file>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
