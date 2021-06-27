@@ -1,11 +1,14 @@
 import Configs.PreStartAppConfig;
 import Controllers.MainController;
+import Controllers.UserInterface;
+
+import java.net.UnknownServiceException;
 
 public class Application {
     public static void run(){
         PreStartAppConfig.configureApplication();
 
-        MainController mainController = new MainController();
-        mainController.userInterface();     //МБ СДЕЛАТЬ ТОЖЕ СТАТИЧЕСКИМ МЕТОД
+        UserInterface userInterface = new UserInterface();
+        userInterface.userUI();
     }
 }
