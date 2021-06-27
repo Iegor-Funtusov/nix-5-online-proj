@@ -1,5 +1,6 @@
 package com.nixsolutions.courses.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,10 +9,13 @@ public class Author {
     private String id;
     private String name;
     private String surname;
-    private List<Book> books;
+    private List<String> books;
+    private boolean isVisible;
 
     public Author() {
         id = UUID.randomUUID().toString();
+        books = new ArrayList<>();
+        isVisible = true;
     }
 
     public String getId() {
@@ -38,11 +42,19 @@ public class Author {
         this.surname = surname;
     }
 
-    public List<Book> getBooks() {
+    public List<String> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(List<String> books) {
         this.books = books;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

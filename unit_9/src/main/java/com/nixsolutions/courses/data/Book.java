@@ -6,13 +6,13 @@ import java.util.UUID;
 public class Book {
 
     private String id;
-    private boolean isVisible;
     private String title;
-    private List<Author> authors;
+    private List<String> authors;
+    private boolean isVisible;
 
     public Book() {
-        isVisible = true;
         id = UUID.randomUUID().toString();
+        isVisible = true;
     }
 
     public String getId() {
@@ -23,14 +23,6 @@ public class Book {
         this.id = id;
     }
 
-    public boolean isVisible() {
-        return isVisible;
-    }
-
-    public void setVisible(boolean visible) {
-        isVisible = visible;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -39,11 +31,19 @@ public class Book {
         this.title = title;
     }
 
-    public List<Author> getAuthors() {
+    public List<String> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(List<String> authors) {
         this.authors = authors;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }
