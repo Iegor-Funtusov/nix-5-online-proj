@@ -71,6 +71,7 @@ public class CSVLibraryDB implements LibraryDB {
     }
 
     public static CSVLibraryDB getInstance() {
+        loggerInfo.info("Getting CSVLibrary instance");
         if (instance != null) {
             return instance;
         }
@@ -96,13 +97,19 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public void createBook(Book book) {
-        try (CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV, true))) {
-            if (!book.getBooksAuthors().isEmpty()) {
-                book.getBooksAuthors().forEach(aLong -> addBookToAuthor(aLong, bookIdCounter));
+        loggerInfo.info("Creating book");
+        if (book != null) {
+            try (CSVWriter bookWriter = new CSVWriter(new FileWriter(BOOK_CSV, true))) {
+                if (!book.getBooksAuthors().isEmpty()) {
+                    book.getBooksAuthors().forEach(aLong -> addBookToAuthor(aLong, bookIdCounter));
+                }
+                bookWriter.writeNext(Util.bookToStringArray(book, bookIdCounter++));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            bookWriter.writeNext(Util.bookToStringArray(book, bookIdCounter++));
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            loggerError.error("Book entity is null");
+            throw new NullPointerException("Book cannot be null");
         }
     }
 
@@ -252,7 +259,6 @@ public class CSVLibraryDB implements LibraryDB {
     public void updateBook(Long bookId, Book book) {
         List<Book> books = getAllBooks();
         List<String[]> collect = new ArrayList<>();
-
         for (Book b : books) {
             if (b.getId().equals(bookId)) {
                 b.setBookTitle(book.getBookTitle());
@@ -270,7 +276,6 @@ public class CSVLibraryDB implements LibraryDB {
             loggerError.error("Cannot remove book with id {}", bookId);
             e.printStackTrace();
         }
-
         loggerInfo.info("Book with id {} was updated", bookId);
     }
 
@@ -296,6 +301,7 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public void addBookToAuthor(Long authorId, Long bookId) {
+        loggerInfo.info("Adding book {} to author {}", bookId, authorId);
         Author authorById = getAuthorById(authorId);
         authorById.addBookToAuthor(bookId);
         updateAuthor(authorId, authorById);
@@ -303,6 +309,7 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public void removeBookFromAuthor(Long authorId, Long bookId) {
+        loggerInfo.info("Remove book {} from author {}", bookId, authorId);
         Author authorById = getAuthorById(authorId);
         authorById.setBooksList(authorById.getBooksList()
                 .stream().filter(aLong -> !aLong.equals(bookId)).collect(Collectors.toSet()));
@@ -312,6 +319,7 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public void addAuthorToBook(Long bookId, Long authorId) {
+        loggerInfo.info("Adding author {} to book {}", authorId, bookId);
         Book bookById = getBookById(bookId);
         bookById.addAuthorToBook(authorId);
         updateBook(bookId, bookById);
@@ -319,6 +327,7 @@ public class CSVLibraryDB implements LibraryDB {
 
     @Override
     public void removeAuthorFromBook(Long bookId, Long authorId) {
+        loggerInfo.info("Removing author {} from book {}", authorId, bookId);
         Book bookById = getBookById(bookId);
         bookById.setBooksAuthors(bookById.getBooksAuthors().stream().filter(aLong -> !aLong.equals(authorId)).collect(Collectors.toSet()));
         updateBook(bookId, bookById);
