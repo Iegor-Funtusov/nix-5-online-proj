@@ -1,6 +1,5 @@
 package ua.com.alevel.app.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Author {
@@ -8,8 +7,8 @@ public class Author {
     private String id;
     private String firstName;
     private String lastName;
-    private boolean visible = true;
-    private List<Book> books = new ArrayList<>();
+    private List<String> books;
+    private boolean visibleFlag;
 
     public String getId() {
         return id;
@@ -35,20 +34,20 @@ public class Author {
         this.lastName = lastName;
     }
 
-    public boolean isVisible() {
-        return visible;
-    }
-
-    public void setVisible(boolean visible) {
-        this.visible = visible;
-    }
-
-    public List<Book> getBooks() {
+    public List<String> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(List<String> books) {
         this.books = books;
+    }
+
+    public boolean getVisibleFlag() {
+        return visibleFlag;
+    }
+
+    public void setVisibleFlag(boolean visibleFlag) {
+        this.visibleFlag = visibleFlag;
     }
 
     @Override
@@ -57,8 +56,8 @@ public class Author {
                 "id='" + id + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", visible=" + visible +
                 ", books=" + books +
-                "}\n";
+                ", visibleFlag=" + visibleFlag +
+                '}';
     }
 }
