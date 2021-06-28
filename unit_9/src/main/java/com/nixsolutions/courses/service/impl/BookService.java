@@ -1,6 +1,5 @@
 package com.nixsolutions.courses.service.impl;
 
-import com.nixsolutions.courses.data.Author;
 import com.nixsolutions.courses.data.Book;
 import com.nixsolutions.courses.service.CrudService;
 import com.nixsolutions.courses.util.CSVParser;
@@ -18,6 +17,7 @@ import java.util.NoSuchElementException;
 public class BookService implements CrudService<Book> {
 
     private static final String[] BOOKS_HEADER = {"ID", "TITLE", "AUTHORS' IDS", "VISIBLE"};
+    private static final String IDS_SEPARATOR = ", ";
 
     private static final Logger loggerInfo = LoggerFactory.getLogger("info");
     private static final Logger loggerWarn = LoggerFactory.getLogger("warn");
@@ -42,7 +42,7 @@ public class BookService implements CrudService<Book> {
             List<String[]> data = new ArrayList<>();
             StringBuilder authors = new StringBuilder();
             for (String id : book.getAuthors()) {
-                authors.append(id);
+                authors.append(id).append(IDS_SEPARATOR);
             }
             String[] line = {book.getId(), book.getTitle(), String.valueOf(authors), String.valueOf(book.isVisible())};
             data.add(line);
@@ -103,10 +103,4 @@ public class BookService implements CrudService<Book> {
         }
         return null;
     }
-
-//    public List<Author> readAllAuthors(String bookId) {
-//        Book book = findById(bookId);
-//        loggerInfo.info("Reading all authors of book:");
-//        return null;
-//    }
 }

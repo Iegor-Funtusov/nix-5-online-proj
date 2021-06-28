@@ -11,10 +11,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 public class CSVParser {
 
-    private static final String LIST_REGEX = ",";
+    private static final String LIST_REGEX = ",\\s*";
 
     public static Book readBook(String id) throws NoSuchElementException {
         try (CSVReader reader = new CSVReader(new FileReader(FilePaths.BOOKS.getPath()))) {
@@ -99,8 +100,16 @@ public class CSVParser {
         return books;
     }
 
+    public static List<String> getIds(List<String[]> data) {
+        List<String> ids = new ArrayList<>();
+        for (String[] item : data) {
+            ids.add(item[0]);
+        }
+        return ids;
+    }
+
     public static List<String> parseIdsList(String data) {
         String[] ids = data.split(LIST_REGEX);
-        return new ArrayList<>(Arrays.asList(ids));
+        return Arrays.stream(ids).distinct().collect(Collectors.toList());
     }
 }

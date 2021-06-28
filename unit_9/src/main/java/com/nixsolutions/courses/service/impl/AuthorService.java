@@ -1,7 +1,6 @@
 package com.nixsolutions.courses.service.impl;
 
 import com.nixsolutions.courses.data.Author;
-import com.nixsolutions.courses.data.Book;
 import com.nixsolutions.courses.service.CrudService;
 import com.nixsolutions.courses.util.CSVParser;
 import com.nixsolutions.courses.util.FilePaths;
@@ -17,6 +16,7 @@ import java.util.List;
 public class AuthorService implements CrudService<Author> {
 
     private static final String[] AUTHORS_HEADER = {"ID", "NAME", "SURNAME", "BOOKS' IDS", "VISIBLE"};
+    private static final String IDS_SEPARATOR = ", ";
 
     private static final Logger loggerInfo = LoggerFactory.getLogger("info");
     private static final Logger loggerWarn = LoggerFactory.getLogger("warn");
@@ -40,7 +40,7 @@ public class AuthorService implements CrudService<Author> {
             List<String[]> data = new ArrayList<>();
             StringBuilder books = new StringBuilder();
             for (String id : author.getBooks()) {
-                books.append(id);
+                books.append(id).append(IDS_SEPARATOR);
             }
             String[] line = {author.getId(), author.getName(), author.getSurname(), String.valueOf(books), String.valueOf(author.isVisible())};
             data.add(line);
@@ -84,10 +84,10 @@ public class AuthorService implements CrudService<Author> {
     @Override
     public void delete(String id) {
         Author author = findById(id);
-        loggerInfo.info("Deleting author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
+        loggerWarn.warn("Deleting author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
         author.setVisible(false);
         update(author);
-        loggerInfo.info("Author deleted: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
+        loggerWarn.warn("Author deleted: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
     }
 
     @Override
@@ -101,8 +101,4 @@ public class AuthorService implements CrudService<Author> {
         }
         return null;
     }
-
-//    public List<Book> readAllBooks(String authorId) {
-//        return null;
-//    }
 }
