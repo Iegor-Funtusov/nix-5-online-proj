@@ -90,6 +90,30 @@ public class LibraryService {
         return data;
     }
 
+    public void updateBook(Book book) {
+        bookService.update(book);
+    }
+
+    public void updateAuthor(Author author) {
+        authorService.update(author);
+    }
+
+    public void deleteBook(String id) {
+        bookService.delete(id);
+    }
+
+    public void deleteAuthor(String id) {
+        authorService.delete(id);
+    }
+
+    public List<Book> readAllBooks() {
+        return bookService.readAll();
+    }
+
+    public List<Author> readAllAuthors() {
+        return authorService.readAll();
+    }
+
 //    private boolean alreadyExist(Book book) throws FileNotFoundException {
 //        try (CSVReader reader = new CSVReader(new FileReader(FilePaths.BOOKS.getPath()))) {
 //            List<String[]> books = reader.readAll();
@@ -116,11 +140,11 @@ public class LibraryService {
 //        return false;
 //    }
 
-    private Book getBookById(String id) {
+    public Book getBookById(String id) {
         return bookService.findById(id);
     }
 
-    private Author getAuthorById(String id) {
+    public Author getAuthorById(String id) {
         return authorService.findById(id);
     }
 
