@@ -46,4 +46,13 @@ public class Book {
     public void setVisible(boolean visible) {
         isVisible = visible;
     }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", authors=" + authors +
+                '}';
+    }
 }
