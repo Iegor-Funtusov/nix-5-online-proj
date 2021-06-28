@@ -28,17 +28,16 @@ public class AuthorService implements CrudService<Author> {
             authorsWriter.writeNext(AUTHORS_HEADER);
             loggerInfo.info("File for authors created");
         } catch (IOException e) {
+            loggerError.error("Error while init file for authors");
             e.printStackTrace();
-            loggerError.error("Error while init csv file for authors");
         }
     }
 
     @Override
     public void create(Author author) {
         try (CSVWriter booksWriter = new CSVWriter(new FileWriter(FilePaths.AUTHORS.getPath(), true))) {
-            loggerInfo.info("Creating author item:" + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
+            loggerInfo.info("Creating author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
             List<String[]> data = new ArrayList<>();
-//            if (author.getBooks().size() != 0) {
             StringBuilder books = new StringBuilder();
             for (String id : author.getBooks()) {
                 books.append(id);
@@ -46,15 +45,16 @@ public class AuthorService implements CrudService<Author> {
             String[] line = {author.getId(), author.getName(), author.getSurname(), String.valueOf(books), String.valueOf(author.isVisible())};
             data.add(line);
             booksWriter.writeAll(data);
-            loggerInfo.info("Author created:" + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
+            loggerInfo.info("Author created: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
         } catch (IOException e) {
+            loggerError.error("Error while creating author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
             e.printStackTrace();
-            loggerError.error("Error while init file for books");
         }
     }
 
     @Override
     public void update(Author author) {
+        loggerInfo.info("Updating author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
         List<String[]> data = CSVParser.readAllAuthors();
         int index = -1;
         for (String[] element : data) {
@@ -68,35 +68,41 @@ public class AuthorService implements CrudService<Author> {
         data.set(index, line);
         try (CSVWriter writer = new CSVWriter(new FileWriter(FilePaths.AUTHORS.getPath()))) {
             writer.writeAll(data);
+            loggerInfo.info("Updated author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
         } catch (IOException e) {
+            loggerInfo.info("Error while updating author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
             e.printStackTrace();
         }
     }
 
     @Override
     public Author findById(String id) {
+        loggerInfo.info("Reading author by id:" + id);
         return CSVParser.readAuthor(id);
     }
 
     @Override
     public void delete(String id) {
         Author author = findById(id);
+        loggerInfo.info("Deleting author: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
         author.setVisible(false);
         update(author);
+        loggerInfo.info("Author deleted: " + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
     }
 
     @Override
     public List<Author> readAll() {
         try {
+            loggerInfo.info("Reading all authors");
             return CSVParser.parseAllAuthors();
         } catch (IOException e) {
-            loggerError.error(e.getMessage());
+            loggerError.error("Error while reading all authors");
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<Book> readAllBooks(String authorId) {
-        return null;
-    }
+//    public List<Book> readAllBooks(String authorId) {
+//        return null;
+//    }
 }

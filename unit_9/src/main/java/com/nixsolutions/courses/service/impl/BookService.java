@@ -29,8 +29,8 @@ public class BookService implements CrudService<Book> {
             booksWriter.writeNext(BOOKS_HEADER);
             loggerInfo.info("File for books created");
         } catch (IOException e) {
-            e.printStackTrace();
             loggerError.error("Error while init file for books");
+            e.printStackTrace();
         }
     }
 
@@ -38,7 +38,7 @@ public class BookService implements CrudService<Book> {
     @Override
     public void create(Book book) {
         try (CSVWriter booksWriter = new CSVWriter(new FileWriter(FilePaths.BOOKS.getPath(), true))) {
-            loggerInfo.info("Creating book item:" + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
+            loggerInfo.info("Creating book: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
             List<String[]> data = new ArrayList<>();
             StringBuilder authors = new StringBuilder();
             for (String id : book.getAuthors()) {
@@ -47,15 +47,16 @@ public class BookService implements CrudService<Book> {
             String[] line = {book.getId(), book.getTitle(), String.valueOf(authors), String.valueOf(book.isVisible())};
             data.add(line);
             booksWriter.writeAll(data);
-            loggerInfo.info("File for books created");
+            loggerInfo.info("Book created: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
         } catch (IOException e) {
+            loggerError.error("Error while creating book: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
             e.printStackTrace();
-            loggerError.error("Error while init file for books");
         }
     }
 
     @Override
     public void update(Book book) {
+        loggerInfo.info("Updating book: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
         List<String[]> data = CSVParser.readAllBooks();
         int index = -1;
         for (String[] element : data) {
@@ -69,35 +70,43 @@ public class BookService implements CrudService<Book> {
         data.set(index, line);
         try (CSVWriter writer = new CSVWriter(new FileWriter(FilePaths.BOOKS.getPath()))) {
             writer.writeAll(data);
+            loggerInfo.info("Updated book: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
         } catch (IOException e) {
+            loggerError.error("Error while updating book: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
             e.printStackTrace();
         }
     }
 
     @Override
     public Book findById(String id) throws NoSuchElementException {
+        loggerInfo.info("Reading book by id:" + id);
         return CSVParser.readBook(id);
     }
 
     @Override
     public void delete(String id) {
         Book book = findById(id);
+        loggerWarn.warn("Deleting book: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
         book.setVisible(false);
         update(book);
+        loggerWarn.warn("Book deleted: " + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
     }
 
     @Override
     public List<Book> readAll() {
         try {
+            loggerInfo.info("Reading all books");
             return CSVParser.parseAllBooks();
         } catch (IOException e) {
-            loggerError.error(e.getMessage());
+            loggerError.error("Error while reading all books");
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<Author> readAllAuthors(String bookId) {
-        return null;
-    }
+//    public List<Author> readAllAuthors(String bookId) {
+//        Book book = findById(bookId);
+//        loggerInfo.info("Reading all authors of book:");
+//        return null;
+//    }
 }
