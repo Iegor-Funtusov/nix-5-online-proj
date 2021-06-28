@@ -54,7 +54,7 @@ public class BookController {
 
     private void readAll() {
         List<Book> list = libraryService.readAllBooks();
-        list.stream().filter(i -> list.indexOf(i) != 0).forEach(System.out::println);
+        list.forEach(System.out::println);
     }
 
     private void readAllAuthors() throws IOException {

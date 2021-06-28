@@ -72,10 +72,10 @@ public class CSVParser {
 
     public static List<Author> parseAllAuthors() throws IOException {
         List<String[]> data = readAllAuthors();
+        data.remove(0);
         List<Author> authors = new ArrayList<>();
         for (String[] item : data) {
-//            if (Boolean.parseBoolean(item[4]))
-            authors.add(parseAuthor(item));
+            if (Boolean.parseBoolean(item[4])) authors.add(parseAuthor(item));
         }
         return authors;
     }
@@ -91,9 +91,10 @@ public class CSVParser {
 
     public static List<Book> parseAllBooks() throws IOException {
         List<String[]> data = readAllBooks();
+        data.remove(0);
         List<Book> books = new ArrayList<>();
         for (String[] item : data) {
-                books.add(parseBook(item));
+            if (Boolean.parseBoolean(item[3])) books.add(parseBook(item));
         }
         return books;
     }

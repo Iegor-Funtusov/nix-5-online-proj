@@ -66,7 +66,7 @@ public class AuthorController {
 
     private void readAll() {
         List<Author> list = libraryService.readAllAuthors();
-        list.stream().skip(1).filter(Author::isVisible).forEach(System.out::println);
+        list.forEach(System.out::println);
     }
 
     private void readAllBooks() {
