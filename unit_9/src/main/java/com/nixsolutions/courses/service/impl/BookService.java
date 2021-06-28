@@ -37,10 +37,9 @@ public class BookService implements CrudService<Book> {
 
     @Override
     public void create(Book book) {
-        try (CSVWriter booksWriter = new CSVWriter(new FileWriter(FilePaths.BOOKS.getPath()))) {
-            List<String[]> data = new ArrayList<>();
-            data.add(BOOKS_HEADER);
+        try (CSVWriter booksWriter = new CSVWriter(new FileWriter(FilePaths.BOOKS.getPath(), true))) {
             loggerInfo.info("Creating book item:" + "(id=" + book.getId() + ",title=" + book.getTitle() + ")");
+            List<String[]> data = new ArrayList<>();
             StringBuilder authors = new StringBuilder();
             for (String id : book.getAuthors()) {
                 authors.append(id);
@@ -56,8 +55,23 @@ public class BookService implements CrudService<Book> {
     }
 
     @Override
-    public void update() {
-
+    public void update(Book book) {
+        List<String[]> data = CSVParser.readAllBooks();
+        int index = -1;
+        for (String[] element : data) {
+            if (element[0].equals(book.getId())) index = data.indexOf(element);
+        }
+        StringBuilder authors = new StringBuilder();
+        for (String id : book.getAuthors()) {
+            authors.append(id);
+        }
+        String[] line = {book.getId(), book.getTitle(), String.valueOf(authors), String.valueOf(book.isVisible())};
+        data.set(index, line);
+        try (CSVWriter writer = new CSVWriter(new FileWriter(FilePaths.BOOKS.getPath()))) {
+            writer.writeAll(data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -67,11 +81,19 @@ public class BookService implements CrudService<Book> {
 
     @Override
     public void delete(String id) {
-
+        Book book = findById(id);
+        book.setVisible(false);
+        update(book);
     }
 
     @Override
     public List<Book> readAll() {
+        try {
+            return CSVParser.parseAllBooks();
+        } catch (IOException e) {
+            loggerError.error(e.getMessage());
+            e.printStackTrace();
+        }
         return null;
     }
 

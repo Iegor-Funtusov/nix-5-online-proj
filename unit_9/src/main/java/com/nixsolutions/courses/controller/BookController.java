@@ -6,6 +6,7 @@ import com.nixsolutions.courses.util.CSVParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 public class BookController {
 
@@ -18,33 +19,49 @@ public class BookController {
     }
 
     private void create() throws IOException {
-            Book book = new Book();
-            System.out.println("Enter book title:");
-            book.setTitle(reader.readLine());
-            System.out.println("Enter at least one author id (if several - comma-separated):");
-            book.setAuthors(CSVParser.parseIds(reader.readLine()));
-
-            libraryService.createBook(book);
+        Book book = new Book();
+        System.out.println("Enter book title:");
+        book.setTitle(reader.readLine().trim());
+        System.out.println("Enter at least one author id (if several - comma-separated):");
+        book.setAuthors(CSVParser.parseIdsList(reader.readLine().trim()));
+        libraryService.createBook(book);
     }
 
-    private void update() {
-
+    private void update() throws IOException {
+        System.out.println("Enter book id:");
+        String id = reader.readLine().trim();
+        Book book = libraryService.getBookById(id);
+        System.out.println("Enter new title for book:");
+        book.setTitle(reader.readLine().trim());
+        libraryService.updateBook(book);
+        System.out.println("Book updated:");
+        System.out.println(libraryService.getBookById(id));
     }
 
-    private void getById() {
-
+    private void getById() throws IOException {
+        System.out.println("Enter book id:");
+        String id = reader.readLine().trim();
+        Book book = libraryService.getBookById(id);
+        System.out.println(book);
     }
 
-    private void delete() {
-
+    private void delete() throws IOException {
+        System.out.println("Enter book id:");
+        String id = reader.readLine().trim();
+        libraryService.deleteBook(id);
+        System.out.println("Book deleted");
     }
 
     private void readAll() {
-
+        List<Book> list = libraryService.readAllBooks();
+        list.stream().filter(i -> list.indexOf(i) != 0).forEach(System.out::println);
     }
 
-    private void readAllAuthors() {
-
+    private void readAllAuthors() throws IOException {
+//        System.out.println("Enter book id:");
+//        String id = reader.readLine().trim();
+//        Book book = libraryService.getBookById(id);
+//        book.getAuthors()
     }
 
     private String booksOptions() {

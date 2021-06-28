@@ -1,12 +1,12 @@
 package com.nixsolutions.courses.controller;
 
 import com.nixsolutions.courses.data.Author;
-import com.nixsolutions.courses.data.Book;
 import com.nixsolutions.courses.service.LibraryService;
 import com.nixsolutions.courses.util.CSVParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 
 public class AuthorController {
 
@@ -21,30 +21,52 @@ public class AuthorController {
     private void create() throws IOException {
         Author author = new Author();
         System.out.println("Enter author name and surname:");
-        String[] fullName = reader.readLine().split(" ");
+        String[] fullName = reader.readLine().trim().split(" ");
         author.setName(fullName[0]);
         author.setSurname(fullName[1]);
         System.out.println("Enter book id (if several - comma-separated) or enter:");
-        String books = reader.readLine();
-        if (!books.isEmpty()) author.setBooks((CSVParser.parseIds(books)));
+        String books = reader.readLine().trim();
+        if (!books.isEmpty()) author.setBooks((CSVParser.parseIdsList(books)));
 
         libraryService.createAuthor(author);
     }
 
-    private void update() {
-
+    private void update() throws IOException {
+        System.out.println("Enter author id:");
+        String id = reader.readLine().trim();
+        Author author = libraryService.getAuthorById(id);
+        System.out.println("What to edit:\n1 - name\n2 - surname");
+        switch (reader.readLine()) {
+            case "1" :
+                System.out.println("Enter new name:");
+                author.setName(reader.readLine().trim());
+                break;
+            case "2":
+                System.out.println("Enter new surname:");
+                author.setSurname(reader.readLine().trim());
+                break;
+            default:
+                System.out.println("wrong option");
+        }
+        libraryService.updateAuthor(author);
     }
 
-    private void getById() {
-
+    private void getById() throws IOException {
+        System.out.println("Enter author id:");
+        String id = reader.readLine().trim();
+        Author author = libraryService.getAuthorById(id);
+        System.out.println(author);
     }
 
-    private void delete() {
-
+    private void delete() throws IOException {
+        System.out.println("Enter author id:");
+        String id = reader.readLine().trim();
+        libraryService.deleteAuthor(id);
     }
 
     private void readAll() {
-
+        List<Author> list = libraryService.readAllAuthors();
+        list.stream().skip(1).filter(Author::isVisible).forEach(System.out::println);
     }
 
     private void readAllBooks() {
