@@ -1,6 +1,7 @@
 package com.nixsolutions.courses.data;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 public class Book {
@@ -45,6 +46,19 @@ public class Book {
 
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return id.equals(book.id) && title.equals(book.title) && authors.equals(book.authors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
