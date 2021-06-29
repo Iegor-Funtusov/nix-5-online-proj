@@ -41,5 +41,4 @@ public class DateFormatCheck {
                 .findFirst()
                 .orElse(System.lineSeparator());
     }
-
 }
