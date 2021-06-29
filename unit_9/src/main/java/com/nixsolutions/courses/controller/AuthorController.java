@@ -1,6 +1,7 @@
 package com.nixsolutions.courses.controller;
 
 import com.nixsolutions.courses.data.Author;
+import com.nixsolutions.courses.data.Book;
 import com.nixsolutions.courses.service.LibraryService;
 import com.nixsolutions.courses.util.CSVParser;
 
@@ -26,9 +27,9 @@ public class AuthorController {
         author.setSurname(fullName[1]);
         System.out.println("Enter book id (if several - comma-separated) or enter:");
         String books = reader.readLine().trim();
-        if (!books.isEmpty()) author.setBooks((CSVParser.parseIdsList(books)));
-
+        if (!books.equals("")) author.setBooks((CSVParser.parseIdsList(books)));
         libraryService.createAuthor(author);
+        System.out.println("Author created");
     }
 
     private void update() throws IOException {
@@ -49,6 +50,8 @@ public class AuthorController {
                 System.out.println("wrong option");
         }
         libraryService.updateAuthor(author);
+        System.out.println("Author updated:");
+        System.out.println(libraryService.getAuthorById(id));
     }
 
     private void getById() throws IOException {
@@ -62,6 +65,7 @@ public class AuthorController {
         System.out.println("Enter author id:");
         String id = reader.readLine().trim();
         libraryService.deleteAuthor(id);
+        System.out.println("Author deleted");
     }
 
     private void readAll() {
@@ -69,8 +73,11 @@ public class AuthorController {
         list.forEach(System.out::println);
     }
 
-    private void readAllBooks() {
-
+    private void readAllBooks() throws IOException {
+        System.out.println("Enter author id:");
+        String id = reader.readLine().trim();
+        List<Book> list = libraryService.readBooksOfAuthor(id);
+        list.forEach(System.out::println);
     }
 
     private String authorsOptions() {

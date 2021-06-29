@@ -110,6 +110,6 @@ public class CSVParser {
 
     public static List<String> parseIdsList(String data) {
         String[] ids = data.split(LIST_REGEX);
-        return Arrays.stream(ids).distinct().collect(Collectors.toList());
+        return Arrays.stream(ids).filter(i -> !i.equals("")).distinct().collect(Collectors.toList());
     }
 }

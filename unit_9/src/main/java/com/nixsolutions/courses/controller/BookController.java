@@ -1,5 +1,6 @@
 package com.nixsolutions.courses.controller;
 
+import com.nixsolutions.courses.data.Author;
 import com.nixsolutions.courses.data.Book;
 import com.nixsolutions.courses.service.LibraryService;
 import com.nixsolutions.courses.util.CSVParser;
@@ -25,6 +26,7 @@ public class BookController {
         System.out.println("Enter at least one author id (if several - comma-separated):");
         book.setAuthors(CSVParser.parseIdsList(reader.readLine().trim()));
         libraryService.createBook(book);
+        System.out.println("Book created");
     }
 
     private void update() throws IOException {
@@ -58,10 +60,10 @@ public class BookController {
     }
 
     private void readAllAuthors() throws IOException {
-//        System.out.println("Enter book id:");
-//        String id = reader.readLine().trim();
-//        Book book = libraryService.getBookById(id);
-//        book.getAuthors()
+        System.out.println("Enter book id:");
+        String id = reader.readLine().trim();
+        List<Author> list = libraryService.readAuthorsOfBook(id);
+        list.forEach(System.out::println);
     }
 
     private String booksOptions() {

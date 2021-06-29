@@ -64,7 +64,7 @@ public class BookService implements CrudService<Book> {
         }
         StringBuilder authors = new StringBuilder();
         for (String id : book.getAuthors()) {
-            authors.append(id);
+            authors.append(id).append(IDS_SEPARATOR);
         }
         String[] line = {book.getId(), book.getTitle(), String.valueOf(authors), String.valueOf(book.isVisible())};
         data.set(index, line);
