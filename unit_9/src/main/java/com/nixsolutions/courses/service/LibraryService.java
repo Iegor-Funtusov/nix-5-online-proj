@@ -8,6 +8,7 @@ import com.nixsolutions.courses.util.CSVParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryService {
@@ -61,11 +62,15 @@ public class LibraryService {
     }
 
     public void createAuthor(Author author) {
-        List<String> books = checkBooks(author);
-        if (books.size() == 0) {
-            loggerWarn.warn("No valid books of author:" + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
+        List<String> books = author.getBooks();
+        if (books.size() != 0) {
+            books = checkBooks(author);
+
+            if (books.size() == 0) {
+                loggerWarn.warn("No valid books of author:" + "(id=" + author.getId() + ",name=" + author.getName() + ",surname=" + author.getSurname() + ")");
+            }
+            author.setBooks(books);
         }
-        author.setBooks(books);
         authorService.create(author);
     }
 
@@ -114,8 +119,26 @@ public class LibraryService {
         return bookService.readAll();
     }
 
+    public List<Book> readBooksOfAuthor(String id) {
+        Author author = getAuthorById(id);
+        List<Book> books = new ArrayList<>();
+        for (String bookId : author.getBooks()) {
+            books.add(CSVParser.readBook(bookId));
+        }
+        return books;
+    }
+
     public List<Author> readAllAuthors() {
         return authorService.readAll();
+    }
+
+    public List<Author> readAuthorsOfBook(String id) {
+        Book book = getBookById(id);
+        List<Author> authors = new ArrayList<>();
+        for (String authorId : book.getAuthors()) {
+            authors.add(CSVParser.readAuthor(authorId));
+        }
+        return authors;
     }
 
     public Book getBookById(String id) {
