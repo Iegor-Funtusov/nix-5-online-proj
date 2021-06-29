@@ -5,7 +5,6 @@ import ua.com.nkrasnovoronka.util.FileUtil;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,6 @@ public class DateFormatCheck {
         List<String> collect = FileUtil.readFile(inputFile).stream()
                 .map(this::formatDate)
                 .collect(Collectors.toList());
-
         FileUtil.writeToFile(collect, outputFile);
     }
 
@@ -35,7 +33,6 @@ public class DateFormatCheck {
                 Pattern.compile(DATE_PATTERN_2), DateTimeFormatter.ofPattern(DATE_FORMAT_2),
                 Pattern.compile(DATE_PATTERN_3), DateTimeFormatter.ofPattern(DATE_FORMAT_3)
         );
-
         return dateFormats.keySet().stream()
                 .filter(pattern -> pattern.matcher(str).matches())
                 .map(dateFormats::get)
@@ -43,7 +40,6 @@ public class DateFormatCheck {
                 .map(df -> DateTimeFormatter.ofPattern(OUTPUT_FORMAT).format(df))
                 .findFirst()
                 .orElse(System.lineSeparator());
-
     }
 
 }
