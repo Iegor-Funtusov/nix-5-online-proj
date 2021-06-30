@@ -161,9 +161,9 @@ public class Controller {
         InputFileController controller = new InputFileController();
         OutputFileController output = new OutputFileController();
         CountDistance distance = new CountDistance();
-        System.out.println("Would you like to input yourself or see examples?\n" +
+        System.out.println("Would you like to input via console or work with files (you input data in file)?\n" +
                 "1 >> yourself\n" +
-                "2 >> examples");
+                "2 >> work with files");
         String choice = scanner.nextLine();
         boolean correct = true;
         while (correct) {
@@ -182,7 +182,7 @@ public class Controller {
                 }
                 break;
                 case "2": {
-                    graphsEx();
+                    graphsFiles();
                     correct = false;
                 }
                 break;
@@ -192,7 +192,7 @@ public class Controller {
         }
     }
 
-    private void graphsEx(){
+    private void graphsFiles(){
         Scanner scanner = new Scanner(System.in);
         OutputFileController output = new OutputFileController();
         CountDistance distance = new CountDistance();
