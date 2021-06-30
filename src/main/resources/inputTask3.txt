@@ -1,0 +1,42 @@
+Kharkiv
+2 5
+3 7
+5 4
+Poltava
+1 5
+3 10
+5 7
+6 15
+7 13
+8 11
+Dnipro 
+1 7
+2 10
+4 2
+Zaporizhzhia 
+3 2
+Sumy 
+1 4
+2 7
+6 10
+Chernigov 
+2 15
+5 10
+7 6
+Kyiv
+2 13
+6 6
+8 7
+9 6
+10 14
+Cherkasi
+2 11
+7 7
+10 9
+Zhitomir
+7 6
+10 5
+Vinnitsa
+7 14
+8 9
+9 5
