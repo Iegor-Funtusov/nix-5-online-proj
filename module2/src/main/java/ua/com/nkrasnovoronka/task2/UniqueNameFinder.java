@@ -13,6 +13,7 @@ public class UniqueNameFinder {
         List<String> namesFromFile = FileUtil.readFile(filePath);
         Map<String, Long> frequency = namesFromFile.stream()
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
         for (Map.Entry<String, Long> e : frequency.entrySet()){
             if(e.getValue() == 1){
                 FileUtil.writeToFile(Collections.singletonList(e.getKey()), outputFile);
