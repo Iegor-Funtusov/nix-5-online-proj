@@ -3,6 +3,9 @@ package tasks.graphs;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -12,13 +15,24 @@ public class InputFileController {
 
     private final String IN = "input.txt";
 
+    public InputFileController(){
+        Path path = Paths.get("results");
+        try {
+            if (!path.toFile().exists()) {
+                Files.createDirectory(path);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public List<String> read(){
         List<String> input = new ArrayList<>();
         List<String> Cities = new ArrayList<>();
         System.out.println("Input number of cities");
         String cities = number();
-        while (Integer.parseInt(cities) > 10000){
-            System.out.println("Number of city can't be more than 10000. Input again.");
+        while (Integer.parseInt(cities) > 10000 && Integer.parseInt((cities)) == 1){
+            System.out.println("Number of city can't be more than 10000 and 1. Input again.");
             cities = number();
         }
         input.add(cities);
@@ -113,7 +127,7 @@ public class InputFileController {
             try {
                 int n = Integer.parseInt(parts[i]);
             }
-            catch (InputMismatchException e){
+            catch (InputMismatchException | NumberFormatException e){
                 System.out.println("Incorrect input. Input should contain only 2 numbers separated by space (e.g. 1 3)");
                 return linksBetweenCities(index, quantity, same);
             }

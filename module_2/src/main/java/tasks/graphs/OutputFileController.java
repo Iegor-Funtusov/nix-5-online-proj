@@ -6,11 +6,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class OutputFileController {
-    private final String OUT = "output.txt";
 
-    public void output(List<String> input, int[] results){
+    public void output(List<String> input, int[] results, String path){
         int index = 0;
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(OUT, true))) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(path, true))) {
             writer.append("Distances between cities:\n");
             for(String in : input) {
                 String[] distance = in.split(" ");

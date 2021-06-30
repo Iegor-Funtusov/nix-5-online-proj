@@ -1,0 +1,22 @@
+4
+dnipro
+3
+2 4
+3 2
+4 2
+lviv
+2
+1 5
+4 7
+donetsk
+2
+1 2
+4 5
+kiev
+3
+1 2
+2 7
+3 4
+2
+donetsk kiev
+kiev lviv

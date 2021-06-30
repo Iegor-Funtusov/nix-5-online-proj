@@ -9,31 +9,35 @@ public class DateConverter {
         for (int i = 0; i < dates.size(); i++) {
             int[] date = new int[3];
             if(daysFirst(dates.get(i)) == true) {
-                if(dates.get(i).contains("-")){
+                if(dates.get(i).contains("-") && !dates.get(i).contains("/")){
                     String[] numbers = dates.get(i).split("-");
                     date[0] = Integer.parseInt(numbers[0]);
                     date[1] = Integer.parseInt(numbers[1]);
                     date[2] = Integer.parseInt(numbers[2]);
                     if(checkRightDate(date) == true) {
-                        if(date[0]>0 && date[0] < 10)
+                        if(date[0]>0 && date[0] < 10 && date[1]>0 && date[1] < 10)
+                            convertedDates.add(date[2] + "0" + date[0] + "0" + date[1]);
+                        else if(date[0]>0 && date[0] < 10)
                             convertedDates.add(date[2] + "0" + date[0] + "" + date[1]);
-                        if(date[1]>0 && date[1] < 10)
+                        else if(date[1]>0 && date[1] < 10)
                             convertedDates.add(date[2] + "" + date[0] + "0" + date[1]);
-                        if(date[0] >= 10 && date[1] >= 10)
+                        else if(date[0] >= 10 && date[1] >= 10)
                             convertedDates.add(date[2] + "" + date[0] + "" + date[1]);
                     }
                 }
-                else {
+                else if(dates.get(i).contains("/") && !dates.get(i).contains("-")) {
                     String[] numbers = dates.get(i).split("/");
                     date[0] = Integer.parseInt(numbers[0]);
                     date[1] = Integer.parseInt(numbers[1]);
                     date[2] = Integer.parseInt(numbers[2]);
                     if(checkRightDate(date) == true) {
-                        if (date[0] > 0 && date[0] < 10)
+                        if(date[0]>0 && date[0] < 10 && date[1]>0 && date[1] < 10)
+                            convertedDates.add(date[2] + "0" + date[0] + "0" + date[1]);
+                        else if(date[0]>0 && date[0] < 10)
                             convertedDates.add(date[2] + "0" + date[0] + "" + date[1]);
-                        if (date[1] > 0 && date[1] < 10)
+                        else if(date[1]>0 && date[1] < 10)
                             convertedDates.add(date[2] + "" + date[0] + "0" + date[1]);
-                        if (date[0] >= 10 && date[1] >= 10)
+                        else if(date[0] >= 10 && date[1] >= 10)
                             convertedDates.add(date[2] + "" + date[0] + "" + date[1]);
                     }
                 }
