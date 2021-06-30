@@ -3,3 +3,6 @@
 **/*.class
 .mvn
 **/*target
+outputTask1.txt
+outputTask2.txt
+outputTask3.txt
