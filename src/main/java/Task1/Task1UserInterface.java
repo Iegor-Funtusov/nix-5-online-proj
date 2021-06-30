@@ -55,7 +55,7 @@ public class Task1UserInterface {
 
             List<String> formattedDates = Task1Solution.getSolution(allDates);
             if(formattedDates.size() == 0){
-                System.out.println("Dates is empty");
+                System.out.println("There are no formatted dates\n");
                 return;
             }
             System.out.println("Formatted dates:");
@@ -80,7 +80,7 @@ public class Task1UserInterface {
 
             List<String> formattedDates = Task1Solution.getSolution(listOfDates);
             if(formattedDates.size() == 0){
-                System.out.println("Dates is empty");
+                System.out.println("There are no formatted dates\n");
                 return;
             }
             System.out.println("Formatted dates:");
