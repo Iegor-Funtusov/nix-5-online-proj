@@ -62,6 +62,5 @@ public class ModuleController {
 
     private void task3() {
         Task3Service.alg();
-
     }
 }
