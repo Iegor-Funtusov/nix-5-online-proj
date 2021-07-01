@@ -1,3 +1,8 @@
+package com.k4rnaj1k.controller;
+
+import com.k4rnaj1k.service.DateService;
+import com.k4rnaj1k.service.Task3Service;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -11,7 +16,7 @@ public class ModuleController {
                     Which task would u like to test?
                     1 - dates;
                     2 - finding of the first unique name;
-                    3 - find the shortest road between cities;""");
+                    3 - find the shortest path between cities;""");
             switch (s.nextLine()) {
                 case "1":
                     task1();

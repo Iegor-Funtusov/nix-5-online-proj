@@ -1,3 +1,5 @@
+package com.k4rnaj1k.service;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.HashMap;
