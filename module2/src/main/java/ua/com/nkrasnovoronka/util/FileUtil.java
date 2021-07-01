@@ -8,7 +8,7 @@ public class FileUtil {
     public static List<String> readFile(String filePath) {
         List<String> strings = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            while (br.ready()){
+            while (br.ready()) {
                 strings.add(br.readLine());
             }
         } catch (IOException e) {
@@ -17,9 +17,9 @@ public class FileUtil {
         return strings;
     }
 
-    public static void writeToFile(List<String> input, String filePath){
-        try(BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
-            for(String s: input){
+    public static void writeToFile(List<String> input, String filePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(filePath))) {
+            for (String s : input) {
                 bw.write(s + System.lineSeparator());
             }
         } catch (IOException e) {

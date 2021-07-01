@@ -39,6 +39,6 @@ public class DateFormatCheck {
                 .map(dtf -> dtf.parse(str))
                 .map(df -> DateTimeFormatter.ofPattern(OUTPUT_FORMAT).format(df))
                 .findFirst()
-                .orElse(System.lineSeparator());
+                .orElse("<not valid>");
     }
 }

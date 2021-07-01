@@ -1,61 +1,123 @@
 package ua.com.nkrasnovoronka.task3;
 
+import ua.com.nkrasnovoronka.task3.exception.PathFinderException;
 import ua.com.nkrasnovoronka.util.FileUtil;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ShortestPathFinder {
-    public void parseFile(String filePath) {
-        List<String> strings = FileUtil.readFile(filePath);
-        int numberOfCities = Integer.parseInt(strings.get(0));
 
-        List<String> cities = getListOfCities(strings, numberOfCities);
-        int[][] matrix = createMatrixOfCities(strings, numberOfCities);
+    private static final int MAX_PATH_PRICE = 200000;
+    private static final int MAX_CITY_NUMBER = 10000;
+    private static final int MAX_PATH_NUMBER = 100;
 
-        List<String> destinationSites = new ArrayList<>();
-        getDestinationCities(strings, numberOfCities);
-        System.out.println("cities = " + cities);
-        System.out.println(Arrays.deepToString(matrix));
+    private List<String> cities;
+    private int[][] citiesPaths;
+    private String[][] cheapestPaths;
 
+
+    public void findCheapestPath(String inputFile, String outputFile) {
+        parseData(inputFile);
+        List<String> foundedPaths = findAllPaths().stream().map(Object::toString).collect(Collectors.toList());
+        FileUtil.writeToFile(foundedPaths, outputFile);
     }
 
+    private List<Integer> findAllPaths() {
+        List<Integer> resultShortestPaths = new ArrayList<>();
+        for (String[] path : cheapestPaths) {
+            resultShortestPaths.add(dijkstraShortestPath(cities.indexOf(path[0]), cities.indexOf(path[1])));
+        }
+        return resultShortestPaths;
+    }
 
-    private List<String> getListOfCities(List<String> file, int numberOfCities) {
-        List<String> cities = new ArrayList<>();
-        while (cities.size() != numberOfCities + 1) {
-            for (String s : file) {
-                if (s.matches("^[a-zA-Z]+$")) {
-                    cities.add(s);
+    private int dijkstraShortestPath(int start, int end) {
+        boolean[] visited = new boolean[cities.size()];
+        int[] distances = new int[cities.size()];
+        int priceLimit = MAX_PATH_PRICE;
+        Arrays.fill(distances, priceLimit);
+        distances[start] = 0;
+
+        for (int i = 0; i < cities.size(); i++) {
+            int temp = -1;
+            int tempDistance = priceLimit;
+            for (int j = 0; j < cities.size(); j++) {
+                if (visited[i] || tempDistance < distances[i]) {
+                    continue;
+                }
+                temp = i;
+                tempDistance = distances[i];
+            }
+            if (temp == -1) {
+                break;
+            }
+            for (int k = 0; k < cities.size(); k++) {
+                int weight = citiesPaths[temp][k];
+                if (citiesPaths[temp][k] != 0 && distances[temp] + weight < distances[k]) {
+                    distances[k] = distances[temp] + weight;
                 }
             }
+            visited[temp] = true;
         }
-        return cities;
+
+        return distances[end];
     }
 
-    private int[][] createMatrixOfCities(List<String> file, int numberOfCities) {
-        int[][] matrix = new int[numberOfCities][numberOfCities];
-        int tmp = 0;
-        for (int i = 1; i < file.size(); i++) {
-            if (file.get(i).matches("^[a-zA-Z]+$")) {
-                int numberOfNeighbors = Integer.parseInt(file.get(++i));
-                for (int j = 1; j <= numberOfNeighbors; j++) {
-                    String[] s = file.get(i + j).split(" ");
-                    matrix[tmp][Integer.parseInt(s[0]) - 1] = Integer.parseInt(s[1]);
+    private void parseData(String input){
+        File inputFile = new File(input);
+        try (BufferedReader br = new BufferedReader(new FileReader(inputFile))) {
+            int citiesNumber = Integer.parseInt(br.readLine());
+            if (citiesNumber > MAX_CITY_NUMBER) {
+                throw new PathFinderException("Cities number cannot be more than 10000");
+            }
+
+            createCitiesList(br, citiesNumber);
+
+            int numberOfPathsToFind = Integer.parseInt(br.readLine());
+
+            if (numberOfPathsToFind > MAX_PATH_NUMBER) {
+                throw new PathFinderException("To many paths set to be found");
+            }
+
+            getCityNameToFind(br, numberOfPathsToFind);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private void createCitiesList(BufferedReader br, int citiesNumber) throws IOException {
+        cities = new ArrayList<>();
+        citiesPaths = new int[citiesNumber][citiesNumber];
+        for (int i = 0; i < citiesNumber; i++) {
+            cities.add(br.readLine());
+            int neighborNumber = Integer.parseInt(br.readLine());
+            for (int j = 0; j < neighborNumber; j++) {
+                String[] neighbor = br.readLine().split(" ");
+                int neighborIndex = Integer.parseInt(neighbor[0]);
+                int pathCost = Integer.parseInt(neighbor[1]);
+
+                if (neighborIndex < 1 || pathCost < 0) {
+                    throw new PathFinderException("Invalid neighbor or path cost value");
                 }
-                tmp++;
+
+                citiesPaths[i][neighborIndex - 1] = pathCost;
             }
         }
-        return matrix;
     }
 
-    private List<String> getDestinationCities(List<String> file, int numbersOfCities) {
-        List<String> destinationCities = new ArrayList<>();
-
-
-        return null;
+    private void getCityNameToFind(BufferedReader br, int numberOfPathsToFind) throws IOException {
+        cheapestPaths = new String[numberOfPathsToFind][2];
+        for (int i = 0; i < numberOfPathsToFind; i++) {
+            String[] citiesInPath = br.readLine().split(" ");
+            cheapestPaths[i][0] = citiesInPath[0];
+            cheapestPaths[i][1] = citiesInPath[1];
+        }
     }
-
-
 }
