@@ -7,22 +7,19 @@ import java.util.Date;
 
 public class DateService {
     public static Date parse(String date) throws ParseException {
+        String[] dateformats = {"dd/MM/yyyy", "MM-dd-yyyy", "yyyy/MM/dd"};
         Date res;
-        DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false);
-        try {
-            res = sdf.parse(date);
-        } catch (ParseException e) {
+        DateFormat sdf;
+        for (String format :
+                dateformats) {
             try {
-                sdf = new SimpleDateFormat("MM-dd-yyyy");
+                sdf = new SimpleDateFormat(format);
                 sdf.setLenient(false);
                 res = sdf.parse(date);
-            } catch (ParseException ex) {
-                sdf = new SimpleDateFormat("yyyy/MM/dd");
-                sdf.setLenient(false);
-                res = sdf.parse(date);
-            }
+                if (res != null)
+                    return res;
+            } catch (ParseException ignored) {}
         }
-        return res;
+        throw new ParseException("", 0);
     }
 }

@@ -1,10 +1,7 @@
 package com.k4rnaj1k.service;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Task3Service {
     static String[][] matrix;
@@ -30,6 +27,10 @@ public class Task3Service {
             }
            res = res.concat(findPath(start,end)+"\n");
         }
+        writeRes(res);
+    }
+
+    private static void writeRes(String res){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter("module_2\\output.txt", false))){
             writer.write(res);
         }catch (Exception e){
@@ -51,7 +52,7 @@ public class Task3Service {
                     s.nextLine();
                 }
             }
-            paths = new HashMap<>();
+            paths = new LinkedHashMap<>();
             int pathscount = Integer.parseInt(s.nextLine());
             for (int i = 0; i < pathscount; i++) {
                 String[] citiespath = s.nextLine().split(" ");
