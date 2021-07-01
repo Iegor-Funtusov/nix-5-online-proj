@@ -13,8 +13,8 @@ public class Task3Service {
         String res = "";
         for (String s :
                 paths.keySet()) {
+            System.out.println("Searching for the shortest path between" + s + " and " + paths.get(s));
             int start = 0, end = 0;
-
             for (int i = 0; i < matrix[0].length; i++) {
                     if (cities[i].equals(paths.get(s))) {
                         end = i;
@@ -26,12 +26,14 @@ public class Task3Service {
                     }
             }
            res = res.concat(findPath(start,end)+"\n");
+            System.out.println("Done");
         }
         writeRes(res);
     }
 
     private static void writeRes(String res){
         try(BufferedWriter writer = new BufferedWriter(new FileWriter("module_2\\output.txt", false))){
+            System.out.println("Writing the results to the module_2\\output.txt");
             writer.write(res);
         }catch (Exception e){
             System.out.println("Couldn't write to the file.");
@@ -41,6 +43,7 @@ public class Task3Service {
 
     private static void init() {
         try (Scanner s = new Scanner(new FileInputStream("module_2\\input.txt"))) {
+            System.out.println("Reading file module_2\\input.txt");
             int citiescount = Integer.parseInt(s.nextLine());
             matrix = new String[citiescount][citiescount];
             cities = new String[citiescount];
