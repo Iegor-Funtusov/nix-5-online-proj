@@ -17,7 +17,7 @@ public class ModuleController {
 
     public static void run() {
         System.out.println("Pleas enter task number to run");
-        int userInput = UserInput.userInputNumber("1 - DateFormatCheck\n2 - UniqueNameFounder\n3 - ShortestPathFinder");
+        int userInput = UserInput.userInputNumber("1 - DateFormatCheck\n2 - UniqueNameFounder\n3 - ShortestPathFinder\n0 - Exit");
         switch (userInput) {
             case 1: {
                 DateFormatCheck dateFormatCheck = new DateFormatCheck();
@@ -32,6 +32,11 @@ public class ModuleController {
             case 3: {
                 ShortestPathFinder shortestPathFinder = new ShortestPathFinder();
                 shortestPathFinder.findCheapestPath(TASK3_INPUT, TASK3_OUTPUT);
+                break;
+            }
+            case 0: {
+                System.out.println("Closing program...");
+                System.exit(0);
                 break;
             }
             default: {
