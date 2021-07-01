@@ -75,15 +75,12 @@ public class Task3Service {
         do {
             minindex = 30000;
             min = 10000;
-            for (int i = 0; i < cities.length; i++) { // Если вершину ещё не обошли и вес меньше min
-                if ((v[i] == 1) && (d[i] < min)) { // Переприсваиваем значения
+            for (int i = 0; i < cities.length; i++) {
+                if ((v[i] == 1) && (d[i] < min)) {
                     min = d[i];
                     minindex = i;
                 }
             }
-            // Добавляем найденный минимальный вес
-            // к текущему весу вершины
-            // и сравниваем с текущим минимальным весом вершины
             if (minindex != 30000) {
                 for (int i = 0; i < cities.length; i++) {
                     if (matrix[minindex][i] != null)
