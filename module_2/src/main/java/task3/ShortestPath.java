@@ -14,7 +14,7 @@ public class ShortestPath {
     }
 
     public void setCities(int cities) {
-        if(cities <= 10000){
+        if(cities <= 10000 && cities > 0){
             this.cities = cities;
         }
         else {

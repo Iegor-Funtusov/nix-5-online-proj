@@ -37,10 +37,14 @@ public class Controller {
                     break;
                 }
                 case 3: {
+                    try{
                     InfoFromToFile infoFromToFile = new InfoFromToFile();
                     infoFromToFile.getInfoFromFile("src/main/resources/input.txt");
                     infoFromToFile.setInfoToFile("src/main/resources/output.txt");
-                    System.out.println("Please, open output.txt");
+                    System.out.println("Please, open output.txt");}
+                    catch(IllegalArgumentException e){
+                        System.out.println(e.getMessage());
+                    }
                     break;
                 }
                 case 4: {

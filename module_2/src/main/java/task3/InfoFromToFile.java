@@ -4,6 +4,7 @@ import java.io.*;
 
 public class InfoFromToFile {
     int [] result;
+    ShortestPath shortestPath;
 
     public void getInfoFromFile(String path) {
         try (BufferedReader scanner = new BufferedReader(new FileReader(path))) {
@@ -20,7 +21,7 @@ public class InfoFromToFile {
                 graph[i][Integer.parseInt(divider[0]) - 1] = Integer.parseInt(divider[1]);
             }
         }
-        ShortestPath shortestPath = new ShortestPath();
+        shortestPath = new ShortestPath();
         shortestPath.setCities(citiesCount);
         shortestPath.setGraph(graph);
         shortestPath.setCitiesNames(citiesNames);
